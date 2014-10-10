@@ -39,7 +39,7 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
-			
+			// test
 		}
     }
 );
