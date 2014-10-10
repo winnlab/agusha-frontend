@@ -17,6 +17,8 @@ export default can.Control.extend({
 		// Link to entity constructor model
 		Model: can.Model,
 
+		successMsg: 'Сущность успешно сохранена.',
+        errorMsg: 'Ошибка сохранения сущности.',
 		deleteMsg: 'Вы действительно хотите удалить эту сущность?',
 		deletedMsg: 'Сущность успешно удалена',
 		deletedErr: 'Ошибка удаления сущности',
