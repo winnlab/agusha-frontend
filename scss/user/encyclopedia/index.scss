@@ -412,11 +412,23 @@
 	}
 	
 	.select2-chosen {
-		padding: 0 30px;
+		padding: 0 47px 0 30px;
+	}
+	
+	.select2-arrow {
+		right: 20px !important;
+		width: 7px;
+		height: 4px;
+		
+		background: url('/img/user/encyclopedia/select2_arrow.png') no-repeat !important;
 	}
 	
 	.select2-dropdown-open {
 		font-family: 'PT_Sans_Bold';
+		
+		.select2-arrow {
+			background-position: -7px 0 !important;
+		}
 	}
 	
 	.subscribe {
