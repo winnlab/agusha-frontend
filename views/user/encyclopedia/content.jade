@@ -1,3 +1,5 @@
+include helpers
+
 .age_filter
 	.topper
 		.adorable_table
@@ -12,7 +14,7 @@
 					- var normal = '/img/' + (a.icon.normal ? 'uploads/' + a.icon.normal : 'no_photo.png')
 					- var hover = '/img/' + (a.icon.hover ? 'uploads/' + a.icon.hover : 'no_photo.png')
 					
-					.age_block
+					.age_block(data-value = a.value)
 						.adorable_table
 							.adorable_cell
 								.image
@@ -25,6 +27,7 @@
 	.topper
 		.adorable_table
 			.adorable_cell
+				.close
 				.label.novito_nova Какая тема вам ближе?
 	
 	.center
@@ -32,86 +35,87 @@
 			.themes_absolute
 				.adorable_table
 					.adorable_cell
-						.book.active
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Календарь беременности по неделям
-										.count
-											.adorable_table
-												.adorable_cell 26
-						
-						.book
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Первый триместр
-										.count
-											.adorable_table
-												.adorable_cell 15
-						
-						.book
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Второй триместр
-										.count
-											.adorable_table
-												.adorable_cell 30
-						
-						.book
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Третий триместр
-										.count
-											.adorable_table
-												.adorable_cell 95
-						
-						.book
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Беременность и лекарства
-										.count
-											.adorable_table
-												.adorable_cell 36
-						
-						.book
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Беременность и болезни
-										.count
-											.adorable_table
-												.adorable_cell 12
-						
-						.book
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Невынашивание беременности
-										.count
-											.adorable_table
-												.adorable_cell 6
-						
-						.book
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Подготовка к родам
-										.count
-											.adorable_table
-												.adorable_cell 64
-						
-						.book
-							.cover
-								.adorable_table
-									.adorable_cell
-										.title Юридические вопросы		
-										.count
-											.adorable_table
-												.adorable_cell 26
+						.bookshelf
+							.book.active
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Календарь беременности по неделям
+											.count
+												.adorable_table
+													.adorable_cell 26
+							
+							.book
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Первый триместр
+											.count
+												.adorable_table
+													.adorable_cell 15
+							
+							.book
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Второй триместр
+											.count
+												.adorable_table
+													.adorable_cell 30
+							
+							.book
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Третий триместр
+											.count
+												.adorable_table
+													.adorable_cell 95
+							
+							.book
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Беременность и лекарства
+											.count
+												.adorable_table
+													.adorable_cell 36
+							
+							.book
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Беременность и болезни
+											.count
+												.adorable_table
+													.adorable_cell 12
+							
+							.book
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Невынашивание беременности
+											.count
+												.adorable_table
+													.adorable_cell 6
+							
+							.book
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Подготовка к родам
+											.count
+												.adorable_table
+													.adorable_cell 64
+							
+							.book
+								.cover
+									.adorable_table
+										.adorable_cell
+											.title Юридические вопросы		
+											.count
+												.adorable_table
+													.adorable_cell 26
 	
 	.footer
 		.adorable_table

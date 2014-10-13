@@ -16,6 +16,8 @@
 		height: 100%;
 		background-color: #2384b1;
 		color: $white;
+		z-index: 10;
+		position: relative;
 		
 		.topper {
 			display: table-row;
@@ -125,13 +127,28 @@
 		height: 100%;
 		background-color: $blue;
 		color: $white;
-		display: table;
-		overflow: hidden;
+		position: relative;
+		z-index: 5;
+		display: none;
+		
+		&.active {
+			display: table;
+		}
 		
 		.topper {
 			display: table-row;
 			height: 160px;
 			width: 100%;
+			
+			.close {
+				position: absolute;
+				width: 34px;
+				height: 36px;
+				top: 52px;
+				right: -17px;
+				background: url('/img/user/encyclopedia/close.png');
+				cursor: pointer;
+			}
 			
 			.adorable_cell {
 				padding: 0 130px
@@ -152,6 +169,12 @@
 			.adorable_cell {
 				vertical-align: bottom;
 			}
+		}
+		
+		.bookshelf {
+			@include inline_block;
+			width: 100%;
+			overflow: hidden;
 		}
 		
 		.book {
