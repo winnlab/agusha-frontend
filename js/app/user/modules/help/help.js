@@ -62,7 +62,7 @@ export default Controller.extend(
 				for(i = words.length; i--;) {
 					word = words[i];
 					
-					match = (title.match(word) || text.match(word));
+					match = (title.indexOf(word) != -1 || text.indexOf(word) != -1);
 					
 					if(!match) {
 						break;
