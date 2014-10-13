@@ -26,6 +26,7 @@ System.config({
 		"list": 'js/app/admin/lib/list/list.js',
 		"edit": 'js/app/admin/lib/edit/edit.js',
 		'articlefilter': 'js/app/common/components/articlefilter/articlefilter.js',
+		'pagination': 'js/app/admin/components/pagination/pagination.js',
 		"baseModel": 'js/app/admin/lib/model/baseModel.js'
 	},
 	map: {
