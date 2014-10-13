@@ -10,5 +10,13 @@ block content
 block append scripts
 	script.
 		var app = {
-			//faq: !{JSON.stringify(faq)}
+			
 		};
+	script#bookshelf_mustache(type="text/mustache")
+		| {{#each themes}}
+		mixin theme()
+		| {{/each}}
+	script#article_mustache(type="text/mustache")
+		| {{#each articles}}
+		mixin article()
+		| {{/each}}
