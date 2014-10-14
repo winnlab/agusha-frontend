@@ -35,7 +35,8 @@ System.config({
 		"$": "jquery"
 	},
 	ext: {
-		css: 'js/plugins/steal/css'
+		css: 'js/plugins/steal/css',
+		stache: 'can/view/stache/system'
 	},
 	meta: {
 		"bootstrap-wysihtml5": {
@@ -50,16 +51,6 @@ System.config({
 			deps: [
 				'jquery',
 				'can/route/pushstate/pushstate'
-			]
-		},
-		"core": {
-			deps: [
-				'jquery',
-				'can/',
-				'adminlte',
-				'css-admin/global.css!',
-				'router',
-				'rConfig'
 			]
 		},
 		slimscroll: {
