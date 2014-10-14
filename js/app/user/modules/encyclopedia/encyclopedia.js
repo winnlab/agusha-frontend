@@ -88,6 +88,10 @@ export default Controller.extend(
 							
 							return currentValue;
 						}
+					},
+					
+					theme: {
+						value: null
 					}
 				}
 			});
@@ -110,20 +114,6 @@ export default Controller.extend(
 			
 			//
 			
-			// var article_mustache = $('#article_mustache');
-			
-			// if(!article_mustache.length) {
-				// html = jadeTemplate.get('user/encyclopedia/article_mustache');
-			// } else {
-				// html = article_mustache.html();
-			// }
-			
-			// can.view.mustache('article', html);
-			
-			// this.items_container.html(can.view('article', this.data));
-			
-			//
-			
 			this.first_call = false;
 		},
 		
@@ -140,6 +130,13 @@ export default Controller.extend(
 		
 		'.theme_filter .close click': function(el) {
 			this.theme_filter.removeClass(this.active);
+		},
+		
+		'.filter_button click': function() {
+			var age = this.data.attr('age') || null,
+				theme = this.data.attr('theme') || null;
+			
+			router.new_module('encyclopedia' + (age ? '/' + age : '') + (theme ? '/' + theme : ''));
 		}
 	}
 );

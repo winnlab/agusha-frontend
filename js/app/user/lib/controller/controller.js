@@ -22,6 +22,7 @@ export default can.Control.extend({
 	
 	request: function() {
 		var	str = this.options.path.server,
+			strLastChar,
 			params = ['name', 'entity_id', 'param2'],
 			param,
 			that = this,
@@ -35,6 +36,12 @@ export default can.Control.extend({
 		}
 		
 		str = str.replace(/\/+(?=\/)/g,''); // remove multiple slashes
+		
+		strLastChar = str.length - 1;
+		
+		if(str[strLastChar] == '/') {
+			str = str.substr(0, strLastChar); // remove ending slash
+		}
 		
 		can.ajax({
 			url: '/' + str + '?ajax=true',

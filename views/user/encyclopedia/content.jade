@@ -13,8 +13,12 @@ include helpers
 				- each a, key in ages
 					- var normal = '/img/' + (a.icon.normal ? 'uploads/' + a.icon.normal : 'no_photo.png')
 					- var hover = '/img/' + (a.icon.hover ? 'uploads/' + a.icon.hover : 'no_photo.png')
+					- var classname = ''
 					
-					.age_block(data-value = a.value)
+					if params.age && params.age == a.value
+						- classname = 'active'
+					
+					.age_block(data-value = a.value, class = classname)
 						.adorable_table
 							.adorable_cell
 								.image
@@ -36,112 +40,43 @@ include helpers
 				.adorable_table
 					.adorable_cell
 						.bookshelf
-							.book.active
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Календарь беременности по неделям
-											.count
-												.adorable_table
-													.adorable_cell 26
-							
-							.book
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Первый триместр
-											.count
-												.adorable_table
-													.adorable_cell 15
-							
-							.book
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Второй триместр
-											.count
-												.adorable_table
-													.adorable_cell 30
-							
-							.book
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Третий триместр
-											.count
-												.adorable_table
-													.adorable_cell 95
-							
-							.book
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Беременность и лекарства
-											.count
-												.adorable_table
-													.adorable_cell 36
-							
-							.book
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Беременность и болезни
-											.count
-												.adorable_table
-													.adorable_cell 12
-							
-							.book
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Невынашивание беременности
-											.count
-												.adorable_table
-													.adorable_cell 6
-							
-							.book
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Подготовка к родам
-											.count
-												.adorable_table
-													.adorable_cell 64
-							
-							.book
-								.cover
-									.adorable_table
-										.adorable_cell
-											.title Юридические вопросы		
-											.count
-												.adorable_table
-													.adorable_cell 26
+							- each t, key in themes
+								mixin theme(t)
 	
 	.footer
 		.adorable_table
 			.adorable_cell
 				button.filter_button Применить
 
-.center
-	.content
-		include ../helpers/breadcrumbs
-		
-		.topper_title Title
-		
-		.items_filter
-			select.author_select
-				option(data-count = 0, value = 0) Все авторы
+if params.age || params.theme
+	.center
+		.content
+			include ../helpers/breadcrumbs
 			
-			select.order_select
-				option(value = 'date') Сначала новые
-				option(value = '-date') Сначала старые
+			.topper_title
+				if params.theme
+					- each t, key in themes
+						if t._id == params.theme
+							| #{t.name}
+				else
+					- each a, key in ages
+						if a.value == params.age
+							| #{a.title}
 			
-			.subscribe
-				.adorable_table
-					.adorable_cell
-						button
-							img(src="/img/user/encyclopedia/pencil.png")
-							span Подписаться на тему
-		
-		.items_container
+			.items_filter
+				select.author_select
+					option(data-count = 0, value = 0) Все авторы
+				
+				select.order_select
+					option(value = 'date') Сначала новые
+					option(value = '-date') Сначала старые
+				
+				.subscribe
+					.adorable_table
+						.adorable_cell
+							button
+								img(src="/img/user/encyclopedia/pencil.png")
+								span Подписаться на тему
 			
+			.items_container
+				
