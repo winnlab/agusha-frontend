@@ -24,4 +24,4 @@ var Core = can.Control.extend(
 
 new Core(document.body);
 
-new Router(document.body, config.router);
+window.router = new Router(document.body, config.router);

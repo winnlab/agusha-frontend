@@ -32,8 +32,13 @@ export default can.Control.extend({
 			ev.preventDefault();
 			
 			var options = this.options,
-				href = el.attr('href').split(options.base).slice(1).join('/'),
-				routeObj = can.route.deparam(href);
+				href = el.attr('href').split(options.base).slice(1).join('/');
+			
+			this.new_module(href);
+		},
+		
+		'new_module': function(href) {
+			var routeObj = can.route.deparam(href);
 			
 			try {
 				if (!_.isEmpty(routeObj)) {
