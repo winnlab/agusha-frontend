@@ -92,22 +92,6 @@ export default Controller.extend(
 					
 					theme: {
 						value: null
-					},
-					
-					articles: {
-						value: new can.List(),
-						get: function(currentValue) {
-							var options = {
-								age: this.attr('age'),
-								theme: this.attr('theme')
-							};
-							
-							if(!that.first_call) {
-								currentValue.replace(Article.findAll(options));
-							}
-							
-							return currentValue;
-						}
 					}
 				}
 			});
@@ -130,20 +114,6 @@ export default Controller.extend(
 			
 			//
 			
-			var article_mustache = $('#article_mustache');
-			
-			if(!article_mustache.length) {
-				html = jadeTemplate.get('user/encyclopedia/article_mustache');
-			} else {
-				html = article_mustache.html();
-			}
-			
-			can.view.mustache('article', html);
-			
-			this.items_container.html(can.view('article', this.data));
-			
-			//
-			
 			this.first_call = false;
 		},
 		
@@ -160,6 +130,13 @@ export default Controller.extend(
 		
 		'.theme_filter .close click': function(el) {
 			this.theme_filter.removeClass(this.active);
+		},
+		
+		'.filter_button click': function() {
+			var age = this.data.attr('age') || null,
+				theme = this.data.attr('theme') || null;
+			
+			router.new_module('encyclopedia' + (age ? '/' + age : '') + (theme ? '/' + theme : ''));
 		}
 	}
 );

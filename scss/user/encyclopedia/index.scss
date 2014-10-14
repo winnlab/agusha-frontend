@@ -4,12 +4,12 @@
 @import 'CSS:../../../js/plugins/select2/select2';
 @import '../helpers/select2';
 
-#encyclopedia {
+.encyclopedia {
 	text-align: left;
 	width: 100%;
 	
 	.age_filter {
-		@include box_shadow(-1px 0 0 $blue);
+		@include box_shadow(-10px 0 0 $blue);
 		display: table;
 		float: left;
 		width: 160px;

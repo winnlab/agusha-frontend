@@ -1,5 +1,13 @@
-mixin theme(a)
-	.book
+mixin theme(t)
+	- var classname = ''
+	
+	if t
+		if params.theme && params.theme == t._id
+			- classname = 'active'
+	else
+		- classname = '{{#if params.theme}}{{#if params.theme == _id}}active{{/if}}{{/if}}'
+	
+	.book(data-theme = (t ? t._id : '{{_id}}'), class = classname)
 		.cover
 			.adorable_table
 				.adorable_cell
@@ -7,6 +15,3 @@ mixin theme(a)
 					.count
 						.adorable_table
 							.adorable_cell 0
-
-mixin article(a)
-	.article_block
