@@ -40,9 +40,7 @@ export default can.Control.extend({
 			options = self.options,
 			route = can.route.attr();
 
-		self.module = new can.Map({
-			display: 'list'
-		});
+		self.defineModule();
 
 		self.populateModel();
 
@@ -57,6 +55,12 @@ export default can.Control.extend({
 			});
 		}
 
+	},
+
+	defineModule: function () {
+		this.module = new can.Map({
+			display: 'list'
+		});
 	},
 
 	loadView: function () {
