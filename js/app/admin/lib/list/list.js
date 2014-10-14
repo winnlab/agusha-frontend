@@ -44,7 +44,7 @@ export default can.Control.extend({
 			display: 'list'
 		});
 
-		self.module.attr(options.moduleName, new options.Model.List({}));
+		self.populateModel();
 
 		self.loadView();
 
@@ -61,6 +61,10 @@ export default can.Control.extend({
 
 	loadView: function () {
 		this.element.html(can.view(this.options.viewpath + this.options.viewName, this.module));
+	},
+
+	populateModel: function () {
+		this.module.attr(this.options.moduleName, new this.options.Model.List({}));
 	},
 
 	/*

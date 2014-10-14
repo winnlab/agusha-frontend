@@ -1,0 +1,7 @@
+<ul class="pagination">
+ 	<li {{#is page 1}}class="disabled"{{/if}}><a href="#">&laquo;</a></li>
+ 	{{#each pagesArray}}
+ 		<li><a href="#">{{.}}</a></li>
+ 	{{/each}}
+ 	<li {{#is page pages}}class="disabled"{{/if}}><a href="#">&raquo;</a></li>
+</ul>

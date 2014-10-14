@@ -72,14 +72,18 @@ html(lang="ru")
 									a(href="/admin/encyclopedia-articleType")
 										i.fa.fa-angle-double-right
 										span= "Типы статей"
-						li(class= (currentHref=='faq'?"active":""))
-							a(href="/admin/faq")
-								i.fa.fa-question-circle
-								span= "FAQ"
 						li(class= (currentHref=='consultations'?"active":""))
 							a(href="/admin/consultations")
 								i.fa.fa-comments-o
 								span= "Консультации"
+						li(class= (currentHref=='clients'?"active":""))
+							a(href="/admin/clients")
+								i.fa.fa-users
+								span= "Клиенты"
+						li(class= (currentHref=='faq'?"active":""))
+							a(href="/admin/faq")
+								i.fa.fa-question-circle
+								span= "FAQ"
 						
 			aside.right-side#moduleContent
 				block content
