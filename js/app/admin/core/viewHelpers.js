@@ -8,6 +8,10 @@ function computedVal (value) {
 	if (typeof value === 'function') {
 		value = value();
 	}
+	// and again
+	if (typeof value === 'function') {
+		value = value();
+	}
 	return value;
 };
 
