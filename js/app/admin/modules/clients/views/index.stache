@@ -9,16 +9,19 @@
         </div>
     </div>
     <div class='panel-body' id='clientList'>
-        <pagination pages="{pages}" page="{currentPage}" prefix=''></pagination>
+        <pagination count="{count}" limit="{limit}" page="{currentPage}"></pagination>
         {{#if clients.isResolved}}
             {{#if clients.length}}
-                {{#sortedBy clients '_id'}}
-                    <div class='row client' {{data "clients"}}>
+                {{#each clients}}
+                    <div class='col-md-offset-0 row client' {{data "clients"}}>
                         <div class='input-group'>
-                            <input type='text' class='form-control' disabled can-value='name' />
+                            <span class="input-group-addon">
+                                <input class="activateClient" type="checkbox" can-value='active'>
+                            </span>
+                            <input type='text' class='form-control' disabled value="{{profile.first_name}} {{profile.last_name}}" />
                             <div class='input-group-btn'>
-                                <div class="btn btn-default editClient" title="Редактировать">
-                                    <i class="fa fa-edit"></i>
+                                <div class="btn btn-default editClient" title="Просмотреть информацию">
+                                    <i class="fa fa-user"></i>
                                 </div>
                                 <div class="btn btn-danger removeClient" title="Удалить">
                                     <i class="fa fa-trash-o"></i>
@@ -26,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                {{/sortedBy}}
+                {{/each}}
             {{else}}
                 <div class="alert alert-info">
                     <i class="fa fa-info"></i>
@@ -34,6 +37,11 @@
                     Данных, соответствующих указанным параметрам, нет
                 </div>
             {{/if}}
+        {{else}}
+            <div class="alert alert-info">
+                <i class="fa fa-info"></i>
+                Загрузка....
+            </div>
         {{/if}}
     </div>
 </div>

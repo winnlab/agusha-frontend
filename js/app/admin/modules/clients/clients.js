@@ -29,22 +29,49 @@ export default List.extend(
 
             parentData: '.client',
 
-            page: 1,
-            pages: 1,
             limit: 100
         }
 	}, {
         init: function () {
-            List.prototype.init.call(this);
+            var self = this;
 
-            this.module.attr('currentPage', this.options.page);
-            this.module.attr('pages', this.options.Model.pages);
+            List.prototype.init.call(self);
+
+            self.module.attr('currentPage', 1);
+
+            self.module.attr('count', self.options.Model.pages);
+            self.module.attr('limit', self.options.limit);
+
+            self.module.bind('currentPage', function (ev, newVal, oldVal) {
+                self.populateModel(newVal);
+            });
         },
 
-        populateModel: function () {
+        defineModule: function () {
+            var MyMap = can.Map.extend({
+                define: {
+                    currentPage: {
+                        set: function (val) {
+                            if (isNaN(+val)) {
+                                this.attr('currentPage', 1);
+                                return 1;
+                            }
+
+                            return val;
+                        }
+                    }
+                }
+            });
+            this.module = new MyMap({
+                display: 'list'
+            });
+        },
+
+        populateModel: function (page = 1) {
             var o = this.options;
+
             this.module.attr(o.moduleName, new o.Model.List({
-                page: o.page,
+                page: page,
                 limit: o.limit
             }));
         }
