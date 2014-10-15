@@ -1,10 +1,28 @@
 import 'can/'
+import 'can/map/backup/'
+import 'can/map/validations/'
 import appState from 'appState'
+
+var MyMap = can.Map.extend({}, {
+	define: {
+        page: {
+            set: function (val) {
+                if (isNaN(+val)) {
+                    val = this.attr('oldVal');
+                }
+
+                this.attr('oldVal', val)
+                return val;
+            },
+            value: 1
+        }
+    }
+});
 
 can.Component.extend({
 	tag: 'pagination',
 	template: can.view('/js/app/admin/components/pagination/views/pagination.stache'),
-	scope: new can.Map({
+	scope: new MyMap({
 		blockBefore: false,
 		blockAfter: false,
 		pages: function () {
@@ -19,8 +37,8 @@ can.Component.extend({
 	helpers: {
 		pagesList: function () {
 			var range = [],
-				pages = this.attr('pages').call(this),
-				page = this.attr('page');
+				pages = this.pages(),
+				page = +this.attr('page');
 
 			this.tryAdd(range, 'push', pages, page);
 

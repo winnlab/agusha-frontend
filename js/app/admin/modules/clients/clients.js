@@ -47,26 +47,6 @@ export default List.extend(
             });
         },
 
-        defineModule: function () {
-            var MyMap = can.Map.extend({
-                define: {
-                    currentPage: {
-                        set: function (val) {
-                            if (isNaN(+val)) {
-                                this.attr('currentPage', 1);
-                                return 1;
-                            }
-
-                            return val;
-                        }
-                    }
-                }
-            });
-            this.module = new MyMap({
-                display: 'list'
-            });
-        },
-
         populateModel: function (page = 1) {
             var o = this.options;
 
