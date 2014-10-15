@@ -9,31 +9,57 @@
         </div>
     </div>
     <div class='panel-body' id='clientList'>
-        <pagination pages="{pages}" page="{currentPage}" prefix=''></pagination>
+        <div class="pull-right col-md-6">
+            <div class="input-group">
+                <input class="form-control" type="text" can-value="searchString" placeholder="Искать..." />
+                <span class="input-group-btn">
+                    <button class="btn btn-default t-do-search" type="button">Поиск</button>
+                </span>
+            </div>
+        </div>
+        <pagination count="{count}" limit="{limit}" page="{currentPage}"></pagination>
         {{#if clients.isResolved}}
-            {{#if clients.length}}
-                {{#sortedBy clients '_id'}}
-                    <div class='row client' {{data "clients"}}>
-                        <div class='input-group'>
-                            <input type='text' class='form-control' disabled can-value='name' />
-                            <div class='input-group-btn'>
-                                <div class="btn btn-default editClient" title="Редактировать">
-                                    <i class="fa fa-edit"></i>
-                                </div>
-                                <div class="btn btn-danger removeClient" title="Удалить">
-                                    <i class="fa fa-trash-o"></i>
-                                </div>
-                            </div>
-                        </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>Имя</td>
+                        <td>Фамилия</td>
+                        <td>E-mail</td>
+                        <td>Последняя активность</td>
+                        <td>Действия</td>
+                    </tr>
+                </thead>
+                {{#if clients.length}}
+                    <tbody>
+                        {{#each clients}}
+                            <tr class="client {{#unless active}}danger{{/unless}}" {{data "clients"}} {{#unless active}}title="Пользователь неактивен"{{/unless}}>
+                                <td>{{profile.first_name}}</td>
+                                <td>{{profile.last_name}}</td>
+                                <td>{{email}}</td>
+                                <td>{{parseDate last_activity_at}}</td>
+                                <td>
+                                    <div class="btn btn-default editClient" title="Просмотреть информацию">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                    <div class="btn btn-danger removeClient" title="Деактивировать">
+                                        <i class="fa fa-sign-out"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                {{else}}
+                    <div class="alert alert-info">
+                        <i class="fa fa-info"></i>
+                        Данных, соответствующих указанным параметрам, нет
                     </div>
-                {{/sortedBy}}
-            {{else}}
-                <div class="alert alert-info">
-                    <i class="fa fa-info"></i>
-                    <b>Примечание! </b>
-                    Данных, соответствующих указанным параметрам, нет
-                </div>
-            {{/if}}
+                {{/if}}
+            </table>
+        {{else}}
+            <div class="alert alert-info">
+                <i class="fa fa-info"></i>
+                Загрузка....
+            </div>
         {{/if}}
     </div>
 </div>

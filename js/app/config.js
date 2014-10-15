@@ -13,6 +13,7 @@ System.config({
 		"underscore": "js/plugins/underscore/underscore-min.js",
 		"lodash": "js/plugins/lodash/dist/lodash.min.js",
 		"bootstrap-wysihtml5": "js/plugins/bootstrap3-wysiwyg-stealjs/dist/bootstrap3-wysihtml5.all.min.js",
+		"swal": "js/plugins/sweetalert/lib/sweet-alert.min.js",
 
 		"adminlte-css/*": "js/plugins/adminlte/css/*css",
 
@@ -35,7 +36,8 @@ System.config({
 		"$": "jquery"
 	},
 	ext: {
-		css: 'js/plugins/steal/css'
+		css: 'js/plugins/steal/css',
+		stache: 'can/view/stache/system'
 	},
 	meta: {
 		"bootstrap-wysihtml5": {
@@ -46,20 +48,17 @@ System.config({
 				"js/plugins/bootstrap3-wysiwyg-stealjs/dist/bootstrap3-wysihtml5.min.css!"
 			]
 		},
+		swal: {
+			exports: "swal",
+			format: "global",
+			deps: [
+				"js/plugins/sweetalert/lib/sweet-alert.css!"
+			]
+		},
 		"can/*": {
 			deps: [
 				'jquery',
 				'can/route/pushstate/pushstate'
-			]
-		},
-		"core": {
-			deps: [
-				'jquery',
-				'can/',
-				'adminlte',
-				'css-admin/global.css!',
-				'router',
-				'rConfig'
 			]
 		},
 		slimscroll: {

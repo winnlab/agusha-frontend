@@ -8,6 +8,10 @@ function computedVal (value) {
 	if (typeof value === 'function') {
 		value = value();
 	}
+	// and again
+	if (typeof value === 'function') {
+		value = value();
+	}
 	return value;
 };
 
@@ -139,4 +143,11 @@ can.mustache.registerHelper('arrContains', function (array, value, strict, rever
 	}
 
 	return (array.indexOf(value) > -1) ^ reverse ? options.fn() : false;
+});
+
+can.mustache.registerHelper('parseDate', function (date) {
+	date = computedVal(date);
+	return date
+		? moment(date).format('DD.MM.YYYY hh:mm:s')
+		: "Нет данных";
 });

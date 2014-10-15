@@ -3,6 +3,8 @@ import List from 'list'
 import _ from 'lodash'
 import appState from 'appState'
 import 'pagination'
+import moment from 'js/plugins/moment/min/moment.min'
+import 'swal'
 
 import ClientModel from 'js/app/admin/modules/clients/clientModel'
 import Client from 'js/app/admin/modules/clients/client'
@@ -25,28 +27,114 @@ export default List.extend(
             edit: '.editClient',
             remove: '.removeClient',
 
-            formWrap: '.сlientForm',
+            formWrap: '.clientForm',
 
             parentData: '.client',
 
-            page: 1,
-            pages: 1,
             limit: 100
         }
-	}, {
+	}, 
+    {
         init: function () {
-            List.prototype.init.call(this);
+            var self = this;
 
-            this.module.attr('currentPage', this.options.page);
-            this.module.attr('pages', this.options.Model.pages);
+            List.prototype.init.call(self);
+
+            self.module.attr('currentPage', 1);
+            self.module.attr('searchString', '');
+
+            self.module.attr('count', self.options.Model.pages);
+            self.module.attr('limit', self.options.limit);
+
+            self.module.bind('currentPage', function (ev, newVal, oldVal) {
+                if(!self.blocked) {
+                    self.populateModel();
+                }
+            });
         },
 
         populateModel: function () {
-            var o = this.options;
-            this.module.attr(o.moduleName, new o.Model.List({
-                page: o.page,
-                limit: o.limit
-            }));
+            var o = this.options,
+                searchString = this.module.attr('searchString'),
+                params = {
+                    page: this.module.attr('currentPage') || 1,
+                    limit: o.limit
+                };
+
+            if (searchString && !_.isEqual(this.oldSearchString, searchString)) {
+
+                this.oldSearchString = searchString;
+                params.page = 1;
+
+                can.batch.start();
+                this.blocked = true;
+                this.module.attr('currentPage', 1);
+                this.blocked = false;
+                can.batch.stop();
+
+                params.$or = [
+                    {'profile.first_name' : searchString},
+                    {'profile.last_name' : searchString},
+                    {'email' : searchString}
+                ];
+            }
+
+            this.module.attr(o.moduleName, new o.Model.List(params));
+        },
+
+        '.t-do-search click': function () {
+            this.populateModel();
+        },
+
+        '{remove} click': function (el) {
+            var self = this;
+            
+            swal({
+                title: "Деактивация пользователя",
+                text: "Вы уверены? Активировать пользователя вручную после выполнения данной операции невозможно.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Продолжай!",
+                cancelButtonText: "Нет!",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    var doc = self.getDocHandle(el);
+                    can.batch.start();
+                    doc.attr('active', false);
+                    doc.save()
+                        .always(function () {
+                            can.batch.stop();
+                        })
+                        .done(function (response) {
+                            if(response.err) {
+                                doc.attr('active', true);
+                                return self.processError(response.err);
+                            }
+                            swal("Пользователь деактивирован!", "Мы лишь сделали то, что вы просили...", "success");
+                        })
+                        .fail(function () {
+                            doc.attr('active', true);
+                            swal("Упс!", "Произошла ошибка при сохранении. Возможно, у вас отсутствует подключение к сети.", "error");
+                        });
+                }
+            });
+        },
+
+        processError: function (err) {
+        var msg;
+
+        if(err.errors && err.errors.title) {
+            msg = err.errors.title.message;
         }
-	}
+
+        if(!msg) {
+            msg = err.message || err;
+        }
+
+        swal('Упс!', msg, 'error');
+    }
+    }
 );

@@ -5,6 +5,8 @@ import 'can/map/define/'
 import 'can/list/promise/'
 import appState from 'appState'
 
+import 'swal'
+
 export default can.Control.extend({
 	defaults: {
 		viewpath: '',
@@ -19,6 +21,7 @@ export default can.Control.extend({
 
 		successMsg: 'Сущность успешно сохранена.',
         errorMsg: 'Ошибка сохранения сущности.',
+		deleteMsgTitle: 'Удаление',
 		deleteMsg: 'Вы действительно хотите удалить эту сущность?',
 		deletedMsg: 'Сущность успешно удалена',
 		deletedErr: 'Ошибка удаления сущности',
@@ -40,9 +43,7 @@ export default can.Control.extend({
 			options = self.options,
 			route = can.route.attr();
 
-		self.module = new can.Map({
-			display: 'list'
-		});
+		self.defineModule();
 
 		self.populateModel();
 
@@ -57,6 +58,12 @@ export default can.Control.extend({
 			});
 		}
 
+	},
+
+	defineModule: function () {
+		this.module = new can.Map({
+			display: 'list'
+		});
 	},
 
 	loadView: function () {
@@ -156,16 +163,27 @@ export default can.Control.extend({
 		var options = this.options,
 			doc = el.parents(options.parentData).data(options.moduleName);
 
-		if (confirm(options.deleteMsg)) {
-			doc.destroy().always(function (doc, status, def) {
-				appState.attr('notification', {
-					status: status,
-					msg: status === 'success'
-						? options.deletedMsg
-						: options.deletedErr
+		swal({
+			title: options.deleteMsgTitle,
+			text: options.deleteMsg,
+			type: 'warning',
+			showCancelButton: true,
+			closeOnConfirm: false,
+			confirmButtonText: 'Да',
+			cancelButtonText: 'Нет',
+
+		}, function(isConfirm) {
+			if (isConfirm) {
+				doc.destroy().always(function (doc, status, def) {
+					appState.attr('notification', {
+						status: status,
+						msg: status === 'success'
+							? options.deletedMsg
+							: options.deletedErr
+					});
 				});
-			});
-		}
+			}
+		})
 	},
 
 	'{Model} created': function (Model, ev, doc) {
