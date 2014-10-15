@@ -1,5 +1,5 @@
 import can from 'can/'
-import _ from 'js/plugins/underscore/'
+import _ from 'lodash'
 export default can.Map.extend({
     modules: [],
 
@@ -9,7 +9,7 @@ export default can.Map.extend({
             System.import(module.path).then((Module) => {
                 if (Module) {
                     self.addModule(id);
-                    new Module.default('#' + id);
+                    new (Module.default || Module)('#' + id);
                     self.activateModule(id);
                 } else {
                     msg = module.path
