@@ -9,7 +9,5 @@ export default Edit.extend(
 	        moduleName: 'client'
 	    }
 	}, 
-	{
-
-	}
+	{}
 );
