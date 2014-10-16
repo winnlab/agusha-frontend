@@ -51,6 +51,13 @@ var config = {
 					client: 'js/app/user/modules/encyclopedia/',
 					server: ':name/:entity_id/:param2'
 				}
+			},
+			{
+				name: 'production',
+				path: {
+					client: 'js/app/user/modules/production/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'
