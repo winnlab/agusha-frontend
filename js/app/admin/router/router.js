@@ -1,7 +1,7 @@
-import $ from 'jquery'
-import can from 'can/'
+import 'jquery'
+import 'can/'
 import 'can/route/pushstate/'
-import _ from 'underscore'
+import _ from 'lodash'
 
 import Placeholder from 'placeholder'
 

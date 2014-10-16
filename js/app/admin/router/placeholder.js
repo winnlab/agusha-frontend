@@ -1,4 +1,5 @@
-import can from 'can/'
+import 'jquery'
+import 'can/'
 import _ from 'lodash'
 export default can.Map.extend({
     modules: [],
@@ -51,9 +52,14 @@ export default can.Map.extend({
 
     activateModule: function (id) {
         can.batch.start();
+        
         _.map(this.modules, function (module) {
             module.attr('active', module.id === id);
         });
+
+        $('aside.left-side li.active').removeClass('active');
+        $('aside.left-side a[href="/admin/'+id.toString()+'"]').parent().addClass('active');
+
         can.batch.stop();
     }
 
