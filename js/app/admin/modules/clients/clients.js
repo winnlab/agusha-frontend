@@ -87,8 +87,17 @@ export default List.extend(
         },
 
         '{remove} click': function (el) {
-            var self = this;
+            var self = this,
+                doc = self.getDocHandle(el);
             
+            if(!doc.attr('active')) {
+                return swal({
+                    title: "Уже сделано",
+                    text: "Пользователь уже деактивирован!",
+                    type: "info"
+                });
+            }
+
             swal({
                 title: "Деактивация пользователя",
                 text: "Вы уверены? Активировать пользователя вручную после выполнения данной операции невозможно.",
@@ -101,7 +110,6 @@ export default List.extend(
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    var doc = self.getDocHandle(el);
                     can.batch.start();
                     doc.attr('active', false);
                     doc.save()
