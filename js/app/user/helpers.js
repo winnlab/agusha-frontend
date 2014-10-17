@@ -1,9 +1,6 @@
-window.strip_tags = function(str) {	// Strip HTML and PHP tags from a string
-	// 
-	// +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-	
+window.strip_tags = function(str) {
 	return str.replace(/<\/?[^>]+>/gi, '');
-}
+};
 
 window.escape = function(text) {
 	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -26,4 +23,18 @@ window.jadeTemplate = {
 		
 		return this.savedViewFuncs[name](data);
 	}
-}
+};
+
+window.requestAnimFrame = (function() {
+	return  window.requestAnimationFrame	 || 
+		window.webkitRequestAnimationFrame || 
+		window.mozRequestAnimationFrame || 
+		window.oRequestAnimationFrame || 
+		window.msRequestAnimationFrame || 
+		function(callback, element){
+			var timestamp = new Date().getTime();
+			window.setTimeout(function() {
+				callback(timestamp);
+			}, 1000 / 30);
+		};
+})();
