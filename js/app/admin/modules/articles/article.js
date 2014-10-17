@@ -4,7 +4,7 @@ import 'js/app/admin/components/upload/'
 import appState from 'appState'
 import _ from 'lodash'
 
-import 'bootstrap-wysihtml5'
+import 'summernote'
 
 export default Edit.extend({
     defaults: {
@@ -55,9 +55,9 @@ export default Edit.extend({
 		data['ageValue'] = this.ageValue;
 		data['themeName'] = this.themeName;
 
-		if(!options.doc.attr('_id')) {
-			options.doc.attr('active', "true");
-		}
+		// if(!options.doc.attr('_id')) {
+		// 	options.doc.attr('active', true);
+		// }
 
 		this.loadView(options.viewpath + options.viewName, data);
 	},
@@ -69,35 +69,7 @@ export default Edit.extend({
 		}
 	},
 
-	'{form} submit': function (el, ev) {
-		ev.preventDefault();
-
-		var self = this,
-			options = self.options,
-			data = this.getDocData(el),
-			doc = options.doc;
-
-		doc.attr(data);
-
-		doc.save()
-			.done(function (response) {
-				if (response.err) {
-                    return self.processError(response.err);
-                }
-
-				options.entity(doc.attr('_id'));
-
-				if (options.setRoute) {
-					can.route.attr({'entity_id': doc.attr('_id')});
-				}
-
-				self.setNotification('success', options.successMsg);
-			})
-			.fail(function () {
-				self.setNotification('error', options.errorMsg);
-			});
-
-	},'.currentAgeSelect change': function (el) {
+	'.currentAgeSelect change': function (el) {
 		var newVal = el.find('option:selected').data('ages').attr('value');
 		this.ageValue(newVal);
 	},
