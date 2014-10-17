@@ -122,11 +122,16 @@ can.mustache.registerHelper('getBoxName', function (index, options) {
 	return classes[index % classes.length];
 });
 
-can.mustache.registerHelper('wysihtml5', function (index) {
+var wysiwyg = function (index) {
 	return function (el) {
-		$(el).wysihtml5();
+		setTimeout(function () {
+			$(el).summernote();
+		}, 0);
 	};
-});
+};
+
+can.mustache.registerHelper('wysihtml5', wysiwyg);
+can.mustache.registerHelper('wysiwyg', wysiwyg);
 
 can.mustache.registerHelper('arrContains', function (array, value, strict, reverse, options) {
 	strict = computedVal(strict);
