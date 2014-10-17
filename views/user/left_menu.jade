@@ -1,5 +1,5 @@
-.left_menu
-#left_menu.left_menu
+.left_menu.left_resizable
+#left_menu.left_menu.left_resizable
 	.left_content
 		.close
 		
@@ -40,7 +40,7 @@
 					.icon
 					.label
 				
-				a.item.adorable_table.about.new_module(href="/help")
+				.item.adorable_table.about
 					.icon
 					.label
 		
@@ -52,3 +52,22 @@
 				.small_social_block
 				
 			.copyright
+
+.left_inner_menu.left_resizable
+#left_inner_menu.left_inner_menu.left_resizable
+	.topper
+		.adorable_table
+			.adorable_cell
+				.top_label Про агушу
+				.label Пара слов о нас
+	
+	.center
+		.adorable_cell
+			a.item.adorable_table.new_module(href="/products")
+				.adorable_cell Каталог продукции
+			
+			a.item.adorable_table.new_module(href="/production")
+				.adorable_cell О производстве
+			
+			.item.adorable_table
+				.adorable_cell Запись на экскурсию

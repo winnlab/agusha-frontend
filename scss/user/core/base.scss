@@ -286,7 +286,7 @@ table tr {
 			&:hover, &.active {
 				&:before {
 					@include pseudo;
-					background: url('/img/user/core/item_bg.png');
+					background: url('/img/user/core/item_bg.png') no-repeat;
 					width: 100%;
 					height: 56px;
 					top: -8px;
@@ -295,7 +295,7 @@ table tr {
 				
 				&:after {
 					@include pseudo;
-					background: url('/img/user/core/active_arrow.png');
+					background: url('/img/user/core/active_arrow.png') no-repeat;
 					right: -10px;
 					top: -8px;
 					width: 10px;
@@ -578,6 +578,107 @@ table tr {
 	opacity: 1;
 }
 
+.left_inner_menu {
+	@include min_max_height;
+	@include transition(width 0.3s ease-in-out, margin-left 0.3s ease-in-out, left 0.3s ease-in-out);
+	display: table-cell;
+	
+	width: 0;
+	display: table-cell;
+	
+	&.show {
+		width: 160px;
+	}
+}
+
+#left_inner_menu {
+	position: fixed;
+	width: 160px;
+	z-index: 10;
+	top: 0;
+	left: 230px;
+	margin-left: -160px;
+	display: table;
+	color: $white;
+	
+	&.show {
+		margin-left: 0;
+		
+		.item {
+			overflow-x: visible;
+		}
+	}
+	
+	&.small {
+		left: 70px
+	}
+	
+	.topper {
+		@include border_boxed;
+		display: table-row;
+		height: 160px;
+		background-color: $titleblue;
+		
+		.adorable_cell {
+			padding: 25px;
+		}
+	}
+	
+	.top_label {
+		font-size: 14px;
+		margin-bottom: 10px;
+	}
+	
+	.label {
+		font-size: 24px;
+		font-family: 'PT_Sans_Narrow_Bold';
+		text-transform: uppercase;
+	}
+	
+	.center {
+		display: table-row;
+		background-color: #126da7;
+	}
+	
+	.item {
+		height: 50px;
+		text-transform: uppercase;
+		width: 100%;
+		position: relative;
+		text-decoration: none;
+		overflow-x: hidden;
+		
+		&:hover {
+			background-color: $titleblue;
+			
+			&:before {
+				@include pseudo;
+				width: 158px;
+				height: 6px;
+				bottom: -6px;
+				left: 0;
+				background: url('/img/user/core/left_inner_shadow.png');
+			}
+			
+			&:after {
+				@include pseudo;
+				width: 10px;
+				height: 45px;
+				background: url('/img/user/core/inner_item_active.png');
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				right: -10px;
+			}
+		}
+		
+		.adorable_cell {
+			text-align: left;
+			padding: 0 20px;
+		}
+	}
+}
+
 #center_container {
 	display: table-cell;
 	text-align: center;
@@ -589,6 +690,7 @@ table tr {
 	height: 100%;
 	position: relative;
 	overflow: visible;
+	z-index: 9;
 	
 	.module {
 		height: 100%;
