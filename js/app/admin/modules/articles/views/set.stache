@@ -14,7 +14,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="title">Название:</label>
                 <div class="col-md-10">
-                    <input class="form-control" type="text" can-value="article.title" name="title" placeholder="Наименование" />
+                    <input class="form-control" type="text" can-value="article.title" placeholder="Наименование" />
                     <div class="help help-block"></div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10 checkbox">
                         <label class="col-md-4">
-                            <input name="active" type="checkbox" can-value="article.active" /> Активна?
+                            <input type="checkbox" can-value="article.active" /> Активна?
                         </label>
                         <div class="help help-block"></div>
                     </div>
@@ -33,7 +33,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 checkbox">
                     <label class="col-md-4">
-                        <input name="recommended" type="checkbox" can-value="article.recommended" /> Рекомендована?
+                        <input type="checkbox" can-value="article.recommended" /> Рекомендована?
                     </label>
                     <div class="help help-block"></div>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="age[age_id]">Возраст статьи:</label>
                     <div class="col-md-10">
-                        <select can-value="article.age.age_id" class="currentAgeSelect form-control" name="age[age_id]">
+                        <select can-value="article.age.age_id" class="currentAgeSelect form-control">
                             {{#sortedBy ages 'title'}}
                                 <option {{data "ages"}} value="{{_id}}">{{value}}</option>
                             {{/sortedBy}}
@@ -57,7 +57,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="theme[theme_id]">Тема статьи:</label>
                         <div class="col-md-10">
-                            <select can-value="article.theme.theme_id" class="currentThemeSelect form-control" name="theme[theme_id]">
+                            <select can-value="article.theme.theme_id" class="currentThemeSelect form-control">
                                 {{#sortedBy themes 'name'}}
                                     {{#arrContains age_id article.age.age_id true false}}
                                         <option {{data "themes"}} value="{{_id}}">{{name}}</option>
@@ -91,7 +91,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc[shorttext]">Краткое описание:</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" can-value="article.desc.shorttext" name="desc[shorttext]" placeholder="Краткое описание" />
+                            <input class="form-control" type="text" can-value="article.desc.shorttext" placeholder="Краткое описание" />
                             <div class="help help-block"></div>
                         </div>
                     </div>
@@ -128,10 +128,49 @@
                 </div>
             {{/if}}
 
+            <div class="panel panel-info">
+                <div class="panel-heading col-md-12">
+                    <div class="panel-title">
+                        Галереи изображений
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary addGallery">
+                            <i class="fa fa-plus"></i>
+                            <span>Добавить галерею</span>
+                        </button> 
+                    </div>
+                </div>
+                {{#if article.gallery}}
+                    {{#each article.gallery}}
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="name">Название:</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" can-value="name" placeholder="Наименование" />
+                                    <div class="help help-block"></div>
+                                </div>
+                            </div>
+                            <upload
+                                class="col-md-12"
+                                name="image"
+                                url="/admin/article/img"
+                                delete-url="/admin/article/img"
+                                entity="{article}"
+                                uploaded="{article.image}"
+                                accept="image/*"
+                                multiple="true"
+                            >
+                                Загрузить изображения
+                            </upload>
+                        </div>
+                    {{/each}}
+                {{/if}}
+            </div>
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 checkbox">
                     <label class="col-md-4">
-                        <input name="active" type="checkbox" can-value="article.is_quiz" /> Прикрепить опрос
+                        <input type="checkbox" can-value="article.is_quiz" /> Прикрепить опрос
                     </label>
                     <div class="help help-block"></div>
                 </div>
