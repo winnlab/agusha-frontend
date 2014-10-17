@@ -63,7 +63,7 @@
                             <label class="col-md-2 control-label" for="desc[text]">Текст:</label>
                         </div>
                         <div class="col-md-12">
-                            <textarea class="form-control" type="text" name="desc[text]" placeholder="Само описание">
+                            <textarea class="form-control" type="text" name="desc[text]" {{wysiwyg}} placeholder="Само описание">
                                 {{age.desc.text}}
                             </textarea>
                             <div class="help help-block"></div>

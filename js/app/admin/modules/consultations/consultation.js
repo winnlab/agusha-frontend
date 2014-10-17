@@ -1,7 +1,8 @@
 import 'can/'
 import Edit from 'edit'
 
-import 'bootstrap-wysihtml5'
+// import 'bootstrap-wysihtml5'
+import 'summernote'
 
 import appState from 'appState'
 

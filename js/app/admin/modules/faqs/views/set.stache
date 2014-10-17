@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="text">Текст вопроса:</label>
                 <div class="col-md-10">
-                    <textarea class="form-control" type="text" {{wysihtml5}} name="text" can-value="faq.text"></textarea>
+                    <textarea class="form-control" type="text" {{wysiwyg}} name="text">{{{faq.text}}}</textarea>
                     <div class="help help-block"></div>
                 </div>
             </div>

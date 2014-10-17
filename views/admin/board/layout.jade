@@ -50,7 +50,7 @@ html(lang="ru")
 			aside.left-side.sidebar-offcanvas
 				section.sidebar
 					ul.sidebar-menu
-						li(class= (currentHref=='dashboard'?"active":""))
+						li
 							a(href="/admin/dashboard")
 								i.fa.fa-dashboard
 								span= "Главная"
@@ -72,20 +72,21 @@ html(lang="ru")
 									a(href="/admin/encyclopedia-articleType")
 										i.fa.fa-angle-double-right
 										span= "Типы статей"
-						li(class= (currentHref=='consultations'?"active":""))
+						li
 							a(href="/admin/consultations")
 								i.fa.fa-comments-o
 								span= "Консультации"
-						li(class= (currentHref=='clients'?"active":""))
+						li
 							a(href="/admin/clients")
 								i.fa.fa-users
 								span= "Клиенты"
-						li(class= (currentHref=='faq'?"active":""))
+						li
 							a(href="/admin/faq")
 								i.fa.fa-question-circle
 								span= "FAQ"
 						
 			aside.right-side#moduleContent
+				div#summernote
 				block content
 
 		block scripts
