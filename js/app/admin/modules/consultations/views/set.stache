@@ -84,9 +84,9 @@
             {{/if}}
 
             <div class="form-group">
-                <label class="col-md-2 control-label" for="desc[text]">Текст:</label>
+                <label class="col-md-2 control-label" for="text">Текст:</label>
                 <div class="col-md-10">
-                    <textarea class="form-control" {{wysihtml5}} can-value="consultation.text" name="text"></textarea>
+                    <textarea class="form-control" {{#if consultation.text}}{{wysiwyg}}{{/if}} name="text">{{{consultation.text}}}</textarea>
                     <div class="help help-block"></div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                                     Дата: <span class="badge">{{date}}</span>
                                 </div>
                                 <div class="col-md-12 panel-body">
-                                    <textarea class="form-control" can-value="text" name="answer[{{@index}}][text]" {{wysihtml5}}></textarea>
+                                    <textarea class="form-control" can-value="text" name="answer[{{@index}}][text]" {{wysihtml5}}>{{text}}</textarea>
                                 </div>
                             </div>
                         </div>
