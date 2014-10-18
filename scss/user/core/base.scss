@@ -59,6 +59,8 @@ table tr {
 	@include min_max_height;
 	display: table;
 	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 .left_menu {

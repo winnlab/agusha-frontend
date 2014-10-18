@@ -11,14 +11,14 @@ var Core = can.Control.extend(
 	
 	{
 		init: function() {
+			this.body = $(document.body);
 			this.window = $(window);
 			
 			this.left_resizable = $('.left_resizable');
-			this.left_menu = this.left_resizable.filter('.left_menu');
 			this.left_inner_menu = this.left_resizable.filter('.left_inner_menu');
-			this.id_left_inner_menu = this.left_inner_menu.filter('#left_inner_menu');
+			// this.id_left_inner_menu = this.left_inner_menu.filter('#left_inner_menu');
 			
-			this.left_inner_menu_left = this.id_left_inner_menu.css('left');
+			// this.left_inner_menu_left = this.id_left_inner_menu.css('left');
 			
 			this.start = null;
 		},
@@ -53,10 +53,9 @@ var Core = can.Control.extend(
 		},
 		
 		'#left_menu .about click': function(el) {
-			var	that = this,
-				left_inner_menu = $('.left_inner_menu');
+			var	that = this;
 			
-			left_inner_menu.toggleClass('show');
+			this.left_inner_menu.toggleClass('show');
 			window.requestAnimFrame(function(timestamp) {
 				that.step(timestamp);
 			});

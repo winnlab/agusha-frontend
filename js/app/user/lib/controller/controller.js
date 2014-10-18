@@ -68,8 +68,8 @@ export default can.Control.extend({
 	
 	after_request: function(data) {
 		this.variables();
-		this.sizes();
 		this.plugins();
+		$(window).resize();
 		
 		this.after_init(data);
 	},
