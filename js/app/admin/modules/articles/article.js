@@ -6,6 +6,8 @@ import _ from 'lodash'
 
 import 'summernote'
 
+import GalleryModel from 'js/app/admin/modules/articles/galleryModel'
+
 export default Edit.extend({
     defaults: {
         viewpath: '/js/app/admin/modules/articles/views/',
@@ -24,15 +26,16 @@ export default Edit.extend({
 	init: function(element, options) {
 		_.extend(this.options, options);
 
-		var options = this.options,
+		var self = this,
+			options = this.options,
 			data = {
 				langs: appState.attr('langs')
 			};
 
-		this.ensureObject(options.doc, 'age');
-		this.ensureObject(options.doc, 'desc');
-		this.ensureObject(options.doc, 'theme');
-		this.ensureObject(options.doc, 'type');
+		self.ensureObject(options.doc, 'age');
+		self.ensureObject(options.doc, 'desc');
+		self.ensureObject(options.doc, 'theme');
+		self.ensureObject(options.doc, 'type');
 		
 		data[options.moduleName] = options.doc;
 
@@ -40,26 +43,39 @@ export default Edit.extend({
 		data['themes'] = options.themes;
 		data['types'] = options.types;
 
-		this.ageValue = can.compute(null);
-		this.themeName = can.compute(null);
+		self.ageValue = can.compute(null);
+		self.themeName = can.compute(null);
+
+		self.gallery = new can.List;
+
+		GalleryModel.findAll({article: options.doc._id}, function (docs) {
+            $.each(docs, function(i, doc) {
+                self.gallery.push(doc);
+            });
+        });
 
 		if (options.doc) {
 			if (options.doc.age) {
-				this.ageValue(options.doc.age.value);
+				self.ageValue(options.doc.age.value);
 			}
 			if (options.doc.theme) {
-				this.themeName(options.doc.theme.name);
+				self.themeName(options.doc.theme.name);
 			}
 		}
 
-		data['ageValue'] = this.ageValue;
-		data['themeName'] = this.themeName;
+		data['ageValue'] = self.ageValue;
+		data['themeName'] = self.themeName;
+
+		self.newGalleryName = self.compute('');
+		self.addingGallery = self.compute(false);
+		data['newGalleryName'] = self.newGalleryName;
+		data['addingGallery'] = self.addingGallery;
 
 		// if(!options.doc.attr('_id')) {
 		// 	options.doc.attr('active', true);
 		// }
 
-		this.loadView(options.viewpath + options.viewName, data);
+		self.loadView(options.viewpath + options.viewName, data);
 	},
 
 	ensureObject: function(obj, key) {
@@ -98,6 +114,18 @@ export default Edit.extend({
 				answ.splice(index, 1);
 			}
 		}
+	},
+
+	'.addGallery click': function () {
+
+	},
+
+	'.confirmGallery click': function () {
+
+	},
+
+	'.removeGallery click': function (el) {
+
 	}
 
 });

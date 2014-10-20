@@ -134,10 +134,20 @@
                         Галереи изображений
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary addGallery">
-                            <i class="fa fa-plus"></i>
-                            <span>Добавить галерею</span>
-                        </button> 
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary addGallery">
+                                <i class="fa fa-plus"></i>
+                                <span>Добавить галерею</span>
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" can-value="newGalleryName">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Создать</button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {{#if article.gallery}}
@@ -152,11 +162,11 @@
                             </div>
                             <upload
                                 class="col-md-12"
-                                name="image"
-                                url="/admin/article/img"
-                                delete-url="/admin/article/img"
-                                entity="{article}"
-                                uploaded="{article.image}"
+                                name="image[]"
+                                url="/admin/gallery/img"
+                                delete-url="/admin/gallery/img"
+                                entity="{.}"
+                                uploaded="{images}"
                                 accept="image/*"
                                 multiple="true"
                             >
