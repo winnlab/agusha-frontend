@@ -29,6 +29,12 @@
 		height: 70px;
 	}
 	
+	.category_container {
+		@include inline_block;
+		height: 100%;
+		margin: 0 0 0 27px;
+	}
+	
 	.category_block {
 		margin: 0 3px;
 		display: inline-block;
@@ -151,7 +157,6 @@
 .products_age_select {
 	width: 170px;
 	height: 100%;
-	margin-right: 27px !important;
 
 	&:before {
 		@include pseudo;

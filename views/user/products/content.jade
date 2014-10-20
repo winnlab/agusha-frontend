@@ -16,16 +16,17 @@ include helpers
 					else
 						span c #{Math.floor(a.value/12)}-x лет
 		
-		.category_block
-			.adorable_table
-				.adorable_cell
-					span.choose_category.rounded.active Все
-		
-		- each c, key in categories
+		.category_container
 			.category_block
 				.adorable_table
 					.adorable_cell
-						span.choose_category.rounded(data-category = c.url_label) #{c.name}
+						span.choose_category.rounded.active Все
+			
+			- each c, key in categories
+				.category_block
+					.adorable_table
+						.adorable_cell
+							span.choose_category.rounded(data-category = c.url_label) #{c.name}
 	
 	#about_ages
 		.show
