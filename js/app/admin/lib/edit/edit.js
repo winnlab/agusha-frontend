@@ -44,10 +44,6 @@ export default can.Control.extend({
 
 		doc.save()
 			.done(function (response) {
-				if(response.err) {
-                    return self.processError(response.err);
-                }
-
 				options.entity(doc.attr('_id'));
 
 				if (options.setRoute) {
@@ -56,8 +52,8 @@ export default can.Control.extend({
 
 				self.setNotification('success', options.successMsg);
 			})
-			.fail(function () {
-				self.setNotification('error', options.errorMsg);
+			.fail(function (response) {
+				self.processError(response.err);
 			});
 
 	},
