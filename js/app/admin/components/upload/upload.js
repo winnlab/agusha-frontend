@@ -19,7 +19,7 @@ var UploadViewModel = can.Map.extend({
 	define: {
 		'uploadId': {
 			value: function () {
-				var result = 'uploader-' + Math.ceil(Math.random() * 1000);						
+				var result = 'uploader-' + Math.ceil(Math.random() * 1000);
 				return result;
 			}
 		},
@@ -27,7 +27,7 @@ var UploadViewModel = can.Map.extend({
 			set: function (newVal) {
 
 				var uploaded = new can.List([]),
-					files = this.attr('files');						
+					files = this.attr('files');
 				files.replace([]);
 				if (newVal) {
 					if (this.attr('multiple')) {
@@ -53,6 +53,7 @@ var UploadViewModel = can.Map.extend({
 			entity = self.attr('entity'),
 			entity_id = entity.attr('id') || entity.attr('_id'),
 			options;
+
 		if (files.length && entity_id) {
 			options = {
 				data: {
@@ -74,10 +75,9 @@ var UploadViewModel = can.Map.extend({
 			var xhr = formSubmited.data('jqxhr');
 
 			xhr.done(function (data) {
-				// self.attr('uploaded', data.message.name);
 
 				if (entity.uploaded) {
-					entity.uploaded(self.attr('name'), data.message.name);
+					entity.uploaded(self.attr('name'), data.data[self.attr('name')]);
 				}
 
 				appState.attr('notification', {
@@ -86,10 +86,11 @@ var UploadViewModel = can.Map.extend({
 				});
 
 				self.attr('progress', 0);
+
 			}).fail(function (data) {
 				appState.attr('notification', {
 					status: 'error',
-					msg: 'Ошибка выгрузки файла'
+					msg: data.err || 'Ошибка выгрузки файла'
 				});
 			});
 		} else if (files.length) {
@@ -200,7 +201,7 @@ can.Component.extend({
 
 			if (accept.indexOf('image') !== -1) {
 
-				    html = '<span class="uploaded thumbnail" style="background-image: url(\'/uploads/' + source + '\')"></span>';
+				    html = '<span class="uploaded thumbnail" style="background-image: url(\'/img/uploads/' + source + '\')"></span>';
 
 			} else {
 				html = '<span>' + source + '</span>&nbsp;';
