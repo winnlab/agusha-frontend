@@ -13,29 +13,34 @@ var UploadViewModel = can.Map.extend({
 	'accept': '@',
 	'name': '@',
 	'multiple': '@',
-	'size': '@',
 	'files': [],
 	'progress': 0,
 
 	define: {
 		'uploadId': {
 			value: function () {
-				var result = 'uploader-' + Math.ceil(Math.random() * 1000);
+				var result = 'uploader-' + Math.ceil(Math.random() * 1000);						
 				return result;
 			}
 		},
 		'uploaded': {
 			set: function (newVal) {
+
 				var uploaded = new can.List([]),
-					files = this.attr('files');
+					files = this.attr('files');						
 				files.replace([]);
 				if (newVal) {
 					if (this.attr('multiple')) {
-						uploaded.push(newVal);
+                        if (typeof newVal === 'string') {
+                            uploaded.push(newVal);
+                        } else {
+                            uploaded.replace(newVal);
+                        }
 					} else {
 						uploaded.splice(0, 1, newVal);
 					}
 				}
+
 				return uploaded;
 			}
 		}
@@ -44,7 +49,7 @@ var UploadViewModel = can.Map.extend({
 	upload: function (form) {
 		var self = this,
 			files = self.attr('files'),
-			name = self.attr('name'),
+			name = self.attr('name') + (self.attr('multiple') ? '[]' : ''),
 			entity = self.attr('entity'),
 			entity_id = entity.attr('id') || entity.attr('_id'),
 			options;
@@ -64,20 +69,15 @@ var UploadViewModel = can.Map.extend({
 					self.attr('progress', 100);
 				}
 			};
-
+			
 			var formSubmited = form.ajaxSubmit(options);
 			var xhr = formSubmited.data('jqxhr');
 
 			xhr.done(function (data) {
-				if(data.err) {
-					return appState.attr('notification', {
-						status: 'error',
-						msg: data.err
-					});
-				}
+				// self.attr('uploaded', data.message.name);
 
 				if (entity.uploaded) {
-					entity.uploaded(name, data.data[name]);
+					entity.uploaded(self.attr('name'), data.message.name);
 				}
 
 				appState.attr('notification', {
@@ -86,9 +86,6 @@ var UploadViewModel = can.Map.extend({
 				});
 
 				self.attr('progress', 0);
-
-				self.resetFileInput();
-
 			}).fail(function (data) {
 				appState.attr('notification', {
 					status: 'error',
@@ -101,10 +98,6 @@ var UploadViewModel = can.Map.extend({
 				msg: 'Ошибка идентификации связи файла!'
 			});
 		}
-	},
-
-	resetFileInput: function () {
-		document.getElementById(this.attr('uploadId')).parentNode.reset();
 	},
 
 	remove: function (sourceName) {
@@ -143,10 +136,10 @@ var UploadViewModel = can.Map.extend({
 can.Component.extend({
 	tag: "upload",
 	scope: UploadViewModel,
-	template:
+	template: 
 		'<label class="btn btn-primary" for="{{uploadId}}">' +
 			'<content />' +
-		'</label>' +
+		'</label>' + 
 			'{{#if progress}}' +
 				'<div class="progress">' +
 					'<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;">' +
@@ -176,13 +169,13 @@ can.Component.extend({
 				'{{/each}}' +
 			'</div>' +
 		'{{/if}}'
-	,
-	events: {
+	,			
+	events: {				
 		'input change': function (el, ev) {
 			var scope = this.scope,
 				scopeFiles = scope.attr('files'),
 				files = el[0].files;
-
+			
 			scopeFiles.replace(files);
 			scope.upload(el.parents('form'));
 		},
@@ -197,16 +190,18 @@ can.Component.extend({
 		isDeleteBtn: function (options) {
 			var files = this.attr('uploaded');
 			return this.attr('delete-url') && files.length
-				? options.fn()
+				? options.fn() 
 				: options.inverse();
 		},
 		renderUploaded: function (options) {
-			var accept = this.attr('accept') || 'file',
+			var accept = this.attr('accept') || 'image',
 				source = options.context,
-				size = this.attr('size') || 'normal',
-				html;
+				html = '';
+
 			if (accept.indexOf('image') !== -1) {
-				html = '<span class="uploaded ' + size + ' thumbnail" style="background-image: url(\'/img/uploads/' + source + '\')"></span>';
+
+				    html = '<span class="uploaded thumbnail" style="background-image: url(\'/uploads/' + source + '\')"></span>';
+
 			} else {
 				html = '<span>' + source + '</span>&nbsp;';
 			}
