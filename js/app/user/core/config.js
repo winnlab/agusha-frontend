@@ -58,6 +58,13 @@ var config = {
 					client: 'js/app/user/modules/production/',
 					server: ':name'
 				}
+			},
+			{
+				name: 'article',
+				path: {
+					client: 'js/app/user/modules/article/',
+					server: ':name/:entity_id'
+				}
 			}
 		],
 		defaultModule: 'main'

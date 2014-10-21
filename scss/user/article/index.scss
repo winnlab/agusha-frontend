@@ -1,0 +1,34 @@
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+@import '../helpers/topper_title';
+
+.module.article {
+	color: $grey;
+	text-align: center;
+	width: 100%;
+	
+	.bg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: url('/img/user/article/bg.jpg') no-repeat center top;
+	}
+	
+	.content {
+		@include inline_block;
+		text-align: left;
+		width: 920px;
+		overflow: hidden;
+	}
+	
+	.breadcrumbs {
+		color: $white;
+	}
+	
+	.topper_title {
+		font-size: 24px;
+		line-height: 24px;
+		color: $titlegrey;
+		text-decoration: underline;
+	}
+}
