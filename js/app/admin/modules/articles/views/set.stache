@@ -134,41 +134,51 @@
                         Галереи изображений
                     </div>
                     <div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <button type="button" class="btn btn-primary addGallery">
                                 <i class="fa fa-plus"></i>
                                 <span>Добавить галерею</span>
                             </button>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-8 {{#unless addingGallery}}hidden{{/unless}}">
                             <div class="input-group">
                                 <input type="text" class="form-control" can-value="newGalleryName">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">Создать</button>
+                                    <button class="btn btn-primary confirmGallery" type="button">
+                                        <i class="fa fa-plus"></i>
+                                        <span>Добавить</span>
+                                    </button>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{#if article.gallery}}
-                    {{#each article.gallery}}
-                        <div class="panel-body">
+                {{#if gallery}}
+                    {{#each gallery}}
+                        <div class="panel-body col-md-12 gallery" {{data "gallery"}}>
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="name">Название:</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" type="text" can-value="name" placeholder="Наименование" />
+                                <div class="col-md-6">
+                                    <input class="form-control galleryName" type="text" can-value="name" placeholder="Наименование" />
                                     <div class="help help-block"></div>
+                                </div>
+                                <div clas="col-md-4">
+                                    <button type="button" class="pull-right btn btn-danger removeGallery">
+                                        <i class="fa fa-trash"></i>
+                                        <span>Удалить</span>
+                                    </button>
                                 </div>
                             </div>
                             <upload
                                 class="col-md-12"
-                                name="image[]"
+                                name="image"
                                 url="/admin/gallery/img"
                                 delete-url="/admin/gallery/img"
                                 entity="{.}"
                                 uploaded="{images}"
                                 accept="image/*"
                                 multiple="true"
+                                sortable="true"
                             >
                                 Загрузить изображения
                             </upload>

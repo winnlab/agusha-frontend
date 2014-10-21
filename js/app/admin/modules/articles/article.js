@@ -27,55 +27,41 @@ export default Edit.extend({
 		_.extend(this.options, options);
 
 		var self = this,
-			options = this.options,
-			data = {
-				langs: appState.attr('langs')
-			};
+			options = this.options;
+		
+		self.module = new can.Map({
+			langs: appState.attr('langs')
+		});
 
 		self.ensureObject(options.doc, 'age');
 		self.ensureObject(options.doc, 'desc');
 		self.ensureObject(options.doc, 'theme');
 		self.ensureObject(options.doc, 'type');
 		
-		data[options.moduleName] = options.doc;
+		self.module.attr(options.moduleName, options.doc);
 
-		data['ages'] = options.ages;
-		data['themes'] = options.themes;
-		data['types'] = options.types;
+		self.module.attr('ages', options.ages);
+		self.module.attr('themes', options.themes);
+		self.module.attr('types', options.types);
 
-		self.ageValue = can.compute(null);
-		self.themeName = can.compute(null);
+		self.module.attr('ageValue', false);
+		self.module.attr('themeName', false);
 
-		self.gallery = new can.List;
-
-		GalleryModel.findAll({article: options.doc._id}, function (docs) {
-            $.each(docs, function(i, doc) {
-                self.gallery.push(doc);
-            });
-        });
+		self.module.attr('gallery', new GalleryModel.List({article_id: options.doc._id}));
 
 		if (options.doc) {
 			if (options.doc.age) {
-				self.ageValue(options.doc.age.value);
+				self.module.attr('ageValue' ,options.doc.age.value);
 			}
 			if (options.doc.theme) {
-				self.themeName(options.doc.theme.name);
+				self.module.attr('themeName', options.doc.theme.name);
 			}
 		}
 
-		data['ageValue'] = self.ageValue;
-		data['themeName'] = self.themeName;
+		self.module.attr('newGalleryName', '');
+		self.module.attr('addingGallery', false);
 
-		self.newGalleryName = self.compute('');
-		self.addingGallery = self.compute(false);
-		data['newGalleryName'] = self.newGalleryName;
-		data['addingGallery'] = self.addingGallery;
-
-		// if(!options.doc.attr('_id')) {
-		// 	options.doc.attr('active', true);
-		// }
-
-		self.loadView(options.viewpath + options.viewName, data);
+		self.loadView(options.viewpath + options.viewName, self.module);
 	},
 
 	ensureObject: function(obj, key) {
@@ -117,15 +103,61 @@ export default Edit.extend({
 	},
 
 	'.addGallery click': function () {
-
+		this.module.attr('addingGallery', !this.module.attr('addingGallery'));
 	},
 
 	'.confirmGallery click': function () {
+		var self = this,
+			options = self.options;
 
+		var doc = new GalleryModel({
+			article_id: options.doc._id,
+		    name: self.module.attr('newGalleryName'),
+		    images: []
+		});
+
+		doc.save()
+		    .done(function (response) {
+		    	doc.attr('_id', response._id);
+
+		        self.module.attr('gallery').push(doc);
+
+		        swal('Галерея создана!', '', 'success');
+
+		        self.resetObservables();
+		    })
+		    .fail(function (response) {
+		    	var data = response.responseJSON.err;
+		    	self.processError(data.err);
+		    });
 	},
 
 	'.removeGallery click': function (el) {
+		swal({
+		    title: "Удалить галерею?",
+		    text: "",
+		    type: "warning",
+		    showCancelButton: true,
+		    confirmButtonColor: "#DD6B55",
+		    confirmButtonText: "Продолжай!",
+		    cancelButtonText: "Нет!",
+		    closeOnConfirm: false,
+		    closeOnCancel: true
+		}, function (isConfirm) {
+		    if (isConfirm) {
+		        $(el).parents('.gallery').data('gallery').destroy();
+		        swal("Галерея удалена!", "", "success");
+		    }
+		});
+	},
 
+	resetObservables: function () {
+		this.module.attr('addingGallery', false);
+		this.module.attr('newGalleryName', '');
+	},
+
+	'.galleryName change': function (el) {
+		$(el).parents('.gallery').data('gallery').save();
 	}
 
 });

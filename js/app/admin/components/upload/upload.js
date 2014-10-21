@@ -13,6 +13,7 @@ var UploadViewModel = can.Map.extend({
 	'accept': '@',
 	'name': '@',
 	'multiple': '@',
+	'sortable': '@',
 	'files': [],
 	'progress': 0,
 
@@ -161,12 +162,15 @@ can.Component.extend({
 		'{{#if uploaded.length}}' +
 			'<div class="uploadedWrap">' +
 				'{{#each uploaded}}' +
-					'{{{renderUploaded}}}' +
-					'{{#isDeleteBtn}}' +
-						'<div {{data "uploaded"}} class="remove btn btn-danger">' +
-							'<i class="fa fa-trash-o"></i>' +
-						'</div>' +
-					'{{/isDeleteBtn}}' +
+					'<div class="image-item col-md-4">' +
+						'{{{renderUploaded}}}' +
+						'{{#isDeleteBtn}}' +
+							'<div {{data "uploaded"}} class="remove btn btn-danger" ' +
+							'style="position: absolute; top: -5%; right: 5%">' +
+								'<i class="fa fa-trash-o"></i>' +
+							'</div>' +
+						'{{/isDeleteBtn}}' +
+					'</div>' +
 				'{{/each}}' +
 			'</div>' +
 		'{{/if}}'
@@ -207,6 +211,14 @@ can.Component.extend({
 				html = '<span>' + source + '</span>&nbsp;';
 			}
 			return html;
+		},
+		sortable: function (index) {
+			return function () {
+				$(el).sortable({
+					items: '.image-item',
+					forcePlaceholderSize: true
+				})
+			}
 		}
 	}
 });

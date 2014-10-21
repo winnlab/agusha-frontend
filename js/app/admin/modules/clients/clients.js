@@ -132,17 +132,17 @@ export default List.extend(
         },
 
         processError: function (err) {
-        var msg;
+            var msg;
 
-        if(err.errors && err.errors.title) {
-            msg = err.errors.title.message;
+            if(err.errors && err.errors.title) {
+                msg = err.errors.title.message;
+            }
+
+            if(!msg) {
+                msg = err.message || err;
+            }
+
+            swal('Упс!', msg, 'error');
         }
-
-        if(!msg) {
-            msg = err.message || err;
-        }
-
-        swal('Упс!', msg, 'error');
-    }
     }
 );
