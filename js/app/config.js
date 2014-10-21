@@ -15,6 +15,7 @@ System.config({
 		"bootstrap-wysihtml5": "js/plugins/bootstrap3-wysiwyg-stealjs/dist/bootstrap3-wysihtml5.all.min.js",
 		"swal": "js/plugins/sweetalert/lib/sweet-alert.min.js",
 		"summernote": "js/plugins/summernote/dist/summernote.min.js",
+		"sortable": "js/plugins/html5sortable/jquery.sortable.js",
 
 		"adminlte-css/*": "js/plugins/adminlte/css/*css",
 
@@ -47,6 +48,13 @@ System.config({
 				'jquery',
 				'bootstrap',
 				"js/plugins/bootstrap3-wysiwyg-stealjs/dist/bootstrap3-wysihtml5.min.css!"
+			]
+		},
+		sortable: {
+			format: "global",
+			deps: [
+				"jquery",
+				"bootstrap"
 			]
 		},
 		summernote: {
