@@ -766,8 +766,9 @@ table tr {
 
 .column {
 	@include inline_block;
-	margin: 20px;
-	width: 280px;
+	@include border_boxed;
+	margin: 10px;
+	width: 300px;
 	
 	&.double {
 		width: 580px;

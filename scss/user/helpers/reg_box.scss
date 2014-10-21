@@ -1,9 +1,11 @@
 @import '../dynamic/dynamic';
 
 .reg_box {
+	width: 280px;
 	height: 374px;
-	background: url('/img/user/main/reg_box_bg.png') no-repeat;
+	background: url('/img/user/main/reg_box_bg.png') no-repeat center;
 	color: $white;
+	margin: 10px;
 	
 	> .adorable_table {
 		> .adorable_cell {
