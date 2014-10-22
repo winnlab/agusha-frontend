@@ -16,12 +16,20 @@ var baseModel = {
     simpleRemoveUploaded: function (name) {
         this.attr(name, undefined);
     },
-    uploaded: function (name, value) {
+    uploaded: function (name, response) {
+        var data = response.data || response.responseJSON;
+
+        var value = data[name];
+
         if (!this.attr(name)) {
             this.attr(name, []);
         }
 
         var images = this.attr(name).attr();
+
+        if (data.__v) {
+            this.attr('__v', data.__v);
+        }
 
         if(value instanceof Array){
             value.forEach(function (val){
@@ -35,8 +43,19 @@ var baseModel = {
             swal("Ошибка!", "Некорректно задано значение входящих аргументов при загрузке изображений.", "success")
         }
     },
-    removeUploaded: function (name, index) {
-       this.attr(name).splice(index, 1);
+    removeUploaded: function (name, index, response) {
+        this.attr(name).splice(index, 1);
+
+        var version = false;
+        if (response.data && response.data.__v) {
+            version = response.data.__v;
+        } else if (response.responseJSON && response.responseJSON.data && response.responseJSON.data.__v) {
+            version = response.responseJSON.data.__v;
+        }
+
+        if (version) {
+            this.attr('__v', version);
+        }
     }
 };
 

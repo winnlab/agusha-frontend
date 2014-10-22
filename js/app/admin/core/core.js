@@ -5,6 +5,7 @@ import config from 'rConfig'
 import 'jquery'
 
 import 'js/app/admin/core/viewHelpers'
+import 'js/app/admin/lib/swalutils'
 import 'js/app/admin/components/notification/'
 
 import 'css/admin/global.css!'

@@ -156,3 +156,9 @@ can.mustache.registerHelper('parseDate', function (date) {
 		? moment(date).format('DD.MM.YYYY hh:mm:s')
 		: "Нет данных";
 });
+
+can.mustache.registerHelper('stringContains', function (string, needle, options) {
+	return computedVal(string).indexOf(computedVal(needle)) >= 0
+		? options.fn()
+		: options.inverse();
+});
