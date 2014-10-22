@@ -8,7 +8,7 @@ export default can.Model.extend(
         parseModel: baseModel.parseModel,
         parseModels: baseModel.parseModels
     }, {
-        uploaded: baseModel.simpleUploaded,
-        removeUploaded: baseModel.simpleRemoveUploaded
+        uploaded: baseModel.uploaded,
+        removeUploaded: baseModel.removeUploaded
     }
 );
