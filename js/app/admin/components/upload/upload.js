@@ -1,5 +1,7 @@
 import 'can/'
+import 'can/map/sort/'
 import appState from 'appState'
+import _ from 'lodash'
 
 import 'css/admin/components/upload.css!'
 import 'js/plugins/jquery-form/jquery.form'
@@ -14,6 +16,7 @@ var UploadViewModel = can.Map.extend({
 	'name': '@',
 	'multiple': '@',
 	'sortable': '@',
+	'parentname': '@',
 	'files': [],
 	'progress': 0,
 
@@ -75,30 +78,21 @@ var UploadViewModel = can.Map.extend({
 			var formSubmited = form.ajaxSubmit(options);
 			var xhr = formSubmited.data('jqxhr');
 
-			xhr.done(function (data) {
+			xhr.done(function (response) {
 
 				if (entity.uploaded) {
-					entity.uploaded(self.attr('name'), data.data[self.attr('name')]);
+					entity.uploaded(self.attr('name'), response);
 				}
 
-				appState.attr('notification', {
-					status: 'success',
-					msg: 'Файл успешно выгружен'
-				});
+				saSuccess('Файл успешно выгружен');
 
 				self.attr('progress', 0);
 
-			}).fail(function (data) {
-				appState.attr('notification', {
-					status: 'error',
-					msg: data.err || 'Ошибка выгрузки файла'
-				});
+			}).fail(function (response) {
+				saError(reponse.responseJSON.err || 'Ошибка выгрузки файла');
 			});
 		} else if (files.length) {
-			appState.attr('notification', {
-				status: 'error',
-				msg: 'Ошибка идентификации связи файла!'
-			});
+			saError('Ошибка идентификации связи файла!');
 		}
 	},
 
@@ -117,65 +111,64 @@ var UploadViewModel = can.Map.extend({
 				id: self.attr('entity.id') || self.attr('entity._id')
 			},
 			type: 'DELETE'
-		}).done(function (data) {
+		}).done(function (response) {
 			uploaded.splice(sourceIndex, 1);
+
 			if (entity.removeUploaded) {
-				entity.removeUploaded(name, sourceIndex);
+				entity.removeUploaded(name, sourceIndex, response);
 			}
-			appState.attr('notification', {
-				status: 'success',
-				msg: data.message
-			});
+
+			saSuccess('Удалено!', 'Удаление выполнено успешно.');
 		}).fail(function (data) {
-			appState.attr('notification', {
-				status: 'error',
-				msg: data.message
-			});
+			saError(data.responseJSON.err || 'Проверьте соединение с интернетом.')
 		});
 	}
 });
 
+var initSortable = function (el, scope) {
+	var wrap = $(el);
+
+	wrap.sortable('destroy');
+
+	wrap.sortable({
+		items: '.image-item'
+	}).bind('sortupdate', function() {
+		var newOrder = [];
+		wrap.find('.image-item').each(function () {
+			newOrder.push($(this).data('name'));
+		});
+
+		var name = scope.attr('parentname');
+
+		var doc = $(this).parents('.' + name).data(name);
+
+		doc.attr(scope.attr('name')).sort(function(a, b) {
+			return newOrder.indexOf(a) > newOrder.indexOf(b);
+		});
+
+		doc.save();
+	})
+};
+
 can.Component.extend({
 	tag: "upload",
 	scope: UploadViewModel,
-	template: 
-		'<label class="btn btn-primary" for="{{uploadId}}">' +
-			'<content />' +
-		'</label>' + 
-			'{{#if progress}}' +
-				'<div class="progress">' +
-					'<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;">' +
-						'{{progress}}%' +
-					'</div>' +
-				'</div>' +
-			'{{/if}}' +
-		'<form action="{{url}}" method="POST" enctype="multipart/form-data">' +
-			'<input type="file" name="{{name}}{{#if multiple}}[]{{/if}}" accept="{{accept}}" id="{{uploadId}}" {{#if multiple}}multiple{{/if}}/>' +
-		'</form>' +
-		'{{#if files.length}}' +
-			'<div class="queue">' +
-				'{{#each files}}' +
-					'<div>{{name}}</div>' +
-				'{{/each}}' +
-			'</div>' +
-		'{{/if}}' +
-		'{{#if uploaded.length}}' +
-			'<div class="uploadedWrap">' +
-				'{{#each uploaded}}' +
-					'<div class="image-item col-md-4">' +
-						'{{{renderUploaded}}}' +
-						'{{#isDeleteBtn}}' +
-							'<div {{data "uploaded"}} class="remove btn btn-danger" ' +
-							'style="position: absolute; top: -5%; right: 5%">' +
-								'<i class="fa fa-trash-o"></i>' +
-							'</div>' +
-						'{{/isDeleteBtn}}' +
-					'</div>' +
-				'{{/each}}' +
-			'</div>' +
-		'{{/if}}'
-	,			
-	events: {				
+	template: can.view('/js/app/admin/components/upload/views/upload.stache'),
+	events: {
+		inserted: function (el) {
+			var scope = this.scope,
+				wrap = el.find('.uploadedWrap');
+
+			if (this.scope.attr('sortable')) {
+				_.defer(initSortable, wrap, scope);
+
+				this.scope.bind('uploaded', function (ev, newVal, oldVal) {
+					if (newVal.attr('length') > oldVal.attr('length')) {
+						_.defer(initSortable, wrap, scope);
+					}
+				});
+			}
+		},
 		'input change': function (el, ev) {
 			var scope = this.scope,
 				scopeFiles = scope.attr('files'),
@@ -185,10 +178,18 @@ can.Component.extend({
 			scope.upload(el.parents('form'));
 		},
 		'.remove click': function (el, ev) {
-			var sourceName = el.data('uploaded');
-			if (confirm('Вы действительно хотите удалить этот файл?')) {
-				this.scope.remove(sourceName);
-			}
+			var self = this;
+
+			saConfirm(
+				"Удалить?", 
+				"Вы действительно хотите удалить этот файл?", 
+				function (isConfirm) {
+					if (isConfirm) {
+						self.scope.remove(el.data('uploaded'));
+						swal("Удалена!", "Изображение успешно удалено.", "success");
+					}
+				}
+			);
 		}
 	},
 	helpers: {
@@ -198,26 +199,11 @@ can.Component.extend({
 				? options.fn() 
 				: options.inverse();
 		},
-		renderUploaded: function (options) {
-			var accept = this.attr('accept') || 'image',
-				source = options.context,
-				html = '';
+		makeSortable: function (uploaded) {
+			var self = this;
 
-			if (accept.indexOf('image') !== -1) {
-
-				    html = '<span class="uploaded thumbnail" style="background-image: url(\'/img/uploads/' + source + '\')"></span>';
-
-			} else {
-				html = '<span>' + source + '</span>&nbsp;';
-			}
-			return html;
-		},
-		sortable: function (index) {
-			return function () {
-				$(el).sortable({
-					items: '.image-item',
-					forcePlaceholderSize: true
-				})
+			return function (el) {
+				_.defer(initSortable, el, self);
 			}
 		}
 	}

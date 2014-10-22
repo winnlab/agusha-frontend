@@ -5,6 +5,7 @@ import appState from 'appState'
 import _ from 'lodash'
 
 import 'summernote'
+import 'sortable'
 
 import GalleryModel from 'js/app/admin/modules/articles/galleryModel'
 
