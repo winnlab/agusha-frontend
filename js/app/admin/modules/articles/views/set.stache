@@ -171,7 +171,7 @@
                             </div>
                             <upload
                                 class="col-md-12"
-                                name="image"
+                                name="images"
                                 url="/admin/gallery/img"
                                 delete-url="/admin/gallery/img"
                                 entity="{.}"
@@ -179,10 +179,12 @@
                                 accept="image/*"
                                 multiple="true"
                                 sortable="true"
+                                parentname="gallery"
                             >
                                 Загрузить изображения
                             </upload>
                         </div>
+                        <hr class="col-sm-12" />
                     {{/each}}
                 {{/if}}
             </div>

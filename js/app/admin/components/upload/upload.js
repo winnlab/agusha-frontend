@@ -1,4 +1,5 @@
 import 'can/'
+import 'can/map/sort/'
 import appState from 'appState'
 
 import 'css/admin/components/upload.css!'
@@ -14,6 +15,7 @@ var UploadViewModel = can.Map.extend({
 	'name': '@',
 	'multiple': '@',
 	'sortable': '@',
+	'parentname': '@',
 	'files': [],
 	'progress': 0,
 
@@ -160,9 +162,9 @@ can.Component.extend({
 			'</div>' +
 		'{{/if}}' +
 		'{{#if uploaded.length}}' +
-			'<div class="uploadedWrap">' +
+			'<div class="uploadedWrap" {{#if sortable}}{{makeSortable}}{{/if}}>' +
 				'{{#each uploaded}}' +
-					'<div class="image-item col-md-4">' +
+					'<div class="image-item" data-name="{{.}}">' +
 						'{{{renderUploaded}}}' +
 						'{{#isDeleteBtn}}' +
 							'<div {{data "uploaded"}} class="remove btn btn-danger" ' +
@@ -212,12 +214,28 @@ can.Component.extend({
 			}
 			return html;
 		},
-		sortable: function (index) {
-			return function () {
-				$(el).sortable({
-					items: '.image-item',
-					forcePlaceholderSize: true
-				})
+		makeSortable: function (index) {
+			var self = this;
+			return function (el) {
+				setTimeout(function () {
+					var wrap = $(el);
+					wrap.sortable({
+						items: '.image-item'
+					}).bind('sortupdate', function() {
+						var newOrder = [];
+						wrap.find('.image-item').each(function () {
+							newOrder.push($(this).data('name'));
+						});
+
+						var doc = $(this).parents('.' + self.parentname).data(self.parentname);
+
+						doc.attr(self.name).sort(function(a, b) {
+							return newOrder.indexOf(a) > newOrder.indexOf(b);
+						});
+
+						doc.save();
+					});
+				}, 300);
 			}
 		}
 	}
