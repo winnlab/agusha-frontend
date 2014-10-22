@@ -164,7 +164,7 @@ can.Component.extend({
 		'{{#if uploaded.length}}' +
 			'<div class="uploadedWrap" {{#if sortable}}{{makeSortable}}{{/if}}>' +
 				'{{#each uploaded}}' +
-					'<div class="image-item" data-name="{{.}}">' +
+					'<div class="image-item" {{#if sortable}}data-name="{{.}}"{{/if}}>' +
 						'{{{renderUploaded}}}' +
 						'{{#isDeleteBtn}}' +
 							'<div {{data "uploaded"}} class="remove btn btn-danger" ' +
