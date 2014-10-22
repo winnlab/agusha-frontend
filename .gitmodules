@@ -1,3 +1,4 @@
 [submodule "js/plugins/summernote"]
 	path = js/plugins/summernote
 	url = https://github.com/mshekera/summernote
+	branch = master
