@@ -21,3 +21,7 @@ upload {
     cursor: pointer; }
   upload form {
     display: none; }
+  .image-item, .sortable-placeholder {
+    width: 33%;
+    display: inline-block;
+    position: relative; }
