@@ -210,6 +210,21 @@
 								.number 19
 								img.minus(src='/img/user/article/minus.png')
 		
+		.comment_box
+			.comment_table
+				.image
+					.avatar.rounded
+						img.rounded(src='/img/avatar_100x100.jpg')
+				
+				.form_container
+					form.comment_form
+						textarea(name="text", placeholder="А что Вы думаете по этому поводу?")
+						.bottom.adorable_table
+							.adorable_cell
+								button.comment_button Высказаться
+								img.clip(src="/img/user/article/clip.png")
+								span.attach Прикрепить фото
+		
 		.login_box
 			.info.column.double
 				.adorable_table
