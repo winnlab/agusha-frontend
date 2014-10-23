@@ -1,1 +1,11 @@
-.breadcrumbs{padding:35px 20px 0px;font-size:14px;color:#999999;height:20px}.breadcrumbs a{text-decoration:none}
+/* colors */
+/* base */
+/* useful */
+/* base */
+.breadcrumbs {
+  padding: 35px 20px 0px;
+  font-size: 14px;
+  color: #999999;
+  height: 20px; }
+  .breadcrumbs a {
+    text-decoration: none; }
