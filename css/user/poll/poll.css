@@ -1238,459 +1238,226 @@ table tr {
   font-family: 'PT_Sans_Narrow_Bold';
   letter-spacing: 3px; }
 
-.module.article {
-  color: #666666;
-  text-align: center;
-  width: 100%; }
-  .module.article .bg {
+/* colors */
+/* base */
+/* useful */
+/* base */
+.checkbox {
+  margin: 0 auto;
+  position: relative;
+  height: 28px;
+  width: 28px; }
+  .checkbox label:not(.error) {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: block;
+    border-radius: 3px;
+    background-color: #FFFFFF; }
+    .checkbox label:not(.error) .img {
+      left: 0;
+      right: 0;
+      margin: auto;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background: url("/img/user/helpers/checkbox/radio.png") no-repeat;
+      background-position: 0 0; }
+  .checkbox input {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    z-index: 100;
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url("/img/user/article/bg.jpg") no-repeat center top; }
-  .module.article .content {
+    cursor: pointer; }
+    .checkbox input:checked ~ label .img {
+      background-position: -28px 0; }
+
+.module.poll {
+  color: #666666;
+  text-align: center;
+  width: 100%; }
+  .module.poll .bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("/img/user/poll/bg.jpg") no-repeat center top; }
+  .module.poll .content {
     display: inline-block;
     vertical-align: top;
     text-align: left;
     width: 920px; }
-  .module.article .breadcrumbs {
+  .module.poll .breadcrumbs {
     color: #ffffff; }
-  .module.article .topper_title {
+  .module.poll .topper_title {
     font-size: 24px;
     line-height: 24px;
     color: #4c4c4c;
     text-decoration: underline;
     padding-bottom: 31px; }
-  .module.article .content > .title {
-    height: 450px;
+  .module.poll .content > .title {
+    height: 270px;
     color: #ffffff; }
-    .module.article .content > .title .label {
-      height: 230px;
+    .module.poll .content > .title .topper {
+      text-transform: uppercase; }
+      .module.poll .content > .title .topper > .adorable_cell {
+        padding: 20px 50px; }
+    .module.poll .content > .title .label {
       font-family: 'PT_Sans_Narrow_Bold';
       font-size: 60px;
       line-height: 60px;
-      text-transform: uppercase; }
-      .module.article .content > .title .label .adorable_cell {
-        padding: 20px 50px; }
-    .module.article .content > .title .middle {
-      height: 130px;
+      margin-top: 50px; }
+    .module.poll .content > .title .top_label {
+      font-size: 18px;
+      line-height: 18px;
+      margin-top: 10px;
+      font-family: 'open_sans_condensedbold';
+      letter-spacing: 2px; }
+    .module.poll .content > .title .middle {
+      height: 20px;
       padding: 0 10px; }
-    .module.article .content > .title .column {
-      height: 110px; }
-      .module.article .content > .title .column.feedback .adorable_cell {
+    .module.poll .content > .title .column {
+      height: 100px; }
+      .module.poll .content > .title .column.feedback .adorable_cell {
         text-align: left;
         padding-left: 30px; }
-    .module.article .content > .title .approve {
-      display: inline-block;
-      vertical-align: middle;
-      font-size: 12px;
-      line-height: 12px;
-      margin-right: 30px; }
-    .module.article .content > .title .bottom {
-      text-align: center;
-      height: 90px; }
-    .module.article .content > .title .top_label {
-      text-transform: none; }
-    .module.article .content > .title .bottom_label {
-      font-size: 12px; }
-  .module.article .content .like {
+  .module.poll .content .like {
     vertical-align: middle;
     margin-right: 6px;
     cursor: pointer; }
-  .module.article .content .count {
+  .module.poll .content .count {
     vertical-align: middle;
     font-size: 26px;
     font-family: 'PT_Sans_Narrow_Bold';
     margin-right: 6px; }
-  .module.article .content .comment {
+  .module.poll .content .approve {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
+    line-height: 12px;
+    margin-right: 30px; }
+  .module.poll .content .comment {
     vertical-align: middle;
     margin-right: 6px;
     cursor: pointer;
     margin-top: 8px; }
-  .module.article .content .avatar {
-    display: inline-block;
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
-    position: relative;
-    margin-bottom: 10px; }
-    .module.article .content .avatar:before {
-      position: absolute;
-      content: "";
-      background: url("/img/user/article/crown.png") no-repeat;
-      width: 37px;
-      height: 35px;
-      top: -18px;
-      left: -7px; }
-    .module.article .content .avatar img {
-      position: relative;
-      max-height: 100%;
-      max-width: 100%; }
-  .module.article .article_content {
-    padding: 0 10px; }
-    .module.article .article_content > .left {
-      background: #ffffff; }
-    .module.article .article_content .left_content {
-      padding: 20px 0 0; }
-    .module.article .article_content .date {
-      padding: 0 30px;
-      height: 35px;
-      color: #808080; }
-      .module.article .article_content .date .adorable_cell {
-        text-align: left; }
-      .module.article .article_content .date .day_month_year {
-        margin-right: 19px; }
-    .module.article .article_content .title {
-      padding: 0 30px;
-      font-size: 24px;
-      font-family: 'PT_Sans_Bold';
-      text-transform: uppercase;
-      color: #404040;
-      margin-bottom: 20px; }
-    .module.article .article_content .text {
-      margin-bottom: 20px; }
-    .module.article .article_content .social {
-      margin-bottom: 20px;
-      padding: 0 30px; }
-    .module.article .article_content .copyright {
-      margin-bottom: 20px;
-      color: #b2b2b2;
-      font-size: 12px;
-      padding: 0 30px; }
-    .module.article .article_content .footer {
-      height: 70px;
-      position: relative;
-      color: #ffffff; }
-      .module.article .article_content .footer:after {
-        position: absolute;
-        content: "";
-        height: 100%;
-        width: 1px;
-        background-color: #217ca6;
-        top: 0;
-        left: 0;
-        right: 0;
-        margin: auto; }
-      .module.article .article_content .footer .half {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        background-color: #2da7e0;
-        padding: 0 30px; }
-      .module.article .article_content .footer .adorable_cell {
-        text-align: left; }
-      .module.article .article_content .footer .slash {
-        vertical-align: middle;
-        margin-right: 6px;
-        font-size: 12px; }
-      .module.article .article_content .footer .post_comment {
-        vertical-align: middle;
-        margin-right: 6px;
-        cursor: pointer;
-        font-size: 12px;
-        text-transform: uppercase; }
-      .module.article .article_content .footer .post_like {
-        vertical-align: middle;
-        margin-right: 6px;
-        cursor: pointer;
-        font-size: 12px;
-        text-transform: uppercase; }
-  .module.article .question {
-    height: 360px;
-    background-color: #69d48e;
-    color: #ffffff;
-    margin-bottom: 20px; }
-    .module.article .question .adorable_cell {
-      padding: 20px; }
-    .module.article .question .avatar {
-      width: 70px;
-      height: 70px; }
-    .module.article .question .title {
-      margin-bottom: 15px; }
-    .module.article .question .subtitle {
-      font-size: 16px;
-      font-family: 'PT_Sans_Italic';
-      margin-bottom: 25px; }
-    .module.article .question .name {
-      margin-bottom: 15px; }
-    .module.article .question .info {
-      font-size: 12px;
-      color: #307849;
-      margin-bottom: 25px; }
-  .module.article .author {
-    padding: 20px;
-    background-color: white; }
-    .module.article .author .avatar {
-      margin-top: 14px;
-      width: 60px;
-      height: 60px;
-      margin-bottom: 30px; }
-      .module.article .author .avatar:before {
-        position: absolute;
-        content: "";
-        background: url("/img/user/article/small_crown.png") no-repeat;
-        width: 24px;
-        height: 24px;
-        top: -14px;
-        left: -5px; }
-    .module.article .author .info {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      display: inline-block;
-      vertical-align: top;
-      width: 180px;
-      height: 88px;
-      padding: 0 0 0 20px;
-      line-height: 20px; }
-    .module.article .author .label {
-      font-size: 12px; }
-    .module.article .author .name {
-      font-family: 'PT_Sans_Bold';
-      text-decoration: underline; }
-    .module.article .author .level {
-      color: #4c4c4c;
-      font-size: 12px; }
-    .module.article .author .league {
-      vertical-align: middle;
-      margin-right: 10px; }
-    .module.article .author .star {
-      vertical-align: middle;
-      margin-right: 2px; }
-    .module.article .author .children {
-      color: #4c4c4c;
-      font-size: 12px; }
-    .module.article .author .center {
-      color: #808080;
-      font-size: 12px; }
-    .module.article .author .tag {
-      display: inline-block;
-      vertical-align: top;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      -khtml-border-radius: 2px;
-      border-radius: 2px;
-      padding: 3px 5px;
-      background-color: #e6e6e6;
-      font-size: 12px;
-      line-height: 22px;
-      margin: 5px 5px 0 0; }
-    .module.article .author .register {
-      height: 340px;
-      background-color: #2da7e0; }
-  .module.article .interesting_title {
-    height: 75px;
-    font-size: 24px;
-    font-family: 'PT_Sans_Narrow_Bold';
-    padding: 0 10px; }
-    .module.article .interesting_title .left {
-      color: #666666;
-      text-transform: uppercase; }
-      .module.article .interesting_title .left .adorable_cell {
-        text-align: left; }
-    .module.article .interesting_title .right {
-      color: #b2b2b2; }
-      .module.article .interesting_title .right .adorable_cell {
-        text-align: right; }
-        .module.article .interesting_title .right .adorable_cell > * {
-          vertical-align: middle; }
-      .module.article .interesting_title .right .left_arrow {
-        margin-right: 25px;
-        cursor: pointer; }
-      .module.article .interesting_title .right .right_arrow {
-        margin-left: 25px;
-        cursor: pointer; }
-  .module.article .interesting_content .item {
-    background-color: #ffffff;
-    height: 360px;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px; }
-  .module.article .interesting_content .item_topper {
+  .module.poll .poll_container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 0 30px;
-    height: 120px;
+    width: 880px;
+    background-color: #ffffff;
+    margin: 20px; }
+    .module.poll .poll_container .text {
+      padding: 38px 140px;
+      text-align: center; }
+    .module.poll .poll_container .center {
+      padding: 20px; }
+      .module.poll .poll_container .center .title {
+        text-align: center;
+        font-size: 24px;
+        line-height: 24px;
+        font-family: 'PT_Sans_Bold';
+        color: #404040;
+        text-transform: uppercase; }
+      .module.poll .poll_container .center .question {
+        float: right;
+        width: 18px;
+        height: 18px;
+        background: url("/img/user/poll/question.png") no-repeat;
+        position: relative; }
+        .module.poll .poll_container .center .question:hover .question_info {
+          display: block; }
+      .module.poll .poll_container .center .question_info {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        position: absolute;
+        top: -110px;
+        width: 187px;
+        height: 99px;
+        left: -85px;
+        font-size: 12px;
+        line-height: 14px;
+        font-family: 'PT_Sans_Italic';
+        background: url("/img/user/poll/question_info.png") no-repeat;
+        text-transform: none;
+        color: #ffffff;
+        padding: 0 20px 10px;
+        display: none; }
+    .module.poll .poll_container .options_container {
+      margin: 20px 0; }
+    .module.poll .poll_container .option {
+      display: table;
+      width: 100%;
+      margin: 11px 0;
+      height: 28px; }
+      .module.poll .poll_container .option .radio_cell {
+        display: table-cell;
+        width: 260px;
+        text-align: right;
+        vertical-align: middle; }
+      .module.poll .poll_container .option .checkbox {
+        display: inline-block;
+        vertical-align: top;
+        width: 28px;
+        height: 28px; }
+      .module.poll .poll_container .option .label {
+        display: table-cell;
+        padding: 0 0 0 20px;
+        font-size: 18px;
+        color: #404040;
+        vertical-align: middle; }
+    .module.poll .poll_container .bottom {
+      height: 75px; }
+    .module.poll .poll_container .poll_button {
+      background-color: #2ec9f5;
+      color: #ffffff;
+      vertical-align: middle;
+      padding: 15px 40px; }
+    .module.poll .poll_container .plz {
+      color: #808080;
+      text-align: center;
+      margin-top: 20px; }
+    .module.poll .poll_container .social {
+      margin: 30px 0 10px;
+      text-align: center; }
+  .module.poll .footer {
+    height: 70px;
+    background-color: #2da7e0;
+    color: #ffffff;
     position: relative; }
-    .module.article .interesting_content .item_topper:after {
+    .module.poll .footer.lefted:after {
       position: absolute;
       content: "";
-      bottom: -12px;
-      width: 276px;
-      height: 12px;
+      top: 0;
+      width: 1px;
+      height: 100%;
       left: 0;
       right: 0;
       margin: auto;
-      background: url("/img/user/article/item_topper_after.png") no-repeat; }
-    .module.article .interesting_content .item_topper .top_label {
-      font-size: 12px;
-      margin-bottom: 3px; }
-    .module.article .interesting_content .item_topper .label {
-      font-size: 22px;
-      line-height: 25px;
-      color: #2ec9f5;
-      font-family: 'open_sans_condensedbold'; }
-  .module.article .interesting_content .item_body {
-    height: 185px; }
-  .module.article .interesting_content .item_footer {
-    position: relative;
-    height: 55px;
-    background-color: #3daece;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    color: #ffffff;
-    text-transform: uppercase; }
-    .module.article .interesting_content .item_footer:after {
-      position: absolute;
-      content: "";
-      width: 32px;
-      height: 34px;
-      background: url("/img/user/article/heart.png") no-repeat;
-      top: -17px;
-      left: 0;
-      right: 0;
-      margin: auto; }
-  .module.article .comments {
-    padding: 10px; }
-    .module.article .comments .comments_topper {
-      color: #666666;
-      margin-bottom: 20px; }
-    .module.article .comments .comments_title {
-      display: inline-block;
-      vertical-align: bottom;
-      font-size: 24px;
-      line-height: 24px;
-      font-family: 'PT_Sans_Narrow_Bold';
-      margin-right: 25px;
-      text-transform: uppercase; }
-    .module.article .comments .comments_all {
-      display: inline-block;
-      vertical-align: bottom;
-      border-bottom: 1px dashed #666666; }
-    .module.article .comments .comments_container {
-      background-color: #ffffff; }
-    .module.article .comments .item {
-      min-height: 90px; }
-      .module.article .comments .item:hover {
-        background-color: #fafafa; }
-    .module.article .comments .comment_table {
-      display: table;
-      width: 100%;
-      height: 90px; }
-    .module.article .comments .icon {
-      width: 60px;
-      display: table-cell;
+      background-color: #217ca6; }
+    .module.poll .footer.lefted .adorable_cell {
+      text-align: left;
+      padding: 0 30px; }
+    .module.poll .footer .slash {
       vertical-align: middle;
-      text-align: center; }
-    .module.article .comments .image {
-      width: 60px;
-      display: table-cell;
+      margin-right: 6px;
+      font-size: 12px; }
+    .module.poll .footer .post_comment {
       vertical-align: middle;
-      text-align: center; }
-    .module.article .comments .avatar {
-      width: 50px;
-      height: 50px;
-      margin: 0; }
-      .module.article .comments .avatar:before {
-        background: none; }
-    .module.article .comments .text {
-      display: table-cell;
-      padding: 20px 27px 20px 13px;
-      color: #808080; }
-    .module.article .comments .time {
-      float: right;
-      font-family: 'PT_Sans_Italic';
-      font-size: 11px; }
-    .module.article .comments .name {
-      font-family: 'PT_Sans_Bold';
-      text-decoration: underline; }
-    .module.article .comments .rating {
-      width: 70px;
-      display: table-cell;
-      text-align: center; }
-    .module.article .comments .minus {
+      margin-right: 6px;
       cursor: pointer;
-      margin-top: 10px; }
-    .module.article .comments .plus {
-      cursor: pointer;
-      margin-bottom: 10px; }
-  .module.article .login_box {
-    height: 190px;
-    background-color: #2da7e0;
-    margin: 10px 10px 120px;
-    position: relative;
-    color: #ffffff; }
-    .module.article .login_box:before {
-      position: absolute;
-      content: "";
-      width: 156px;
-      height: 205px;
-      background: url("/img/user/registration/child.png");
-      top: 20px;
-      left: 62px; }
-    .module.article .login_box .adorable_cell {
-      text-align: left; }
-    .module.article .login_box .info {
-      float: right;
-      height: 100%;
-      margin: 0; }
-    .module.article .login_box .warning {
-      font-size: 24px;
-      line-height: 30px;
-      font-family: 'PT_Sans_Bold';
-      text-transform: uppercase;
-      margin-bottom: 10px; }
-    .module.article .login_box .explanation {
-      margin-bottom: 20px; }
-    .module.article .login_box .italic {
-      font-family: 'PT_Sans_Italic';
-      text-decoration: underline; }
-    .module.article .login_box .links {
-      font-family: 'PT_Sans_Bold';
-      letter-spacing: 0.5px;
-      font-size: 15.25px;
-      color: #61d1ff;
-      text-transform: uppercase; }
-      .module.article .login_box .links span, .module.article .login_box .links a {
-        padding: 0 2px; }
-      .module.article .login_box .links :hover {
-        color: #ffffff; }
-  .module.article .comment_box {
-    margin: 10px;
-    background-color: #ffffff; }
-    .module.article .comment_box .comment_table {
-      display: table;
-      width: 100%; }
-    .module.article .comment_box .image {
-      width: 90px;
-      display: table-cell;
-      text-align: center;
-      padding-top: 40px; }
-    .module.article .comment_box .avatar {
-      width: 50px;
-      height: 50px; }
-      .module.article .comment_box .avatar:before {
-        background: url("/img/user/article/small_crown.png") no-repeat;
-        width: 24px;
-        height: 24px;
-        top: -14px;
-        left: -5px; }
-    .module.article .comment_box .form_container {
-      display: table-cell;
-      vertical-align: top;
-      padding: 20px 20px 0 0; }
-    .module.article .comment_box .bottom {
-      height: 75px; }
-      .module.article .comment_box .bottom .adorable_cell {
-        text-align: left; }
-    .module.article .comment_box .comment_button {
-      background-color: #2ca7e0;
-      color: #ffffff;
-      vertical-align: middle;
-      margin-right: 57px; }
-    .module.article .comment_box .clip {
-      vertical-align: middle;
-      margin-right: 9px; }
-    .module.article .comment_box .attach {
-      vertical-align: middle;
       font-size: 12px;
-      color: #808080; }
+      text-transform: uppercase; }
+    .module.poll .footer .post_like {
+      vertical-align: middle;
+      margin-right: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      text-transform: uppercase; }

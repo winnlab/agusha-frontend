@@ -5,8 +5,8 @@
 .checkbox {
   margin: 0 auto;
   position: relative;
-  height: 34px;
-  width: 108px; }
+  height: 28px;
+  width: 28px; }
   .checkbox label:not(.error) {
     width: 100%;
     height: 100%;
@@ -21,9 +21,8 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      background: url("/img/user/tour/checkbox.png") no-repeat;
-      background-position: 0 0;
-      background-position: -60px 0; }
+      background: url("/img/user/helpers/checkbox/radio.png") no-repeat;
+      background-position: 0 0; }
   .checkbox input {
     top: 0;
     right: 0;
@@ -36,7 +35,5 @@
     width: 100%;
     height: 100%;
     cursor: pointer; }
-    .checkbox input:hover ~ label .img {
-      background-position: -30px 0 !important; }
     .checkbox input:checked ~ label .img {
-      background-position: 0 0; }
+      background-position: -28px 0; }

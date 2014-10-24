@@ -65,6 +65,13 @@ var config = {
 					client: 'js/app/user/modules/article/',
 					server: ':name/:entity_id'
 				}
+			},
+			{
+				name: 'poll',
+				path: {
+					client: 'js/app/user/modules/poll/',
+					server: ':name/:entity_id'
+				}
 			}
 		],
 		defaultModule: 'main'
