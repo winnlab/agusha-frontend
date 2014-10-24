@@ -98,7 +98,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc[text]">Описание:</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" type="text" {{wysiwyg}} name="desc[text]">
+                            <textarea class="form-control" type="text" {{wysiwyg true module}} name="desc[text]">
                                 {{{article.desc.text}}}
                             </textarea>
                             <div class="help help-block"></div>

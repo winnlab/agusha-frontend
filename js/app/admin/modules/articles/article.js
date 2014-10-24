@@ -1,9 +1,12 @@
 import 'can/'
+import 'can/view/'
+import 'can/view/mustache/'
 import Edit from 'edit'
 import 'js/app/admin/components/upload/'
 import appState from 'appState'
 import _ from 'lodash'
 
+import 'slider'
 import 'summernote'
 import 'sortable'
 
@@ -49,6 +52,7 @@ export default Edit.extend({
 		self.module.attr('themeName', false);
 
 		self.module.attr('gallery', new GalleryModel.List({article_id: options.doc._id}));
+		self.module.attr('module', {gallery: self.module.attr('gallery')});
 
 		if (options.doc) {
 			if (options.doc.age) {
