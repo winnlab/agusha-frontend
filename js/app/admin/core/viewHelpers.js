@@ -122,11 +122,42 @@ can.mustache.registerHelper('getBoxName', function (index, options) {
 	return classes[index % classes.length];
 });
 
-var wysiwyg = function (index) {
+var wysiwyg = function (slider, module, options) {
+	if (options === undefined) {
+		if (module === undefined) {
+			options = slider;
+			slider = undefined;
+		} else {
+			options = module;
+			module = undefined;
+		}
+	}
+
 	return function (el) {
-		setTimeout(function () {
-			$(el).summernote();
-		}, 0);
+		_.defer(function (slider) {
+			var opts = {
+				height: 300,
+				module: module,
+				toolbar: [
+					['style', ['style']],
+					['font', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
+					['fontname', ['fontname']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+					['table', ['table']],
+					['insert', ['link', 'picture', 'video', 'hr']],
+					['view', ['fullscreen', 'codeview']],
+					['help', ['help']]
+				]
+			};
+
+			if (slider) {
+				opts.toolbar[8][1].splice(2, 0, 'slider');
+			}
+			$(el).summernote(opts);
+		}, slider);
 	};
 };
 
