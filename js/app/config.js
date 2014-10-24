@@ -12,7 +12,6 @@ System.config({
 		'velocity-ui': 'js/plugins/velocity/velocity.ui.min.js',
 		'underscore': 'js/plugins/underscore/underscore-min.js',
 		'lodash': 'js/plugins/lodash/dist/lodash.min.js',
-		'bootstrap-wysihtml5': 'js/plugins/bootstrap3-wysiwyg-stealjs/dist/bootstrap3-wysihtml5.all.min.js',
 		'swal': 'js/plugins/sweetalert/lib/sweet-alert.min.js',
 		'summernote': 'js/plugins/summernote/dist/summernote.min.js',
 		'sortable': 'js/plugins/html5sortable/jquery.sortable.js',
@@ -28,9 +27,11 @@ System.config({
 
 		'list': 'js/app/admin/lib/list/list.js',
 		'edit': 'js/app/admin/lib/edit/edit.js',
+		'baseModel': 'js/app/admin/lib/model/baseModel.js',
+
 		'articlefilter': 'js/app/common/components/articlefilter/articlefilter.js',
 		'pagination': 'js/app/admin/components/pagination/pagination.js',
-		'baseModel': 'js/app/admin/lib/model/baseModel.js'
+		'slider': 'js/app/common/components/slider/slider.js'
 	},
 	map: {
 		'can/util/util': 'can/util/jquery/jquery',
@@ -42,14 +43,6 @@ System.config({
 		stache: 'can/view/stache/system'
 	},
 	meta: {
-		'bootstrap-wysihtml5': {
-			format: 'global',
-			deps: [
-				'jquery',
-				'bootstrap',
-				'js/plugins/bootstrap3-wysiwyg-stealjs/dist/bootstrap3-wysihtml5.min.css!'
-			]
-		},
 		sortable: {
 			format: 'global',
 			deps: [
@@ -63,7 +56,9 @@ System.config({
 				'jquery',
 				'bootstrap',
 				'js/plugins/summernote/dist/summernote-bs3.css!',
-				'js/plugins/summernote/dist/summernote.css!'
+				'js/plugins/summernote/dist/summernote.css!',
+				'can/',
+				'can/view/mustache/'
 			]
 		},
 		swal: {
