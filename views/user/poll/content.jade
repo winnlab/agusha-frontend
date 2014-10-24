@@ -1,0 +1,178 @@
+.bg
+
+.content
+	include ../helpers/breadcrumbs
+	
+	.topper_title Title
+	
+	.title
+		.topper.adorable_table
+			.adorable_cell
+				.label Пеленать или не пеленать?
+				.top_label 492 мамочки ответили
+				.column.feedback
+					.adorable_table
+						.adorable_cell
+							img.like(src="/img/user/article/heart.png")
+							span.count 8
+							span.approve
+								| мамочек
+								br
+								| одобряют
+							
+							img.comment(src="/img/user/article/comment.png")
+							span.count 37
+	
+	.poll_container
+		.text
+			| Сегодня очень часто можно слышать, что «в пеленки уже никто детей не заворачивает». Педиатры рекомендуют: «Сразу одевайте ползунки! Пеленки ограничивают движения младенца и препятствуют его развитию». А в группах дородовой подготовкb говорят, что малыш должен лежать голышом. В этом случае раннее развитие и закалка гарантированы.
+			br
+			br
+			| Слушая все эти советы, молодые родители, всем сердцем желающие блага своему ребенку, категорически отказываются от пеленок. А бабушки сокрушаются, ругают глупых молодых и говорят, что они мучают ребенка. Кто же здесь прав?
+		
+		.center
+			.title
+				.question
+					.question_info
+						.adorable_table
+							.adorable_cell Вводный текст небольшой (почему это так важно, зачем мы спрашиваем)
+				
+				div А как считаете вы?
+			
+			.options_container
+				.option
+					.radio_cell
+						.checkbox
+							input(name="answer", type="radio", checked="checked", value="1")
+							label
+								.img
+					.label Какие-то
+				.option
+					.radio_cell
+						.checkbox
+							input(name="answer", type="radio", value="2")
+							label
+								.img
+					.label Не очень
+				.option
+					.radio_cell
+						.checkbox
+							input(name="answer", type="radio", value="3")
+							label
+								.img
+					.label Демократичные
+				.option
+					.radio_cell
+						.checkbox
+							input(name="answer", type="radio", value="4")
+							label
+								.img
+					.label Варианты ответов
+			
+			.bottom.adorable_table
+				.adorable_cell
+					button.poll_button Проголосовать
+			
+			.plz Для того, чтобы увидеть результаты опроса, плз, ответьте сами
+			.social
+				.social_button
+					.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
+				
+				.social_button
+					a(href="https://twitter.com/share" class="twitter-share-button") Tweet
+				
+				.social_button
+					div(id="vk_top_poll_" + params.alias)
+				
+				.social_button
+					div(id="ok_top_poll_" + params.alias)
+				
+				.social_button
+					.g-plusone(data-size="medium")
+		
+		.footer
+			.adorable_table
+				.adorable_cell
+					img.like(src="/img/user/article/heart.png")
+					span.count 8
+					span.approve
+						| мамочек
+						br
+						| одобряют
+					
+					img.comment(src="/img/user/article/comment.png")
+					span.count 37
+	
+	.poll_container.answered
+		.center
+			.title
+				.question
+					.question_info
+						.adorable_table
+							.adorable_cell Вводный текст небольшой (почему это так важно, зачем мы спрашиваем)
+				
+				div Результаты опроса:
+			
+			.options_container
+				.option
+					.radio_cell 50%
+					.label
+						div Какие-то
+						.progress_line
+							.progress(style="width: 50%;")
+				
+				.option
+					.radio_cell 25%
+					.label
+						div Не очень
+						.progress_line
+							.progress(style="width: 25%;")
+				
+				.option
+					.radio_cell 12%
+					.label
+						div Демократичные
+						.progress_line
+							.progress(style="width: 12%;")
+				
+				.option
+					.radio_cell 13%
+					.label
+						div Варианты ответов
+						.progress_line
+							.progress(style="width: 13%;")
+			
+			.social
+				.social_button
+					.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
+				
+				.social_button
+					a(href="https://twitter.com/share" class="twitter-share-button") Tweet
+				
+				.social_button
+					div(id="vk_bottom_poll_" + params.alias)
+				
+				.social_button
+					div(id="ok_bottom_poll_" + params.alias)
+				
+				.social_button
+					.g-plusone(data-size="medium")
+		
+		.footer
+			.half.left
+				.adorable_table
+					.adorable_cell
+						img.like(src="/img/user/article/heart.png")
+						span.count 8
+						span.slash / 
+							span.post_like Одобрить
+			
+			.half.right
+				.adorable_table
+					.adorable_cell
+						img.comment(src="/img/user/article/comment.png")
+						span.count 37 
+						span.slash / 
+						span.post_comment Комментировать
+	
+	include ../helpers/article_bottom

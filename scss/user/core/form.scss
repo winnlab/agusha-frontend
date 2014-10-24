@@ -55,3 +55,13 @@ input {
 		background: $white !important;
 	}
 }
+
+textarea {
+	@include border_radius(5px);
+	@include border_boxed;
+	background-color: #f2f2f2;
+	border: 0;
+	color: #b2b2b2;
+	width: 100%;
+	padding: 15px 20px;
+}

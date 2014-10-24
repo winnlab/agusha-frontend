@@ -6,6 +6,9 @@ System.config({
 		'underscore': 'js/plugins/underscore/underscore-min.js',
 		'jade': 'js/plugins/jade/runtime.js',
 		'select2': 'js/plugins/select2/select2.js',
+		'vkontakte': 'js/plugins/social/vk.openapi.js',
+		'odnoklasniki': 'js/plugins/social/ok.connect.js',
+		'google': 'js/plugins/social/google.plusone.js',
 		
 		'router': 'js/app/user/router/router.js',
 		'placeholder': 'js/app/user/router/placeholder.js',
@@ -40,7 +43,10 @@ System.config({
 		},
 		'helpers': {
 			deps: [
-				'jade'
+				'jade',
+				'vkontakte',
+				'odnoklasniki',
+				'google'
 			]
 		},
 		'products': {
