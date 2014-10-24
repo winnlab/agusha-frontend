@@ -88,8 +88,49 @@
 					
 					img.comment(src="/img/user/article/comment.png")
 					span.count 37
+	
+	.poll_container.answered
+		.center
+			.title
+				.question
+					.question_info
+						.adorable_table
+							.adorable_cell Вводный текст небольшой (почему это так важно, зачем мы спрашиваем)
+				
+				div Результаты опроса:
+			
+			.options_container
+				.option
+					.radio_cell 50%
+					.label
+						div Какие-то
+						.progress_line
+							.progress(style="width: 50%;")
+				
+				.option
+					.radio_cell 25%
+					.label
+						div Не очень
+						.progress_line
+							.progress(style="width: 25%;")
+				
+				.option
+					.radio_cell 12%
+					.label
+						div Демократичные
+						.progress_line
+							.progress(style="width: 12%;")
+				
+				.option
+					.radio_cell 13%
+					.label
+						div Варианты ответов
+						.progress_line
+							.progress(style="width: 13%;")
+			
+			.social Social
 		
-		.footer.lefted
+		.footer
 			.half.left
 				.adorable_table
 					.adorable_cell
@@ -105,3 +146,5 @@
 						span.count 37 
 						span.slash / 
 						span.post_comment Комментировать
+	
+	include ../helpers/article_bottom
