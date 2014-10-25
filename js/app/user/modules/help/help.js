@@ -9,7 +9,9 @@ export default Controller.extend(
 		variables: function() {
 			this.search_timeout = false;
 			this.search_query = '';
+			this.tab_selectors = this.element.find('.tab_selector');
 			this.faq_blocks = this.element.find('.faq_block');
+			this.classname = 'active';
 		},
 		
 		after_init: function(data) {
@@ -110,16 +112,22 @@ export default Controller.extend(
 		'.faq_block .title click': function(el) {
 			var faq_block = el.parent(),
 				text = el.next(),
-				classname = 'active',
 				func = 'slideDown';
 			
-			if(faq_block.hasClass(classname)) {
+			if(faq_block.hasClass(this.classname)) {
 				func = 'slideUp';
 			}
 			
 			text.stop(true, false)[func](300);
 			
-			faq_block.toggleClass(classname);
+			faq_block.toggleClass(this.classname);
+		},
+		
+		'.tab click': function(el) {
+			var tab = el.data('tab');
+			
+			this.tab_selectors.removeClass(this.classname);
+			this.tab_selectors.filter('.' + tab).addClass(this.classname);
 		}
     }
 );

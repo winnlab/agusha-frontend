@@ -106,6 +106,47 @@
 		padding: 20px 20px 40px 20px;
 	}
 	
+	.tab_content {
+		display: none;
+		
+		&.active {
+			display: block;
+		}
+		
+		&.rules {
+			background-color: $white;
+			margin-top: 30px;
+			padding: 0 70px 35px 70px;
+			
+			.title {
+				font-size: 18px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				line-height: 18px;
+				text-transform: uppercase;
+				padding: 25px 0 20px;
+				color: $titlegrey;
+			}
+			
+			.text {
+				margin-bottom: 20px;
+			}
+			
+			.bold {
+				color: #4d4d4d;
+			}
+			
+			.warning {
+				color: $red;
+				margin-bottom: 30px;
+			}
+			
+			.email {
+				color: $darkblue;
+				text-decoration: underline;
+			}
+		}
+	}
+	
 	.tab_block {
 		@include transition(margin 0.3s ease-in-out);
 		position: relative;
