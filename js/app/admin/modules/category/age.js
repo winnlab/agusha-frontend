@@ -1,6 +1,7 @@
 import 'can/'
 import Edit from 'edit'
 
+import 'summernote'
 import 'js/app/admin/components/upload/'
 
 export default Edit.extend({

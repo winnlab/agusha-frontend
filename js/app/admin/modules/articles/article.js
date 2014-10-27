@@ -78,12 +78,12 @@ export default Edit.extend({
 
 	'.currentAgeSelect change': function (el) {
 		var newVal = el.find('option:selected').data('ages').attr('value');
-		this.ageValue(newVal);
+		this.module.attr('ageValue', newVal);
 	},
 
 	'.currentThemeSelect change': function (el) {
 		var newVal = el.find('option:selected').data('themes').attr('name');
-		this.themeName(newVal);
+		this.module.attr('themeName', newVal);
 	},
 
 	'.addAnswer click': function (el) {

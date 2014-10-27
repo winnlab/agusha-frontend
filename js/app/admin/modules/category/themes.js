@@ -62,7 +62,7 @@ export default List.extend(
 
 		'{add} click': function () {
             if(!this.module.attr('ageData.id')) {
-                return alert('Пожалуйста, сначала выберите возраст');
+                return saMessage('Инфо', 'Пожалуйста, сначала выберите возраст в меню слева.', 'info');
             }
 
             this.module.attr('addMode', !this.module.attr('addMode'));
