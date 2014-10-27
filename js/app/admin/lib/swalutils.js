@@ -1,6 +1,6 @@
 import 'swal'
 
-window.saMessage = function(title = '', text = '', type) {
+window.saMessage = function(title = '', text = '', type = 'info') {
 	swal(title, text, type);
 }
 
