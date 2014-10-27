@@ -28,7 +28,7 @@
 					<span>{{.}}</span>&nbsp;
 				{{/if}}
 				{{#isDeleteBtn}}
-					<div {{data "uploaded"}} class="remove btn btn-danger" style="position: absolute; top: -5%; right: 5%">
+					<div {{data "uploaded"}} class="remove btn btn-danger" style="position: absolute; top: -5%; left: -3%">
 						<i class="fa fa-trash-o"></i>
 					</div>
 				{{/isDeleteBtn}}

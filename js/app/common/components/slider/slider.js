@@ -9,6 +9,7 @@ export default can.Component.extend({
     index: '@',
     position: 0,
     timeout: 5000,
+    gallery: can.Deferred(),
     shift: function (back) {
       var count = this.attr('gallery').images.attr('length'),
           pos = this.attr('position');
@@ -34,18 +35,27 @@ export default can.Component.extend({
   },
   events: {
     init: function () {
-      console.log('slider initing')
+      var scope = this.scope;
 
-      var images = this.scope.attr('images'),
-          newGallery = _.where(images, {_id: this.scope.attr('index')});
-      
-      if (!newGallery[0]) {
-        throw new Error('Unknown gallery ID in slider: ' + this.scope.attr('index'));
-      }
+      scope.attr('gallery').done(function (gallery) {
+        scope.attr('gallery', gallery);
+        _.delay(scope.shift.bind(scope), scope.attr('timeout'));
+      });
 
-      this.scope.attr('gallery', newGallery[0]);
+      can.when(scope.attr('images')).then(function (images) {
+        var newGallery = _.where(images, {_id: scope.attr('index')});
 
-      _.delay(this.scope.shift.bind(this.scope), this.scope.attr('timeout'));
+        if (!newGallery[0]) {
+          throw new Error('Unknown gallery ID in slider: ' + scope.attr('index'));
+        }
+
+        
+        if (scope.attr('gallery').resolve) {
+          scope.attr('gallery').resolve(newGallery[0]);
+        } else {
+          _.delay(scope.shift.bind(scope), scope.attr('timeout'));
+        }
+      });
     }
   }
 });
