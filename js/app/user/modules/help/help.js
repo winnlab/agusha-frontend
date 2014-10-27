@@ -1,17 +1,52 @@
 import Controller from 'controller'
 
+import googlemaps_api from 'googlemaps_api'
+import googlemaps_main from 'googlemaps_main'
+
 export default Controller.extend(
 	{
-        defaults: {
+		defaults: {
 			
-        }
-    }, {
+		}
+	}, {
 		variables: function() {
 			this.search_timeout = false;
 			this.search_query = '';
-			this.tab_selectors = this.element.find('.tab_selector');
-			this.faq_blocks = this.element.find('.faq_block');
 			this.classname = 'active';
+			this.base_url = window.location.protocol + '//' + window.location.host;
+			
+			this.tab_selectors = this.element.find('.tab_selector');
+			
+			this.tab_blocks = this.element.find('.tab_block');
+			this.faq_blocks = this.tab_blocks.filter('.faq_block');
+			
+			this.tab_content_contacts = this.tab_selectors.filter('.tab_content.contacts');
+			
+			this.mapLatLng = new google.maps.LatLng(50.4300000, 30.389388);
+			this.vishnevoeLatLng = new google.maps.LatLng(50.3856838, 30.3471481);
+		},
+		
+		plugins: function() {
+			this.init_map();
+		},
+		
+		init_map: function() {
+			var	options = {
+					center: this.mapLatLng,
+					zoom: 12
+				};
+			
+			this.map = new google.maps.Map(document.getElementById('contacts_map'), options);
+			
+			this.draw_markers();
+		},
+		
+		draw_markers: function() {
+			new google.maps.Marker({
+				position: this.vishnevoeLatLng,
+				map: this.map,
+				icon: this.base_url + '/img/user/help/agusha_marker.png'
+			});
 		},
 		
 		after_init: function(data) {
@@ -21,7 +56,7 @@ export default Controller.extend(
 				this.faq = app.faq;
 			}
 			
-			this.faq_blocks.filter(':not(.active)').find('.text').hide();
+			this.tab_blocks.filter(':not(.active)').find('.text').hide();
 		},
 		
 		'#faq_search keyup': function(el, ev) {
@@ -56,7 +91,7 @@ export default Controller.extend(
 				word = escape(word).toLowerCase();
 			}
 			
-			var filtered =  _.filter(this.faq, function(faq) {
+			var filtered =	_.filter(this.faq, function(faq) {
 				var title = faq.title.toLowerCase(),
 					text = faq.text.toLowerCase(),
 					match = false;
@@ -109,18 +144,18 @@ export default Controller.extend(
 			}
 		},
 		
-		'.faq_block .title click': function(el) {
-			var faq_block = el.parent(),
+		'.tab_block .title click': function(el) {
+			var tab_block = el.parent(),
 				text = el.next(),
 				func = 'slideDown';
 			
-			if(faq_block.hasClass(this.classname)) {
+			if(tab_block.hasClass(this.classname)) {
 				func = 'slideUp';
 			}
 			
 			text.stop(true, false)[func](300);
 			
-			faq_block.toggleClass(this.classname);
+			tab_block.toggleClass(this.classname);
 		},
 		
 		'.tab click': function(el) {
@@ -128,6 +163,10 @@ export default Controller.extend(
 			
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
+			
+			if(this.tab_content_contacts.hasClass(this.classname)) {
+				this.init_map();
+			}
 		}
-    }
+	}
 );

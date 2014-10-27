@@ -9,6 +9,8 @@ System.config({
 		'vkontakte': 'js/plugins/social/vk.openapi.js',
 		'odnoklasniki': 'js/plugins/social/ok.connect.js',
 		'google': 'js/plugins/social/google.plusone.js',
+		'googlemaps_api': 'js/plugins/google/googlemaps_api.js',
+		'googlemaps_main': 'js/plugins/google/googlemaps_main.js',
 		
 		'router': 'js/app/user/router/router.js',
 		'placeholder': 'js/app/user/router/placeholder.js',
@@ -52,6 +54,17 @@ System.config({
 		'products': {
 			deps: [
 				'select2'
+			]
+		},
+		'encyclopedia': {
+			deps: [
+				'select2'
+			]
+		},
+		'help': {
+			deps: [
+				'googlemaps_api',
+				'googlemaps_main'
 			]
 		}
 	}

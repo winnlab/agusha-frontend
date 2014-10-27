@@ -59,7 +59,6 @@
 		vertical-align: bottom;
 		position: relative;
 		color: $white;
-		padding: 15px 50px 10px;
 		cursor: pointer;
 		
 		.title {
@@ -78,6 +77,7 @@
 				height: 35px;
 				background: url('/img/user/help/tab_shadow.png') no-repeat;
 				right: -29px;
+				bottom: 0;
 			}
 		}
 		
@@ -99,7 +99,24 @@
 			&:after {
 				@include tab_active;
 			}
+			
+			&:not(:last-child) {
+				.tab_selector_inside {
+					&:before {
+						@include pseudo;
+						width: 35px;
+						height: 35px;
+						background: url('/img/user/help/tab_shadow_left.png') no-repeat;
+						left: -29px;
+						bottom: 0;
+					}
+				}
+			}
 		}
+	}
+	
+	.tab_selector_inside {
+		padding: 15px 50px 10px;
 	}
 	
 	.tab_contents {
@@ -143,6 +160,106 @@
 			.email {
 				color: $darkblue;
 				text-decoration: underline;
+			}
+		}
+		
+		&.contacts {
+			background-color: $white;
+			margin-top: 30px;
+			height: 655px;
+			
+			.left {
+				@include border_boxed;
+				float: left;
+				width: 300px;
+				height: 655px;
+				padding: 37px 20px 37px 40px;
+				font-size: 18px;
+			}
+			
+			.label {
+				color: $darkblue;
+				margin-bottom: 30px;
+			}
+			
+			.contact_label {
+				color: #b3a8a1;
+				font-family: 'PT_Sans_Italic';
+				padding: 0 0 0 35px;
+				
+				&.address {
+					position: relative;
+					
+					&:before {
+						@include pseudo;
+						background: url('/img/user/help/home.png') center no-repeat;
+						width: 22px;
+						height: 18px;
+						top: 3px;
+						left: 0;
+						bottom: 0;
+					}
+				}
+				
+				&.mail {
+					position: relative;
+					
+					&:before {
+						@include pseudo;
+						background: url('/img/user/help/mail.png') center no-repeat;
+						width: 22px;
+						height: 17px;
+						top: 3px;
+						left: 0;
+						bottom: 0;
+					}
+				}
+				
+				&.phone {
+					position: relative;
+					
+					&:before {
+						@include pseudo;
+						background: url('/img/user/help/phone.png') center no-repeat;
+						width: 20px;
+						height: 19px;
+						top: 3px;
+						left: 0;
+						bottom: 0;
+					}
+				}
+			}
+			
+			.contact_text {
+				padding: 0 0 0 35px;
+				margin-bottom: 25px;
+				
+				.mail {
+					color: $darkblue;
+					text-decoration: underline;
+				}
+				
+				.phone {
+					color: $darkblue;
+					font-size: 24px;
+					line-height: 24px;
+					letter-spacing: 1px;
+					
+					a {
+						text-decoration: none;
+						color: $base;
+					}
+				}
+				
+				.phone_notice {
+					font-size: 13px;
+				}
+			}
+			
+			.right {
+				float: right;
+				height: 655px;
+				width: 580px;
 			}
 		}
 	}
