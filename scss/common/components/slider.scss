@@ -1,6 +1,9 @@
+@import "../../../js/plugins/bourbon/dist/_bourbon.scss";
+
 slider {
 	display: block;
 	margin: 0 auto;
+	user-select: none;
 }
 
 .slider-wrap {
@@ -19,5 +22,21 @@ slider {
 	left: 0;
 	&.current {
 		display: block !important;
+	}
+}
+
+.slider-arrow {
+	position: absolute;
+	top: 50%;
+	@include transform(translateY(-50%));
+	cursor: pointer;
+	&:hover {
+		font-weight: bold;
+	}
+	&.left {
+		left: 20px;
+	}
+	&.right {
+		right: 20px;
 	}
 }
