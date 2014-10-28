@@ -114,16 +114,11 @@ export default List.extend(
         '.confirmAge click': function () {
             var options = this.options,
                 self = this,
-                value = 1;
-
-            try {
-                value = parseInt(self.module.attr('addName'));
-            } catch (e) {}
-                
+                title = self.module.attr('addName');
 
             var doc = new options.Model({
                 active: true,
-                value
+                title
             });
 
             doc.save()
@@ -150,7 +145,7 @@ export default List.extend(
 
             this.options.ageData.attr({
                 id: doc.attr('_id'),
-                name: doc.attr('value')
+                name: doc.attr('title')
             });
         },
 
