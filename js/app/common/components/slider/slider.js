@@ -40,10 +40,10 @@ export default can.Component.extend({
   events: {
     init: function () {
       var scope = this.scope,
-          timerId;
+          timerId, newGallery;
 
       can.when(scope.attr('images')).then(function (images) {
-        var newGallery = _.where(images, {_id: scope.attr('index')});
+        newGallery = _.where(images, {_id: scope.attr('index')});
 
         if (!newGallery[0]) {
           throw new Error('Unknown gallery ID in slider: ' + scope.attr('index'));
@@ -56,9 +56,7 @@ export default can.Component.extend({
     },
 
     '.slider-arrow click': function(el) {
-      var scope = this.scope;
-
-      scope.shift($(el).hasClass('left'));
+      this.scope.shift($(el).hasClass('left'));
     }
   }
 });
