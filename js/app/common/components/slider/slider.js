@@ -11,6 +11,10 @@ export default can.Component.extend({
     timeout: 5000,
     gallery: can.Deferred(),
     shift: function (back) {
+      if (this.timerId) {
+        clearTimeout(this.timerId);
+      }
+
       var count = this.attr('gallery').images.attr('length'),
           pos = this.attr('position');
 
@@ -30,16 +34,18 @@ export default can.Component.extend({
 
       can.batch.stop();
 
-      _.delay(this.shift.bind(this), this.attr('timeout'));
+      this.timerId = _.delay(this.shift.bind(this), this.attr('timeout'));
     }
   },
   events: {
     init: function () {
-      var scope = this.scope;
+      var scope = this.scope,
+          timerId;
 
       scope.attr('gallery').done(function (gallery) {
         scope.attr('gallery', gallery);
-        _.delay(scope.shift.bind(scope), scope.attr('timeout'));
+        timerId = _.delay(scope.shift.bind(scope), scope.attr('timeout'));
+        scope.attr('timerId', timerId);
       });
 
       can.when(scope.attr('images')).then(function (images) {
@@ -53,9 +59,18 @@ export default can.Component.extend({
         if (scope.attr('gallery').resolve) {
           scope.attr('gallery').resolve(newGallery[0]);
         } else {
-          _.delay(scope.shift.bind(scope), scope.attr('timeout'));
+          timerId = _.delay(scope.shift.bind(scope), scope.attr('timeout'));
+          scope.attr('timerId', timerId);
         }
       });
+    },
+
+    '.slider-arrow click': function(el) {
+      var scope = this.scope,
+          back = $(el).hasClass('left');
+
+      timerId = _.delay(scope.shift.bind(scope, back), scope.attr('timeout'));
+      scope.attr('timerId', timerId);
     }
   }
 });
