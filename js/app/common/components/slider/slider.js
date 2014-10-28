@@ -59,6 +59,7 @@ export default can.Component.extend({
         if (scope.attr('gallery').resolve) {
           scope.attr('gallery').resolve(newGallery[0]);
         } else {
+          scope.attr('gallery', newGallery[0]);
           timerId = _.delay(scope.shift.bind(scope), scope.attr('timeout'));
           scope.attr('timerId', timerId);
         }
@@ -66,11 +67,9 @@ export default can.Component.extend({
     },
 
     '.slider-arrow click': function(el) {
-      var scope = this.scope,
-          back = $(el).hasClass('left');
+      var scope = this.scope;
 
-      timerId = _.delay(scope.shift.bind(scope, back), scope.attr('timeout'));
-      scope.attr('timerId', timerId);
+      scope.shift($(el).hasClass('left'));
     }
   }
 });
