@@ -9,7 +9,7 @@ export default can.Component.extend({
     index: '@',
     position: 0,
     timeout: 5000,
-    gallery: can.Deferred(),
+    gallery: null,
     shift: function (back) {
       if (this.timerId) {
         clearTimeout(this.timerId);
@@ -42,12 +42,6 @@ export default can.Component.extend({
       var scope = this.scope,
           timerId;
 
-      scope.attr('gallery').done(function (gallery) {
-        scope.attr('gallery', gallery);
-        timerId = _.delay(scope.shift.bind(scope), scope.attr('timeout'));
-        scope.attr('timerId', timerId);
-      });
-
       can.when(scope.attr('images')).then(function (images) {
         var newGallery = _.where(images, {_id: scope.attr('index')});
 
@@ -55,14 +49,9 @@ export default can.Component.extend({
           throw new Error('Unknown gallery ID in slider: ' + scope.attr('index'));
         }
 
-        
-        if (scope.attr('gallery').resolve) {
-          scope.attr('gallery').resolve(newGallery[0]);
-        } else {
-          scope.attr('gallery', newGallery[0]);
-          timerId = _.delay(scope.shift.bind(scope), scope.attr('timeout'));
-          scope.attr('timerId', timerId);
-        }
+        scope.attr('gallery', newGallery[0]);
+        timerId = _.delay(scope.shift.bind(scope), scope.attr('timeout'));
+        scope.attr('timerId', timerId);
       });
     },
 
