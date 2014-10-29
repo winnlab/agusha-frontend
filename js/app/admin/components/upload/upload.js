@@ -15,7 +15,7 @@ var UploadViewModel = can.Map.extend({
 	'accept': '@',
 	'name': '@',
 	'multiple': '@',
-	'sortable': '@',
+	'sortable': null,
 	'parentname': '@',
 	'files': [],
 	'progress': 0,
@@ -29,9 +29,9 @@ var UploadViewModel = can.Map.extend({
 		},
 		'uploaded': {
 			set: function (newVal) {
-
 				var uploaded = new can.List([]),
 					files = this.attr('files');
+
 				files.replace([]);
 				if (newVal) {
 					if (this.attr('multiple')) {
@@ -41,7 +41,11 @@ var UploadViewModel = can.Map.extend({
                             uploaded.replace(newVal);
                         }
 					} else {
-						uploaded.splice(0, 1, newVal);
+						var realVal = newVal.data
+							? newVal.data[this.attr('name')] || newVal
+							: newVal;
+
+						uploaded.splice(0, 1, realVal);
 					}
 				}
 
