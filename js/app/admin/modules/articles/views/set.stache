@@ -45,10 +45,10 @@
                     <div class="col-md-10">
                         <select can-value="article.age.age_id" class="currentAgeSelect form-control">
                             {{#sortedBy ages 'title'}}
-                                <option {{data "ages"}} value="{{_id}}">{{value}}</option>
+                                <option {{data "ages"}} value="{{_id}}">{{title}}</option>
                             {{/sortedBy}}
                         </select>
-                        <input type="hidden" name="age[value]" can-value="ageValue" />
+                        <input type="hidden" name="age[title]" can-value="ageValue" />
                     </div>
                 </div>
             {{/if}}
@@ -128,66 +128,68 @@
                 </div>
             {{/if}}
 
-            <div class="panel panel-info">
-                <div class="panel-heading col-md-12">
-                    <div class="panel-title">
-                        Галереи изображений
-                    </div>
-                    <div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-primary addGallery">
-                                <i class="fa fa-plus"></i>
-                                <span>Добавить галерею</span>
-                            </button>
+            {{#if article._id}}
+                <div class="panel panel-info">
+                    <div class="panel-heading col-md-12">
+                        <div class="panel-title">
+                            Галереи изображений
                         </div>
-                        <div class="col-md-8 {{#unless addingGallery}}hidden{{/unless}}">
-                            <div class="input-group">
-                                <input type="text" class="form-control" can-value="newGalleryName">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary confirmGallery" type="button">
-                                        <i class="fa fa-plus"></i>
-                                        <span>Добавить</span>
-                                    </button>
-                                </span>
+                        <div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary addGallery">
+                                    <i class="fa fa-plus"></i>
+                                    <span>Добавить галерею</span>
+                                </button>
+                            </div>
+                            <div class="col-md-8 {{#unless addingGallery}}hidden{{/unless}}">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" can-value="newGalleryName">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary confirmGallery" type="button">
+                                            <i class="fa fa-plus"></i>
+                                            <span>Добавить</span>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {{#if gallery}}
+                        {{#each gallery}}
+                            <div class="panel-body col-md-12 gallery" {{data "gallery"}}>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="name">Название:</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control galleryName" type="text" can-value="name" placeholder="Наименование" />
+                                        <div class="help help-block"></div>
+                                    </div>
+                                    <div clas="col-md-4">
+                                        <button type="button" class="pull-right btn btn-danger removeGallery">
+                                            <i class="fa fa-trash"></i>
+                                            <span>Удалить</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <upload
+                                    class="col-md-12"
+                                    name="images"
+                                    url="/admin/gallery/img"
+                                    delete-url="/admin/gallery/img"
+                                    entity="{.}"
+                                    uploaded="{images}"
+                                    accept="image/*"
+                                    multiple="true"
+                                    sortable="true"
+                                    parentname="gallery"
+                                >
+                                    Загрузить изображения
+                                </upload>
+                            </div>
+                            <hr class="col-sm-12" />
+                        {{/each}}
+                    {{/if}}
                 </div>
-                {{#if gallery}}
-                    {{#each gallery}}
-                        <div class="panel-body col-md-12 gallery" {{data "gallery"}}>
-                            <div class="form-group">
-                                <label class="col-md-2 control-label" for="name">Название:</label>
-                                <div class="col-md-6">
-                                    <input class="form-control galleryName" type="text" can-value="name" placeholder="Наименование" />
-                                    <div class="help help-block"></div>
-                                </div>
-                                <div clas="col-md-4">
-                                    <button type="button" class="pull-right btn btn-danger removeGallery">
-                                        <i class="fa fa-trash"></i>
-                                        <span>Удалить</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <upload
-                                class="col-md-12"
-                                name="images"
-                                url="/admin/gallery/img"
-                                delete-url="/admin/gallery/img"
-                                entity="{.}"
-                                uploaded="{images}"
-                                accept="image/*"
-                                multiple="true"
-                                sortable="true"
-                                parentname="gallery"
-                            >
-                                Загрузить изображения
-                            </upload>
-                        </div>
-                        <hr class="col-sm-12" />
-                    {{/each}}
-                {{/if}}
-            </div>
+            {{/if}}
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 checkbox">
@@ -198,47 +200,49 @@
                 </div>
             </div>
 
-            {{#if article.is_quiz}}
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <div class="panel-title">Варианты ответов:</div>
-                        <div>
-                            <button type="button" class="addAnswer btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Добавить ответ</button>
+            {{#if article._id}}
+                {{#if article.is_quiz}}
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">Варианты ответов:</div>
+                            <div>
+                                <button type="button" class="addAnswer btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Добавить ответ</button>
+                            </div>
                         </div>
-                    </div>
-                    {{#sortedBy article.answer 'position'}}
-                        <div class="well answer" {{data "answer"}}>
-                            <div class="form-group">
-                                {{#if _id}}
-                                    <input type="hidden" can-value="_id" />
-                                {{/if}}
+                        {{#sortedBy article.answer 'position'}}
+                            <div class="well answer" {{data "answer"}}>
                                 <div class="form-group">
-                                    <div class="col-md-6">
-                                        Ответило так: <span class="badge">{{score}}</span>
+                                    {{#if _id}}
+                                        <input type="hidden" can-value="_id" />
+                                    {{/if}}
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            Ответило так: <span class="badge">{{score}}</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-danger removeAnswer pull-right"><i class="fa fa-trash-o"></i>&nbsp;Удалить</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <button class="btn btn-danger removeAnswer pull-right"><i class="fa fa-trash-o"></i>&nbsp;Удалить</button>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label" for="answer[{{@index}}][position]">Позиция:</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="number" placeholder="Относительный номер по порядку" can-value="position" />
+                                            <div class="help help-block"></div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label" for="answer[{{@index}}][position]">Позиция:</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" type="number" placeholder="Относительный номер по порядку" can-value="position" />
-                                        <div class="help help-block"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label" for="answer[{{@index}}][text]">Вариант ответа:</label>
-                                    <div class="col-md-10">
-                                        <textarea class="form-control" type="text" {{! {{wysihtml5}} }} placeholder="Текст вариант ответа" can-value="text">
-                                        </textarea>
-                                        <div class="help help-block"></div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label" for="answer[{{@index}}][text]">Вариант ответа:</label>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control" type="text" {{! {{wysihtml5}} }} placeholder="Текст вариант ответа" can-value="text">
+                                            </textarea>
+                                            <div class="help help-block"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {{/sortedBy}}
-                </div>
+                        {{/sortedBy}}
+                    </div>
+                {{/if}}
             {{/if}}
 
             <div class="row">

@@ -31,7 +31,8 @@ export default Edit.extend({
 		_.extend(this.options, options);
 
 		var self = this,
-			options = this.options;
+			options = this.options,
+			gallery = new can.Map;
 		
 		self.module = new can.Map({
 			langs: appState.attr('langs')
@@ -51,17 +52,20 @@ export default Edit.extend({
 		self.module.attr('ageValue', false);
 		self.module.attr('themeName', false);
 
-		self.module.attr('gallery', new GalleryModel.List({article_id: options.doc._id}));
-		self.module.attr('module', {gallery: self.module.attr('gallery')});
-
 		if (options.doc) {
+			if (options.doc._id) {
+				gallery = new GalleryModel.List({article_id: options.doc._id});
+			}
 			if (options.doc.age) {
-				self.module.attr('ageValue' ,options.doc.age.value);
+				self.module.attr('ageValue' ,options.doc.age.title);
 			}
 			if (options.doc.theme) {
 				self.module.attr('themeName', options.doc.theme.name);
 			}
 		}
+
+		self.module.attr('gallery', gallery);
+		self.module.attr('module', {gallery: self.module.attr('gallery')});
 
 		self.module.attr('newGalleryName', '');
 		self.module.attr('addingGallery', false);
@@ -77,7 +81,7 @@ export default Edit.extend({
 	},
 
 	'.currentAgeSelect change': function (el) {
-		var newVal = el.find('option:selected').data('ages').attr('value');
+		var newVal = el.find('option:selected').data('ages').attr('title');
 		this.module.attr('ageValue', newVal);
 	},
 

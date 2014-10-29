@@ -53,7 +53,6 @@ export default can.Control.extend({
 				self.setNotification('success', options.successMsg);
 			})
 			.fail(function (response) {
-                console.log('reponse', reponse)
 				self.processError(response.responseJSON.err);
 			});
 
