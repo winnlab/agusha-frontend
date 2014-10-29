@@ -11,8 +11,8 @@ include helpers
 		.ages_inside
 			.ages_absolute
 				- each a, key in ages
-					- var normal = '/img/' + (a.icon.normal ? 'uploads/' + a.icon.normal : 'no_photo.png')
-					- var hover = '/img/' + (a.icon.hover ? 'uploads/' + a.icon.hover : 'no_photo.png')
+					- var normal = '/img/' + (a.icon && a.icon.normal ? 'uploads/' + a.icon.normal : 'no_photo.png')
+					- var hover = '/img/' + (a.icon && a.icon.hover ? 'uploads/' + a.icon.hover : 'no_photo.png')
 					- var classname = ''
 					
 					if params.age && params.age == a.value
