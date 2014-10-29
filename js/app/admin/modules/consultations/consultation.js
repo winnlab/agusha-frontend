@@ -44,7 +44,7 @@ export default Edit.extend({
 
         if (options.doc) {
             if (options.doc.age) {
-                this.ageValue(options.doc.age.value);
+                this.ageValue(options.doc.age.title);
             }
             if (options.doc.theme) {
                 this.themeName(options.doc.theme.name);
@@ -70,7 +70,7 @@ export default Edit.extend({
     },
 
     '.currentAgeSelect change': function (el) {
-        var newVal = el.find('option:selected').data('ages').attr('value');
+        var newVal = el.find('option:selected').data('ages').attr('title');
         this.ageValue(newVal);
     },
 
