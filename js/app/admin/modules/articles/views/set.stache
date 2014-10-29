@@ -45,10 +45,10 @@
                     <div class="col-md-10">
                         <select can-value="article.age.age_id" class="currentAgeSelect form-control">
                             {{#sortedBy ages 'title'}}
-                                <option {{data "ages"}} value="{{_id}}">{{value}}</option>
+                                <option {{data "ages"}} value="{{_id}}">{{title}}</option>
                             {{/sortedBy}}
                         </select>
-                        <input type="hidden" name="age[value]" can-value="ageValue" />
+                        <input type="hidden" name="age[title]" can-value="ageValue" />
                     </div>
                 </div>
             {{/if}}

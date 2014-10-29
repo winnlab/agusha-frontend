@@ -32,7 +32,7 @@ export default Edit.extend({
 
 		var self = this,
 			options = this.options,
-			gallery = {};
+			gallery = new can.Map;
 		
 		self.module = new can.Map({
 			langs: appState.attr('langs')
@@ -57,7 +57,7 @@ export default Edit.extend({
 				gallery = new GalleryModel.List({article_id: options.doc._id});
 			}
 			if (options.doc.age) {
-				self.module.attr('ageValue' ,options.doc.age.value);
+				self.module.attr('ageValue' ,options.doc.age.title);
 			}
 			if (options.doc.theme) {
 				self.module.attr('themeName', options.doc.theme.name);
@@ -81,7 +81,7 @@ export default Edit.extend({
 	},
 
 	'.currentAgeSelect change': function (el) {
-		var newVal = el.find('option:selected').data('ages').attr('value');
+		var newVal = el.find('option:selected').data('ages').attr('title');
 		this.module.attr('ageValue', newVal);
 	},
 
