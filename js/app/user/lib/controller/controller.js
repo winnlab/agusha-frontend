@@ -17,7 +17,7 @@ export default can.Control.extend({
 			return this.after_request();
 		}
 		
-		System.import(this.options.css_path + this.options.name + '/index.css!').then(this.request());
+		System.import(this.options.css_path + this.options.name + '/index.css!').then(can.proxy(this.request, this));
 	},
 	
 	request: function() {

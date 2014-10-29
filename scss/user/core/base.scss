@@ -765,12 +765,5 @@ table tr {
 }
 
 .column {
-	@include inline_block;
-	@include border_boxed;
-	margin: 10px;
-	width: 280px;
-	
-	&.double {
-		width: 580px;
-	}
+	@include column;
 }

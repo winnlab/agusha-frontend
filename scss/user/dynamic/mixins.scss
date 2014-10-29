@@ -107,3 +107,14 @@
 	font-family: 'PT_Sans_Bold';
 	letter-spacing: 0.5px;
 }
+
+@mixin column {
+	@include inline_block;
+	@include border_boxed;
+	margin: 10px;
+	width: 280px;
+	
+	&.double {
+		width: 580px;
+	}
+}
