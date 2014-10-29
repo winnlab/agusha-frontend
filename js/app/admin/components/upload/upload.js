@@ -46,6 +46,7 @@ var UploadViewModel = can.Map.extend({
 							: newVal;
 
 						uploaded.splice(0, 1, realVal);
+						// uploaded = realVal;
 					}
 				}
 
@@ -85,7 +86,7 @@ var UploadViewModel = can.Map.extend({
 			xhr.done(function (response) {
 
 				if (entity.uploaded) {
-					entity.uploaded(self.attr('name'), response);
+					entity.uploaded(self.attr('name'), response.data[self.attr('name')]);
 				}
 
 				saSuccess('Файл успешно выгружен');
