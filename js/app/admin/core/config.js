@@ -30,6 +30,14 @@ var config = {
 			{
 				name: 'clients',
 				path: 'js/app/admin/modules/clients/'
+			},
+			{
+				name: 'productAges',
+				path: 'js/app/admin/modules/productAges/'
+			},
+			{
+				name: 'products',
+				path: 'js/app/admin/modules/products/'
 			}
 		]
 	}
