@@ -1,7 +1,7 @@
 import 'can/'
 import Edit from 'edit'
 
-import 'bootstrap-wysihtml5'
+import 'summernote'
 
 export default Edit.extend({
     defaults: {
