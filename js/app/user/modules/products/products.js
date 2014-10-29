@@ -11,10 +11,10 @@ var Product = can.Model.extend({
 
 export default Controller.extend(
 	{
-        defaults: {
+		defaults: {
 			
-        }
-    }, {
+		}
+	}, {
 		after_init: function(data) {
 			var that = this,
 				products,
