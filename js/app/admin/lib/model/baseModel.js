@@ -17,9 +17,8 @@ var baseModel = {
         this.attr(name, undefined);
     },
     uploaded: function (name, response) {
-        var data = response.data || response.responseJSON;
-
-        var value = data[name];
+        var data = response.data || response.responseJSON || response,
+            value = data[name] || data;
 
         if (!this.attr(name)) {
             this.attr(name, []);
