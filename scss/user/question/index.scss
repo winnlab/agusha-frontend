@@ -1,0 +1,50 @@
+@charset "UTF-8";
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+@import '../helpers/topper_title';
+@import '../helpers/social';
+
+.module.question {
+	text-align: center;
+	width: 100%;
+	
+	.bg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: url('/img/user/question/bg.jpg') no-repeat center top;
+		top: 0;
+		left: 0;
+	}
+	
+	.content {
+		@include inline_block;
+		text-align: left;
+		width: 920px;
+	}
+	
+	.breadcrumbs {
+		color: $white;
+	}
+	
+	.topper_title {
+		color: $white;
+		margin-bottom: 51px;
+		font-size: 24px;
+		line-height: 24px;
+		text-decoration: underline;
+	}
+	
+	.social {
+		height: 70px;
+		margin: 0 20px;
+		
+		.adorable_cell {
+			text-align: left;
+		}
+	}
+	
+	.question_container {
+		margin: 0 10px;
+	}
+}

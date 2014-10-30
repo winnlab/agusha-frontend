@@ -11,7 +11,7 @@ mixin theme(t)
 		.cover
 			.adorable_table
 				.adorable_cell
-					.title Title
+					.title=(t ? t.name : '{{name}}')
 					.count
 						.adorable_table
 							.adorable_cell 0

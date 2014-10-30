@@ -1,0 +1,79 @@
+.bg
+
+.content
+	include ../helpers/breadcrumbs
+	
+	.topper_title Узнать у специалиста
+	
+	.ask_specialist
+		.column.left
+			.avatar
+				img.rounded(src="/img/user/specialist/doc.jpg")
+				.table
+					.adorable_table
+						.adorable_cell Педиатр
+			
+			.name
+				div Матвиенко
+				div Ирина Николаевна
+			
+			.desc
+				div Кандидат медицинских наук,
+				div старший научный сотрудник отделения медицинских проблем здорового ребенка
+				div и преморбидных состояний.
+			
+			.read_more
+				span Подробнее
+		
+		.column.double.right
+			.question
+				input(type="text", name="title", placeholder="ВОПРОС (до 100 символов)")
+				.hint_block
+					img.hint(src="/img/user/poll/question_answered.png")
+			
+			.details
+				textarea(name="title", placeholder="ДЕТАЛИ ВОПРОСА")
+			
+			.selects
+				.select
+					select.specialist_age_select
+						option(value = 0) Возрастной период
+						option(value = 1) Дедушка
+						option(value = 2) Бабушка
+				
+				.select.theme
+					select.specialist_theme_select
+						option(value = 0) Тема вопроса
+			
+			.footer
+				.obligatory
+					div Все поля являются обязательными
+					div для заполнения
+				
+				button.button ОТПРАВИТЬ
+	
+	.filters
+		select.specialist_question_select
+			option(value = 0) Вопросы от мам
+		
+		select.specialist_sort_select
+			option(value = 0) Сначала отвеченные
+		
+		.icons
+			.icon.eye
+				.adorable_table
+					.adorable_cell
+						img(src="/img/user/specialist/eye.png")
+			
+			.icon.lamp
+				.adorable_table
+					.adorable_cell
+						img(src="/img/user/specialist/lamp.png")
+			
+			.icon.check
+				.adorable_table
+					.adorable_cell
+						img(src="/img/user/specialist/check.png")
+	
+	.items_container
+		

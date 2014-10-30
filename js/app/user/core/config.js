@@ -72,6 +72,20 @@ var config = {
 					client: 'js/app/user/modules/poll/',
 					server: ':name/:entity_id'
 				}
+			},
+			{
+				name: 'specialist',
+				path: {
+					client: 'js/app/user/modules/specialist/',
+					server: ':name'
+				}
+			},
+			{
+				name: 'question',
+				path: {
+					client: 'js/app/user/modules/question/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'
