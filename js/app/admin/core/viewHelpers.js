@@ -174,7 +174,7 @@ can.mustache.registerHelper('arrContains', function (array, value, strict, rever
 
 	array = computedVal(array);
 
-	if(!_.isObject(array) && array[0]) {
+	if(!_.isArray(array) && !array[0]) {
 		return false;
 	}
 
@@ -192,4 +192,31 @@ can.mustache.registerHelper('stringContains', function (string, needle, options)
 	return computedVal(string).indexOf(computedVal(needle)) >= 0
 		? options.fn()
 		: options.inverse();
+});
+
+can.mustache.registerHelper('arrOfObjectsContains', function (array, property, value, reverse, options) {
+	array = computedVal(array);
+	property = computedVal(property);
+	value = computedVal(value);
+
+	if (! array instanceof can.List && ! _.isArray(array)) {
+		return false;
+	}
+
+	if (!array[0]) {
+		return reverse ? options.fn() : false;
+	}
+
+	var result = [];
+	if (value instanceof can.List || _.isArray(value)) {
+		result = _.find(array, function (item) {
+			return value.indexOf(item[property]) >= 0;
+		});
+	} else {
+		var props = {};
+		props[property] = value;
+		result = _.where(array, props);
+	}
+
+	return Boolean(result) ^ reverse ? options.fn() : false;
 });
