@@ -41,30 +41,28 @@
 
             {{#if ages.length}}
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="age[age_id]">Возраст статьи:</label>
+                    <label class="col-md-2 control-label" for="age[age_id]">Возраста статьи:</label>
                     <div class="col-md-10">
-                        <select can-value="article.age.age_id" class="currentAgeSelect form-control">
+                        <select class="currentAgeSelect form-control" multiple>
                             {{#sortedBy ages 'title'}}
-                                <option {{data "ages"}} value="{{_id}}">{{title}}</option>
+                                <option {{data "ages"}} value="{{_id}}" {{#arrContains ageValue _id false false}}selected{{/arrContains}}>{{title}}</option>
                             {{/sortedBy}}
                         </select>
-                        <input type="hidden" name="age[title]" can-value="ageValue" />
                     </div>
                 </div>
             {{/if}}
-            {{#if article.age.age_id}}
+            {{#if ageValue.length}}
                 {{#if themes.length}}
                     <div class="form-group">
-                        <label class="col-md-2 control-label" for="theme[theme_id]">Тема статьи:</label>
+                        <label class="col-md-2 control-label" for="theme">Тема статьи:</label>
                         <div class="col-md-10">
-                            <select can-value="article.theme.theme_id" class="currentThemeSelect form-control">
+                            <select class="currentThemeSelect form-control" multiple>
                                 {{#sortedBy themes 'name'}}
-                                    {{#arrContains age_id article.age.age_id true false}}
-                                        <option {{data "themes"}} value="{{_id}}">{{name}}</option>
+                                    {{#arrOfObjectsContains article.age '_id' age_id false}}
+                                        <option {{data "themes"}} value="{{_id}}" {{#arrContains themeValue _id false false}}selected{{/arrContains}}>{{name}}</option>
                                     {{/arrContains}}
                                 {{/sortedBy}}
                             </select>
-                            <input class="themeName" type="hidden" name="theme[name]" can-value="themeName" />
                         </div>
                     </div>
                 {{/if}}
@@ -91,7 +89,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc[shorttext]">Краткое описание:</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" can-value="article.desc.shorttext" placeholder="Краткое описание" />
+                            <textarea rows="4" class="form-control" type="text" can-value="article.desc.shorttext" placeholder="Краткое описание"></textarea>
                             <div class="help help-block"></div>
                         </div>
                     </div>
