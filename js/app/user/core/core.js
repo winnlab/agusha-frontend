@@ -59,6 +59,21 @@ var Core = can.Control.extend(
 			window.requestAnimFrame(function(timestamp) {
 				that.step(timestamp);
 			});
+		},
+		
+		'.search_form submit': function(el, ev) {
+			ev.preventDefault();
+			
+			var search_input = el.find('.search_input'),
+				phrase = $.trim(search_input.val());
+			
+			phrase = phrase.replace(/ +(?= )/g, '');
+			phrase = phrase.replace(/ /g, '_');
+			phrase = phrase.toLowerCase();
+			
+			if(phrase != '') {
+				router.new_module('search/' + phrase);
+			}
 		}
 	}
 );
