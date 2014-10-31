@@ -39,19 +39,19 @@ export default Edit.extend({
         data['themes'] = options.themes;
         data['types'] = options.types;
 
-        this.ageValue = can.compute(null);
+        this.ageTitle = can.compute(null);
         this.themeName = can.compute(null);
 
         if (options.doc) {
             if (options.doc.age) {
-                this.ageValue(options.doc.age.title);
+                this.ageTitle(options.doc.age.title);
             }
             if (options.doc.theme) {
                 this.themeName(options.doc.theme.name);
             }
         }
 
-        data['ageValue'] = this.ageValue;
+        data['ageTitle'] = this.ageTitle;
         data['themeName'] = this.themeName;
         data['showComments'] = can.compute(false);
 
@@ -71,7 +71,7 @@ export default Edit.extend({
 
     '.currentAgeSelect change': function (el) {
         var newVal = el.find('option:selected').data('ages').attr('title');
-        this.ageValue(newVal);
+        this.ageTitle(newVal);
     },
 
     '.currentThemeSelect change': function (el) {
