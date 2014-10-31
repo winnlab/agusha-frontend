@@ -93,6 +93,13 @@ var config = {
 					client: 'js/app/user/modules/search/',
 					server: ':name/:entity_id'
 				}
+			},
+			{
+				name: 'moneybox',
+				path: {
+					client: 'js/app/user/modules/moneybox/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'
