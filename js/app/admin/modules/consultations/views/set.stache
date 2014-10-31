@@ -92,6 +92,24 @@
                 </div>
             </div>
 
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <button type="button" class="btn btn-primary addComment">
+                        <i class="fa fa-plus"></i>
+                        <span>Добавить комментарий</span>
+                    </button>
+                </div>
+                <div class="panel-body {{#unless addingComment}}hidden{{/unless}}">
+                    <textarea class="form-control" {{wysiwyg}}></textarea>
+                    <div class="well">
+                        <button type="button" class="btn btn-success confirmComment">
+                                <i class="fa fa-ok"></i>
+                                <span>Добавить</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="well">
                 <div class="form-control">
                     <input type="checkbox" can-value="showComments" />
@@ -101,7 +119,7 @@
 
             <div class="{{#unless showComments}}hidden {{/unless}}panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">Комментарии:</div>
+                    <div class="panel-title col-md-12">Комментарии:</div>
                 </div>
                 {{#if consultation.answer.length}}
                     {{#each consultation.answer}}
@@ -111,13 +129,13 @@
                                     Автор: <span class="badge">{{#if author.name}}{{author.name}}{{else}}Аноним{{/if}}</span>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-danger removeAnswer pull-right"><i class="fa fa-trash-o"></i>&nbsp;Удалить</button>
+                                    <button type="button" class="btn btn-danger removeAnswer pull-right"><i class="fa fa-trash-o"></i>&nbsp;Удалить</button>
                                 </div>
                                 <div class="col-md-6">
                                     Дата: <span class="badge">{{date}}</span>
                                 </div>
                                 <div class="col-md-12 panel-body">
-                                    <textarea class="form-control" can-value="text" name="answer[{{@index}}][text]" {{#if text}}{{wysihtml5}}{{/if}}>{{{text}}}</textarea>
+                                    <textarea class="form-control" can-value="text" name="answer[{{@index}}][text]" {{#if text}}{{wysiwyg}}{{/if}}>{{{text}}}</textarea>
                                 </div>
                             </div>
                         </div>
