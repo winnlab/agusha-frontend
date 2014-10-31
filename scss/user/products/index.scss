@@ -18,23 +18,23 @@
 
 #products {
 	text-align: left;
-	
+
 	.topper_title {
 		height: 80px;
 	}
-	
+
 	.filters {
 		@include box_shadow(inset 0 0 0 1px $white);
 		margin: 0 20px;
 		height: 70px;
 	}
-	
+
 	.category_container {
 		@include inline_block;
 		height: 100%;
 		margin: 0 0 0 27px;
 	}
-	
+
 	.category_block {
 		margin: 0 3px;
 		display: inline-block;
@@ -42,26 +42,26 @@
 		height: 100%;
 		position: relative;
 	}
-	
+
 	.choose_category {
 		cursor: pointer;
 		padding: 8px 27px;
-		
+
 		&:hover {
 			@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
 			background-color: $titleblue;
 			color: white;
 		}
-		
+
 		&.active {
 			@include box_shadow(inset 0 0 0 1px #cccccc);
-			
+
 			&:hover {
 				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
 			}
 		}
 	}
-	
+
 	.about_block {
 		height: 100%;
 		width: 100%;
@@ -69,22 +69,22 @@
 		font-family: 'PT_Sans_Italic';
 		font-size: 18px;
 		color: $darkgrey;
-		
+
 		&.active {
 			display: block;
 		}
 	}
-	
+
 	.about_text {
 		@include absolute_horizontal_centered;
 		width: 280px;
 		z-index: 1;
-		
+
 		.adorable_cell {
 			text-align: left;
 		}
 	}
-	
+
 	.show {
 		@include rounded;
 		@include border_boxed;
@@ -101,20 +101,20 @@
 		font-size: 12px;
 		font-family: 'PT_Sans_Bold';
 		text-transform: uppercase;
-		
+
 		.adorable_cell {
 			text-align: left;
 		}
-		
+
 		img, span {
 			vertical-align: middle;
 		}
-		
+
 		img {
 			margin-right: 10px;
 		}
 	}
-	
+
 	.how_to_feed {
 		clear: both;
 		text-align: center;
@@ -130,11 +130,11 @@
 	position: relative;
 	display: none;
 	background-color: $white;
-	
+
 	&.active {
 		display: block;
 	}
-	
+
 	&:before {
 		@include pseudo;
 		width: 50%;
@@ -143,7 +143,7 @@
 		left: 0;
 		background: url('/img/user/products/about_bg_left.jpg') no-repeat left;
 	}
-	
+
 	&:after {
 		@include pseudo;
 		width: 50%;
@@ -176,29 +176,29 @@
 		float: left;
 		height: 70px;
 	}
-	
+
 	.left {
 		width: 70px;
 		position: relative;
-		
+
 		.icon {
 			@include absolute_centered;
 			max-width: 100%;
 			max-height: 100%;
-			
+
 			&.normal {
 				display: none;
 			}
-			
+
 			&.hover {
 				display: block;
 			}
 		}
 	}
-	
+
 	.right {
 		width: 80px;
-		
+
 		.adorable_cell {
 			text-align: left;
 		}
@@ -208,7 +208,7 @@
 #products_container {
     padding: 10px;
 	overflow: visible;
-	
+
 	.product_block {
 		height: 465px;
 		float: left;
@@ -219,30 +219,30 @@
 		color: $grey;
 		background-color: $white;
 		display: block;
-		
+
 		.image {
 			@include absolute_horizontal_centered;
 			height: 225px;
 			width: 160px;
 			top: 0;
-			
+
 			img {
 				@include absolute_centered;
 				max-height: 100%;
 				max-width: 100%;
 			}
 		}
-		
+
 		.title {
 			position: absolute;
 			top: 225px;
 			background-color: $el_bg;
 			height: 80px;
-			
+
 			.adorable_cell {
 				padding: 0 20px;
 			}
-			
+
 			span {
 				color: $titleblue;
 				font-size: 15px;
@@ -250,40 +250,40 @@
 				font-family: 'PT_Sans_Bold';
 			}
 		}
-		
+
 		.desc {
 			position: absolute;
 			top: 305px;
 			background-color: $el_bg;
 			height: 80px;
-			
+
 			.adorable_cell {
 				padding: 0 20px;
 			}
-			
+
 			span {
 				font-size: 13px;
 				vertical-align: top;
 			}
 		}
-		
+
 		.info {
 			width: 100%;
 			position: absolute;
 			top: 385px;
 			background-color: $el_bg;
 			height: 80px;
-			
+
 			.top {
 				font-size: 16px;
 				color: $titleblue;
 				font-family: 'PT_Sans_Bold';
 			}
-			
+
 			.bottom {
 				font-size: 13px;
 			}
-			
+
 			&:before {
 				@include pseudo;
 				@include absolute_centered;
@@ -292,31 +292,31 @@
 				background-color: $grey;
 			}
 		}
-		
+
 		&:hover {
 			@include box_shadow(0 0 0 20px $white, 0px 2px 6px 20px rgba(0, 0, 0, 0.22));
 			z-index: 1;
-			
+
 			.image {
 				top: 134px;
 				width: 225px;
 				left: 0;
-				
+
 				img {
 					max-height: 225px;
 					max-width: 225px;
 				}
 			}
-			
+
 			.title {
 				top: 0;
 				background-color: $white;
 			}
-			
+
 			.desc {
 				display: none;
 			}
-			
+
 			.info {
 				background: $white;
 			}
