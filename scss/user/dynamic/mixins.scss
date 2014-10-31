@@ -113,6 +113,7 @@
 	@include border_boxed;
 	margin: 10px;
 	width: 280px;
+	position: relative;
 	
 	&.double {
 		width: 580px;

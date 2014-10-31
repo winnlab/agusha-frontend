@@ -1,3 +1,5 @@
+.bg
+
 .content
 	include ../helpers/breadcrumbs
 	
@@ -5,7 +7,7 @@
 	
 	.tabs
 		.tabs_flex
-			.tab.tab_selector.rules(data-tab="rules")
+			.tab.tab_selector.rules.active(data-tab="rules")
 				.tab_selector_inside
 					.title Правила
 			
@@ -13,16 +15,242 @@
 				.tab_selector_inside
 					.title Как работает?
 			
-			.tab.tab_selector.my_moneybox.active(data-tab="my_moneybox")
+			.tab.tab_selector.my_moneybox(data-tab="my_moneybox")
 				.tab_selector_inside
 					.title Моя копилка
 	
 	.tab_contents
-		.tab_content.tab_selector.my_moneybox.active
+		.tab_content.tab_selector.my_moneybox
 			
 		
 		.tab_content.tab_selector.how_it_works
+			.simple Все очень просто!
+			.desc
+				div Тут оставлено место для более полного и развернутого описания этого шага,
+				div приблизительно на две строки.
 			
+			.steps
+				.step.step_1
+					.column.left
+						.step_title Шаг 1
+						
+						.step_subtitle
+							div Регистрируемся или
+							div авторизируемся на сайте
+						
+						.step_desc Тут оставлено место для более полного и развернутого описания этого шага, приблизительно на три строки.
+						
+						button.step_button Вход / регистрация
+					
+					.column.double.right
+						img.double_img(src="/img/user/moneybox/step_1.png")
+				
+				.step.step_2
+					.column.double.left
+						img.double_img(src="/img/user/moneybox/step_2.png")
+					
+					.column.right
+						.step_title Шаг 2
+						
+						.step_subtitle Накапливаем много, много, много баллов в копилку
+						
+						.step_desc Тут оставлено место для более полного и развернутого описания этого шага, приблизительно на три строки.
+						
+						button.step_button Как накопить?
+				
+				.step.step_3
+					.column.left
+						.step_title Шаг 3
+						
+						.step_subtitle Развиваемся, закаляемся, матереем и ростем в званиях
+						
+						.step_desc Тут оставлено место для более полного и развернутого описания этого шага, приблизительно на три строки.
+						
+						button.step_button Как развиваться?
+					
+					.column.double.right
+						img.double_img(src="/img/user/moneybox/step_3.png")
+				
+				.step.step_4
+					.column.double.left
+						img.double_img(src="/img/user/moneybox/step_4.png")
+					
+					.column.right
+						.step_title Шаг 4
+						
+						.step_subtitle Участвуем в розыгрышах, выигрываем горы призов
+						
+						.step_desc Тут оставлено место для более полного и развернутого описания этого шага, приблизительно на три строки.
+						
+						button.step_button Какие призы?
+						
+						button.step_button.rules_button Правила розыгрыша
+				
+				.up
+					button.up_button Наверх
 		
-		.tab_content.tab_selector.rules
+		.tab_content.tab_selector.rules.active
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Что такое Копилка?
+				.text Text
 			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Кто участвует в Копилке?
+				.text Text
+			
+			.tab_block.faq_block.active
+				.title
+					.adorable_table
+						.adorable_cell За что начисляют баллы?
+				.text
+					div Все сервисы портала «Агуша» бесплатные. Здесь можно найти статьи на интересующую тему и по возрасту ребенка, поделиться опытом и спросить совета, получить консультацию специалиста, найти компанию для прогулок в вашем городе или место, куда можно пойти беременной или с маленьким ребенком.
+					
+					table
+						thead
+							th.action Действия пользователя
+							th.points Баллов
+							th Ограничения
+						
+						tbody
+							tr
+								td.action Регистрация на сайте
+								td.points +25
+								td единоразово
+							
+							tr
+								td.action Заполнение профиля на 100%
+								td.points +30
+								td единоразово
+							
+							tr
+								td.action Регулярные заходы на сайт
+								td.points +1
+								td
+									div 1 раз в неделю, с логином; 
+									.grey максимум 4 балла в месяц
+							
+							tr
+								td.action
+									div Лайк
+									div Шеринг статьи в ФБ
+								
+								td.points +2
+								td
+									div 6 баллов в сутки, 
+									.grey не более 60 баллов в месяц
+							
+							tr
+								td.action
+									div Лайк
+									div Шеринг статьи во ВК
+								
+								td.points +2
+								td
+									div 6 баллов в сутки, 
+									.grey не более 60 баллов в месяц
+							
+							tr
+								td.action
+									div Лайк
+									div Шеринг статьи в Одноклассниках
+								
+								td.points +2
+								td
+									div 6 баллов в сутки, 
+									.grey не более 60 баллов в месяц
+							
+							tr
+								td.action Оценка материала (внутренний лайк статьи)
+								
+								td.points +1
+								td
+									div максимум 10 баллов в сутки,
+									.grey не более 100 баллов в месяц
+							
+							tr
+								td.action Комментарий к статье
+								
+								td.points +1
+								td
+									div максимум 3 балла в сутки, 
+									.grey не более 30 баллов в месяц
+							
+							tr
+								td.action Вопрос к сообществу
+								
+								td.points +1
+								td
+									div максимум 1 балл в сутки, 
+									.grey не более 10 баллов в месяц
+							
+							tr
+								td.action Ответ на вопрос
+								
+								td.points +2
+								td
+									div максимум 6 баллов в сутки, 
+									.grey не более 60 баллов в месяц
+							
+							tr
+								td.action Написание статьи (если одобрена модератором)
+								
+								td.points +10
+								td максимум 10 баллов в месяц
+							
+							tr
+								td.action Приглашение друга на сайт (успешное)
+								
+								td.points +5
+								td не более 5 подруг в месяц
+			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Что за звания и зачем они?
+				.text Text
+			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Как узнать, сколько у меня баллов?
+				.text Text
+			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Как заработать дополнительные баллы?
+				.text Text
+			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Как часто происходят розыгрыши?
+				.text Text
+			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell В каких розыгрышах я могу принимать участие?
+				.text Text
+			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Что за подарки?
+				.text Text
+			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Почему я должен в этом участвовать?
+				.text Text
+			
+			.tab_block.faq_block
+				.title
+					.adorable_table
+						.adorable_cell Мне это неинтересно, я хочу отказаться
+				.text Text
