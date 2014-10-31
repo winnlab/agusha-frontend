@@ -113,14 +113,53 @@
                     <div class="panel-body">
                         <upload
                             class="col-md-12"
-                            name="image"
+                            name="image.background"
                             url="/admin/article/img"
                             delete-url="/admin/article/img"
                             entity="{article}"
-                            uploaded="{article.image}"
+                            uploaded="{article.image.background}"
                             accept="image/*"
                         >
-                            Загрузить изображение
+                            Загрузить изображение фона
+                        </upload>
+                    </div>
+                    <div class="panel-body">
+                        <upload
+                            class="col-md-12"
+                            name="image.S"
+                            url="/admin/article/img"
+                            delete-url="/admin/article/img"
+                            entity="{article}"
+                            uploaded="{article.image.S}"
+                            accept="image/*"
+                        >
+                            Загрузить малое изображение (S)
+                        </upload>
+                    </div>
+                    <div class="panel-body">
+                        <upload
+                            class="col-md-12"
+                            name="image.L"
+                            url="/admin/article/img"
+                            delete-url="/admin/article/img"
+                            entity="{article}"
+                            uploaded="{article.image.L}"
+                            accept="image/*"
+                        >
+                            Загрузить большое изображение (L)
+                        </upload>
+                    </div>
+                    <div class="panel-body">
+                        <upload
+                            class="col-md-12"
+                            name="image.XL"
+                            url="/admin/article/img"
+                            delete-url="/admin/article/img"
+                            entity="{article}"
+                            uploaded="{article.image.XL}"
+                            accept="image/*"
+                        >
+                            Загрузить ОЧЕНЬ большое изображение (XL)
                         </upload>
                     </div>
                 </div>
