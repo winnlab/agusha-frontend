@@ -40,11 +40,17 @@ export default Edit.extend({
         data['types'] = options.types;
 
         this.ageTitle = can.compute(null);
+        this.ageFixture = can.compute(null);
         this.themeName = can.compute(null);
 
         if (options.doc) {
             if (options.doc.age) {
                 this.ageTitle(options.doc.age.title);
+                this.ageTitle(
+                    options.doc.age.icon
+                        ? options.doc.age.icon.title
+                        : undefined
+                );
             }
             if (options.doc.theme) {
                 this.themeName(options.doc.theme.name);
@@ -52,6 +58,7 @@ export default Edit.extend({
         }
 
         data['ageTitle'] = this.ageTitle;
+        data['ageFixture'] = this.ageFixture;
         data['themeName'] = this.themeName;
         data['showComments'] = can.compute(false);
 
@@ -63,15 +70,18 @@ export default Edit.extend({
 	},
 
     ensureObject: function(obj, key, value = {}) {
-        var exists = _.isObject(obj.attr(key));
-        if (!exists) {
+        if (!_.isObject(obj.attr(key))) {
             obj.attr(key, value);
         }
     },
 
     '.currentAgeSelect change': function (el) {
-        var newVal = el.find('option:selected').data('ages').attr('title');
-        this.ageTitle(newVal);
+        var ages = el.find('option:selected').data('ages'),
+            newTitle = ages.attr('title'),
+            newFixture = ages.attr('icon.fixture');
+
+        this.ageTitle(newTitle);
+        this.ageFixture(newFixture);
     },
 
     '.currentThemeSelect change': function (el) {

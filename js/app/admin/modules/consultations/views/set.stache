@@ -49,6 +49,7 @@
                             {{/sortedBy}}
                         </select>
                         <input type="hidden" name="age[title]" can-value="ageTitle" />
+                        <input type="hidden" name="age[fixture]" can-value="ageFixture" />
                     </div>
                 </div>
             {{/if}}

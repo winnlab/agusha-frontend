@@ -42,6 +42,7 @@ export default Edit.extend({
 		self.ensureObject(options.doc, 'desc');
 		self.ensureObject(options.doc, 'theme');
 		self.ensureObject(options.doc, 'type');
+		self.ensureObject(options.doc, 'image');
 		
 		self.module.attr(options.moduleName, options.doc);
 
@@ -100,7 +101,8 @@ export default Edit.extend({
 			var data = $(this).data('ages');
 			ages.push({
 				_id: data.attr('_id'),
-				title: data.attr('title')
+				title: data.attr('title'),
+				fixture: data.attr('icon.fixture')
 			});
 			newAgeValue.push(data._id);
 		});
