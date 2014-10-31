@@ -2,20 +2,29 @@
 @import '../helpers/breadcrumbs';
 @import '../helpers/topper_title';
 @import '../helpers/tabs';
+@import '../helpers/table';
 
 .module.moneybox {
 	width: 920px;
 	text-align: left;
+	color: $grey;
 	
-	&:before {
-		@include pseudo;
+	.bg {
 		@include absolute_horizontal_centered;
-		top: 0;
-		left: 0;
-		background: url('/img/user/moneybox/topper_background.png') top no-repeat;
 		width: 100%;
-		height: 100%;
-		z-index: 5;
+		height: 210px;
+		top: 0;
+		
+		&:before {
+			@include pseudo;
+			@include absolute_horizontal_centered;
+			top: 0;
+			left: 0;
+			background: url('/img/user/moneybox/topper_background.png') top no-repeat;
+			width: 100%;
+			height: 100%;
+			z-index: 5;
+		}
 	}
 	
 	.topper_title {
@@ -24,7 +33,8 @@
 	}
 	
 	.tab_contents {
-		padding: 20px 20px 40px 20px;
+		margin-top: 50px;
+		padding: 0 10px 20px;
 	}
 	
 	.tab_content {
@@ -34,7 +44,135 @@
 			display: block;
 		}
 		
-		
+		&.how_it_works {
+			.simple {
+				font-size: 55px;
+				line-height: 55px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				text-align: center;
+				text-transform: uppercase;
+				color: #ccbfb8;
+			}
+			
+			.desc {
+				font-size: 18px;
+				font-family: 'PT_Sans_Italic';
+				margin-top: 35px;
+				text-align: center;
+			}
+			
+			.steps {
+				margin-top: 140px;
+				
+				&:before {
+					@include pseudo;
+					@include absolute_centered;
+					background: url('/img/user/moneybox/strip.png') no-repeat;
+					top: 737px;
+					width: 423px;
+					height: 1731px;
+				}
+				
+				.column {
+					height: 100%;
+				}
+			}
+			
+			.step_title {
+				font-size: 55px;
+				line-height: 55px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				color: $blue;
+				text-transform: uppercase;
+			}
+			
+			.step_subtitle {
+				margin-top: 25px;
+				font-size: 18px;
+				font-family: 'PT_Sans_Italic';
+				line-height: 25px;
+			}
+			
+			.step_desc {
+				margin-top: 25px;
+				line-height: 25px;
+			}
+			
+			.step_button {
+				@include box_shadow(0 0 1px #d5d0cb);
+				background-color: transparent;
+				font-size: 14px;
+				font-family: 'PT_Sans_Italic' !important;
+				color: $bluefont;
+				padding: 7px 19px;
+				text-transform: none;
+				margin-top: 35px;
+				
+				&.rules_button {
+					margin-top: 12px;
+				}
+			}
+			
+			.step_1 {
+				height: 328px;
+				
+				.double_img {
+					position: absolute;
+					left: 140px;
+					top: 0;
+				}
+			}
+			
+			.step_2 {
+				height: 364px;
+				margin-top: 150px;
+				
+				.double_img {
+					position: absolute;
+					left: 46px;
+					top: 0;
+				}
+			}
+			
+			.step_3 {
+				height: 365px;
+				margin-top: 150px;
+				
+				.double_img {
+					position: absolute;
+					left: 140px;
+					top: 0;
+				}
+			}
+			
+			.step_4 {
+				height: 372px;
+				margin-top: 150px;
+				
+				.double_img {
+					position: absolute;
+					left: 83px;
+					top: 0;
+				}
+			}
+			
+			.up {
+				margin-top: 141px;
+				text-align: center;
+				margin-bottom: 80px;
+				position: relative;
+			}
+			
+			.up_button {
+				background-color: $lightblue;
+				color: $white;
+				padding: 10px 57px;
+				
+				&:hover {
+					opacity: 1;
+				}
+			}
+		}
 	}
 	
 	.tab_block {
@@ -108,6 +246,25 @@
 			a {
 				color: #2ca7e0;
 			}
+		}
+	}
+	
+	table {
+		margin-top: 35px;
+		
+		.action {
+			@include border_boxed;
+			width: 321px;
+			padding: 0 111px 0 30px;
+		}
+		
+		.points {
+			width: 234px;
+		}
+		
+		.grey {
+			color: #b2b2b2;
+			font-family: 'PT_Sans_Italic';
 		}
 	}
 }
