@@ -86,6 +86,13 @@ var config = {
 					client: 'js/app/user/modules/question/',
 					server: ':name'
 				}
+			},
+			{
+				name: 'search',
+				path: {
+					client: 'js/app/user/modules/search/',
+					server: ':name/:entity_id'
+				}
 			}
 		],
 		defaultModule: 'main'
