@@ -7,7 +7,7 @@
 	
 	.tabs
 		.tabs_flex
-			.tab.tab_selector.rules.active(data-tab="rules")
+			.tab.tab_selector.rules(data-tab="rules")
 				.tab_selector_inside
 					.title Правила
 			
@@ -15,13 +15,312 @@
 				.tab_selector_inside
 					.title Как работает?
 			
-			.tab.tab_selector.my_moneybox(data-tab="my_moneybox")
+			.tab.tab_selector.my_moneybox.active(data-tab="my_moneybox")
 				.tab_selector_inside
 					.title Моя копилка
 	
 	.tab_contents
-		.tab_content.tab_selector.my_moneybox
+		.tab_content.tab_selector.my_moneybox.active
+			.column.level
+				.left
+					div Ваш
+					div уровень:
+				
+				.right Ученик
 			
+			.big_image_container
+				.column.left
+					.adorable_table
+						.adorable_cell Как получить следующее звание?
+				
+				.column.center
+					.adorable_table
+						.adorable_cell
+							.text У вас
+							.count
+								- var points = [3, 6, 5]
+								- each p, key in points
+									.number
+										.symbol #{p}
+							.text баллов
+				
+				.column.right
+					.adorable_table
+						.adorable_cell Как заработать больше баллов?
+			
+			.rating_container
+				.icons
+					.icon
+						img(src="/img/user/moneybox/novice.png")
+					
+					.icon
+						img(src="/img/user/moneybox/disciple.png")
+					
+					.icon
+						img(src="/img/user/moneybox/adept.png")
+					
+					.icon
+						img(src="/img/user/moneybox/expert.png")
+					
+					.icon
+						img(src="/img/user/moneybox/pro.png")
+				
+				.bar
+					.icon.filled
+						.adorable_table
+							.adorable_cell
+								.label Новичек
+					
+					.icon
+						.adorable_table
+							.adorable_cell
+								.partial(style='width: 82.5%;')
+								.label Ученик
+					
+					.icon
+						.adorable_table
+							.adorable_cell
+								.label Знаток
+					
+					.icon
+						.adorable_table
+							.adorable_cell
+								.label Эксперт
+					
+					.icon
+						.adorable_table
+							.adorable_cell
+								.label Профи
+				
+			.labels_container
+				.star.novice.filled
+				.star.disciple.filled
+				.star.adept
+				.star.expert
+				.star.pro
+				.circle.last
+				
+				.label.novice 0
+				.label.disciple 200
+				.label.adept 400
+				.label.expert 600
+				.label.pro 800
+				.label.last 1000
+			
+			.prizes_topper
+				.calendar
+					.topper.adorable_table
+						.adorable_cell Дек
+					
+					.number.adorable_table
+						.adorable_cell 23
+				
+				.title Призы в декабре
+				
+				.closest
+					div Ближайший
+					div розыгрыш!
+				
+				.you_participate
+					.half.left
+						.adorable_table
+							.adorable_cell Вы участвуете в розыгрыше для Учеников
+					
+					.half.right
+						.adorable_table
+							.adorable_cell
+								img.left_arrow(src="/img/user/article/left_arrow.png")
+								span 1 / 3
+								img.right_arrow(src="/img/user/article/right_arrow.png")
+			
+			.cards_container
+				.column.level_card
+					.adorable_table
+						.adorable_cell
+							.your_level Ваш уровень:
+							
+							.level_title Ученик
+							
+							.level_img
+								img(src="/img/user/moneybox/novice_logo.png")
+							
+							.level_prize Приз для уровня:
+							
+							.prize_name
+								div Полотенце с капюшоном
+								div 5 наборов
+				
+				.column.moneybox_card
+					.card_images
+						.img_container
+							img.active(src="/img/user/moneybox/moneybox_card_image.jpg")
+						
+						.bottom
+							.arrow.left
+							
+							.circles
+								.circle.active
+								.circle
+								.circle
+							
+							.arrow.right
+				
+				.column.moneybox_card
+					.card_images
+						.img_container
+							img.active(src="/img/user/moneybox/moneybox_card_image.jpg")
+						
+						.bottom
+							.arrow.left
+							
+							.circles
+								.circle.active
+								.circle
+								.circle
+							
+							.arrow.right
+			
+			.prizes_topper
+				.you_participate
+					.half.left
+						.adorable_table
+							.adorable_cell Розыгрыш для знатоков
+					
+					.half.right
+						.adorable_table
+							.adorable_cell
+								img.left_arrow(src="/img/user/article/left_arrow.png")
+								span 1 / 3
+								img.right_arrow(src="/img/user/article/right_arrow.png")
+			
+			.cards_container
+				.column.level_card
+					.adorable_table
+						.adorable_cell
+							.your_level Ваш следующий уровень:
+							
+							.level_title Знаток
+							
+							.level_img
+								img(src="/img/user/moneybox/novice_logo.png")
+							
+							.level_prize Приз для уровня:
+							
+							.prize_name
+								div Полотенце с капюшоном
+								div 5 наборов
+				
+				.column.moneybox_card
+					.card_images
+						.img_container
+							img.active(src="/img/user/moneybox/moneybox_card_image.jpg")
+						
+						.bottom
+							.arrow.left
+							
+							.circles
+								.circle.active
+								.circle
+								.circle
+							
+							.arrow.right
+				
+				.column.moneybox_card
+					.card_images
+						.img_container
+							img.active(src="/img/user/moneybox/moneybox_card_image.jpg")
+						
+						.bottom
+							.arrow.left
+							
+							.circles
+								.circle.active
+								.circle
+								.circle
+							
+							.arrow.right
+			
+			.all_prizes
+				button Все призы декабря
+			
+			.prizes_topper
+				.you_participate
+					.half.left
+						.adorable_table
+							.adorable_cell Ваша активность
+					
+					.half.right
+						.adorable_table
+							.adorable_cell
+								img.left_arrow(src="/img/user/article/left_arrow.png")
+								span 2014
+								img.right_arrow(src="/img/user/article/right_arrow.png")
+			
+			.table_container
+				table
+					thead
+						tr
+							th.date Октябрь
+							th.time
+							th.label
+							th.total
+								span Всего
+								img(src="/img/user/moneybox/coin.png")
+							th.number 125
+					
+					tbody
+						tr
+							td.date 08.10.14
+							td.time 12:22
+							td.label Базовая активность на сайте
+							td.total
+							td.number +5
+						
+						tr
+							td.date 08.10.14
+							td.time 12:22
+							td.label Базовая активность на сайте
+							td.total
+							td.number +5
+						
+						tr
+							td.date 08.10.14
+							td.time 12:22
+							td.label Базовая активность на сайте
+							td.total
+							td.number +5
+						
+						tr
+							td.date 08.10.14
+							td.time 12:22
+							td.label Базовая активность на сайте
+							td.total
+							td.number +5
+						
+						tr.old
+							th.date Октябрь
+							th.time
+							th.label
+							th.total
+								span Всего
+								img(src="/img/user/moneybox/coin.png")
+							th.number 125
+						
+						tr.old
+							th.date Октябрь
+							th.time
+							th.label
+							th.total
+								span Всего
+								img(src="/img/user/moneybox/coin.png")
+							th.number 125
+				
+				table
+					tbody
+						tr.bottom
+							th.date Вы на сайте: 3 месяца
+							th.total У вас уже:
+							th.number 365
 		
 		.tab_content.tab_selector.how_it_works
 			.simple Все очень просто!
@@ -89,7 +388,7 @@
 				.up
 					button.up_button Наверх
 		
-		.tab_content.tab_selector.rules.active
+		.tab_content.tab_selector.rules
 			.tab_block.faq_block
 				.title
 					.adorable_table

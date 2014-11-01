@@ -7,9 +7,12 @@ table {
 	line-height: 18px;
 	
 	thead {
-		height: 60px;
 		color: $white;
 		background-color: #47b2e4;
+	}
+	
+	th {
+		height: 60px;
 	}
 	
 	tbody {
