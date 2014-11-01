@@ -110,6 +110,17 @@
                     </upload>
                     <upload
                         class="col-md-12"
+                        name="icon.fixture"
+                        url="/admin/age/img"
+                        delete-url="/admin/age/img"
+                        entity="{age}"
+                        uploaded="{age.icon.fixture}"
+                        accept="image/*"
+                    >
+                        Загрузить изображение-заглушку для статей
+                    </upload>
+                    <upload
+                        class="col-md-12"
                         name="desc.image.normal"
                         url="/admin/age/img"
                         delete-url="/admin/age/img"

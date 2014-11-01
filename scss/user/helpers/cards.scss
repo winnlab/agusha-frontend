@@ -6,25 +6,26 @@
 	height: 360px;
 	padding: 1px;
 	overflow: hidden;
-	
+	float: left;
+
 	&:hover {
 		.footer {
 			.counters {
-				@include transition(opacity 0.3s ease-in-out 2s);
+				@include transition(opacity 0.3s ease-in-out);
 				opacity: 1;
-				
+
 				&:after {
-					@include transition(width 0.1s ease-in-out 2s);
+					@include transition(width 0.1s ease-in-out);
 					width: 0;
 				}
 			}
 		}
 	}
-	
+
 	&.x2 {
 		width: 580px;
 		height: 740px;
-		
+
 		.topper.bg {
 			&:after {
 				@include pseudo;
@@ -35,12 +36,19 @@
 				background: url('/img/user/helpers/cards/topper_after_bg_double.png') no-repeat;
 			}
 		}
-		
+
+		.topper_title {
+			font-size: 45px;
+			line-height: 45px;
+			text-transform: uppercase;
+			height: 84px;
+		}
+
 		.button_content {
 			margin-top: 5px;
 		}
 	}
-	
+
 	&.double {
 		.topper.bg {
 			&:after {
@@ -49,21 +57,27 @@
 				background: url('/img/user/helpers/cards/topper_after_bg_double_thin.png') no-repeat;
 			}
 		}
+
+		.topper_title {
+			font-size: 26px;
+			line-height: 27px;
+			text-transform: uppercase;
+		}
 	}
-	
+
 	&.author {
 		.inner {
 			background-color: #38c9f2;
 		}
-		
+
 		.footer {
 			.counters {
 				background-color: #00aed6;
 			}
 		}
 	}
-	
-	&.blue {
+
+	&.week {
 		&.x2 {
 			.topper.bg {
 				&:after {
@@ -71,7 +85,7 @@
 				}
 			}
 		}
-		
+
 		&.double {
 			.topper.bg {
 				&:after {
@@ -81,52 +95,44 @@
 				}
 			}
 		}
-		
+
 		.topper.bg {
 			background-color: #00aed6;
-			
+
 			&:after {
 				background: url('/img/user/helpers/cards/blue_topper_after_bg.png') no-repeat;
 			}
 		}
-		
+
 		.topper_label  {
 			color: $white;
 		}
-		
+
 		.topper_title {
 			color: $white;
 		}
-		
-		.topper_small_title {
-			color: $white;
-		}
-		
-		.topper_double_title {
-			color: $white;
-		}
-		
+
 		.topper_text {
 			color: $white;
 		}
 	}
-	
-	&.article {
+
+	&.spec {
 		.inner {
 			background-color: #63ce88;
 		}
-		
-		.topper_small_title {
+
+		.topper_title {
 			color: #606d73;
 		}
-		
+
 		.footer {
 			.counters {
 				background-color: #45b26e;
 			}
 		}
 	}
-	
+
 	&.poll {
 		.footer {
 			.counters {
@@ -134,88 +140,88 @@
 			}
 		}
 	}
-	
+
 	&.promo {
 		&.x2 {
 			.topper_approve {
 				color: #93a0a6;
 			}
 		}
-		
+
 		.inner {
 			background-color: $purple;
 		}
-		
+
 		.topper_approve {
 			margin-top: 10px;
 			padding: 0 10px;
 		}
-		
+
 		.left {
 			position: relative;
-			
+
 			.promo_content {
 				margin: 0;
 				width: 100%;
 				height: 100%;
-				
+
 				img {
 					@include absolute_centered;
 				}
 			}
 		}
-		
+
 		.right {
 			width: 279px;
 			float: left;
 			height: 100%;
-			
+
 			.topper {
 				background: none;
-				
+
 				&:after {
 					background: none;
 				}
 			}
-			
+
 			.segoe_title {
 				font-size: 21px;
 				line-height: 30px;
 			}
-			
+
 			.segoe_bold_title {
 				font-size: 21px;
 				line-height: 30px;
 			}
 		}
-		
+
 		.left {
 			width: 299px;
 			float: left;
 			height: 100%;
 		}
-		
+
 		.small_right {
 			width: 160px;
 			float: right;
-			
+
 			.segoe_title {
 				font-size: 18px;
 				line-height: 24px;
 			}
-			
+
 			.segoe_bold_title {
 				font-size: 18px;
 				line-height: 24px;
 			}
 		}
-		
+
 		.topper_approve {
 			margin: 0;
 			padding: 25px 10px 15px;
 			color: $white;
 		}
-		
+
 		.promo_bg {
 			position: absolute;
 			left: -20px;
@@ -223,14 +229,14 @@
 			width: 150px;
 			height: 190px;
 			text-align: center;
-			
+
 			img {
 				max-width: 100%;
 				max-height: 100%;
 			}
 		}
 	}
-	
+
 	&.product {
 		.product_image {
 			position: absolute;
@@ -239,14 +245,14 @@
 			bottom: 0;
 			left: 0;
 			z-index: 10;
-			
+
 			img {
 				@include absolute_centered;
 				max-height: 100%;
 				max-width: 100%;
 			}
 		}
-		
+
 		&.double {
 			.product_image {
 				width: 300px;
@@ -254,7 +260,7 @@
 				left: 0;
 				height: 308px;
 			}
-			
+
 			.product_info {
 				float: right;
 				width: 340px;
@@ -262,18 +268,18 @@
 			}
 		}
 	}
-	
+
 	.inner {
 		width: 100%;
 		height: 100%;
 		position: relative;
 		overflow: hidden;
-		
+
 		&.gradient {
 			background: url('/img/user/helpers/cards/gradient_bg.png') repeat-x;
 		}
 	}
-	
+
 	img.background {
 		@include absolute_horizontal_centered;
 		display: block;
@@ -281,15 +287,15 @@
 		max-height: 100%;
 		bottom: 0;
 	}
-	
+
 	.topper {
 		position: relative;
 		padding: 0 20px;
 		z-index: 10;
-		
+
 		&.bg {
 			background-color: $white;
-			
+
 			&:after {
 				@include pseudo;
 				bottom: -13px;
@@ -299,21 +305,42 @@
 				background: url('/img/user/helpers/cards/topper_after_bg.png') no-repeat;
 			}
 		}
-		
-		&.cloud {
+	}
+
+	&.spec .topper,
+	&.author .topper {
+		background-color: $white;
+
+		&:after {
+			@include pseudo;
+			bottom: -40px;
+			left: 0;
+			height: 40px;
+			width: 100%;
+			background: url('/img/user/helpers/cards/cloud.png') repeat-x;
+		}
+	}
+
+	&.spec.double,
+	&.author.double {
+		.user_content {
+			margin: 26px 0 0;
+		}
+
+		.topper {
 			background-color: $white;
-			
+
 			&:after {
 				@include pseudo;
 				bottom: -40px;
 				left: 0;
 				height: 40px;
 				width: 100%;
-				background: url('/img/user/helpers/cards/cloud.png') repeat-x;
+				background: url('/img/user/helpers/cards/bigCloud.jpg') repeat-x;
 			}
 		}
 	}
-	
+
 	.topper_label  {
 		height: 50px;
 		font-size: 12px;
@@ -321,48 +348,32 @@
 		color: #adbbc2;
 		text-transform: uppercase;
 	}
-	
+
 	.topper_title {
 		color: #38c9f2;
-		font-size: 45px;
-		line-height: 45px;
-		font-family: 'open_sans_condensedbold';
-		text-transform: uppercase;
-		text-align: center;
-		padding: 0 0 20px;
-	}
-	
-	.topper_small_title {
-		font-family: 'open_sans_condensedbold';
-		text-align: center;
-		padding: 0 0 20px;
-		color: #38c9f2;
-		font-size: 22px;
+		font: {
+			family: 'open_sans_condensedbold';
+			size: 22px;
+		}
 		line-height: 27px;
-		
-		&.gold {
+		text-align: center;
+		padding: 0 0 20px;
+		text-transform: none;
+		letter-spacing: 0;
+	}
+
+	&.poll {
+		.topper_title {
 			color: #eeab00;
 		}
-		
-		&.green {
+	}
+
+	&.spec {
+		.topper_title {
 			color: #45b26e;
 		}
 	}
-	
-	.topper_double_title {
-		font-family: 'open_sans_condensedbold';
-		text-align: center;
-		padding: 0 0 20px;
-		color: #38c9f2;
-		font-size: 26px;
-		line-height: 27px;
-		text-transform: uppercase;
-		
-		&.gold {
-			color: #eeab00;
-		}
-	}
-	
+
 	.topper_product_title {
 		font-size: 28px;
 		line-height: 30px;
@@ -373,24 +384,47 @@
 		position: relative;
 		z-index: 20;
 	}
-	
+
 	.topper_text {
 		padding: 0 10px 20px;
 		text-align: center;
+		display: none;
 	}
-	
+
+	&:hover {
+		.topper_text {
+			display: block;
+		}
+	}
+
+	&.no-image {
+		.topper_text {
+			display: block;
+		}
+		&.spec .topper_text {
+			display: none;
+		}
+		&.author .topper_text {
+			display: none;
+		}
+	}
+
+	&.poll .topper_text {
+		display: block;
+	}
+
 	.topper_approve {
 		padding: 0 10px 15px;
 		color: #93a0a6;
 		text-align: center;
 		margin-top: -5px;
 		clear: both;
-		
+
 		.approve {
 			margin-right: 0;
 		}
 	}
-	
+
 	.segoe_title {
 		font-family: 'Segoe_Print_Regular';
 		font-size: 41px;
@@ -398,16 +432,16 @@
 		letter-spacing: -0.5px;
 		text-transform: uppercase;
 		text-align: center;
-		
+
 		&.purple {
 			color: $purplefont;
 		}
-		
+
 		&.white {
 			color: $white;
 		}
 	}
-	
+
 	.segoe_bold_title {
 		font-family: 'Segoe_Print_Bold';
 		font-size: 41px;
@@ -415,37 +449,37 @@
 		letter-spacing: -0.5px;
 		text-transform: uppercase;
 		text-align: center;
-		
+
 		&.red {
 			color: #f95062;
 		}
-		
+
 		&.purple {
 			color: $purplefont;
 		}
-		
+
 		&.pink {
 			color: #fdb1b9;
 		}
-		
+
 		&.white {
 			color: $white;
 		}
 	}
-	
+
 	.user_content {
 		padding: 20px 10px 20px;
 		text-align: center;
 		position: relative;
 		z-index: 20;
 		color: $white;
-		
+
 		.item {
 			display: inline-block;
 			vertical-align: middle;
 			margin: 44px;
 		}
-		
+
 		.avatar {
 			display: inline-block;
 			vertical-align: middle;
@@ -453,7 +487,7 @@
 			height: 70px;
 			position: relative;
 			margin-bottom: 5px;
-			
+
 			&:before {
 				@include pseudo;
 				background: url('/img/user/helpers/cards/crown.png') no-repeat;
@@ -462,7 +496,7 @@
 				top: -16px;
 				left: -3px;
 			}
-			
+
 			&.medical_cap {
 				&:before {
 					@include pseudo;
@@ -473,7 +507,7 @@
 					left: 2px;
 				}
 			}
-			
+
 			img {
 				position: relative;
 				max-width: 100%;
@@ -481,65 +515,65 @@
 			}
 		}
 	}
-	
+
 	.button_content {
 		text-align: center;
 		position: relative;
 		z-index: 20;
 		margin-top: -5px;
-		
+
 		&.gold {
 			.me_too {
 				background: url('/img/user/helpers/cards/button_bg_gold.png');
 				color: $white;
 			}
 		}
-		
+
 		&.red {
 			.me_too {
 				background: url('/img/user/helpers/cards/button_bg_red.png');
 				color: $white;
 			}
 		}
-		
+
 		.me_too {
 			@include box_shadow(0px 2px 0px 0px rgba(147, 160, 166, 0.5));
 			padding: 9px 50px;
 			color: #93a0a6;
 			background: url('/img/user/helpers/cards/button_bg.png');
-			
+
 			&:hover {
 				opacity: 1;
 			}
 		}
 	}
-	
+
 	.footer {
 		height: 47px;
 		position: absolute;
 		bottom: 0;
 		width: 100%;
 		left: 0;
-		
+
 		&.silver {
 			.counters {
 				background: url('/img/user/helpers/cards/silver_footer.png') repeat-x;
 				color: #adbbc2;
 			}
 		}
-		
+
 		.heart {
 			@include absolute_centered;
 			height: 34px;
 			z-index: 10;
 			text-align: center;
 			width: 100%;
-			
+
 			img {
 				margin: 0 10px;
 			}
 		}
-		
+
 		.counters {
 			@include transition(opacity 0.3s ease-in-out);
 			position: absolute;
@@ -552,7 +586,7 @@
 			text-transform: uppercase;
 			opacity: 0;
 			z-index: 20;
-			
+
 			&:after {
 				@include pseudo;
 				@include transition(width 0.1s ease-in-out);
@@ -564,25 +598,25 @@
 			}
 		}
 	}
-	
+
 	.promo_content {
 		text-align: center;
 		margin-top: 30px;
 	}
-	
+
 	.like {
 		vertical-align: middle;
 		margin-right: 6px;
 		cursor: pointer;
 	}
-	
+
 	.count {
 		vertical-align: middle;
 		font-size: 26px;
 		font-family: 'PT_Sans_Narrow_Bold';
 		margin-right: 6px;
 	}
-	
+
 	.approve {
 		display: inline-block;
 		vertical-align: middle;
@@ -592,14 +626,14 @@
 		text-align: left;
 		text-transform: uppercase;
 	}
-	
+
 	.comment {
 		vertical-align: middle;
 		margin-right: 6px;
 		cursor: pointer;
 		margin-top: 8px;
 	}
-	
+
 	.sandglass {
 		vertical-align: middle;
 		margin-right: 6px;

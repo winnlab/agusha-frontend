@@ -1,0 +1,270 @@
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+@import '../helpers/topper_title';
+@import '../helpers/tabs';
+@import '../helpers/table';
+
+.module.moneybox {
+	width: 920px;
+	text-align: left;
+	color: $grey;
+	
+	.bg {
+		@include absolute_horizontal_centered;
+		width: 100%;
+		height: 210px;
+		top: 0;
+		
+		&:before {
+			@include pseudo;
+			@include absolute_horizontal_centered;
+			top: 0;
+			left: 0;
+			background: url('/img/user/moneybox/topper_background.png') top no-repeat;
+			width: 100%;
+			height: 100%;
+			z-index: 5;
+		}
+	}
+	
+	.topper_title {
+		color: $blue;
+		height: 80px;
+	}
+	
+	.tab_contents {
+		margin-top: 50px;
+		padding: 0 10px 20px;
+	}
+	
+	.tab_content {
+		display: none;
+		
+		&.active {
+			display: block;
+		}
+		
+		&.how_it_works {
+			.simple {
+				font-size: 55px;
+				line-height: 55px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				text-align: center;
+				text-transform: uppercase;
+				color: #ccbfb8;
+			}
+			
+			.desc {
+				font-size: 18px;
+				font-family: 'PT_Sans_Italic';
+				margin-top: 35px;
+				text-align: center;
+			}
+			
+			.steps {
+				margin-top: 140px;
+				
+				&:before {
+					@include pseudo;
+					@include absolute_centered;
+					background: url('/img/user/moneybox/strip.png') no-repeat;
+					top: 737px;
+					width: 423px;
+					height: 1731px;
+				}
+				
+				.column {
+					height: 100%;
+				}
+			}
+			
+			.step_title {
+				font-size: 55px;
+				line-height: 55px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				color: $blue;
+				text-transform: uppercase;
+			}
+			
+			.step_subtitle {
+				margin-top: 25px;
+				font-size: 18px;
+				font-family: 'PT_Sans_Italic';
+				line-height: 25px;
+			}
+			
+			.step_desc {
+				margin-top: 25px;
+				line-height: 25px;
+			}
+			
+			.step_button {
+				@include box_shadow(0 0 1px #d5d0cb);
+				background-color: transparent;
+				font-size: 14px;
+				font-family: 'PT_Sans_Italic' !important;
+				color: $bluefont;
+				padding: 7px 19px;
+				text-transform: none;
+				margin-top: 35px;
+				
+				&.rules_button {
+					margin-top: 12px;
+				}
+			}
+			
+			.step_1 {
+				height: 328px;
+				
+				.double_img {
+					position: absolute;
+					left: 140px;
+					top: 0;
+				}
+			}
+			
+			.step_2 {
+				height: 364px;
+				margin-top: 150px;
+				
+				.double_img {
+					position: absolute;
+					left: 46px;
+					top: 0;
+				}
+			}
+			
+			.step_3 {
+				height: 365px;
+				margin-top: 150px;
+				
+				.double_img {
+					position: absolute;
+					left: 140px;
+					top: 0;
+				}
+			}
+			
+			.step_4 {
+				height: 372px;
+				margin-top: 150px;
+				
+				.double_img {
+					position: absolute;
+					left: 83px;
+					top: 0;
+				}
+			}
+			
+			.up {
+				margin-top: 141px;
+				text-align: center;
+				margin-bottom: 80px;
+				position: relative;
+			}
+			
+			.up_button {
+				background-color: $lightblue;
+				color: $white;
+				padding: 10px 57px;
+				
+				&:hover {
+					opacity: 1;
+				}
+			}
+		}
+	}
+	
+	.tab_block {
+		@include transition(margin 0.3s ease-in-out);
+		position: relative;
+		background: $white;
+		margin: 1px 0;
+		
+		&.active {
+			margin: 20px 0;
+			
+			.title {
+				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
+				
+				&:before {
+					bottom: -17px;
+				}
+			}
+			
+			.text {
+				display: block;
+			}
+		}
+		
+		.title {
+			@include border_boxed;
+			@include box_shadow(0 0 0 0 rgba(0, 0, 0, 0.22));
+			@include transition(box-shadow 0.3s ease-in-out, -moz-box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out);
+			height: 70px;
+			font-family: 'PT_Sans_Narrow_Bold';
+			font-size: 18px;
+			text-transform: uppercase;
+			color: #4c4c4c;
+			cursor: pointer;
+			position: relative;
+			
+			&:hover {
+				.adorable_table {
+					background-color: #fafafa;
+				}
+				
+				&:before {
+					background-position: -46px 0;
+				}
+			}
+			
+			&:before {
+				@include pseudo;
+				@include transition(bottom 0.3s ease-in-out);
+				bottom: -0;
+				left: 50px;
+				width: 46px;
+				height: 17px;
+				background: url('/img/user/help/title_arrow.png') no-repeat;
+			}
+			
+			.adorable_table {
+				background-color: $white;
+				z-index: 1;
+			}
+			
+			.adorable_cell {
+				padding: 0 70px;
+				text-align: left;
+			}
+		}
+		
+		.text {
+			padding: 30px 70px 45px;
+			
+			a {
+				color: #2ca7e0;
+			}
+		}
+	}
+	
+	table {
+		margin-top: 35px;
+		
+		.action {
+			@include border_boxed;
+			width: 321px;
+			padding: 0 111px 0 30px;
+		}
+		
+		.points {
+			width: 234px;
+		}
+		
+		.grey {
+			color: #b2b2b2;
+			font-family: 'PT_Sans_Italic';
+		}
+	}
+}

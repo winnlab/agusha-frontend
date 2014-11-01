@@ -11,14 +11,15 @@ System.config({
 		'google': 'js/plugins/social/google.plusone.js',
 		'googlemaps_api': 'js/plugins/google/googlemaps_api.js',
 		'googlemaps_main': 'js/plugins/google/googlemaps_main.js',
-		
+
 		'router': 'js/app/user/router/router.js',
 		'placeholder': 'js/app/user/router/placeholder.js',
-		
+
 		'core': 'js/app/user/core/core.js',
 		'rConfig': 'js/app/user/core/config.js',
 		'helpers': 'js/app/user/helpers.js',
-		
+		'lodash': 'js/plugins/lodash/dist/lodash.js',
+
 		'controller': 'js/app/user/lib/controller/controller.js',
 	},
 	map: {

@@ -46,7 +46,6 @@ var UploadViewModel = can.Map.extend({
 							: newVal;
 
 						uploaded.splice(0, 1, realVal);
-						// uploaded = realVal;
 					}
 				}
 
@@ -89,15 +88,18 @@ var UploadViewModel = can.Map.extend({
 					entity.uploaded(self.attr('name'), response.data[self.attr('name')]);
 				}
 
-				saSuccess('Файл успешно выгружен');
+				saSuccess('Файл успешно выгружен.');
 
 				self.attr('progress', 0);
 
 			}).fail(function (response) {
-				saError(reponse.responseJSON.err || 'Ошибка выгрузки файла');
+				var msg =  response.responseJSON
+					? response.responseJSON.err
+					: 'Ошибка выгрузки файла.';
+				saError(msg);
 			});
 		} else if (files.length) {
-			saError('Ошибка идентификации связи файла!');
+			saError('Ошибка идентификации связи файла.');
 		}
 	},
 

@@ -39,20 +39,35 @@ export default Edit.extend({
         data['themes'] = options.themes;
         data['types'] = options.types;
 
-        this.ageTitle = can.compute(null);
-        this.themeName = can.compute(null);
+        var observables = [
+            {name: 'ageTitle', value: null},
+            {name: 'ageFixture', value: null},
+            {name: 'themeName', value: null},
+            {name: 'addingComment', value: null}
+        ];
+
+        for (var i = 0, len = observables.length; i < len; i++) {
+            this[observables[i].name] = can.compute(observables[i].value);
+        }
 
         if (options.doc) {
             if (options.doc.age) {
                 this.ageTitle(options.doc.age.title);
+                this.ageTitle(
+                    options.doc.age.icon
+                        ? options.doc.age.icon.title
+                        : undefined
+                );
             }
             if (options.doc.theme) {
                 this.themeName(options.doc.theme.name);
             }
         }
 
-        data['ageTitle'] = this.ageTitle;
-        data['themeName'] = this.themeName;
+        for (var i = 0, len = observables.length; i < len; i++) {
+            data[observables[i].name] = this[observables[i].name];
+        }
+
         data['showComments'] = can.compute(false);
 
         if(!this.options.doc.attr('_id')) {
@@ -63,15 +78,18 @@ export default Edit.extend({
 	},
 
     ensureObject: function(obj, key, value = {}) {
-        var exists = _.isObject(obj.attr(key));
-        if (!exists) {
+        if (!_.isObject(obj.attr(key))) {
             obj.attr(key, value);
         }
     },
 
     '.currentAgeSelect change': function (el) {
-        var newVal = el.find('option:selected').data('ages').attr('title');
-        this.ageTitle(newVal);
+        var ages = el.find('option:selected').data('ages'),
+            newTitle = ages.attr('title'),
+            newFixture = ages.attr('icon.fixture');
+
+        this.ageTitle(newTitle);
+        this.ageFixture(newFixture);
     },
 
     '.currentThemeSelect change': function (el) {
@@ -89,5 +107,36 @@ export default Edit.extend({
                 answ.splice(index, 1);
             }
         }
+    },
+
+    '.addComment click': function (el) {
+        this.addingComment(!this.addingComment());
+    },
+
+    '.confirmComment click': function (el) {
+        var self = this,
+            doc = self.options.doc;
+        can.ajax({
+            url: '/admin/user'
+        }).done(function (response) {
+            var wysiwyg = el.closest('.panel-body').find('textarea'),
+                commentText = wysiwyg.code(),
+                newComment = {
+                    date: Date.now(),
+                    text: commentText,
+                    specialist: {
+                        _id: response.data._id,
+                        name: response.data.name
+                    }
+                };
+
+            doc.attr('answer').push(newComment);
+
+            self.addingComment(false);
+            wysiwyg.code('');
+            saSuccess('Комментарий добавлен! Нажмите "Сохранить", чтобы сохранить добавленный комментарий.');
+        }).fail(function (response) {
+            saError(response.err || response.responseText ? response.responseText.err : 'Произошла неизвестная ошибка.' );
+        });
     }
 });
