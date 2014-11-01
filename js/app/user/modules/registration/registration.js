@@ -1,5 +1,5 @@
 import Controller from 'controller'
-
+ 
 var ViewModel = can.Map.extend({
 	define: {
 		email: {
