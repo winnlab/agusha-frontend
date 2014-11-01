@@ -39,6 +39,32 @@
 		}
 	}
 
+	.bx-controls-direction {
+		position: absolute;
+		top: -46px;
+		right: 0;
+
+		button {
+			border-radius: 99999em;
+			font-family: 'PT_Sans_Bold';
+			letter-spacing: 0.5px;
+			border: none;
+			outline-style: none;
+			background: none;
+			text-transform: uppercase;
+			font-family: 'PT_Sans_Bold' !important;
+			font-size: 16px;
+			padding: 0;
+			position: absolute;
+		}
+	}
+	.bx-next {
+		right: -10px;
+	}
+	.bx-prev {
+		left: -123px;
+	}
+
 	.interesting_content {
 		padding: 0 10px;
 		
@@ -81,6 +107,9 @@
 		
 		.item_body {
 			height: 185px;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center center;
 		}
 		
 		.item_footer {

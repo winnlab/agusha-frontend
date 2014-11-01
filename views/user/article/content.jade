@@ -1,16 +1,15 @@
-.bg
+.bg(style='background-image: url("/img/uploads/#{article.image}");')
 
 .content
 	include ../helpers/breadcrumbs
 	
-	.topper_title Title
+	.topper_title
+		| #{article.theme.name}
 	
 	.title
 		.label.adorable_table
-			.adorable_cell
-				| Зачем беременным
-				br
-				| йога?
+			.adorable_cell 
+				| #{article.title}
 		
 		.middle
 			.column.feedback
@@ -61,12 +60,20 @@
 				.date
 					.adorable_table
 						.adorable_cell
-							span.day_month_year 26 сентября 2014
-							span.time 11:52 am
+
+							- var date = new Date(article.updated);
+							- var day = date.getDate();
+							- var monthNames = [ "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
+							- var month = monthNames[date.getMonth()];
+							- var year = date.getFullYear();
+							- var hours = date.getHours();
+							- var seconds = date.getSeconds();
+
+							span.day_month_year #{day} #{month} #{year}
+							span.time #{hours}:#{seconds}
 				
-				.title Польза йоги для будущих мам
-				
-				.text What you see is what you get
+				.text
+					| !{article.desc.text}
 				
 				.social
 					.social_button
@@ -113,39 +120,5 @@
 					.name Ирина Матвиенко
 					.info Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем здорового ребенка и преморбидных состояний.
 					button.ask_button Задать вопрос
-			
-			.author
-				.topper
-					.avatar
-						img.rounded(src='/img/avatar_100x100.jpg')
-					
-					.info
-						.label Автор
-						.name Ирина Потапенко
-						.level
-							span.league Мама профи
-							img.star(src="/img/user/article/star.png")
-							img.star(src="/img/user/article/star.png")
-							img.star(src="/img/user/article/star.png")
-							img.star(src="/img/user/article/star.png")
-							img.star(src="/img/user/article/star.png")
-						.children Детки: мальчик и девочка
-				
-				.center
-					div Тема:
-					div Планирование беременности
-					div Возраст: 
-					div Беременность / Планирование / До 1 годика
-					div Теги:
-					.tags
-						.tag если вы
-						.tag занимались йогой
-						.tag раньше
-						.tag скорее всего польза
-						.tag йогических
-						.tag упражнений
-						.tag для будущих мам
-						.tag вызывает у вас
-						.tag сомнений
 	
 	include ../helpers/article_bottom

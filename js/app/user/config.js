@@ -18,8 +18,11 @@ System.config({
 		'core': 'js/app/user/core/core.js',
 		'rConfig': 'js/app/user/core/config.js',
 		'helpers': 'js/app/user/helpers.js',
+		'bx-slider': 'js/plugins/bx-slider/jquery.bxslider.min.js',
 		
 		'controller': 'js/app/user/lib/controller/controller.js',
+		'module/*': 'js/app/user/modules/*.js',
+		'baseModel': 'js/app/admin/lib/model/baseModel.js',
 	},
 	map: {
 		'can/util/util': 'can/util/jquery/jquery',
@@ -65,6 +68,11 @@ System.config({
 			deps: [
 				'googlemaps_api',
 				'googlemaps_main'
+			]
+		},
+		'bx-slider': {
+			deps: [
+				'js/plugins/bx-slider/jquery.bxslider.css!'
 			]
 		}
 	}

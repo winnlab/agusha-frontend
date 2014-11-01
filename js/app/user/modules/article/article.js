@@ -1,4 +1,7 @@
 import Controller from 'controller'
+import Model from 'module/article/articleModel'
+import 'bx-slider'
+
 
 export default Controller.extend(
 	{
@@ -25,7 +28,29 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
-			
-		}	
+			console.log(this.id);
+			var id = this.id.split('-')[1];
+/*			Model.findOne({_id: id})
+				.done(function(data){
+					console.log(data);
+				})
+				.fail(function(data){
+					console.error(data);
+				});*/
+
+			this.carousel();
+		},
+
+		carousel: function () {
+			var self = this;
+			console.log($('.interesting_content'));
+			$('.interesting_content').bxSlider({
+			    slideWidth: 280,
+			    minSlides: 2,
+			    maxSlides: 3,
+			    moveSlides: 1,
+			    slideMargin: 10
+			});
+		}
 	}
 );
