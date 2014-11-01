@@ -2,7 +2,7 @@ import 'can/'
 import 'can/view/'
 import 'can/view/mustache/'
 import Edit from 'edit'
-import 'js/app/admin/components/upload/'
+import 'upload'
 import appState from 'appState'
 import _ from 'lodash'
 
