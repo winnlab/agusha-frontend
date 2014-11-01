@@ -42,6 +42,7 @@ export default Edit.extend({
 		self.ensureObject(options.doc, 'desc');
 		self.ensureObject(options.doc, 'theme');
 		self.ensureObject(options.doc, 'type');
+		self.ensureObject(options.doc, 'image');
 		
 		self.module.attr(options.moduleName, options.doc);
 
@@ -49,18 +50,23 @@ export default Edit.extend({
 		self.module.attr('themes', options.themes);
 		self.module.attr('types', options.types);
 
-		self.module.attr('ageValue', false);
-		self.module.attr('themeName', false);
+		var ageValue = [],
+			themeValue = [];
+
+		self.module.attr(options.moduleName + '.age').each(function (item) {
+			ageValue.push(item._id);
+		});
+
+		self.module.attr(options.moduleName + '.theme').each(function (item) {
+			themeValue.push(item._id);
+		});
+
+		self.module.attr('ageValue', ageValue);
+		self.module.attr('themeValue', themeValue);
 
 		if (options.doc) {
 			if (options.doc._id) {
 				gallery = new GalleryModel.List({article_id: options.doc._id});
-			}
-			if (options.doc.age) {
-				self.module.attr('ageValue' ,options.doc.age.title);
-			}
-			if (options.doc.theme) {
-				self.module.attr('themeName', options.doc.theme.name);
 			}
 		}
 
@@ -74,20 +80,54 @@ export default Edit.extend({
 	},
 
 	ensureObject: function(obj, key) {
-		var exists = _.isObject(obj.attr(key));
-		if (!exists) {
+		if (!_.isObject(obj.attr(key))) {
 			obj.attr(key, {});
 		}
 	},
 
 	'.currentAgeSelect change': function (el) {
-		var newVal = el.find('option:selected').data('ages').attr('title');
-		this.module.attr('ageValue', newVal);
+
+		var ages = this.module.attr(this.options.moduleName + '.age'),
+			newAgeValue = [];
+
+		if (ages instanceof can.List) {
+			ages.replace([]);
+		} else {
+			ages = new can.List;
+			this.module.attr(this.options.moduleName + '.age', ages);
+		}
+
+		el.find('option:selected').each(function () {
+			var data = $(this).data('ages');
+			ages.push({
+				_id: data.attr('_id'),
+				title: data.attr('title'),
+				fixture: data.attr('icon.fixture')
+			});
+			newAgeValue.push(data._id);
+		});
+
+		this.module.attr('ageValue', []);
+		this.module.attr('ageValue', newAgeValue);
 	},
 
 	'.currentThemeSelect change': function (el) {
-		var newVal = el.find('option:selected').data('themes').attr('name');
-		this.module.attr('themeName', newVal);
+		var themes = this.module.attr(this.options.moduleName + '.theme');
+
+		if (themes instanceof can.List) {
+			themes.replace([]);
+		} else {
+			themes = new can.List;
+			this.module.attr(this.options.moduleName + '.theme', themes);
+		}
+
+		el.find('option:selected').each(function () {
+			var data = $(this).data('themes');
+			themes.push({
+				_id: data.attr('_id'),
+				name: data.attr('name')
+			});
+		});
 	},
 
 	'.addAnswer click': function (el) {

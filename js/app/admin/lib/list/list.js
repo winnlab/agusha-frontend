@@ -15,7 +15,7 @@ export default can.Control.extend({
 		// Edit entity controller
 		Edit: function () {},
 		// Name for list entity in view
-		moduleName: 'list',
+		moduleName: false,
 		// Link to entity constructor model
 		Model: can.Model,
 
@@ -27,14 +27,14 @@ export default can.Control.extend({
 		deletedErr: 'Ошибка удаления сущности',
 
 		// Selectors
-		add: '.add',
-		edit: '.edit',
-		remove: '.remove',
+		add: false,//'.add',
+		edit: false,//'.edit',
+		remove: false,//'.remove',
 		toList: '.toList',
 		// Selector for entity form block wrap
-		formWrap: '.formWrap',
+		formWrap: false,//'.formWrap',
 		// Entity selector wich rich with #data view helper
-		parentData: '.entity'
+		parentData: false,//'.entity'
 	}
 }, {
 	init: function () {
@@ -42,6 +42,8 @@ export default can.Control.extend({
 		var self = this,
 			options = self.options,
 			route = can.route.attr();
+
+		self.defineSelectors();
 
 		self.defineModule();
 
@@ -58,6 +60,33 @@ export default can.Control.extend({
 			});
 		}
 
+	},
+
+	defineSelectors: function () {
+		var o = this.options;
+
+		if (typeof o.moduleName !== 'string' || o.moduleName.length === 0) {
+			throw new Error("`moduleName` not defined or defined as not a String value.")
+		}
+
+		var moduleNameLow = o.moduleName,
+			moduleNameUp = moduleNameLow[0].toUpperCase() + moduleNameLow.substr(1),
+			shortcuts = [ 'add', 'edit', 'remove' ];
+
+		for (var i = 0, len = shortcuts.length; i < len; i++) {
+			var shortcut = shortcuts[i];
+			if (!this.isValidString(o[shortcut])) {
+				o[shortcut] = '.' + shortcut + moduleNameUp;
+			}
+		}
+
+		if (!this.isValidString(o.formWrap)) {
+			o.formWrap = '.' + moduleNameLow + 'Form';
+		}
+
+		if (!this.isValidString(o.parentData)) {
+			o.parentData = '.' + moduleNameUp;
+		}
 	},
 
 	defineModule: function () {
@@ -218,5 +247,9 @@ export default can.Control.extend({
             status: status,
             msg: msg
         });
+    },
+
+    isValidString: function (s) {
+    	return typeof s === 'string' && s.length > 0;
     }
 });

@@ -1,0 +1,164 @@
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+
+.module.search {
+	color: $grey;
+	text-align: center;
+	width: 100%;
+	
+	.content {
+		@include inline_block;
+		text-align: left;
+		width: 920px;
+	}
+	
+	.input_container {
+		margin-top: 17px;
+		padding: 0 20px;
+		position: relative;
+	}
+	
+	.search_padding {
+		@include border_radius(5px);
+		position: absolute;
+		right: 20px;
+		top: 0;
+		height: 100%;
+		width: 57px;
+		background-color: $white;
+		
+		img {
+			@include absolute_centered;
+			width: 17px;
+			height: 17px;
+		}
+	}
+	
+	.search_input {
+		font-size: 24px;
+		font-family: 'PT_Sans_Narrow_Bold';
+		padding: 0 57px 0 20px;
+		color: $titlegrey;
+		height: 70px;
+	}
+	
+	.blocks_container {
+		margin: 50px 20px 0;
+	}
+	
+	.tab_block {
+		@include transition(margin 0.3s ease-in-out);
+		position: relative;
+		margin: 1px 0;
+		
+		&.active {
+			margin: 20px 0;
+			
+			.title {
+				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
+				
+				&:before {
+					bottom: -17px;
+				}
+			}
+			
+			.items_container {
+				display: block;
+			}
+			
+			.title {
+				.hide {
+					display: inline-block;
+				}
+				
+				.show {
+					display: none;
+				}
+			}
+		}
+		
+		.title {
+			@include border_boxed;
+			@include box_shadow(0 0 0 0 rgba(0, 0, 0, 0.22));
+			@include transition(box-shadow 0.3s ease-in-out, -moz-box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out);
+			height: 70px;
+			font-family: 'PT_Sans_Narrow_Bold';
+			font-size: 18px;
+			text-transform: uppercase;
+			color: #4c4c4c;
+			cursor: pointer;
+			position: relative;
+			
+			&:hover {
+				.adorable_table {
+					background-color: #fafafa;
+				}
+				
+				&:before {
+					background-position: -46px 0;
+				}
+			}
+			
+			&:before {
+				@include pseudo;
+				@include transition(bottom 0.3s ease-in-out);
+				bottom: -0;
+				left: 50px;
+				width: 46px;
+				height: 17px;
+				background: url('/img/user/help/title_arrow.png') no-repeat;
+			}
+			
+			.adorable_table {
+				background-color: $white;
+				z-index: 1;
+			}
+			
+			.adorable_cell {
+				padding: 0 30px;
+				text-align: left;
+			}
+			
+			.right {
+				position: absolute;
+				width: 140px;
+				height: 70px;
+				right: 0;
+				top: 0;
+				font-size: 14px;
+				text-transform: none;
+			}
+			
+			.hide, .show {
+				@include border_boxed;
+				@include absolute_centered;
+				height: 18px;
+				width: 100%;
+				text-align: right;
+				padding: 0 30px 0 0;
+				
+				span {
+					vertical-align: middle;
+				}
+				
+				img {
+					margin-left: 9px;
+					vertical-align: middle;
+				}
+			}
+			
+			.hide {
+				display: none;
+			}
+			
+			.show {
+				display: inline-block;
+				color: #b2b2b2;
+			}
+		}
+	}
+	
+	.items_container {
+		padding: 10px;
+	}
+}

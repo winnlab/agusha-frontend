@@ -70,7 +70,6 @@ export default can.Control.extend({
 	},
 
     processError: function (err) {
-        console.log('err', err)
         var msg;
 
         if(err.errors) {

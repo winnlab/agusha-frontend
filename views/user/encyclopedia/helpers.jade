@@ -5,7 +5,7 @@ mixin theme(t)
 		if params.theme && params.theme == t._id
 			- classname = 'active'
 	else
-		- classname = '{{#if params.theme}}{{#if params.theme == _id}}active{{/if}}{{/if}}'
+		- classname = '{{#is _id theme}}active{{/is}}'
 	
 	.book(data-theme = (t ? t._id : '{{_id}}'), class = classname)
 		.cover
@@ -15,3 +15,93 @@ mixin theme(t)
 					.count
 						.adorable_table
 							.adorable_cell 0
+
+mixin article(a, i)
+	- var classname = ''
+	- var articleType = ''
+	if a 
+		if a.type.name === 'Статья от редакции' 
+			- articleType = 'redaction'
+		else if a.type.name === 'Тема недели' 
+			- articleType = 'week'
+		else 
+			- articleType = 'author'
+	else 
+		- articleType = '{{articleType . @index}}'
+	
+	if a
+		- classname = i == 0 ? 'x2' : i === 3 ? 'double' : ''
+		- classname += (!a.image || !a.image.background ? ' no-image' : '')
+		- classname += a.is_quiz ? ' poll' : '';
+	else
+		- classname = '{{getClassName . @index}}'
+	
+	- classname += ' ' + articleType
+	
+	div(class="card #{classname}" style=(a ? '' : '{{filterBy . filter}}'))
+		.inner
+			if a 
+				if a.image && a.image.background
+					img.background(src='/img/uploads/' + a.image.background)
+			else 
+				| {{#if image.background}}<img class="background" src="/img/uploads/{{image.background}}" />{{/if}}
+			
+			.topper.bg
+				.topper_label
+					.adorable_table
+						.adorable_cell= (a ? a.theme[0].name : '{{theme.0.name}}')
+
+				.topper_title= (a ? a.title : '{{title}}')
+				.topper_text= (a ? a.desc.shorttext : '{{desc.shorttext}}')
+				if a && a.is_quiz
+					.topper_approve
+						span.count= (a ? a.answer.length : '{{answer.length}}')
+						span.approve
+							div мамочек
+							div ответили
+
+			if a && a.is_quiz
+				.button_content.gold
+					button.me_too Я тоже
+			else 
+				| {{#if is_quis}}
+				.button_content.gold
+					button.me_too Я тоже
+				| {{/if}}
+				
+			if a
+				if articleType === 'author'
+					.user_content
+						.avatar.medical_cap
+							img.rounded(src='/img/avatar_100x100.jpg')
+						.name врач-педиатр
+						.name Ирина Матвиенко
+			else
+				| {{#is type.name 'Статья от специалиста'}}
+				.user_content
+					.avatar.medical_cap
+						img.rounded(src='/img/avatar_100x100.jpg')
+					.name врач-педиатр
+					.name Ирина Матвиенко
+				| {{/is}}
+			
+			.footer
+				.heart
+					img(src="/img/user/article/heart.png")
+					if a 
+						if a.recommended
+							img(src="/img/user/helpers/cards/lamp.png")
+					else
+						| {{#if recommended}}<img src="/img/user/helpers/cards/lamp.png"/>{{/if}}
+					
+				.counters.adorable_table
+					.adorable_cell
+						img.like(src="/img/user/article/heart.png")
+						span.count= (a ? a.counter.like : '{{counter.like}}')
+						span.approve
+							| мамочек
+							br
+							| одобряют
+						
+						img.comment(src="/img/user/article/comment.png")
+						span.count= (a ? a.counter.comment : '{{counter.comment}}')

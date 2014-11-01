@@ -25,7 +25,112 @@
 	
 	.question_container
 		.column.double.left
+			.question_items
+				.item
+					.date 26 сен
+					
+					.item_table
+						.avatar_column
+							.avatar
+								img.rounded(src="/img/avatar_100x100.jpg")
+						
+						.content_column
+							.info
+								.name Ирина Потапенко
+								
+								.level
+									span.league Мама профи
+									img.star(src="/img/user/article/star.png")
+									img.star(src="/img/user/article/star.png")
+									img.star(src="/img/user/article/star.png")
+									img.star(src="/img/user/article/star.png")
+									img.star(src="/img/user/article/star.png")
+								
+								.children Детки: мальчик и девочка
+							
+							.title
+								div У малыша аллергия.
+								div Что делать?
+							
+							.text У малыша красные щечки, сыпь, слезятся глаза, распухший носик? Чаще всего такие симптомы – признаки аллергии. Аллергия – это повышенная чувствительность организма к воздействию некоторых факторов внешней среды, называемых аллергенами.
+				
+				.item
+					.date 26 сен
+					
+					.item_table
+						.avatar_column
+							.avatar.medical_cap
+								img.rounded(src="/img/avatar_100x100.jpg")
+						
+						.content_column
+							.info
+								.name Ирина Потапенко
+								
+								.level
+									span.league Врач педиатр
+								
+								.children Детки: мальчик и девочка
+							
+							.text Первым делом ребенку необходимо пройти обследование у аллерголога. Нужно будет сделать тесты, чтобы понять, что именно вызывает аллергическую реакцию. Потом аллерголог подберет подходящее противоаллергическое средство. Однако следует иметь в виду, что нет средств, которые не имеют побочных эффектов. Все антигистаминные препараты делятся на две группы: одни плохо влияют на нервную систему, другие - на сердечнососудистую систему. Длительное применение любых из этих лекарств может не лучшим образом сказаться на здоровье.
 			
+			.footer
+				.adorable_table
+					.adorable_cell
+						img.like(src="/img/user/article/heart.png")
+						span.count 8 
+						span.slash / 
+						span.post_like Одобрить
 		
 		.column.right
+			.author
+				.adorable_table
+					.adorable_cell
+						.label На вопрос отвечает
+						
+						.avatar
+							img.rounded(src="/img/avatar_100x100.jpg")
+						
+						.author_name
+							div Матвиенко
+							div Ирина Николаевна
+						
+						.desc Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем  здорового ребенка и преморбидных состояний.
+						
+						button.author_button Задать вопрос
 			
+			.meta
+				div Тема:
+				div Планирование беременности
+				div Возраст: 
+				div Беременность / Планирование / До 1 годика
+				div Теги:
+				.tags
+					.tag если вы
+					.tag занимались йогой
+					.tag раньше
+					.tag скорее всего польза
+					.tag йогических
+					.tag упражнений
+					.tag для будущих мам
+					.tag вызывает у вас
+					.tag сомнений
+	
+	.social
+		.adorable_table
+			.adorable_cell
+				.social_button
+					.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
+				
+				.social_button
+					a(href="https://twitter.com/share" class="twitter-share-button") Tweet
+				
+				.social_button
+					div(id="vk_bottom_question_" + params.alias)
+				
+				.social_button
+					div(id="ok_bottom_question_" + params.alias)
+				
+				.social_button
+					.g-plusone(data-size="medium")
+	
+	include ../helpers/interesting
