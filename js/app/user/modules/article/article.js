@@ -30,13 +30,13 @@ export default Controller.extend(
 		after_init: function(data) {
 			console.log(this.id);
 			var id = this.id.split('-')[1];
-/*			Model.findOne({_id: id})
+			Model.findOne({_id: id})
 				.done(function(data){
 					console.log(data);
 				})
 				.fail(function(data){
 					console.error(data);
-				});*/
+				});
 
 			this.carousel();
 		},
