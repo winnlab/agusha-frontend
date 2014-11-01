@@ -1,4 +1,4 @@
-@import '../dynamic/dynamic';
+﻿@import '../dynamic/dynamic';
 @import '../helpers/breadcrumbs';
 @import '../helpers/topper_title';
 @import '../helpers/article_bottom';
@@ -177,6 +177,45 @@
 		
 		.text {
 			margin-bottom: 20px;
+
+
+			> div, > p, > h1, > h2, > h3, > h4, > h5, > h6, > span, > a {
+				padding: 0 30px;
+			}
+
+			> blockquote, blockquote2 {
+				margin: 20px 30px;
+
+			}
+			iframe {
+				width: 100% !important;
+			}
+			blockquote {
+				padding: 10px 20px;
+				border-left: 5px solid #eeeeee;
+				border-left-color: #2ca7e0;
+			}
+			blockquote2 {
+				position: relative;
+				display: block;
+				padding-left: 2em;
+				font-style: italic;
+
+				p {
+					padding-left: 10px;
+				}
+
+				&:before {
+					position: absolute;
+					top: -0.4em;
+					left: 0;
+					display: block;
+					font-family: 'Helvetica', Arial, sans-serif;
+					font-size: 90px;
+					color: #2ba8de;
+					content: '"'!important;
+				}
+			}
 		}
 		
 		.social {
