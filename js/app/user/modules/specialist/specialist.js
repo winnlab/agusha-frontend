@@ -1,9 +1,11 @@
 import Controller from 'controller'
 import select2 from 'select2'
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
-// import User from 'modules/user/';
+import user from 'modules/user/';
 
 var ViewModel = can.Map.extend({
+	// isAuth: user.attr('isAuth'),
+	isAuth: true,
 	sort: 'asc',
 	filter: ''
 });
@@ -20,9 +22,7 @@ export default Controller.extend(
 			this.itemsContainer = this.element.find('.items_container');
 		},
 
-		plugins: function() {
-			this.select2();
-		},
+		plugins: function() {},
 
 		select2: function() {
 			var	specialist_age_select = this.element.find('.specialist_age_select'),
@@ -63,6 +63,8 @@ export default Controller.extend(
 
 			this.data = new ViewModel({
 				articles: data ? data.articles : app.consultations,
+				ages: data ? data.themes : app.themes,
+				ageId: data ? data.ages[0]._id : app.ages[0]._id,
 				themes: data ? data.themes : app.themes
 			});
 
@@ -80,12 +82,14 @@ export default Controller.extend(
 			can.view.mustache('consultation_view', html);
 			can.view.mustache('specialist_view', specHtml);
 
-			this.formWrap.html(can.view('consultation_view', this.data));
+			this.formWrap.html(can.view('consultation_view', this.data, {
+				arrContains: encyclopediaHelpers.arrContains
+			}));
 			this.itemsContainer.html(can.view('specialist_view', this.data, {
+				sortBy: encyclopediaHelpers.sortBy,
 				getClassName: function (index) {
 					return (index - 6) % 5 == 0 ? 'double' : '';
 				},
-				sortBy: encyclopediaHelpers.sortBy,
 				filterIt: function (entity, filter) {
 					if (filter() == 'recommended') {
 						return  !entity.attr('recommended') ? 'display: none' : '';
@@ -93,6 +97,8 @@ export default Controller.extend(
 					return '';
 				}
 			}));
+
+			this.select2();
 		},
 
 		'.icon.lamp click': function (el) {
@@ -104,6 +110,19 @@ export default Controller.extend(
 
 		'.specialist_sort_select change': function (el)  {
 			this.data.attr('sort', el.val() === 1 ? 'asc' : 'desc');
+		},
+
+		'.specialist_age_select change': function (el)  {
+			var self = this;
+			this.data.attr('ageId', el.val());
+			setTimeout(function () {
+				self.element.find('select.specialist_theme_select').select2({
+					width: '100%',
+					minimumResultsForSearch: -1,
+					formatResult: self.format
+				});
+			}, 1);
+
 		}
     }
 );

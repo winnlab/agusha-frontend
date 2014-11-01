@@ -11,13 +11,16 @@ mixin form
         .selects
             .select
                 select.specialist_age_select
-                    option(value = 0) Возрастной период
-                    option(value = 1) Дедушка
-                    option(value = 2) Бабушка
+                    each age, i in ages
+                        option(value = age._id)= age.title
             
             .select.theme
                 select.specialist_theme_select
-                    option(value = 0) Тема вопроса
+                    | {{#each themes}}
+                    | {{#arrContains age_id ageId true false}}
+                    | <option value="{{_id}}">{{name}}</option>
+                    | {{/arrContains}}
+                    | {{/each}}
         
         .footer
             .obligatory

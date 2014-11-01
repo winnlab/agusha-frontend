@@ -88,5 +88,21 @@ export default {
                 );
             }).join('');
         }
+    },
+    arrContains: function (array, value, strict, reverse, options) {
+    	strict = computedVal(strict);
+    	value = computedVal(value)
+
+    	if (strict && !value) {
+    		return false;
+    	}
+
+    	array = computedVal(array);
+
+    	if(!_.isArray(array) && !array[0]) {
+    		return false;
+    	}
+
+    	return (array.indexOf(value) > -1) ^ reverse ? options.fn() : false;
     }
 }
