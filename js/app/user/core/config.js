@@ -18,6 +18,13 @@ var config = {
 				}
 			},
 			{
+				name: 'profile',
+				path: {
+					client: 'js/app/user/modules/profile/',
+					server: ':name'
+				}
+			},
+			{
 				name: 'login',
 				path: {
 					client: 'js/app/user/modules/login/',

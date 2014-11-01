@@ -38,6 +38,10 @@ var config = {
 			{
 				name: 'products',
 				path: 'js/app/admin/modules/products/'
+			},
+			{
+				name: 'ranks',
+				path: 'js/app/admin/modules/ranks/'
 			}
 		]
 	}

@@ -8,4 +8,15 @@ block content
 		include content
 
 block append scripts
-	
+	script.
+		var app = {
+			consultations: !{JSON.stringify(articles)},
+			ages: !{JSON.stringify(ages)},
+			themes: !{JSON.stringify(themes)}
+		};
+	script#specialist_mustache(type="text/mustache")
+		| {{#sortBy articles 'answer' sort}}
+		mixin article()
+		| {{/sortBy}}
+	script#consultation_mustache(type="text/mustache")
+		mixin user()

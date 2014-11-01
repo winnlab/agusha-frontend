@@ -1,0 +1,4 @@
+h1 Привет! #{user.profile.first_name}, ты зарегистрировался на агуше
+div
+	a(href!="#{site.linkTo('registration/activate/'+user._id)}") Активируй
+	| &nbsp; свой профиль, будь мужиком

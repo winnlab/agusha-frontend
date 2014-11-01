@@ -1,4 +1,5 @@
 import 'adminlte'
+import 'js/plugins/fontawesome/css/font-awesome.min.css!'
 
 import Router from 'router'
 import config from 'rConfig'

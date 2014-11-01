@@ -11,15 +11,31 @@ System.config({
 		'google': 'js/plugins/social/google.plusone.js',
 		'googlemaps_api': 'js/plugins/google/googlemaps_api.js',
 		'googlemaps_main': 'js/plugins/google/googlemaps_main.js',
-		
+		'user': 'js/app/user/modules/user/user.js',
+
 		'router': 'js/app/user/router/router.js',
 		'placeholder': 'js/app/user/router/placeholder.js',
-		
+
 		'core': 'js/app/user/core/core.js',
+		'core/*': 'js/app/user/core/*.js',
+		'lib/*': 'js/app/user/lib/*.js',
+		'modules/*': 'js/app/user/modules/*.js',
+
 		'rConfig': 'js/app/user/core/config.js',
 		'helpers': 'js/app/user/helpers.js',
+
+		'bx-slider': 'js/plugins/bx-slider/jquery.bxslider.min.js',
 		
 		'controller': 'js/app/user/lib/controller/controller.js',
+		'module/*': 'js/app/user/modules/*.js',
+		'baseModel': 'js/app/admin/lib/model/baseModel.js',
+
+		'lodash': 'js/plugins/lodash/dist/lodash.js',
+
+		'controller': 'js/app/user/lib/controller/controller.js',
+
+		'custom-scrollbar': 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
+
 	},
 	map: {
 		'can/util/util': 'can/util/jquery/jquery',
@@ -51,6 +67,11 @@ System.config({
 				'google'
 			]
 		},
+		'custom-scrollbar': {
+			deps: [
+				'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css!'
+			]
+		},
 		'products': {
 			deps: [
 				'select2'
@@ -65,6 +86,11 @@ System.config({
 			deps: [
 				'googlemaps_api',
 				'googlemaps_main'
+			]
+		},
+		'bx-slider': {
+			deps: [
+				'js/plugins/bx-slider/jquery.bxslider.css!'
 			]
 		}
 	}

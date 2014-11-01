@@ -17,6 +17,7 @@ var UploadViewModel = can.Map.extend({
 	'multiple': '@',
 	'sortable': null,
 	'parentname': '@',
+	'nested': null,
 	'files': [],
 	'progress': 0,
 
@@ -45,7 +46,7 @@ var UploadViewModel = can.Map.extend({
 							? newVal.data[this.attr('name')] || newVal
 							: newVal;
 
-						uploaded.splice(0, 1, realVal);
+						uploaded.push(realVal);
 					}
 				}
 
@@ -78,14 +79,19 @@ var UploadViewModel = can.Map.extend({
 					self.attr('progress', 100);
 				}
 			};
+
+			if (self.attr('nested')) {
+				options.data.nestedId = self.attr('nested');
+			}
 			
 			var formSubmited = form.ajaxSubmit(options);
 			var xhr = formSubmited.data('jqxhr');
 
 			xhr.done(function (response) {
 
+				var data = response.data || response.responseJSON && response.responseJSON.data;
 				if (entity.uploaded) {
-					entity.uploaded(self.attr('name'), response.data[self.attr('name')]);
+					entity.uploaded(data.fileName || self.attr('name'), data[self.attr('name')] || data);
 				}
 
 				saSuccess('Файл успешно выгружен.');
@@ -115,7 +121,8 @@ var UploadViewModel = can.Map.extend({
 			data: {
 				name: name,
 				sourceName: sourceName,
-				id: self.attr('entity.id') || self.attr('entity._id')
+				id: self.attr('entity.id') || self.attr('entity._id'),
+				nestedId: self.attr('nested') || null
 			},
 			type: 'DELETE'
 		}).done(function (response) {
