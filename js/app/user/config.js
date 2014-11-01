@@ -16,11 +16,16 @@ System.config({
 		'placeholder': 'js/app/user/router/placeholder.js',
 
 		'core': 'js/app/user/core/core.js',
+		'core/*': 'js/app/user/core/*.js',
+		'lib/*': 'js/app/user/lib/*.js',
+
 		'rConfig': 'js/app/user/core/config.js',
 		'helpers': 'js/app/user/helpers.js',
 		'lodash': 'js/plugins/lodash/dist/lodash.js',
 
 		'controller': 'js/app/user/lib/controller/controller.js',
+
+		'custom-scrollbar': 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
 	},
 	map: {
 		'can/util/util': 'can/util/jquery/jquery',
@@ -50,6 +55,11 @@ System.config({
 				'vkontakte',
 				'odnoklasniki',
 				'google'
+			]
+		},
+		'custom-scrollbar': {
+			deps: [
+				'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css!'
 			]
 		},
 		'products': {
