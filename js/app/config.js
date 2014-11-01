@@ -29,6 +29,7 @@ System.config({
 		'edit': 'js/app/admin/lib/edit/edit.js',
 		'baseModel': 'js/app/admin/lib/model/baseModel.js',
 
+		'upload' : 'js/app/admin/components/upload/upload.js',
 		'articlefilter': 'js/app/common/components/articlefilter/articlefilter.js',
 		'pagination': 'js/app/admin/components/pagination/pagination.js',
 		'slider': 'js/app/common/components/slider/slider.js'
