@@ -37,13 +37,39 @@ export default can.Control.extend({
 		parentData: false,//'.entity'
 	}
 }, {
+	setup: function (element, options) {
+
+		var cls = this.constructor,
+			pluginname = cls.pluginName || cls._fullName,
+			arr;
+
+		this.element = can.$(element);
+
+		if (pluginname && pluginname !== 'can_control') {
+			this.element.addClass(pluginname);
+		}
+
+		arr = can.data(this.element, 'controls');
+		if (!arr) {
+			arr = [];
+			can.data(this.element, 'controls', arr);
+		}
+		arr.push(this);
+
+		this.options = can.extend({}, cls.defaults, options);
+
+		this.defineSelectors();
+
+		this.on();
+
+		return [this.element, this.options];
+	},
+
 	init: function () {
 
 		var self = this,
 			options = self.options,
 			route = can.route.attr();
-
-		self.defineSelectors();
 
 		self.defineModule();
 
@@ -70,7 +96,15 @@ export default can.Control.extend({
 		}
 
 		var moduleNameLow = o.moduleName,
-			moduleNameUp = moduleNameLow[0].toUpperCase() + moduleNameLow.substr(1),
+			len = moduleNameLow.length;
+
+		if (moduleNameLow[len - 1] === 's') {
+			moduleNameLow = moduleNameLow[len - 2] === 'e'
+				? moduleNameLow.substr(0, len - 2)
+				: moduleNameLow.substr(0, len - 1);
+		}
+
+		var moduleNameUp = moduleNameLow[0].toUpperCase() + moduleNameLow.substr(1),
 			shortcuts = [ 'add', 'edit', 'remove' ];
 
 		for (var i = 0, len = shortcuts.length; i < len; i++) {
@@ -85,7 +119,7 @@ export default can.Control.extend({
 		}
 
 		if (!this.isValidString(o.parentData)) {
-			o.parentData = '.' + moduleNameUp;
+			o.parentData = '.' + moduleNameLow;
 		}
 	},
 

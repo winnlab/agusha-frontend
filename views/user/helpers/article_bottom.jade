@@ -1,5 +1,29 @@
 .article_bottom
-	include interesting
+	.interesting_title
+		.half.left
+			.adorable_table
+				.adorable_cell
+					| Вам будет интересно
+		
+		.half.right
+			.adorable_table
+				.adorable_cell
+					span 3 / 5
+
+	.interesting_content
+
+		- each similarArticle, similarArticleKey in similarArticles
+
+			.item.column
+				.item_topper.adorable_table
+					.adorable_cell
+						.top_label #{similarArticle.theme.name}
+						.label #{similarArticle.title}
+				
+				.item_body(style="background-image: url('/img/uploads/#{similarArticle.image.background}')")
+				
+				.item_footer.adorable_table
+					.adorable_cell 396 мам одобряют
 
 	.comments
 		.comments_topper
