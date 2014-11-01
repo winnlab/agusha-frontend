@@ -21,19 +21,19 @@ System.config({
 
 		'rConfig': 'js/app/user/core/config.js',
 		'helpers': 'js/app/user/helpers.js',
-<<<<<<< HEAD
+
 		'bx-slider': 'js/plugins/bx-slider/jquery.bxslider.min.js',
 		
 		'controller': 'js/app/user/lib/controller/controller.js',
 		'module/*': 'js/app/user/modules/*.js',
 		'baseModel': 'js/app/admin/lib/model/baseModel.js',
-=======
+
 		'lodash': 'js/plugins/lodash/dist/lodash.js',
 
 		'controller': 'js/app/user/lib/controller/controller.js',
 
 		'custom-scrollbar': 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
->>>>>>> a79879e1cf2cc84f43905a6d8a6a1b50f2a38576
+
 	},
 	map: {
 		'can/util/util': 'can/util/jquery/jquery',
