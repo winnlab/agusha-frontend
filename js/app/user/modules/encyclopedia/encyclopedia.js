@@ -132,7 +132,7 @@ export default Controller.extend(
 
 			if(!bookshelf_mustache.length) {
 				html = jadeTemplate.get('user/encyclopedia/bookshelf_mustache');
-				encyclopediaHtml = jadeTemplate.get('user/encyclopedia/bookshelf_mustache');
+				encyclopediaHtml = jadeTemplate.get('user/encyclopedia/encyclopedia_mustache');
 			} else {
 				html = bookshelf_mustache.html();
 				encyclopediaHtml = encyclopedia_mustache.html();

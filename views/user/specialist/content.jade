@@ -1,3 +1,4 @@
+include helpers
 .bg
 
 .content
@@ -26,38 +27,15 @@
 				span Подробнее
 		
 		.column.double.right
-			.question
-				input(type="text", name="title", placeholder="ВОПРОС (до 100 символов)")
-				.hint_block
-					img.hint(src="/img/user/poll/question_answered.png")
-			
-			.details
-				textarea(name="title", placeholder="ДЕТАЛИ ВОПРОСА")
-			
-			.selects
-				.select
-					select.specialist_age_select
-						option(value = 0) Возрастной период
-						option(value = 1) Дедушка
-						option(value = 2) Бабушка
-				
-				.select.theme
-					select.specialist_theme_select
-						option(value = 0) Тема вопроса
-			
-			.footer
-				.obligatory
-					div Все поля являются обязательными
-					div для заполнения
-				
-				button.button ОТПРАВИТЬ
+			mixin user(true)
 	
 	.filters
 		select.specialist_question_select
 			option(value = 0) Вопросы от мам
 		
 		select.specialist_sort_select
-			option(value = 0) Сначала отвеченные
+			option(value = 1) Сначала отвеченные
+			option(value = 0) Сначала не отвеченные
 		
 		.icons
 			.icon.eye
@@ -76,4 +54,5 @@
 						img(src="/img/user/specialist/check.png")
 	
 	.items_container
-		
+		- each a, i in articles
+			mixin article(a, i)

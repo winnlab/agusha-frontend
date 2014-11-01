@@ -18,6 +18,7 @@ System.config({
 		'core': 'js/app/user/core/core.js',
 		'core/*': 'js/app/user/core/*.js',
 		'lib/*': 'js/app/user/lib/*.js',
+		'modules/*': 'js/app/user/modules/*.js',
 
 		'rConfig': 'js/app/user/core/config.js',
 		'helpers': 'js/app/user/helpers.js',
