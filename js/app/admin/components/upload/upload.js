@@ -45,7 +45,7 @@ var UploadViewModel = can.Map.extend({
 							? newVal.data[this.attr('name')] || newVal
 							: newVal;
 
-						uploaded.splice(0, 1, realVal);
+						uploaded.push(realVal);
 					}
 				}
 
