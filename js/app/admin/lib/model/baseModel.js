@@ -51,17 +51,14 @@ var baseModel = {
             return this.attr(name, undefined);
         }
 
-        this.attr(name).splice(index, 1);
+        var data = response.responseJSON
+            ? response.responseJSON.data
+            : response.data;
 
-        var version = false;
-        if (response.data && response.data.__v) {
-            version = response.data.__v;
-        } else if (response.responseJSON && response.responseJSON.data && response.responseJSON.data.__v) {
-            version = response.responseJSON.data.__v;
-        }
+        this.attr(data.name).splice(index, 1);
 
-        if (version) {
-            this.attr('__v', version);
+        if (data.__v) {
+            this.attr('__v', data.__v);
         }
     }
 };
