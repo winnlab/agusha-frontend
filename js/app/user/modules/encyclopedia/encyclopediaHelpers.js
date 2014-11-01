@@ -35,7 +35,12 @@ export default {
     getClassName: function (entity, index) {
         var i = computedVal(index),
             e = entity;
-        var classname = i == 0 ? 'x2' : i === 3 ? 'double' : '';
+        var classname = i == 0 ? 'x2' : '',
+            doubles = [4, 7, 12, 13, 16, 21, 25];
+
+        if (doubles.indexOf(i)) {
+            classname = 'double';
+        }
 
         classname += (!e.attr('image.background') ? ' no-image' : '')
         classname += e.attr('is_quiz') ? ' poll' : '';
