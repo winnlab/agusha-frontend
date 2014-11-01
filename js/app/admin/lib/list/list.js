@@ -119,7 +119,7 @@ export default can.Control.extend({
 		}
 
 		if (!this.isValidString(o.parentData)) {
-			o.parentData = '.' + moduleNameUp;
+			o.parentData = '.' + moduleNameLow;
 		}
 	},
 
