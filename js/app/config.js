@@ -90,7 +90,6 @@ System.config({
 				'iCheck',
 				'slimscroll',
 				'adminlte-css/AdminLTE.css!',
-				'adminlte-css/font-awesome.min.css!',
 				'adminlte-css/ionicons.min.css!',
 				'adminlte-css/bootstrap.min.css!'
 			]
