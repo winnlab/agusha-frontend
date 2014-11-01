@@ -5,7 +5,7 @@ mixin theme(t)
 		if params.theme && params.theme == t._id
 			- classname = 'active'
 	else
-		- classname = '{{#if params.theme}}{{#is params.theme _id}}active{{/is}}{{/if}}'
+		- classname = '{{#is _id theme}}active{{/is}}'
 	
 	.book(data-theme = (t ? t._id : '{{_id}}'), class = classname)
 		.cover
@@ -63,6 +63,11 @@ mixin article(a, i)
 			if a && a.is_quiz
 				.button_content.gold
 					button.me_too Я тоже
+			else 
+				| {{#if is_quis}}
+				.button_content.gold
+					button.me_too Я тоже
+				| {{/if}}
 				
 			if a
 				if articleType === 'author'

@@ -33,12 +33,10 @@ include helpers
 					.close
 					.label.novito_nova Какая тема вам ближе?
 
-		.center
-			.adorable_table
-				.adorable_cell
-					.bookshelf
-						- each t, key in themes
-							mixin theme(t)
+		.center.bookshelfWrap
+			.bookshelf
+				- each t, key in themes
+					mixin theme(t)
 		
 		.footer
 			.adorable_table
@@ -62,10 +60,24 @@ if params.age || params.theme
 			
 			.items_filter
 				select.author_select
-					option(data-count = 0, value = 0) Все авторы
-					option(data-count = 0, value ="Статья от редакции") От редакции
-					option(data-count = 0, value ="Статья от специалиста") Мнение специалиста
-					option(data-count = 0, value ="Тема недели") Тема недели
+					- var countIt = function (type) {
+						- if (type == 0) {
+							- return articles.length;
+						- }
+						- var count = 0;
+						- for (var i = 0, ln = articles.length; i < ln; i += 1) {
+							- var a = articles[i];
+							- if (a.type.name == type) {									
+								- count += 1
+							- }
+						- } 
+						- return count;
+					- }
+					
+					option(data-count = countIt(0), value = 0) Все авторы
+					option(data-count = countIt("Статья от редакции"), value = "Статья от редакции") От редакции
+					option(data-count = countIt("Статья от специалиста"), value = "Статья от специалиста") Мнение специалиста
+					option(data-count = countIt("Тема недели"), value = "Тема недели") Тема недели
 				
 				select.order_select
 					option(value = 'date') Сначала новые

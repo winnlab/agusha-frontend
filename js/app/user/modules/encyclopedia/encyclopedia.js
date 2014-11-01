@@ -1,6 +1,8 @@
-import Controller from 'controller'
-import select2 from 'select2'
-import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers'
+import Controller from 'controller';
+import select2 from 'select2';
+import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
+import appState from 'core/appState';
+import 'custom-scrollbar';
 
 var Theme = can.Model.extend({
 	findAll: 'POST /themes/findAll',
@@ -30,10 +32,13 @@ export default Controller.extend(
 			this.theme_filter = this.element.find('.theme_filter');
 			this.bookshelf = this.theme_filter.find('.bookshelf');
 
+			this.filter = this.element.find('.filter'),
+
 			this.items_container = this.element.find('.items_container');
 		},
 
 		plugins: function() {
+			this.setFilterHeight();
 			this.select2();
 		},
 
@@ -63,33 +68,54 @@ export default Controller.extend(
 			return html;
 		},
 
+		setFilterHeight: function () {
+			var viewportHeight = appState.attr('viewport').getViewportHeight(),
+				ageFilter = this.element.find('.age_filter'),
+				ageFilterHeight = ageFilter.height();
+
+			if (viewportHeight >= ageFilterHeight) {
+				this.filter.height(this.filterHeight = viewportHeight);
+			} else {
+				this.filter.height(this.filterHeight = ageFilterHeight);
+			}
+
+		},
+
+		'{window} resize': function () {
+			this.setFilterHeight();
+			this.setScroll();
+		},
+
 		after_init: function(data) {
 			var that = this,
 				encyclopediaHtml,
 				html;
-
 
 			this.first_call = true;
 
 			var ViewModel = can.Map.extend({
 				define: {
 					age: {
-						value: null
+						value: function () {
+							var age = can.route.attr('id');
+							return age ? age : null
+						}
 					},
 					theme: {
-						value: null
+						value: function () {
+							var age = can.route.attr('param2');
+							return age ? age : null
+						}
 					},
 					themes: {
-						value: new can.List(),
+						value: data ? new can.List(data.themes) : new can.List(app.themes),
 						get: function(currentValue) {
 							var options = {
 								age: this.attr('age')
 							};
-
 							if(!that.first_call) {
 								currentValue.replace(Theme.findAll(options));
 							}
-
 							return currentValue;
 						}
 					}
@@ -113,17 +139,16 @@ export default Controller.extend(
 			}
 
 			can.view.mustache('bookshelf', html);
-			can.view.mustache('encyclopedia', encyclopediaHtml);
+			can.view.mustache('encyclopedia_view', encyclopediaHtml);
 
-			this.bookshelf.html(can.view('bookshelf', this.data));
-
-			this.items_container.html(can.view('encyclopedia', this.data, encyclopediaHelpers));
+			this.bookshelf.html(can.view('bookshelf', this.data, encyclopediaHelpers));
+			this.items_container.html(can.view('encyclopedia_view', this.data, encyclopediaHelpers));
 
 			this.first_call = false;
 		},
 
 		'.age_block click': function(el) {
-			var val = el.data('value');
+			var val = el.data('value').toString();
 
 			this.age_blocks.removeClass(this.active);
 			el.addClass(this.active);
@@ -131,6 +156,17 @@ export default Controller.extend(
 			this.data.attr('age', val);
 
 			this.theme_filter.addClass(this.active);
+
+			this.setScroll();
+
+		},
+
+		setScroll: function () {
+			var bookshelfHeight = this.filterHeight - 160 - 130;
+
+			$('.bookshelfWrap', this.element).height(bookshelfHeight).mCustomScrollbar({
+                scrollInertia: 0
+            });
 		},
 
 		'.book click': function (el) {
