@@ -70,7 +70,15 @@ export default can.Control.extend({
 		}
 
 		var moduleNameLow = o.moduleName,
-			moduleNameUp = moduleNameLow[0].toUpperCase() + moduleNameLow.substr(1),
+			len = moduleNameLow.length;
+
+		if (moduleNameLow[len - 1] === 's') {
+			moduleNameLow = moduleNameLow[len - 2] === 'e'
+				? moduleNameLow.substr(0, len - 2)
+				: moduleNameLow.substr(0, len - 1);
+		}
+
+		var moduleNameUp = moduleNameLow[0].toUpperCase() + moduleNameLow.substr(1),
 			shortcuts = [ 'add', 'edit', 'remove' ];
 
 		for (var i = 0, len = shortcuts.length; i < len; i++) {
