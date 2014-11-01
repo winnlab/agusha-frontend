@@ -6,10 +6,10 @@
 				span /
 				a.register(href="/registration") Регистрация
 			
-			form(class='login_form')
+			form.login_form
 				
-				input.email(type="email", name="email", placeholder="E-Mail")
-				input.password(type="password", name="password", placeholder="Пароль")
+				input.email(type="email", name="email", can-value="email" placeholder="E-Mail")
+				input.password(type="password", name="password", can-value="password" placeholder="Пароль")
 				
 				.forgot Забыли пароль?
 				
