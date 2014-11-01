@@ -28,22 +28,19 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
-			console.log(this.id);
 			var id = this.id.split('-')[1];
 			Model.findOne({_id: id})
 				.done(function(data){
 					console.log(data);
 				})
-				.fail(function(data){
-					console.error(data);
-				});
+				.fail(function(data){});
 
 			this.carousel();
 		},
 
 		carousel: function () {
 			var self = this;
-			console.log($('.interesting_content'));
+
 			$('.interesting_content').bxSlider({
 			    slideWidth: 280,
 			    minSlides: 2,
@@ -51,6 +48,22 @@ export default Controller.extend(
 			    moveSlides: 1,
 			    slideMargin: 10
 			});
+		},
+
+		'.pollForm submit': function (el, ev) {
+			ev.preventDefault();
+
+			console.log(can.deparam(el.serialize()));
+
+	        can.ajax({
+		        url: '/pollVote',
+		        type: 'POST',
+		        data: can.deparam(el.serialize()),
+		        success: function (data) {
+
+			        console.log(data);
+		        }
+	        });
 		}
 	}
 );
