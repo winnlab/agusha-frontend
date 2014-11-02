@@ -10,6 +10,29 @@
 		@include inline_block;
 		height: 644px;
 		position: relative;
+		
+		&.drop {
+			.coin {
+				-webkit-transform: rotate(45deg);
+				-moz-transform: rotate(45deg);
+				-o-transform: rotate(45deg);
+				-ms-transform: rotate(45deg);
+				transform: rotate(45deg);
+				
+				bottom: 45px;
+				opacity: 0;
+			}
+		}
+		
+		&.bounce {
+			.moneybox {
+				-webkit-transform: scale(1.1);
+				-moz-transform: scale(1.1);
+				-o-transform: scale(1.1);
+				-ms-transform: scale(1.1);
+				transform: scale(1.1);
+			}
+		}
 	}
 	
 	.reg_box {
@@ -33,6 +56,12 @@
 	}
 	
 	.coin {
+		-webkit-transition: -webkit-transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
+		-moz-transition: -moz-transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
+		-o-transition: -o-transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
+		-ms-transition: -ms-transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
+		transition: transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
+		
 		height: 73px;
 		width: 77px;
 		position: absolute;
@@ -40,6 +69,8 @@
 		left: 0;
 		right: 0;
 		margin: 0 auto;
+		z-index: 5;
+		opacity: 1;
 	}
 	
 	.done {
@@ -65,7 +96,27 @@
 	}
 	
 	.moneybox {
+		-webkit-transition: -webkit-transform 0.2s ease-in-out;
+		-moz-transition: -moz-transform 0.2s ease-in-out;
+		-o-transition: -o-transform 0.2s ease-in-out;
+		-ms-transition: -ms-transform 0.2s ease-in-out;
+		transition: transform 0.2s ease-in-out;
+					
 		margin-top: 30px;
+		position: relative;
+		height: 147px;
+		
+		&:after {
+			@include pseudo;
+			background: url('/img/user/registration/moneybox_bottom.png') bottom no-repeat;
+			width: 210px;
+			height: 116px;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			margin: auto;
+			z-index: 10;
+		}
 	}
 	
 	.message {
