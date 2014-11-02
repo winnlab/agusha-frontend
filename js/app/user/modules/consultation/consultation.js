@@ -1,5 +1,4 @@
 import Controller from 'controller'
-import Model from 'module/question/questionModel'
 
 export default Controller.extend(
 	{
@@ -26,12 +25,7 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
-			var id = this.id.split('-')[1];
-			Model.findOne({_id: id})
-				.done(function(data){
-					console.log(data);
-				})
-				.fail(function(data){});
+			
 		}	
 	}
 );

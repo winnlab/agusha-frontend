@@ -6,7 +6,7 @@ import 'bx-slider'
 export default Controller.extend(
 	{
 		defaults: {
-			
+            viewpath: '/js/app/user/modules/article/views/',
 		}
 	}, {
 		variables: function() {
@@ -51,19 +51,27 @@ export default Controller.extend(
 		},
 
 		'.pollForm submit': function (el, ev) {
+			var self = this;
 			ev.preventDefault();
-
-			console.log(can.deparam(el.serialize()));
 
 	        can.ajax({
 		        url: '/pollVote',
 		        type: 'POST',
 		        data: can.deparam(el.serialize()),
 		        success: function (data) {
-
-			        console.log(data);
+		        	self.displayPollFormData(data);
 		        }
 	        });
+		},
+
+		displayPollFormData: function (data) {
+			var self = this;
+
+            $('.options_container').html(
+                can.view(self.options.viewpath + 'pollResults.stache', {
+                	article: data.data
+                })
+            );
 		}
 	}
 );

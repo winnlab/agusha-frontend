@@ -1,0 +1,15 @@
+{{#each article.answer}}
+
+	<div class="option">
+
+		<div class="radio_cell">{{percent}}%</div>
+		<div class="label">
+			<div>{{text}}</div>
+			<div class="progress_line">
+				<div class="progress" style="width: {{percent}}%;"></div>
+			</div>
+		</div>
+
+	</div>
+
+{{/each}}
