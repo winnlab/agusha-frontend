@@ -5,8 +5,7 @@ import user from 'modules/user/';
 import appState from 'core/appState';
 
 var ViewModel = can.Map.extend({
-		// isAuth: user.attr('isAuth'),
-		isAuth: true,
+		isAuth: user.attr('isAuth'),
 		sort: 'asc',
 		filter: ''
 	});
