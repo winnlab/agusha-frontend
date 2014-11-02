@@ -54,26 +54,82 @@
 			.top_label Ирина Потапенко
 			.bottom_label Детки: мальчик и девочка
 	
-	.article_content
-		.left.column.double
-			.left_content
-				.date
-					.adorable_table
+	if article.is_quiz
+
+		.poll_container
+			.text
+				| !{article.desc.text}
+			.center
+				form(name='pollForm', class='pollForm options_container')
+
+					input(type="hidden", name="article", value="#{article._id}")
+
+					.options_container
+
+							- each answerItem, answerKey in article.answer
+								.option
+									.radio_cell
+										.checkbox
+											input(name="answer", type="radio", value="#{answerItem._id}")
+											label
+												.img
+									.label #{answerItem.text}
+
+					.bottom.adorable_table
 						.adorable_cell
+							button.poll_button(type="submit") Проголосовать
 
-							- var date = new Date(article.updated);
-							- var day = date.getDate();
-							- var monthNames = [ "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
-							- var month = monthNames[date.getMonth()];
-							- var year = date.getFullYear();
-							- var hours = date.getHours();
-							- var seconds = date.getSeconds();
+				.plz Для того, чтобы увидеть результаты опроса, плз, ответьте сами
 
-							span.day_month_year #{day} #{month} #{year}
-							span.time #{hours}:#{seconds}
+				.social
+					.social_button
+						.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
+					
+					.social_button
+						a(href="https://twitter.com/share" class="twitter-share-button") Tweet
+					
+					.social_button
+						div(id="vk_top_poll_" + params.alias)
+					
+					.social_button
+						div(id="ok_top_poll_" + params.alias)
+					
+					.social_button
+						.g-plusone(data-size="medium")
+
+			.footer
+				.adorable_table
+					.adorable_cell
+						img.like(src="/img/user/article/heart.png")
+						span.count 8
+						span.approve
+							| мамочек
+							br
+							| одобряют
+						
+						img.comment(src="/img/user/article/comment.png")
+						span.count 37
+
+		.poll_container.answered
+			.center
+				.title
+					.question
+						.question_info
+							.adorable_table
+								.adorable_cell Вводный текст небольшой (почему это так важно, зачем мы спрашиваем)
+					
+					div Результаты опроса:
 				
-				.text
-					| !{article.desc.text}
+				.options_container
+
+					- each answerItem, answerKey in article.answer
+
+						.option
+							.radio_cell #{answerItem.percent}%
+							.label
+								div #{answerItem.text}
+								.progress_line
+									.progress(style="width: #{answerItem.percent}%;")
 				
 				.social
 					.social_button
@@ -83,42 +139,80 @@
 						a(href="https://twitter.com/share" class="twitter-share-button") Tweet
 					
 					.social_button
-						div(id="vk_bottom_article_" + params.alias)
+						div(id="vk_bottom_poll_" + params.alias)
 					
 					.social_button
-						div(id="ok_bottom_article_" + params.alias)
+						div(id="ok_bottom_poll_" + params.alias)
 					
 					.social_button
 						.g-plusone(data-size="medium")
+
+	else
+		.article_content
+			.left.column.double
+				.left_content
+					.date
+						.adorable_table
+							.adorable_cell
+
+								- var date = new Date(article.updated);
+								- var day = date.getDate();
+								- var monthNames = [ "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
+								- var month = monthNames[date.getMonth()];
+								- var year = date.getFullYear();
+								- var hours = date.getHours();
+								- var seconds = date.getSeconds();
+
+								span.day_month_year #{day} #{month} #{year}
+								span.time #{hours}:#{seconds}
+					
+					.text
+						| !{article.desc.text}
+					
+					.social
+						.social_button
+							.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
+						
+						.social_button
+							a(href="https://twitter.com/share" class="twitter-share-button") Tweet
+						
+						.social_button
+							div(id="vk_bottom_article_" + params.alias)
+						
+						.social_button
+							div(id="ok_bottom_article_" + params.alias)
+						
+						.social_button
+							.g-plusone(data-size="medium")
+					
+					.copyright © 2014 Копипаст редакции
 				
-				.copyright © 2014 Копипаст редакции
+				.footer
+					.half.left
+						.adorable_table
+							.adorable_cell
+								img.comment(src="/img/user/article/comment.png")
+								span.count 37 
+								span.slash / 
+								span.post_comment Комментировать
+								
+					.half.right
+						.adorable_table
+							.adorable_cell
+								img.like(src="/img/user/article/heart.png")
+								span.count  8 
+								span.slash / 
+								span.post_like Одобрить
 			
-			.footer
-				.half.left
-					.adorable_table
-						.adorable_cell
-							img.comment(src="/img/user/article/comment.png")
-							span.count 37 
-							span.slash / 
-							span.post_comment Комментировать
-							
-				.half.right
-					.adorable_table
-						.adorable_cell
-							img.like(src="/img/user/article/heart.png")
-							span.count  8 
-							span.slash / 
-							span.post_like Одобрить
-		
-		.right.column
-			.question.adorable_table
-				.adorable_cell
-					.title Появился вопрос?
-					.subtitle Задай его специалисту!
-					.avatar
-						img.rounded(src='/img/avatar_100x100.jpg')
-					.name Ирина Матвиенко
-					.info Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем здорового ребенка и преморбидных состояний.
-					button.ask_button Задать вопрос
+			.right.column
+				.question.adorable_table
+					.adorable_cell
+						.title Появился вопрос?
+						.subtitle Задай его специалисту!
+						.avatar
+							img.rounded(src='/img/avatar_100x100.jpg')
+						.name Ирина Матвиенко
+						.info Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем здорового ребенка и преморбидных состояний.
+						button.ask_button Задать вопрос
 	
 	include ../helpers/article_bottom
