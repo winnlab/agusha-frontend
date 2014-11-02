@@ -32,6 +32,28 @@ export default Controller.extend(
 					console.log(data);
 				})
 				.fail(function(data){});
-		}	
+
+			this.carousel();
+		},
+
+		carousel: function () {
+			var self = this;
+
+			$('.interesting_content', self.element).bxSlider({
+			    slideWidth: 280,
+			    minSlides: 2,
+			    maxSlides: 3,
+			    moveSlides: 1,
+			    slideMargin: 10
+			});
+		},
+
+		'.slideRight click': function(el, ev) {
+			$('.bx-wrapper .bx-next', this.element).trigger('click');
+		},
+
+		'.slideLeft click': function(el, ev) {
+			$('.bx-wrapper .bx-prev', this.element).trigger('click');
+		}
 	}
 );

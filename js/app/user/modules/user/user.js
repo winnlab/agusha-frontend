@@ -1,6 +1,7 @@
-import 'can/'
+import 'can/';
+import appState from 'core/appState';
 
-var user = can.Map.extend({
+var User = can.Map.extend({
 	user: null,
 	checkAuth: function(callback) {
 		var that = this;
@@ -23,7 +24,9 @@ var user = can.Map.extend({
 						return false;
 					}
 
-					return false;
+					this.attr('user', window.localStorage.getItem('isAuth'))
+
+					return true;
 				}
 
 				return true;
@@ -31,7 +34,17 @@ var user = can.Map.extend({
 		},
 		user: {
 			set: function(obj) {
-				window.localStorage.setItem('isAuth', true);
+				window.localStorage.setItem('isAuth', JSON.stringify(obj));
+
+				return obj;
+			},
+			get: function (obj) {
+				var luser = window.localStorage.getItem('isAuth');
+				luser = JSON.parse(luser);
+
+				if(luser) {
+					return luser;
+				}
 
 				return obj;
 			}
@@ -39,4 +52,8 @@ var user = can.Map.extend({
 	}
 });
 
-export default new user()
+var user = new User();
+
+appState.attr('user', user);
+
+export default user

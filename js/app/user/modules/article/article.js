@@ -41,7 +41,7 @@ export default Controller.extend(
 		carousel: function () {
 			var self = this;
 
-			$('.interesting_content').bxSlider({
+			$('.interesting_content', self.element).bxSlider({
 			    slideWidth: 280,
 			    minSlides: 2,
 			    maxSlides: 3,
@@ -66,12 +66,28 @@ export default Controller.extend(
 
 		displayPollFormData: function (data) {
 			var self = this;
+            var $pollAnsweredWrapper = $('.poll_container.answered');
+            var $pollResults = $pollAnsweredWrapper.find('.pollResults');
+            var $plz = $pollAnsweredWrapper.find('.plz');
 
-            $('.options_container').html(
+            $('.options_container.pollResults').html(
                 can.view(self.options.viewpath + 'pollResults.stache', {
                 	article: data.data
                 })
             );
+
+            if ($pollResults.css('display') == 'none') {
+            	$pollResults.slideDown();
+            }
+            $plz.slideUp();
+		},
+
+		'.slideRight click': function(el, ev) {
+			$('.bx-wrapper .bx-next', this.element).trigger('click');
+		},
+
+		'.slideLeft click': function(el, ev) {
+			$('.bx-wrapper .bx-prev', this.element).trigger('click');
 		}
 	}
 );
