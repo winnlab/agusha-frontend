@@ -1,7 +1,10 @@
+import 'can/map/delegate/'
+import 'can/map/define/'
 import Router from 'router'
 import config from 'rConfig'
 import helpers from 'helpers'
-import AppState from 'core/appState'
+import user from 'modules/user/';
+import appState from 'core/appState'
 
 var Core = can.Control.extend(
 	{
@@ -22,6 +25,15 @@ var Core = can.Control.extend(
 			// this.left_inner_menu_left = this.id_left_inner_menu.css('left');
 
 			this.start = null;
+
+			appState.attr('user').delegate('isAuth', 'set', function (el, newVal) {
+				var regBlock = $('#register_corner');
+				if (newVal) {
+					regBlock.hide();
+				} else {
+					regBlock.show();
+				}
+			});
 		},
 
 		step: function(timestamp) {

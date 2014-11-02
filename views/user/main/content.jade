@@ -1,4 +1,4 @@
-.content
+.content.bannerWrap(style = (user ? 'display: none' : ''))
 	.whats_up
 	
 	.topper
@@ -17,3 +17,12 @@
 		button.banner_button Это вкусно?
 	
 	include ../helpers/auth_box
+
+include ../registered/content
+
+include ../encyclopedia/helpers
+.content.itemsWrap
+	.items_container
+		- each a, i in articles
+			mixin article(a, i)
+	

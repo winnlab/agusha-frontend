@@ -1,24 +1,45 @@
-import Controller from 'controller'
+import Controller from 'controller';
+import appState from 'core/appState';
 
 export default Controller.extend(
 	{
 		defaults: {
-			
+
 		}
 	}, {
 		variables: function() {
 			this.classname = 'active';
-			
+
 			this.tab_selectors = this.element.find('.tab_selector');
+			this.bannerWrap = this.element.find('.bannerWrap');
+			this.userTitle = this.element.find('.userTitle');
 		},
-		
+
 		after_init: function(data) {
-			
+			var user = appState.attr('user')
+
+			this.isAuth(user, user.attr('isAuth'));
+
+			user.delegate('isAuth', 'set', this.isAuth);
 		},
-		
+
+		isAuth: function (el, isAuth) {
+			var self = this;
+			if (isAuth) {
+				self.element.addClass('logedIn');
+				self.bannerWrap.hide();
+				self.userTitle.show();
+			} else {
+				self.element.removeClass('logedIn');
+				self.userTitle.hide();
+				self.bannerWrap.show();
+			}
+
+		},
+
 		'.tab click': function(el) {
 			var tab = el.data('tab');
-			
+
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
 		}
