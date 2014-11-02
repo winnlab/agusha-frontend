@@ -6,15 +6,21 @@
     width: 100%;
 	background-color: #2385b2;
 	
-	.content {
-		> .adorable_cell {
-			height: 1034px;
-		}
+	.registration_inline {
+		@include inline_block;
+		height: 644px;
+		position: relative;
 	}
 	
 	.reg_box {
 		background: url('/img/user/registration/reg_moneybox_bg.png') no-repeat;
 		height: 442px;
+		
+		> .adorable_table {
+			> .adorable_cell {
+				padding: 37px 39px;
+			}
+		}
 		
 		.reg_top {
 			padding-bottom: 14px;
@@ -26,14 +32,25 @@
 		}
 	}
 	
+	.coin {
+		height: 73px;
+		width: 77px;
+		position: absolute;
+		bottom: 193px;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+	}
+	
 	.done {
 		background-color: #61D1FF;
 		color: #FFFFFF;
 		margin-top: 20px;
+		padding: 7px 30px;
 	}
 	
 	.social {
-		padding-top: 20px;
+		padding-top: 19px;
 	}
 	
 	.social_text {
@@ -41,7 +58,7 @@
 	}
 	
 	.get_text {
-		margin: 18px 0 31px;
+		margin: 10px 0 43px;
 		font-size: 16px;
 		text-transform: uppercase;
 		font-family: 'PT_Sans_Bold';
@@ -49,5 +66,21 @@
 	
 	.moneybox {
 		margin-top: 30px;
+	}
+	
+	.message {
+		position: absolute;
+		width: 201px;
+		height: 89px;
+		top: 66px;
+		background: url('/img/user/registration/message_bg.png') no-repeat;
+		right: -221px;
+		
+		.adorable_cell {
+			padding: 20px 20px 20px 35px;
+			color: $white;
+			font-size: 12px;
+			font-family: 'PT_Sans_Italic';
+		}
 	}
 }

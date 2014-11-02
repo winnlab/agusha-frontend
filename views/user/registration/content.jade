@@ -1,32 +1,39 @@
 .content.adorable_table
 	.adorable_cell
-		.reg_box.column
-			.adorable_table
-				.adorable_cell
-					.reg_top
-						a.login(href="/login") Вход
-						span /
-						a.register.active(href="/registration") Регистрация
-					
-					form.registration_form
-						input.email(type="email", name="email", can-value='email' placeholder="E-Mail")
-						input.password(type="password", name="password", can-value='password' placeholder="Пароль")
+		.registration_inline
+			.reg_box.column
+				.adorable_table
+					.adorable_cell
+						.reg_top
+							a.login(href="/login") Вход
+							span /
+							a.register.active(href="/registration") Регистрация
 						
-						button.done Готово
-					
-					.social
-						.social_text
-							.adorable_table
-								.adorable_cell
-									| Быстрая регистрация через соцсети
+						form.registration_form
+							input.email(type="email", name="email", can-value='email' placeholder="E-Mail")
+							input.password(type="password", name="password", can-value='password' placeholder="Пароль")
+							
+							button.done Готово
 						
-						.social_block.social_inline.facebook
-						.social_block.social_inline.twitter
-						.social_block.social_inline.vkontakte
-					
-					.get_text
-						div Регистрируйтесь
-						div и получайте
-		
-		.moneybox
-			img(src="/img/user/registration/moneybox.png")
+						.social
+							.social_text
+								.adorable_table
+									.adorable_cell
+										| Быстрая регистрация через соцсети
+							
+							.social_block.social_inline.facebook
+							.social_block.social_inline.vkontakte
+							.social_block.social_inline.odnoklasniki
+						
+						.get_text
+							div Регистрируйтесь
+							div и получайте
+			
+			img.coin(src="/img/user/registration/coin.png")
+			
+			.moneybox
+				img(src="/img/user/registration/moneybox.png")
+			
+			.message
+				.adorable_table
+					.adorable_cell Ваш e-mail уже есть в базе! Возможно Вы уже зарегистрированны?

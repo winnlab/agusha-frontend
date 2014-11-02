@@ -67,5 +67,18 @@
 		width: 40px;
 		background-color: #a3d7f0;
 		margin: 0 5px;
+		cursor: pointer;
+		
+		&.facebook {
+			background: url('/img/user/registration/facebook.png') center no-repeat #A3D7F0;
+		}
+		
+		&.vkontakte {
+			background: url('/img/user/registration/vk.png') center no-repeat #A3D7F0;
+		}
+		
+		&.odnoklasniki {
+			background: url('/img/user/registration/odnoklasniki.png') center no-repeat #A3D7F0;
+		}
 	}
 }
