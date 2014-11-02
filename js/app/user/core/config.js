@@ -107,6 +107,13 @@ var config = {
 					client: 'js/app/user/modules/moneybox/',
 					server: ':name'
 				}
+			},
+			{
+				name: 'registered',
+				path: {
+					client: 'js/app/user/modules/main/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'

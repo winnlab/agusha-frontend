@@ -3,8 +3,7 @@
 .content
 	include ../helpers/breadcrumbs
 	
-	.topper_title
-		| #{consultation.theme.name}
+	.topper_title Здоровье ребенка
 	
 	.social
 		.adorable_table
@@ -28,13 +27,7 @@
 		.column.double.left
 			.question_items
 				.item
-					.date
-						- var date = new Date(consultation.updated);
-						- var day = date.getDate();
-						- var monthNames = [ "Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек" ];
-						- var month = monthNames[date.getMonth()];
-
-						| #{day} #{month}
+					.date 26 сен
 					
 					.item_table
 						.avatar_column
@@ -56,37 +49,30 @@
 								.children Детки: мальчик и девочка
 							
 							.title
-								| #{consultation.name}
+								div У малыша аллергия.
+								div Что делать?
 							
-							.text
-								| !{consultation.text}
+							.text У малыша красные щечки, сыпь, слезятся глаза, распухший носик? Чаще всего такие симптомы – признаки аллергии. Аллергия – это повышенная чувствительность организма к воздействию некоторых факторов внешней среды, называемых аллергенами.
 				
-				- each answerItem, answerKey in consultation.answer
-					.item
-						.date
-							- var date = new Date(answerItem.date);
-							- var day = date.getDate();
-							- var monthNames = [ "Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек" ];
-							- var month = monthNames[date.getMonth()];
-
-							| #{day} #{month}
+				.item
+					.date 26 сен
+					
+					.item_table
+						.avatar_column
+							.avatar.medical_cap
+								img.rounded(src="/img/avatar_100x100.jpg")
 						
-						.item_table
-							.avatar_column
-								.avatar.medical_cap
-									img.rounded(src="/img/avatar_100x100.jpg")
-							
-							.content_column
-								.info
-									.name Ирина Потапенко
-									
-									.level
-										span.league Врач педиатр
-									
-									.children Детки: мальчик и девочка
+						.content_column
+							.info
+								.name Ирина Потапенко
 								
-								.text !{answerItem.text}
-				
+								.level
+									span.league Врач педиатр
+								
+								.children Детки: мальчик и девочка
+							
+							.text Первым делом ребенку необходимо пройти обследование у аллерголога. Нужно будет сделать тесты, чтобы понять, что именно вызывает аллергическую реакцию. Потом аллерголог подберет подходящее противоаллергическое средство. Однако следует иметь в виду, что нет средств, которые не имеют побочных эффектов. Все антигистаминные препараты делятся на две группы: одни плохо влияют на нервную систему, другие - на сердечнососудистую систему. Длительное применение любых из этих лекарств может не лучшим образом сказаться на здоровье.
+			
 			.footer
 				.adorable_table
 					.adorable_cell

@@ -1,5 +1,4 @@
 import Controller from 'controller'
-import Model from 'module/question/questionModel'
 
 export default Controller.extend(
 	{
@@ -26,34 +25,7 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
-			var id = this.id.split('-')[1];
-			Model.findOne({_id: id})
-				.done(function(data){
-					console.log(data);
-				})
-				.fail(function(data){});
-
-			this.carousel();
-		},
-
-		carousel: function () {
-			var self = this;
-
-			$('.interesting_content', self.element).bxSlider({
-			    slideWidth: 280,
-			    minSlides: 2,
-			    maxSlides: 3,
-			    moveSlides: 1,
-			    slideMargin: 10
-			});
-		},
-
-		'.slideRight click': function(el, ev) {
-			$('.bx-wrapper .bx-next', this.element).trigger('click');
-		},
-
-		'.slideLeft click': function(el, ev) {
-			$('.bx-wrapper .bx-prev', this.element).trigger('click');
-		}
+			
+		}	
 	}
 );

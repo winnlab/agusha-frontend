@@ -6,7 +6,7 @@ import 'bx-slider'
 export default Controller.extend(
 	{
 		defaults: {
-			
+            viewpath: '/js/app/user/modules/article/views/',
 		}
 	}, {
 		variables: function() {
@@ -28,29 +28,66 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
-			console.log(this.id);
 			var id = this.id.split('-')[1];
 			Model.findOne({_id: id})
 				.done(function(data){
 					console.log(data);
 				})
-				.fail(function(data){
-					console.error(data);
-				});
+				.fail(function(data){});
 
 			this.carousel();
 		},
 
 		carousel: function () {
 			var self = this;
-			console.log($('.interesting_content'));
-			$('.interesting_content').bxSlider({
+
+			$('.interesting_content', self.element).bxSlider({
 			    slideWidth: 280,
 			    minSlides: 2,
 			    maxSlides: 3,
 			    moveSlides: 1,
 			    slideMargin: 10
 			});
+		},
+
+		'.pollForm submit': function (el, ev) {
+			var self = this;
+			ev.preventDefault();
+
+	        can.ajax({
+		        url: '/pollVote',
+		        type: 'POST',
+		        data: can.deparam(el.serialize()),
+		        success: function (data) {
+		        	self.displayPollFormData(data);
+		        }
+	        });
+		},
+
+		displayPollFormData: function (data) {
+			var self = this;
+            var $pollAnsweredWrapper = $('.poll_container.answered');
+            var $pollResults = $pollAnsweredWrapper.find('.pollResults');
+            var $plz = $pollAnsweredWrapper.find('.plz');
+
+            $('.options_container.pollResults').html(
+                can.view(self.options.viewpath + 'pollResults.stache', {
+                	article: data.data
+                })
+            );
+
+            if ($pollResults.css('display') == 'none') {
+            	$pollResults.slideDown();
+            }
+            $plz.slideUp();
+		},
+
+		'.slideRight click': function(el, ev) {
+			$('.bx-wrapper .bx-next', this.element).trigger('click');
+		},
+
+		'.slideLeft click': function(el, ev) {
+			$('.bx-wrapper .bx-prev', this.element).trigger('click');
 		}
 	}
 );

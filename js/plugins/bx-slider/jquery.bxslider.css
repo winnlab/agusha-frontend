@@ -15,7 +15,9 @@
   position: relative;
   margin: 0 auto 60px;
   padding: 0;
-  *zoom: 1; }
+  *zoom: 1; 
+    max-width: 900px !important;
+}
 
 /** THEME
 ===================================*/
