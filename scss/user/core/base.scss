@@ -64,7 +64,7 @@ table tr {
 }
 
 .left_menu {
-	@include transition(width 1.5s ease-in-out);
+	@include transition(width 0.3s ease-in-out);
 	display: table-cell;
 	width: 230px;
 	vertical-align: top;
