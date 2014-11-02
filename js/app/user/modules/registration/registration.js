@@ -67,15 +67,27 @@ export default Controller.extend(
 		},
 		
 		'.social_block click': function(el) {
-			var registration_inline = this.element.find('.registration_inline');
+			var registration_inline = this.element.find('.registration_inline'),
+				reg_box_inside = this.element.find('.reg_box_inside'),
+				registered = reg_box_inside.filter('.registered'),
+				not_registered = reg_box_inside.filter('.not_registered'),
+				active = 'active',
+				bounce = 'bounce';
 			
 			registration_inline.addClass('drop');
+			
 			setTimeout(function(){
-				registration_inline.addClass('bounce');
+				registration_inline.addClass(bounce);
 			}, 1000);
+			
 			setTimeout(function(){
-				registration_inline.removeClass('bounce');
+				registration_inline.removeClass(bounce);
 			}, 1200);
+			
+			setTimeout(function(){
+				not_registered.removeClass(active);
+				registered.addClass(active);
+			}, 1400);
 		}
     }
 );

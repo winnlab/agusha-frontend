@@ -38,6 +38,7 @@
 	.reg_box {
 		background: url('/img/user/registration/reg_moneybox_bg.png') no-repeat;
 		height: 442px;
+		overflow: hidden;
 		
 		> .adorable_table {
 			> .adorable_cell {
@@ -55,6 +56,48 @@
 		}
 	}
 	
+	.reg_box_inside {
+		@include transition(opacity 0.3s ease-in-out);
+		position: absolute;
+		top: 0;
+		left: 280px;
+		width: 280px;
+		height: 100%;
+		opacity: 0;
+		
+		&.active {
+			left: 0;
+			opacity: 1;
+		}
+		
+		&.registered  {
+			> .adorable_cell {
+				padding: 48px 22px 22px;
+			}
+			
+			.title {
+				font-size: 16px;
+				font-family: 'PT_Sans_Bold';
+				text-transform: uppercase;
+			}
+			
+			.center_text {
+				margin-top: 40px;
+			}
+			
+			.bottom_text {
+				margin-top: 22px;
+			}
+			
+			button {
+				@include box_shadow(0 2px 0 #379fd2);
+				margin: 34px 0 48px;
+				background-color: $lightblue;
+				color: $white;
+			}
+		}
+	}
+	
 	.coin {
 		-webkit-transition: -webkit-transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
 		-moz-transition: -moz-transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
@@ -62,6 +105,7 @@
 		-ms-transition: -ms-transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
 		transition: transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
 		
+		@include box_shadow(0 0 0 transparent);
 		height: 73px;
 		width: 77px;
 		position: absolute;
