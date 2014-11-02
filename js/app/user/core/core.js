@@ -23,6 +23,9 @@ var Core = can.Control.extend(
 			// this.id_left_inner_menu = this.left_inner_menu.filter('#left_inner_menu');
 
 			// this.left_inner_menu_left = this.id_left_inner_menu.css('left');
+			
+			this.right_menu = this.element.find('.right_menu');
+			this.id_right_menu = this.right_menu.filter('#right_menu');
 
 			this.start = null;
 
@@ -58,7 +61,8 @@ var Core = can.Control.extend(
 
 		'#left_menu .close click': function(el) {
 			var	that = this;
-
+			
+			this.right_menu.removeClass('active');
 			this.left_resizable.toggleClass('small');
 			window.requestAnimFrame(function(timestamp) {
 				that.step(timestamp);
@@ -69,6 +73,16 @@ var Core = can.Control.extend(
 			var	that = this;
 
 			this.left_inner_menu.toggleClass('show');
+			window.requestAnimFrame(function(timestamp) {
+				that.step(timestamp);
+			});
+		},
+		
+		'#right_menu_small, #right_menu .close click': function(el) {
+			var	that = this;
+			
+			this.left_resizable.addClass('small');
+			this.right_menu.toggleClass('active');
 			window.requestAnimFrame(function(timestamp) {
 				that.step(timestamp);
 			});
