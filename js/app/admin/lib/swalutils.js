@@ -1,11 +1,12 @@
 import 'swal'
+import _ from 'lodash'
 
 window.saMessage = function(title = '', text = '', type = 'info') {
 	swal(title, text, type);
 }
 
-window.saConfirm = function (title = '', text = '', cb) {
-	swal({
+window.saConfirm = function (title = '', text = '', options, cb = options) {
+	var opts = {
 		title: title,
 		text: text,
 		type: "warning",
@@ -15,7 +16,13 @@ window.saConfirm = function (title = '', text = '', cb) {
 		cancelButtonText: "Нет",
 		closeOnConfirm: false,
 		closeOnCancel: true
-	}, cb);
+	};
+
+	if (_.isObject(options)) {
+		_.extend(opts, options);
+	}
+
+	swal(opts, cb);
 };
 
 window.saError = function (text) {
