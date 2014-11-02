@@ -1,3 +1,100 @@
 .content.adorable_table
 	.adorable_cell
-		h1 Hello world
+		.header
+			.breadcrumbs
+				a(href='/') Главная
+				span &nbsp; / &nbsp;
+					a(href="/") Ирина
+				span &nbsp; / &nbsp;
+					a(href="/profile/settings") Настройки
+			h1.titlePage Настройки профиля
+		.user_profile
+			.profileFilling
+				//- .title Профиль заполнен на #{user.profileFilling()}%
+				.title Профиль заполнен на 15%
+				.bar
+					.progress(class!="progress-15")
+			.userMeta
+				.userPic
+					.pic
+						img(src!="#{user.image}" can-value='user.name')
+					.buttons.horizontal
+						.upload.button Загрузить фото
+						.remove.button Удалить
+			.profileHead
+				h3.inner_title Личные данные
+				.question_bubble ?
+
+			.profileInfo
+				.userInputs
+					.column.left
+						.inner
+							.input_row
+								input(placeholder="Имя" can-value='user.profile.first_name' value=user.profile.first_name).firstname
+					.column.right
+						.inner
+							.input_row
+								input(placeholder="Фамилия" value=user.profile.last_name).lastname
+					.column.left
+						.inner
+							.input_row.birth_date
+								input(placeholder="День").birth_day
+								input(placeholder="Мес.").birth_month
+								input(placeholder="Год").birth_year
+					.column.right
+						.inner
+							.input_row
+								input(type="radio" id="female" name="gender" checked=(user.profile.gender == 1))
+								label(for="female") Женщина
+								input(type="radio" id="male" name="gender" checked=(user.profile.gender == 2))
+								label(for="male") Мужчина
+					.about
+						textarea(placeholder="Пара слов о себе").about_area
+
+			.profileHead.passwordHead
+				h3.inner_title Изменить пароль
+				.question_bubble ?
+
+			.profileInfo.passwordInfo
+				.userInputs(style="margin-top: 0px;")
+					.column.left
+						.inner
+							.input_row
+								input(type="password" data-passid="pass" placeholder="Пароль").password
+								span.switcher(data-passid="pass")
+					.column.right
+						.inner
+							.input_row
+								input(type="password" data-passid="newPass" placeholder="Новый пароль").newPassword
+								span.switcher(data-passid="newPass")
+
+			.profileHead
+				h3.inner_title Контактные данные
+				.question_bubble ?
+
+			.profileInfo.passwordInfo
+				.userInputs(style="margin-top: 0px;")
+					.column.left
+						.inner
+							.input_row
+								input(type="text" placeholder="Город")
+							.input_row
+								input(type="text" placeholder="Страна")
+							.input_row
+								input(type="text" placeholder="Улица")
+							.input_row.address
+								input(type="text" placeholder="Дом")
+								input(type="text" placeholder="Квартира")
+					.column.right
+						.inner
+							.input_row
+								input(type="text" placeholder="Телефон")
+							.input_row
+								input(type="text" placeholder="E-mail")
+							.input_row
+								input(type="text" placeholder="Запасной E-mail")
+							.input_row
+								.social_buttons.buttons.horizontal
+									.button.social_fb
+									.button.social_vk
+									.button.social_ok

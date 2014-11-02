@@ -25,7 +25,7 @@ System.config({
 		'helpers': 'js/app/user/helpers.js',
 
 		'bx-slider': 'js/plugins/bx-slider/jquery.bxslider.min.js',
-		
+
 		'controller': 'js/app/user/lib/controller/controller.js',
 		'module/*': 'js/app/user/modules/*.js',
 		'baseModel': 'js/app/admin/lib/model/baseModel.js',
@@ -93,5 +93,8 @@ System.config({
 				'js/plugins/bx-slider/jquery.bxslider.css!'
 			]
 		}
+	},
+	ext: {
+		mustache: 'can/view/mustache/system'
 	}
 });

@@ -60,9 +60,10 @@ mixin article(a, i)
 							div мамочек
 							div ответили
 
-			if a && a.is_quiz
-				.button_content.gold
-					button.me_too Я тоже
+			if a 
+				if a.is_quiz
+					.button_content.gold
+						button.me_too Я тоже
 			else 
 				| {{#if is_quis}}
 				.button_content.gold

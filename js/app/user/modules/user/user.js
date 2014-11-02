@@ -1,6 +1,16 @@
 import 'can/';
 import appState from 'core/appState';
 
+var getCurrentUser = function() {
+	var obj = window.localStorage.getItem('isAuth');
+
+	try {
+		return JSON.parse(obj);
+	} catch(err){
+		return false;
+	}
+}
+
 var User = can.Map.extend({
 	user: null,
 	checkAuth: function(callback) {
@@ -8,7 +18,8 @@ var User = can.Map.extend({
 		can.ajax({
 			url: '/registartion?ajax=true',
 			success: function(data) {
-				that.attr('user', data.data.user)
+				that.attr('user', data.data.user);
+
 				callback(null, data.data);
 			},
 			error: function(resp) {
@@ -20,11 +31,12 @@ var User = can.Map.extend({
 		isAuth: {
 			get: function() {
 				if(!this.attr('user')) {
-					if(!window.localStorage.getItem('isAuth')) {
+					var localuser = getCurrentUser();
+					if(!localuser) {
 						return false;
 					}
 
-					this.attr('user', window.localStorage.getItem('isAuth'))
+					this.attr('user', localuser)
 
 					return true;
 				}

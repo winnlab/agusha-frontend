@@ -1,0 +1,465 @@
+@import '../../settings';
+
+$barColor: #e3ddd2;
+// $overlayColor: #f2efed;
+$backColor: #f2efed;
+
+@mixin x-user-select ($value: none) {
+	-webkit-user-select: $value;
+	   -moz-user-select: $value;
+	    -ms-user-select: $value;
+	        user-select: $value;
+}
+
+@mixin x-transition ($values...) {
+	-webkit-transition: $values;
+	        transition: $values;
+}
+
+.progress-radial{
+	float: left;
+	margin-right: 30px;
+	position: relative;
+	width: 212px;
+	height: 212px;
+	border-radius: 50%;
+	// border: 2px solid $backColor; // remove gradient color
+	background-color: $barColor; // default 100%
+}
+
+$step: 5; // step of % for created classes
+
+$loops: round(100 / $step);
+$increment: 360 / $loops;
+$half: round($loops / 2);
+
+@for $i from 0 through $loops {
+	.progress-#{$i*$step} {
+		@if $i < $half {
+			$nextdeg: 90deg + ( $increment * $i );
+			background-image: linear-gradient(90deg, $backColor 50%, transparent 50%, transparent), linear-gradient($nextdeg, $barColor 50%, $backColor 50%, $backColor);
+		} @else {
+			$nextdeg: -90deg + ( $increment * ( $i - $half ) );
+			background-image: linear-gradient($nextdeg, $barColor 50%, transparent 50%, transparent), linear-gradient(270deg, $barColor 50%, $backColor 50%, $backColor);
+		}
+	}
+}
+
+/* Base for label styling */
+
+[type="radio"] {
+  &:not(:checked), &:checked {
+    position: absolute;
+    left: -9999px;
+  }
+  &:not(:checked) + label, &:checked + label {
+    position: relative;
+    padding-top: 10px;
+    padding-left: 47px;
+    top: 14px;
+    margin-right: 50px;
+    cursor: pointer;
+    @include x-user-select();
+  }
+  &:not(:checked) + label:before, &:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 37px;
+    height: 37px;
+    // border: 1px solid #aaa;
+    background: #fff;
+    border-radius: 14px;
+    // box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  &:checked + label:after {
+	background: url(/img/user/profile/checkbox.png);
+  }
+
+  &:not(:checked) + label:after, &:checked + label:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 14px;
+    top: 13px;
+	left: 10px;
+    color: #ccc6bd;
+    transition: all .2s;
+    @include x-user-select();
+  }
+  &:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+  }
+  &:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+  }
+  &:disabled {
+    &:not(:checked) + label:before {
+      box-shadow: none;
+      border-color: #bbb;
+      background-color: #ddd;
+    }
+    &:checked + label {
+      &:before {
+        box-shadow: none;
+        border-color: #bbb;
+        background-color: #ddd;
+      }
+      &:after {
+        color: #999;
+      }
+    }
+    + label {
+      color: #aaa;
+    }
+  }
+  // &:checked:focus + label:before, &:not(:checked):focus + label:before {
+  //   border: 1px dotted blue;
+  // }
+}
+
+input {
+	line-height: normal !important;
+}
+
+.userInputs {
+	@include gridle(6);
+	margin-top: 30px;
+
+	.column {
+		@include gridle(3);
+		margin: 0px;
+		// display: inline-block;
+		// width: 360px;
+
+		&.right {
+		// 	// float: left;
+
+			.inner {
+				// float: left;
+				margin-right: 74px;
+			}
+		}
+
+		&.left {
+			.inner {
+				// float: right;
+				margin-left: 74px;
+			}
+			// float: right;
+		}
+
+		.inner {
+			width: 315px;
+			
+			.input_row {
+				margin-bottom: 20px;
+				width: 100%;
+			}
+
+			
+		}
+	}
+}
+
+#profile {
+	height: auto !important;
+	
+	// @include gridle ( 6 );
+	padding: 0px;
+	width: 100%;
+	@include gridle_container();
+
+	.header {
+		height: 170px;
+		padding-top: 40px;
+		background: url(/img/user/profile/breadcrumbs.jpg);
+		background-size: cover;
+
+		text-align: left;
+		padding-left: 93px;
+
+		h1 {
+			text-transform: uppercase;
+			font-size: 55px;
+			color: #2da7e0;
+			margin: 0px;
+		}
+	}
+
+	.user_profile {
+		max-width: 1060px;
+		padding-top: 20px;
+		margin: 0 auto;
+
+		.profileHead {
+			@include gridle(2);
+			@include gridle_push ( 2 ); 
+			margin: 0 auto;
+
+			h3 {
+				display: inline-block;
+				text-transform: uppercase;
+				font-size: 24px;
+				color: #666666;
+			}
+
+			&.passwordHead {
+				margin-top: 30px;
+			}
+
+			.question_bubble {
+				display: inline-block;
+				font-size: 15px;
+				color: #898274;
+				margin-left: 15px;
+				position: relative;
+				top: -3px;
+				font-weight: bold;
+				cursor: pointer;
+
+				&:before {
+					content: '';
+					border: 2px solid #898274;
+					border-radius: 100%;
+					display: block;
+					height: 19px;
+					width: 19px;
+					position: relative;  
+				    top: 21px;
+				}
+			}
+		}
+
+		.profileFilling  {
+			@include gridle(6);
+
+			.title {
+				@include gridle(2);
+				@include gridle_push(2);
+				margin: 0 auto;
+			}
+
+			.bar {
+				@include gridle(4);
+				@include gridle_pull(1);
+
+				display: block;
+				overflow: hidden;
+				height: 8px;
+				margin: 13px 0;
+				background: #e3ddd2;
+
+				margin-top: 20px;
+				padding:0px;
+
+				.progress {
+					width: 15%;
+					display: block;
+					min-width: 8px;
+					height: 8px;
+					background: #4296c9;
+					border-radius: 4px;
+					-webkit-box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+					box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+				}
+			}
+		}
+
+		h3 {
+			padding-top: 20px;
+		}
+
+		.buttons {
+			@include gridle(1);
+			.button {
+				margin-top: 20px;
+				width: 79px;
+				// margin-right: 32px;
+				cursor: pointer;
+
+				&:before {
+					content: '';
+					position: relative;
+					display: block;
+					top: -20px;
+					width: 47px;
+					height: 47px;
+					background: #e3ddd2;
+					border-radius: 20px;
+					margin: 0 auto;
+					background-color: none;
+				}
+			}
+		}
+
+		.userMeta {
+			@include gridle(6);
+			margin-top: 70px;
+
+			.userPic {
+				@include gridle(2);
+				@include gridle_push(1);
+				padding-left: 0px;
+
+				.pic {
+					float: left;
+					padding-left: 0px;
+					@include gridle(3);
+
+					img {
+						width: 120px;
+						height: 120px;
+						border-radius: 100px;
+						margin: 0 auto;
+						padding: 0px;
+						position: relative;
+						float: left;
+					}
+				}
+
+				.buttons {
+					@include gridle(3);
+					margin: 0px;
+					float:left;
+					margin-top: 43px;
+
+					.button {
+						width: 100%;
+						margin: 0;
+						text-align: left;
+
+						&:before {
+							top: -15px;
+							margin: auto;
+							float: left;
+							background-color: none;
+						}
+
+						&:first-child {
+							float: left;
+						}
+
+						&:last-child {
+							float: right;
+						}
+
+						&.upload {
+							&:before {
+								background-image: url(/img/user/profile/download_button.png);
+								background-repeat: no-repeat;
+								background-position: center center;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.profileInfo {
+			@include gridle(6);
+			margin-top: 30px;
+
+			&.passwordInfo {
+				margin-top: 15px;
+			}
+
+
+
+			.birth_date {
+				input {
+					width: 95px;
+					margin-right: 13px;
+
+					&:last-child {
+						margin-right: 0px;
+					}
+				}
+			}
+
+			.address {
+				input {
+					width: 150px;
+
+					&:first-child {
+						float: left;
+					}
+
+					&:last-child {
+						float: right;
+					}
+				}
+			}
+
+			.social_buttons {
+				width: 100%;
+				margin-left: 0px;
+				margin-top: 0px;
+
+				.button {
+					margin-right: 22px;
+					margin-top: 10px;
+					width: 35px;
+					float: left;
+					display: inline-block;
+
+					&:before  {
+						top: 0px;
+						margin: 0px;
+						width: 35px;
+						height: 35px;
+						border-radius: 14px;
+					}
+
+					// &.upload {
+					// 	&:before {
+					// 		background-image: url(/img/user/profile/download_button.png);
+					// 		background-repeat: no-repeat;
+					// 		background-position: center center;
+					// 	}
+					// }
+				}
+			}
+
+			.about {
+				@include gridle(6);
+				margin-bottom: 20px;
+
+				textarea {
+					width: 740px;
+					height: 115px;
+					float: left;
+					// margin: 0 auto;
+					background: white;
+					margin-left: 72px;
+				}
+			}
+
+			.password, .newPassword {
+				width: 260px;
+				border-radius: 5px 0px 0px 5px;
+			}
+
+			.switcher {
+				width: 55px;
+				height: 50px;
+				border-radius: 0px 5px 5px 0px;
+				display: inline-block;
+				top: 20px;
+				position: relative;
+				background: url(/img/user/profile/password_close.png) #fff no-repeat center center;
+				@include x-user-select();
+				@include x-transition(background 0.3s ease-in);
+				cursor: pointer;
+
+				&.active {
+					background: url(/img/user/profile/password_open.png) #fff no-repeat center center;
+				}
+			}
+		}
+	}
+}

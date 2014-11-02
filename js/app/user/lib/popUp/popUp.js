@@ -2,10 +2,6 @@ import can from 'can/';
 import view from 'js/app/user/lib/popUp/views/index.mustache!'
 
 export default can.Control.extend({
-    defaults: {
-        viewpath: '/js/app/admin/lib/popUp/views/'
-    }
-}, {
 
     init: function () {
         this.module = new can.Map({
@@ -15,7 +11,7 @@ export default can.Control.extend({
             'text': null
         });
 
-        this.element.append(view, this.module);
+        this.element.append(can.view(view, this.module));
     },
 
     show: function (options) {
@@ -27,7 +23,7 @@ export default can.Control.extend({
             text: options.text,
             cb: options.cb
         });
-    }
+    },
 
     '.ok click': function() {
         this.closePopup(0);

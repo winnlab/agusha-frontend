@@ -51,9 +51,11 @@ export default Controller.extend(
 						password: null
 					});
 
-					user.attr('user', response.message.user);
+					if(!response.message || !response.message.user) {
+						return alert('Произошла ошибка при авторизации');
+					}
 
-					console.log(user.attr('user'));
+					user.attr('user', response.message.user);
 
 					can.route.attr({module: 'profile'});
 				},
