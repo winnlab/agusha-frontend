@@ -19,10 +19,10 @@ var ViewModel = can.Map.extend({
 
 export default Controller.extend(
 	{
-        defaults: {
+		defaults: {
 			
-        }
-    }, {
+		}
+	}, {
 		after_init: function(data) {
 			var registration = $('#registration'), html;
 
@@ -38,6 +38,7 @@ export default Controller.extend(
 
 			$('#registration').html(can.view('reg', this.data));
 		},
+		
 		'.registration_form .done click': function(el, ev) {
 			var user;
 
@@ -63,6 +64,18 @@ export default Controller.extend(
 					alert('Произошла ошибка. Пожалуйста, обратитесь к администратору');
 				}
 			});
+		},
+		
+		'.social_block click': function(el) {
+			var registration_inline = this.element.find('.registration_inline');
+			
+			registration_inline.addClass('drop');
+			setTimeout(function(){
+				registration_inline.addClass('bounce');
+			}, 1000);
+			setTimeout(function(){
+				registration_inline.removeClass('bounce');
+			}, 1200);
 		}
     }
 );
