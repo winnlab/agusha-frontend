@@ -57,31 +57,28 @@
 
             {{#if ages.length}}
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="age[age_id]">Возраст статьи:</label>
+                    <label class="col-md-2 control-label" for="age[age_id]">Возраста статьи:</label>
                     <div class="col-md-10">
-                        <select can-value="consultation.age.age_id" class="currentAgeSelect form-control">
+                        <select class="currentAgeSelect form-control" multiple>
                             {{#sortedBy ages 'title'}}
-                                <option {{data "ages"}} value="{{_id}}">{{title}}</option>
+                                <option {{data "ages"}} value="{{_id}}" {{#arrContains ageValue _id false false}}selected{{/arrContains}}>{{title}}</option>
                             {{/sortedBy}}
                         </select>
-                        <input type="hidden" name="age[title]" can-value="ageTitle" />
-                        <input type="hidden" name="age[fixture]" can-value="ageFixture" />
                     </div>
                 </div>
             {{/if}}
-            {{#if consultation.age.age_id}}
+            {{#if ageValue.length}}
                 {{#if themes.length}}
                     <div class="form-group">
-                        <label class="col-md-2 control-label" for="theme[theme_id]">Тема статьи:</label>
+                        <label class="col-md-2 control-label" for="theme">Тема статьи:</label>
                         <div class="col-md-10">
-                            <select can-value="consultation.theme.theme_id" class="currentThemeSelect form-control">
+                            <select class="currentThemeSelect form-control" multiple>
                                 {{#sortedBy themes 'name'}}
-                                    {{#arrContains age_id consultation.age.age_id true false}}
-                                        <option {{data "themes"}} value="{{_id}}">{{name}}</option>
+                                    {{#arrOfObjectsContains consultation.age '_id' age_id false}}
+                                        <option {{data "themes"}} value="{{_id}}" {{#arrContains themeValue _id false false}}selected{{/arrContains}}>{{name}}</option>
                                     {{/arrContains}}
                                 {{/sortedBy}}
                             </select>
-                            <input class="themeName" type="hidden" name="theme[name]" can-value="themeName" />
                         </div>
                     </div>
                 {{/if}}
@@ -110,9 +107,14 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button type="button" class="btn btn-primary addComment">
-                        <i class="fa fa-plus"></i>
-                        <span>Добавить комментарий</span>
+                    <button type="button" class="btn btn-{{#if addingComment}}warning{{else}}primary{{/if}} addComment">
+                        {{#if addingComment}}
+                            <i class="fa fa-minus"></i>
+                            <span>Скрыть добавление комментария</span>
+                        {{else}}
+                            <i class="fa fa-plus"></i>
+                            <span>Добавить комментарий</span>
+                        {{/if}}
                     </button>
                 </div>
                 <div class="panel-body {{#unless addingComment}}hidden{{/unless}}">
@@ -128,8 +130,9 @@
 
             <div class="well">
                 <div class="form-control">
-                    <input type="checkbox" can-value="showComments" />
-                    <span>Показать ответы</span>
+                    <label class="col-md-4">
+                        <input type="checkbox" can-value="showComments" /> Показать ответы
+                    </label>
                 </div>
             </div>
 
