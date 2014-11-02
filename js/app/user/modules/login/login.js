@@ -53,6 +53,8 @@ export default Controller.extend(
 
 					user.attr('user', response.message.user);
 
+					console.log(user.attr('user'));
+
 					can.route.attr({module: 'profile'});
 				},
 				error: function () {
@@ -60,5 +62,5 @@ export default Controller.extend(
 				}
 			});
 		}
-    }
+	}
 );
