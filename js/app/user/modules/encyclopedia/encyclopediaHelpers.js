@@ -36,9 +36,9 @@ export default {
         var i = computedVal(index),
             e = entity;
         var classname = i == 0 ? 'x2' : '',
-            doubles = [4, 7, 12, 13, 16, 21, 25];
+            doubles = [3, 6, 11, 12, 15, 20, 24];
 
-        if (doubles.indexOf(i)) {
+        if (doubles.indexOf(i) !== -1) {
             classname = 'double';
         }
 
@@ -70,7 +70,11 @@ export default {
         direction = computedVal(direction);
         if (collection && collection.attr('length') && prop) {
             var sorted = _.sortBy(collection, function (member) {
-                return member.attr(prop);
+                var p = member.attr(prop);
+                if (_.isArray(p)) {
+                    return p.length;
+                }
+                return p;
             });
 
             if (direction && direction == 'desc') {
@@ -84,5 +88,21 @@ export default {
                 );
             }).join('');
         }
+    },
+    arrContains: function (array, value, strict, reverse, options) {
+    	strict = computedVal(strict);
+    	value = computedVal(value)
+
+    	if (strict && !value) {
+    		return false;
+    	}
+
+    	array = computedVal(array);
+
+    	if(!_.isArray(array) && !array[0]) {
+    		return false;
+    	}
+
+    	return (array.indexOf(value) > -1) ^ reverse ? options.fn() : false;
     }
 }

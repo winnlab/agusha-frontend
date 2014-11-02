@@ -11,6 +11,7 @@ System.config({
 		'google': 'js/plugins/social/google.plusone.js',
 		'googlemaps_api': 'js/plugins/google/googlemaps_api.js',
 		'googlemaps_main': 'js/plugins/google/googlemaps_main.js',
+		'user': 'js/app/user/modules/user/user.js',
 
 		'router': 'js/app/user/router/router.js',
 		'placeholder': 'js/app/user/router/placeholder.js',
@@ -18,6 +19,7 @@ System.config({
 		'core': 'js/app/user/core/core.js',
 		'core/*': 'js/app/user/core/*.js',
 		'lib/*': 'js/app/user/lib/*.js',
+		'modules/*': 'js/app/user/modules/*.js',
 
 		'rConfig': 'js/app/user/core/config.js',
 		'helpers': 'js/app/user/helpers.js',

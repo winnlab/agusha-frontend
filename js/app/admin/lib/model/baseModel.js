@@ -17,6 +17,10 @@ var baseModel = {
         this.attr(name, undefined);
     },
     uploaded: function (name, response) {
+        if (typeof response === 'string') {
+            return this.attr(name, response);
+        }
+
         var data = response.data || response.responseJSON || response,
             value = data[name] || data;
 
@@ -43,17 +47,18 @@ var baseModel = {
         }
     },
     removeUploaded: function (name, index, response) {
-        this.attr(name).splice(index, 1);
-
-        var version = false;
-        if (response.data && response.data.__v) {
-            version = response.data.__v;
-        } else if (response.responseJSON && response.responseJSON.data && response.responseJSON.data.__v) {
-            version = response.responseJSON.data.__v;
+        if (typeof this.attr(name) === 'string') {
+            return this.attr(name, undefined);
         }
 
-        if (version) {
-            this.attr('__v', version);
+        var data = response.responseJSON
+            ? response.responseJSON.data
+            : response.data;
+
+        this.attr(data.name).splice(index, 1);
+
+        if (data.__v) {
+            this.attr('__v', data.__v);
         }
     }
 };

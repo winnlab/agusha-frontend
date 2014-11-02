@@ -1,0 +1,121 @@
+mixin form
+    form
+        .question
+            input(type="text", name="title", placeholder="ВОПРОС (до 100 символов)")
+            .hint_block
+                img.hint(src="/img/user/poll/question_answered.png")
+        
+        .details
+            textarea(name="title", placeholder="ДЕТАЛИ ВОПРОСА")
+        
+        .selects
+            .select
+                select.specialist_age_select
+                    each age, i in ages
+                        option(value = age._id)= age.title
+            
+            .select.theme
+                select.specialist_theme_select
+                    | {{#each themes}}
+                    | {{#arrContains age_id ageId true false}}
+                    | <option value="{{_id}}">{{name}}</option>
+                    | {{/arrContains}}
+                    | {{/each}}
+        
+        .footer
+            .obligatory
+                div Все поля являются обязательными
+                div для заполнения
+            
+            button.button ОТПРАВИТЬ
+
+mixin message
+    .not_auth
+        img(src="/img/user/specialist/promo_image.png")
+        .textWrap
+            .title= "задать вопрос специалисту могут только авторизированные пользователи"
+            .text 
+                | У вас созрел животрепещущий вопрос? Авторизируйся и используй 
+                a.new_module(href="/login") 
+                    | все&nbsp;приимущества
+                |  своего профиля!
+            .links
+                a.new_module(href="/login")= "вход"
+                |  / 
+                a.new_module(href="/registration")= "регистрация"
+
+mixin user(server)
+    if server
+        if user
+            mixin form()
+        else
+            mixin message()
+    else
+        | {{#if isAuth}}
+        mixin form()
+        | {{else}}
+        mixin message()
+        | {{/if}}
+
+
+mixin article(a, i)
+    - var classname = ''
+    - var articleType = 'author'
+    
+    if a
+        - classname = (i - 6) % 5 == 0 ? 'double' : ''
+    else
+        - classname = '{{getClassName @index}}'
+    
+    - classname += ' ' + articleType
+    
+    div(class="card #{classname}" style=(a ? '' : '{{filterIt . filter}}'))
+        .inner
+            .topper
+                .topper_label
+                    .adorable_table
+                        .adorable_cell= (a ? a.theme.name : '{{theme.name}}')
+
+                .topper_title= (a ? a.name : '{{name}}')
+
+            .user_content
+                if a 
+                    if a.author && a.author.name
+                        .user
+                            .avatar
+                                img.rounded(src='/img/avatar_100x100.jpg')
+                            .name a.autor.name
+                else
+                    | {{#if author.name}}
+                    .user
+                        .avatar
+                            img.rounded(src='/img/avatar_100x100.jpg')
+                        .name '{{autor.name}}'
+                    | {{/if}}
+                .user.doctor
+                    .avatar.medical_cap
+                        img.rounded(src='/img/avatar_100x100.jpg')
+                    .name врач-педиатр
+                    .name Ирина Матвиенко
+            .footer
+                .heart
+                    img(src="/img/user/article/heart.png")
+                    if a 
+                        if a.recommended
+                            img(src="/img/user/helpers/cards/lamp.png")
+                    else
+                        | {{#if recommended}}
+                        img(src="/img/user/helpers/cards/lamp.png")
+                        | {{/if}}
+                    
+                .counters.adorable_table
+                    .adorable_cell
+                        img.like(src="/img/user/article/heart.png")
+                        span.count= (a ? a.counter && a.counter.like ? a.counter.like : 0 : '{{#if counter.like}}{{counter.like}}{{else}}0{{/if}}')
+                        span.approve
+                            | мамочек
+                            br
+                            | одобряют
+                        
+                        img.comment(src="/img/user/article/comment.png")
+                        span.count= (a ? a.counter && a.counter.comment ? a.counter.comment : 0 : '{{#if counter.comment}}{{counter.comment}}{{else}}0{{/if}}')

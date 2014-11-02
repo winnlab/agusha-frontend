@@ -18,6 +18,13 @@ var config = {
 				}
 			},
 			{
+				name: 'profile',
+				path: {
+					client: 'js/app/user/modules/profile/',
+					server: ':name'
+				}
+			},
+			{
 				name: 'login',
 				path: {
 					client: 'js/app/user/modules/login/',
@@ -98,6 +105,13 @@ var config = {
 				name: 'moneybox',
 				path: {
 					client: 'js/app/user/modules/moneybox/',
+					server: ':name'
+				}
+			},
+			{
+				name: 'registered',
+				path: {
+					client: 'js/app/user/modules/main/',
 					server: ':name'
 				}
 			}
