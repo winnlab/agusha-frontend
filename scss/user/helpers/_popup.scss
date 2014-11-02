@@ -1,0 +1,45 @@
+@import '../dynamic/dynamic';
+@import '../../bourbon/bourbon';
+
+.popUpWrap {
+    @include position(fixed, 0 null null 0);
+    @include size(100%);
+    background: rgba(35, 133, 178, 0.9);
+    z-index: 9999;
+    display: none;
+
+    &.visible {
+        display: table;
+    }
+
+    .popUpBody {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .contentWrap {
+        @include box-sizing(border-box);
+        display: inline-block;
+        position: relative;
+        background: $bg;
+        width: 320px;        
+        border-radius: 20px;
+        border: 3px solid #fff;
+        padding: 75px 10px;
+
+        .text {
+            font-size: 16px;
+            line-height: 150%;
+            color: #666666;
+        }
+    }
+
+    .close {
+        @include position(absolute, 17px 17px null null);
+        @include size(30px 30px);
+        background: url('/img/user/helpers/popUp/close.png');
+        cursor: pointer;
+        opacity: 1;
+    }
+}
