@@ -1,6 +1,7 @@
 @charset "UTF-8";
 @import '../../normalize/normalize';
 @import '../dynamic/dynamic';
+@import '../helpers/donut';
 
 @mixin number_pseudo {
 	@include pseudo;
@@ -61,6 +62,341 @@ table tr {
 	width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+.right_menu {
+	@include transition(width 0.3s ease-in-out);
+	display: table-cell;
+	width: 230px;
+	vertical-align: top;
+	
+	&.small {
+		width: 0;
+	}
+}
+
+#right_menu_small {
+	background-color: $white;
+	vertical-align: top;
+	z-index: 10;
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 70px;
+	border-bottom-left-radius: 33px;
+	border-bottom-right-radius: 33px;
+	padding-bottom: 22px;
+	text-align: center;
+	
+	.topper {
+		border-bottom: 1px solid #e5e5e5;
+	}
+	
+	.top {
+		height: 70px;
+		position: relative;
+		
+		&:before, img {
+			@include absolute_centered;
+			@include rounded;
+			width: 45px;
+			height: 45px;
+		}
+		
+		&:before {
+			@include pseudo;
+			background: url('/img/user/core/left_menu_top.png') center no-repeat;
+		}
+	}
+	
+	.message {
+		height: 70px;
+		position: relative;
+		background: url('/img/user/core/message.png') center no-repeat;
+		
+		.circle {
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			right: 12px;
+			top: 14px;
+			background-color: #f06565;
+			font-size: 10px;
+			color: $white;
+		}
+	}
+	
+	.points {
+		color: #7f7f7f;
+		
+		.you_have {
+			margin-top: 17px;
+			font-size: 12px;
+			font-family: 'PT_Sans_Bold';
+		}
+		
+		.moneybox {
+			margin-top: 8px;
+		}
+		
+		.for_gifts {
+			margin-top: 8px;
+			font-family: 'PT_Sans_Italic';
+			font-size: 12px;
+		}
+	}
+}
+
+#right_menu {
+	@include min_max_height;
+	background-color: $blue;
+	vertical-align: top;
+	z-index: 10;
+	position: fixed;
+	top: 0;
+	right: 0;
+	text-align: center;
+	color: $white;
+	
+	.topper {
+		background-color: $darkblue;
+		padding: 41px 0 14px;
+		
+		&:before {
+			background: url("/img/user/core/right_avatar_arrow.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+			content: "";
+			height: 45px;
+			position: absolute;
+			left: -10px;
+			top: 83px;
+			width: 10px;
+		}
+	}
+	
+	.close {
+		position: absolute;
+		background: url('/img/user/core/close.png') no-repeat;
+		width: 13px;
+		height: 12px;
+		top: 29px;
+		left: 29px;
+		cursor: pointer;
+	}
+	
+	.settings {
+		position: absolute;
+		background: url('/img/user/core/settings.png') no-repeat;
+		width: 19px;
+		height: 19px;
+		top: 26px;
+		right: 25px;
+		cursor: pointer;
+	}
+	
+	.percentage {
+		position: absolute;
+		top: 97px;
+		right: 189px;
+		font-size: 10px;
+	}
+	
+	.avatar {
+		padding: 14px;
+		
+		img {
+			height: 100px;
+			width: 100px;
+		}
+	}
+	
+	.name {
+		font-family: 'PT_Sans_Bold';
+		margin-top: 4px;
+	}
+	
+	.children {
+		margin: 25px 0 0;
+	}
+	
+	.child {
+		height: 41px;
+		
+		&:not(:first-child) {
+			margin-top: 9px;
+		}
+		
+		.image {
+			width: 94px;
+			float: left;
+			text-align: right;
+			height: 100%;
+		}
+		
+		img {
+			height: 41px;
+			width: 41px;
+		}
+		
+		.desc {
+			@include border_boxed;
+			padding: 0 0 0 20px;
+			width: 136px;
+			float: left;
+			height: 100%;
+			font-size: 12px;
+			
+			.adorable_cell {
+				text-align: left;
+			}
+		}
+	}
+	
+	.child_name {
+		font-family: 'PT_Sans_Bold';
+	}
+	
+	.item {
+		@include border_boxed;
+		position: relative;
+		margin: 18px 0;
+		text-transform: uppercase;
+		padding: 0 18px;
+		text-align: left;
+		line-height: 17px;
+		text-decoration: inherit;
+		
+		&.messages {
+			.label {
+				&:before {
+					content: 'Сообщения';
+				}
+			}
+		}
+		
+		&.subscribes {
+			.icon {
+				&:before {
+					background-position: -40px 0;
+				}
+			}
+			
+			.label {
+				&:before {
+					content: 'Мои подписки';
+				}
+			}
+		}
+		
+		&.moneybox {
+			.icon {
+				&:before {
+					background-position: -80px 0;
+				}
+			}
+			
+			.label {
+				&:before {
+					content: 'Копилка';
+				}
+			}
+		}
+		
+		&.help {
+			.icon {
+				&:before {
+					background-position: -120px 0;
+				}
+			}
+			
+			.label {
+				&:before {
+					content: 'Помощь';
+				}
+			}
+		}
+		
+		&.adorable_table {
+			height: auto;
+			cursor: pointer;
+			
+			&:hover, &.active {
+				&:before {
+					@include pseudo;
+					background: url('/img/user/core/item_bg.png') no-repeat;
+					width: 100%;
+					height: 56px;
+					top: -8px;
+					left: 0;
+				}
+				
+				&:after {
+					@include pseudo;
+					background: url('/img/user/core/active_right_arrow.png') no-repeat;
+					left: -10px;
+					top: -8px;
+					width: 10px;
+					height: 50px;
+				}
+				
+				&.messages {
+					.icon:before {
+						background-position: 0 -27px;
+					}
+				}
+				
+				&.subscribes {
+					.icon:before {
+						background-position: -40px -27px;
+					}
+				}
+				
+				&.moneybox {
+					.icon:before {
+						background-position: -80px -27px;
+					}
+				}
+				
+				&.help {
+					.icon:before {
+						background-position: -120px -27px;
+					}
+				}
+				
+				.icon {
+					&:before {
+						background-color: #5bbae6;
+					}
+				}
+			}
+		}
+	}
+	
+	.icon {
+		width: 50px;
+		display: table-cell;
+		height: 34px;
+		
+		&:before {
+			@include pseudo;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			height: 27px;
+			width: 40px;
+			background: url('/img/user/core/right_menu_icons.png') no-repeat;
+			background-color: $blue;
+			z-index: 1;
+		}
+	}
+	
+	.label {
+		@include transition(letter-spacing 0.3s ease-in-out);
+		display: table-cell;
+		vertical-align: middle;
+		position: relative;
+		width: 144px;
+		letter-spacing: 0;
+	}
 }
 
 .left_menu {
@@ -736,14 +1072,6 @@ table tr {
 		text-decoration: none;
 		text-transform: uppercase;
 	}
-}
-
-#right_menu {
-	display: table-cell;
-	width: 0;
-	vertical-align: top;
-	z-index: 10;
-	position: relative;
 }
 
 .module {
