@@ -2,13 +2,14 @@ import Controller from 'controller'
 import select2 from 'select2'
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 import user from 'modules/user/';
+import appState from 'core/appState';
 
 var ViewModel = can.Map.extend({
-	// isAuth: user.attr('isAuth'),
-	isAuth: true,
-	sort: 'asc',
-	filter: ''
-});
+		// isAuth: user.attr('isAuth'),
+		isAuth: true,
+		sort: 'asc',
+		filter: ''
+	});
 
 export default Controller.extend(
 	{
@@ -20,6 +21,11 @@ export default Controller.extend(
 			this.formWrap = this.element.find('.column.double');
 			this.icons = this.element.find('.icon');
 			this.itemsContainer = this.element.find('.items_container');
+			this.select2Options = {
+				width: '100%',
+				minimumResultsForSearch: -1,
+				formatResult: this.format
+			}
 		},
 
 		plugins: function() {},
@@ -28,20 +34,15 @@ export default Controller.extend(
 			var	specialist_age_select = this.element.find('.specialist_age_select'),
 				specialist_theme_select = this.element.find('.specialist_theme_select'),
 				specialist_question_select = this.element.find('.specialist_question_select'),
-				specialist_sort_select = this.element.find('.specialist_sort_select'),
-				options = {
-					width: '100%',
-					minimumResultsForSearch: -1,
-					formatResult: this.format
-				};
+				specialist_sort_select = this.element.find('.specialist_sort_select');
 
-			specialist_age_select.select2(options);
-			specialist_theme_select.select2(options);
+			specialist_age_select.select2(this.select2Options);
+			specialist_theme_select.select2(this.select2Options);
 
-			options.width = 'off';
+			this.select2Options.width = 'off';
 
-			specialist_question_select.select2(options);
-			specialist_sort_select.select2(options);
+			specialist_question_select.select2(this.select2Options);
+			specialist_sort_select.select2(this.select2Options);
 		},
 
 		format: function(state) {
@@ -63,7 +64,7 @@ export default Controller.extend(
 
 			this.data = new ViewModel({
 				articles: data ? data.articles : app.consultations,
-				ages: data ? data.themes : app.themes,
+				ages: data ? data.ages : app.ages,
 				ageId: data ? data.ages[0]._id : app.ages[0]._id,
 				themes: data ? data.themes : app.themes
 			});
@@ -72,8 +73,8 @@ export default Controller.extend(
 				specialist_mustache = $('#specialist_mustache');
 
 			if(!consultation_mustache.length) {
-				html = jadeTemplate.get('user/encyclopedia/consultation_mustache');
-				specHtml = jadeTemplate.get('user/encyclopedia/specialist_mustache');
+				html = jadeTemplate.get('user/specialist/consultation_mustache');
+				specHtml = jadeTemplate.get('user/specialist/specialist_mustache');
 			} else {
 				html = consultation_mustache.html();
 				specHtml = specialist_mustache.html();
@@ -99,6 +100,10 @@ export default Controller.extend(
 			}));
 
 			this.select2();
+
+			user.delegate('isAuth', 'set', function (ev, newVal) {
+				that.data.attr('isAuth', newVal)
+			});
 		},
 
 		'.icon.lamp click': function (el) {
@@ -116,12 +121,33 @@ export default Controller.extend(
 			var self = this;
 			this.data.attr('ageId', el.val());
 			setTimeout(function () {
-				self.element.find('select.specialist_theme_select').select2({
-					width: '100%',
-					minimumResultsForSearch: -1,
-					formatResult: self.format
-				});
+				self.select2Options.width = '100%'
+				self.element.find('select.specialist_theme_select').select2(self.select2Options);
 			}, 1);
+
+		},
+
+		'form submit': function (el, ev) {
+			ev.preventDefault();
+
+			var self = this,
+				data = el.serialize();
+			data += '&age_id=' + self.element.find('select.specialist_age_select').val();
+			data += '&theme_id=' + self.element.find('select.specialist_theme_select').val()
+
+			can.ajax({
+				url: '/consultation',
+				type: 'POST',
+				data: can.deparam(data)
+			}).done(function (data) {
+				appState.attr('popUp').show({
+					text: 'Ваш вопрос успешно отправлен консультанту.',
+				});
+			}).fail(function (data) {
+				appState.attr('popUp').show({
+					text: data.responseJSON.err.message,
+				});
+			});
 
 		}
     }

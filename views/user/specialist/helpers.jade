@@ -1,19 +1,20 @@
 mixin form
     form
         .question
-            input(type="text", name="title", placeholder="ВОПРОС (до 100 символов)")
+            input(type="text", name="name", placeholder="ВОПРОС (до 100 символов)")
             .hint_block
                 img.hint(src="/img/user/poll/question_answered.png")
         
         .details
-            textarea(name="title", placeholder="ДЕТАЛИ ВОПРОСА")
+            textarea(name="text", placeholder="ДЕТАЛИ ВОПРОСА")
         
         .selects
             .select
                 select.specialist_age_select
-                    each age, i in ages
-                        option(value = age._id)= age.title
-            
+                    | {{#each ages}}                    
+                    | <option value="{{_id}}">{{title}}</option>
+                    | {{/each}}
+
             .select.theme
                 select.specialist_theme_select
                     | {{#each themes}}
@@ -27,7 +28,7 @@ mixin form
                 div Все поля являются обязательными
                 div для заполнения
             
-            button.button ОТПРАВИТЬ
+            button.button(type='submit') ОТПРАВИТЬ
 
 mixin message
     .not_auth
