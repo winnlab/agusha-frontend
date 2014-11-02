@@ -1,0 +1,16 @@
+// import gridle
+@import "gridle/gridle";
+
+// setting up the grid
+@include gridle_setup((
+	context : 6,
+	gutter-width : 20px,
+	direction : ltr,
+	debug: true
+) );
+
+// // make the use of media queries really easy
+@include gridle_register_state ( desktop , (
+	max-width : 1060px,
+	gutter-width : 20px
+) );
