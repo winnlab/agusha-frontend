@@ -8,7 +8,8 @@ var User = can.Map.extend({
 		can.ajax({
 			url: '/registartion?ajax=true',
 			success: function(data) {
-				that.attr('user', data.data.user)
+				that.attr('user', data.data.user);
+
 				callback(null, data.data);
 			},
 			error: function(resp) {

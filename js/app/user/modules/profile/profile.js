@@ -7,7 +7,7 @@ export default Controller.extend(
         }
     }, {
     	'profile route': function() {
-    		console.log('123');
+
     	},
 		after_init: function(data) {
 			
