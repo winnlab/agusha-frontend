@@ -433,6 +433,99 @@ table tr {
 	background-color: $blue;
 	color: $white;
 	z-index: 11;
+	
+	&.small {
+		.small_logo {
+			opacity: 1;
+		}
+
+		.logo {
+			@include transition(opacity 0.3s ease-in-out);
+			opacity: 0;
+		}
+
+		.glow {
+			width: 27px;
+			opacity: 0;
+		}
+
+		.counter {
+			opacity: 0;
+			cursor: default;
+		}
+
+		.count {
+			opacity: 0;
+		}
+
+		.counter_label {
+			opacity: 0;
+		}
+
+		.number {
+			width: 14px;
+		}
+
+		.line {
+			&:before {
+				width: 12px;
+			}
+		}
+
+		.counter_label {
+			letter-spacing: -7px;
+		}
+
+		.search_item {
+			&:before {
+				background-image: url('/img/user/core/search_small.png');
+				background-color: $blue;
+			}
+		}
+
+		#search_input {
+			width: 0;
+			opacity: 0;
+			padding: 0 10px;
+		}
+
+		.item {
+			width: 70px;
+			padding: 0 0 0 18px;
+
+			.label {
+				width: 2px;
+				letter-spacing: -8px;
+
+				&:before {
+					content: '\00a0' !important; /* &nbsp; */
+				}
+			}
+
+			&.adorable_table {
+				&:hover, &.active {
+					&:before {
+						background: url('/img/user/core/small_item_bg.png');
+					}
+				}
+			}
+		}
+
+		.social_block  {
+			width: 22px;
+		}
+
+		.small_social_block {
+			opacity: 1;
+		}
+
+		.copyright {
+			&:before {
+				content: '© 2014' !important;
+				width: 37px;
+			}
+		}
+	}
 
 	.left_content {
 		@include min_max_height;
@@ -483,7 +576,7 @@ table tr {
 	}
 
 	.logo {
-		@include transition(opacity 0.3s ease-in-out, width 0.3s ease-in-out);
+		@include transition(opacity 0.3s ease-in-out 0.3s);
 		width: 157px;
 		height: 77px;
 		position: absolute;
@@ -811,99 +904,6 @@ table tr {
 			content: '© 2014 Вимм-Билль-Данн' !important;
 			width: 129px;
 			height: 11px;
-		}
-	}
-
-	&.small {
-		.small_logo {
-			opacity: 1;
-		}
-
-		.logo {
-			width: 27px;
-			opacity: 0;
-		}
-
-		.glow {
-			width: 27px;
-			opacity: 0;
-		}
-
-		.counter {
-			opacity: 0;
-			cursor: default;
-		}
-
-		.count {
-			opacity: 0;
-		}
-
-		.counter_label {
-			opacity: 0;
-		}
-
-		.number {
-			width: 14px;
-		}
-
-		.line {
-			&:before {
-				width: 12px;
-			}
-		}
-
-		.counter_label {
-			letter-spacing: -7px;
-		}
-
-		.search_item {
-			&:before {
-				background-image: url('/img/user/core/search_small.png');
-				background-color: $blue;
-			}
-		}
-
-		#search_input {
-			width: 0;
-			opacity: 0;
-			padding: 0 10px;
-		}
-
-		.item {
-			width: 70px;
-			padding: 0 0 0 18px;
-
-			.label {
-				width: 2px;
-				letter-spacing: -8px;
-
-				&:before {
-					content: '\00a0'; /* &nbsp; */
-				}
-			}
-
-			&.adorable_table {
-				&:hover, &.active {
-					&:before {
-						background: url('/img/user/core/small_item_bg.png');
-					}
-				}
-			}
-		}
-
-		.social_block  {
-			width: 22px;
-		}
-
-		.small_social_block {
-			opacity: 1;
-		}
-
-		.copyright {
-			&:before {
-				content: '© 2014' !important;
-				width: 37px;
-			}
 		}
 	}
 }
