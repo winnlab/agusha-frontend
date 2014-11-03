@@ -1,4 +1,4 @@
-.bg(style='background-image: url("/img/uploads/#{article.image}");')
+.bg(style=(article.image && article.image.background ? 'background-image: url("/img/uploads/#{article.image.background}");' : ''))
 
 .content
 	include ../helpers/breadcrumbs
@@ -215,5 +215,6 @@
 						.name Ирина Матвиенко
 						.info Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем здорового ребенка и преморбидных состояний.
 						button.ask_button Задать вопрос
+			.clearfix
 	
 	include ../helpers/article_bottom

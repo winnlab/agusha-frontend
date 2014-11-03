@@ -91,7 +91,7 @@ var config = {
 				name: 'question',
 				path: {
 					client: 'js/app/user/modules/question/',
-					server: ':name'
+					server: ':name/:entity_id'
 				}
 			},
 			{

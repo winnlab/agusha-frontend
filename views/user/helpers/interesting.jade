@@ -21,7 +21,7 @@
 					.top_label #{similarArticle.theme.name}
 					.label #{similarArticle.title}
 			
-			.item_body(style="background-image: url('/img/uploads/#{similarArticle.image.background}')")
+			.item_body(style=(similarArticle.image && similarArticle.image.background ? "background-image: url('/img/uploads/#{similarArticle.image.background}')" : ''))
 			
 			.item_footer.adorable_table
 				.adorable_cell 396 мам одобряют
