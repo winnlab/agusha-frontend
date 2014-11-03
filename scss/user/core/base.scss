@@ -3,6 +3,7 @@
 @import '../dynamic/dynamic';
 @import '../helpers/donut';
 @import '../helpers/popup';
+@import '../../bourbon/bourbon';
 
 @mixin number_pseudo {
 	@include pseudo;
@@ -70,7 +71,7 @@ table tr {
 	display: table-cell;
 	width: 70px;
 	vertical-align: top;
-	
+
 	&.active {
 		width: 230px;
 	}
@@ -88,33 +89,33 @@ table tr {
 	border-bottom-right-radius: 33px;
 	padding-bottom: 22px;
 	text-align: center;
-	
+
 	.topper {
 		border-bottom: 1px solid #e5e5e5;
 	}
-	
+
 	.top {
 		height: 70px;
 		position: relative;
-		
+
 		&:before, img {
 			@include absolute_centered;
 			@include rounded;
 			width: 45px;
 			height: 45px;
 		}
-		
+
 		&:before {
 			@include pseudo;
 			background: url('/img/user/core/left_menu_top.png') center no-repeat;
 		}
 	}
-	
+
 	.message {
 		height: 70px;
 		position: relative;
 		background: url('/img/user/core/message.png') center no-repeat;
-		
+
 		.circle {
 			position: absolute;
 			width: 20px;
@@ -126,20 +127,20 @@ table tr {
 			color: $white;
 		}
 	}
-	
+
 	.points {
 		color: #7f7f7f;
-		
+
 		.you_have {
 			margin-top: 17px;
 			font-size: 12px;
 			font-family: 'PT_Sans_Bold';
 		}
-		
+
 		.moneybox {
 			margin-top: 8px;
 		}
-		
+
 		.for_gifts {
 			margin-top: 8px;
 			font-family: 'PT_Sans_Italic';
@@ -160,21 +161,21 @@ table tr {
 	text-align: center;
 	color: $white;
 	width: 230px;
-	
+
 	&.active {
 		right: 0;
-			
+
 		.topper {
 			&:before {
 				left: -10px;
 			}
 		}
 	}
-	
+
 	.topper {
 		background-color: $darkblue;
 		padding: 41px 0 14px;
-		
+
 		&:before {
 			@include transition(left 0.3s ease-in-out);
 			background: url("/img/user/core/right_avatar_arrow.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -186,7 +187,7 @@ table tr {
 			width: 10px;
 		}
 	}
-	
+
 	.close {
 		position: absolute;
 		background: url('/img/user/core/close.png') no-repeat;
@@ -196,7 +197,7 @@ table tr {
 		left: 29px;
 		cursor: pointer;
 	}
-	
+
 	.settings {
 		position: absolute;
 		background: url('/img/user/core/settings.png') no-repeat;
@@ -206,51 +207,51 @@ table tr {
 		right: 25px;
 		cursor: pointer;
 	}
-	
+
 	.percentage {
 		position: absolute;
 		top: 97px;
 		right: 189px;
 		font-size: 10px;
 	}
-	
+
 	.avatar {
 		padding: 14px;
-		
+
 		img {
 			height: 100px;
 			width: 100px;
 		}
 	}
-	
+
 	.name {
 		font-family: 'PT_Sans_Bold';
 		margin-top: 4px;
 	}
-	
+
 	.children {
 		margin: 25px 0 0;
 	}
-	
+
 	.child {
 		height: 41px;
-		
+
 		&:not(:first-child) {
 			margin-top: 9px;
 		}
-		
+
 		.image {
 			width: 94px;
 			float: left;
 			text-align: right;
 			height: 100%;
 		}
-		
+
 		img {
 			height: 41px;
 			width: 41px;
 		}
-		
+
 		.desc {
 			@include border_boxed;
 			padding: 0 0 0 20px;
@@ -258,17 +259,17 @@ table tr {
 			float: left;
 			height: 100%;
 			font-size: 12px;
-			
+
 			.adorable_cell {
 				text-align: left;
 			}
 		}
 	}
-	
+
 	.child_name {
 		font-family: 'PT_Sans_Bold';
 	}
-	
+
 	.item {
 		@include border_boxed;
 		position: relative;
@@ -278,7 +279,7 @@ table tr {
 		text-align: left;
 		line-height: 17px;
 		text-decoration: inherit;
-		
+
 		&.messages {
 			.label {
 				&:before {
@@ -286,53 +287,53 @@ table tr {
 				}
 			}
 		}
-		
+
 		&.subscribes {
 			.icon {
 				&:before {
 					background-position: -40px 0;
 				}
 			}
-			
+
 			.label {
 				&:before {
 					content: 'Мои подписки';
 				}
 			}
 		}
-		
+
 		&.moneybox {
 			.icon {
 				&:before {
 					background-position: -80px 0;
 				}
 			}
-			
+
 			.label {
 				&:before {
 					content: 'Копилка';
 				}
 			}
 		}
-		
+
 		&.help {
 			.icon {
 				&:before {
 					background-position: -120px 0;
 				}
 			}
-			
+
 			.label {
 				&:before {
 					content: 'Помощь';
 				}
 			}
 		}
-		
+
 		&.adorable_table {
 			height: auto;
 			cursor: pointer;
-			
+
 			&:hover, &.active {
 				&:before {
 					@include pseudo;
@@ -342,7 +343,7 @@ table tr {
 					top: -8px;
 					left: 0;
 				}
-				
+
 				&:after {
 					@include pseudo;
 					background: url('/img/user/core/active_right_arrow.png') no-repeat;
@@ -351,31 +352,31 @@ table tr {
 					width: 10px;
 					height: 50px;
 				}
-				
+
 				&.messages {
 					.icon:before {
 						background-position: 0 -27px;
 					}
 				}
-				
+
 				&.subscribes {
 					.icon:before {
 						background-position: -40px -27px;
 					}
 				}
-				
+
 				&.moneybox {
 					.icon:before {
 						background-position: -80px -27px;
 					}
 				}
-				
+
 				&.help {
 					.icon:before {
 						background-position: -120px -27px;
 					}
 				}
-				
+
 				.icon {
 					&:before {
 						background-color: #5bbae6;
@@ -384,12 +385,12 @@ table tr {
 			}
 		}
 	}
-	
+
 	.icon {
 		width: 50px;
 		display: table-cell;
 		height: 34px;
-		
+
 		&:before {
 			@include pseudo;
 			top: 0;
@@ -402,7 +403,7 @@ table tr {
 			z-index: 1;
 		}
 	}
-	
+
 	.label {
 		@include transition(letter-spacing 0.3s ease-in-out);
 		display: table-cell;
@@ -1108,4 +1109,8 @@ table tr {
 
 .column {
 	@include column;
+}
+
+.clearfix {
+	@include clearfix;
 }
