@@ -8,10 +8,16 @@ export default can.Map.extend({
 		var self = this;
 		if (!self.checkModule(module.id)) {
 			System.import(module.path.client).then((Module) => {
-				if (Module) {
-						self.addModule(module);
-						self.activateModule(module.id);
-						new Module.default('#' + module.id, module);
+				if(Module) {
+					self.addModule(module);
+					self.activateModule(module.id);
+					new Module.default('#' + module.id, module);
+					
+					// project based optional stuff
+					
+					this.moduleActivated(module.id);
+					
+					//
 				} else {
 					msg = module.path.client
 						? 'Please check the constructor of ' + module.path.client + '.js'
@@ -39,10 +45,26 @@ export default can.Map.extend({
 		
 		if(exists) {
 			this.activateModule(id);
+			
+			// project based optional stuff
+			
 			$(window).resize();
+			
+			this.moduleActivated(id);
+			
+			//
 		}
 		
 		return exists;
+	},
+	
+	moduleActivated: function(id) {
+		window.core.hide_left_inner_menu();
+		
+		if(id == 'encyclopedia') {
+			window.core.hide_left_menu();
+			window.core.hide_right_menu();
+		}
 	},
 	
 	addModule: function (module) {

@@ -17,6 +17,42 @@ var ViewModel = can.Map.extend({
 	}
 });
 
+var showError = function () {
+	var message = this.element.find('.message');
+
+	message.css('display', 'block');
+}
+
+var hideError = function () {
+	var message = this.element.find('.message');
+
+	message.css('display', 'none');
+}
+
+var showSuccessmessgae = function () {
+	var registration_inline = this.element.find('.registration_inline'),
+		reg_box_inside = this.element.find('.reg_box_inside'),
+		registered = reg_box_inside.filter('.registered'),
+		not_registered = reg_box_inside.filter('.not_registered'),
+		active = 'active',
+		bounce = 'bounce';
+	
+	registration_inline.addClass('drop');
+	
+	setTimeout(function(){
+		registration_inline.addClass(bounce);
+	}, 1000);
+	
+	setTimeout(function(){
+		registration_inline.removeClass(bounce);
+	}, 1200);
+	
+	setTimeout(function(){
+		not_registered.removeClass(active);
+		registered.addClass(active);
+	}, 1400);
+}
+
 export default Controller.extend(
 	{
 		defaults: {
@@ -40,9 +76,11 @@ export default Controller.extend(
 		},
 		
 		'.registration_form .done click': function(el, ev) {
-			var user;
+			var user,
+				that = this;
 
 			ev.preventDefault();
+			hideError.call(that);
 
 			user = this.data;
 
@@ -51,43 +89,20 @@ export default Controller.extend(
 				method: 'POST',
 				data: user.serialize(),
 				success: function(data) {
-					alert('Спасибо за регистрацию');
-
 					user.attr({
 						email: null,
 						firstname: null,
 						lastname: null,
 						password: null
 					});
+
+					showSuccessmessgae.call(that);
 				},
 				error: function () {
-					alert('Произошла ошибка. Пожалуйста, обратитесь к администратору');
+					showError.call(that);
+					// alert('Произошла ошибка. Пожалуйста, обратитесь к администратору');
 				}
 			});
-		},
-		
-		'.social_block click': function(el) {
-			var registration_inline = this.element.find('.registration_inline'),
-				reg_box_inside = this.element.find('.reg_box_inside'),
-				registered = reg_box_inside.filter('.registered'),
-				not_registered = reg_box_inside.filter('.not_registered'),
-				active = 'active',
-				bounce = 'bounce';
-			
-			registration_inline.addClass('drop');
-			
-			setTimeout(function(){
-				registration_inline.addClass(bounce);
-			}, 1000);
-			
-			setTimeout(function(){
-				registration_inline.removeClass(bounce);
-			}, 1200);
-			
-			setTimeout(function(){
-				not_registered.removeClass(active);
-				registered.addClass(active);
-			}, 1400);
 		}
     }
 );

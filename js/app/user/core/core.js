@@ -38,54 +38,68 @@ var Core = can.Control.extend(
 				}
 			});
 		},
-
+		
 		step: function(timestamp) {
 			var that = this;
-
+			
 			if(this.start === null) {
 				this.start = timestamp;
 			}
-
+			
 			var progress = timestamp - this.start;
-
+			
 			this.window.resize();
-
+			
 			if(progress <= 300) {
-				return window.requestAnimFrame(function(timestamp) {
-					that.step(timestamp);
-				});
+				return this.requestAnimFrame();
 			}
-
+			
 			this.start = null;
+		},
+		
+		hide_left_inner_menu: function() {
+			this.left_inner_menu.removeClass('show');
+			
+			this.requestAnimFrame();
+		},
+		
+		hide_left_menu: function() {
+			this.left_resizable.addClass('small');
+			
+			this.requestAnimFrame();
+		},
+		
+		hide_right_menu: function() {
+			this.right_menu.removeClass('active');
+			
+			this.requestAnimFrame();
+		},
+		
+		requestAnimFrame: function() {
+			var	that = this;
+			window.requestAnimFrame(function(timestamp) {
+				that.step(timestamp);
+			});
 		},
 
 		'#left_menu .close click': function(el) {
-			var	that = this;
-			
 			this.right_menu.removeClass('active');
 			this.left_resizable.toggleClass('small');
-			window.requestAnimFrame(function(timestamp) {
-				that.step(timestamp);
-			});
+			
+			this.requestAnimFrame();
 		},
 
 		'#left_menu .about click': function(el) {
-			var	that = this;
-
 			this.left_inner_menu.toggleClass('show');
-			window.requestAnimFrame(function(timestamp) {
-				that.step(timestamp);
-			});
+			
+			this.requestAnimFrame();
 		},
 		
 		'#right_menu_small, #right_menu .close click': function(el) {
-			var	that = this;
-			
 			this.left_resizable.addClass('small');
 			this.right_menu.toggleClass('active');
-			window.requestAnimFrame(function(timestamp) {
-				that.step(timestamp);
-			});
+			
+			this.requestAnimFrame();
 		},
 
 		'.search_form submit': function(el, ev) {
@@ -105,6 +119,6 @@ var Core = can.Control.extend(
 	}
 );
 
-new Core(document.body);
+window.core = new Core(document.body);
 
 window.router = new Router(document.body, config.router);
