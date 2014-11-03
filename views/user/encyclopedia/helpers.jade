@@ -53,12 +53,21 @@ mixin article(a, i)
 
 				.topper_title= (a ? a.title : '{{title}}')
 				.topper_text= (a ? a.desc.shorttext : '{{desc.shorttext}}')
-				if a && a.is_quiz
+				if a 
+					if a.is_quiz
+						.topper_approve
+							span.count= (a.answer ? a.answer.length : 0)
+							span.approve
+								div мамочек
+								div ответили
+				else 
+					| {{#if is_quiz}}
 					.topper_approve
-						span.count= (a ? a.answer.length : '{{answer.length}}')
+						span.count= '{{answer.length}}'
 						span.approve
 							div мамочек
-							div ответили
+							div ответили						
+					| {{/if}}
 
 			if a 
 				if a.is_quiz

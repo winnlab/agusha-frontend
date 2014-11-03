@@ -162,7 +162,7 @@ export default Controller.extend(
 		},
 
 		setScroll: function () {
-			var bookshelfHeight = this.filterHeight - 160 - 130;
+			var bookshelfHeight = this.filterHeight - 160;
 
 			$('.bookshelfWrap', this.element).height(bookshelfHeight).mCustomScrollbar({
                 scrollInertia: 0
@@ -173,6 +173,10 @@ export default Controller.extend(
 			this.element.find('.book').removeClass(this.active);
 			el.addClass(this.active);
 			this.data.attr('theme', el.data('theme'));
+			var age = this.data.attr('age') || null,
+				theme = el.data('theme') || null;
+
+			router.new_module('encyclopedia' + (age ? '/' + age : '') + (theme ? '/' + theme : ''));
 		},
 
 		'.theme_filter .close click': function(el) {
@@ -186,13 +190,6 @@ export default Controller.extend(
 
 		'.author_select change': function (el) {
 			this.data.attr('filter', el.val());
-		},
-
-		'.filter_button click': function() {
-			var age = this.data.attr('age') || null,
-				theme = this.data.attr('theme') || null;
-
-			router.new_module('encyclopedia' + (age ? '/' + age : '') + (theme ? '/' + theme : ''));
 		}
 	}
 );
