@@ -32,8 +32,6 @@ export default Controller.extend(
 			this.theme_filter = this.element.find('.theme_filter');
 			this.bookshelf = this.theme_filter.find('.bookshelf');
 
-			this.filter = this.element.find('.filter'),
-
 			this.items_container = this.element.find('.items_container');
 		},
 
@@ -74,9 +72,9 @@ export default Controller.extend(
 				ageFilterHeight = ageFilter.height();
 
 			if (viewportHeight >= ageFilterHeight) {
-				this.filter.height(this.filterHeight = viewportHeight);
+				this.element.find('.filter').height(this.filterHeight = viewportHeight);
 			} else {
-				this.filter.height(this.filterHeight = ageFilterHeight);
+				this.element.find('.filter').height(this.filterHeight = ageFilterHeight);
 			}
 
 		},
