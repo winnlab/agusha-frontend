@@ -11,7 +11,7 @@
 		.user_profile
 			.profileFilling
 				//- .title Профиль заполнен на #{user.profileFilling()}%
-				.title Профиль заполнен на 15%
+				.title Профиль заполнен на 0%
 				.bar
 					.progress(class!="progress-15")
 			.userMeta
@@ -78,9 +78,10 @@
 								input(type="text" placeholder="Запасной E-mail")
 							.input_row
 								.social_buttons.buttons.horizontal
-									.button.social_fb
-									.button.social_vk
-									.button.social_ok
+									//- | #{JSON.stringify(user.social)}
+									.button.fb(class=(user.social.fb.id ? 'active':''))
+									.button.vk(class=(user.social.vk.id ? 'active':''))
+									.button.ok(class=(user.social.ok.id ? 'active':''))
 
 			.profileHead.passwordHead
 				h3.inner_title Изменить пароль
