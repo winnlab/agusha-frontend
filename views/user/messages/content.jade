@@ -1,0 +1,113 @@
+.bg
+
+.content
+	include ../helpers/breadcrumbs
+	
+	.topper_title Ваши сообщения
+	
+	.messages_container
+		.search_container
+			.left
+				input.search_contacts(type='text', placeholder='Поиск в списке контактов')
+			
+			.right
+				button.message_button Написать сообщение
+		
+		.conversations_container
+			.left.items_container
+				.item.active
+					.item_table
+						.avatar_column
+							.avatar
+								img.rounded(src="/img/avatar_100x100.jpg")
+						
+						.content_column
+							.info
+								.name Ирина
+							
+							.text Text
+				
+				.item
+					.item_table
+						.avatar_column
+							.avatar
+								img.rounded(src="/img/avatar_100x100.jpg")
+						
+						.content_column
+							.info
+								.name Ирина
+							
+							.text Text
+				
+				.item
+					.item_table
+						.avatar_column
+							.avatar
+								img.rounded(src="/img/avatar_100x100.jpg")
+						
+						.content_column
+							.info
+								.name Ирина
+							
+							.text Text
+			
+			.right
+				.items_container
+					.item
+						.date 15 сен.
+						
+						.item_table
+							.avatar_column
+								.avatar
+									img.rounded(src="/img/avatar_100x100.jpg")
+							
+							.content_column
+								.info
+									.name Ирина
+								
+								.text Text
+					
+					.item
+						.date 15 сен.
+						
+						.item_table
+							.avatar_column
+								.avatar
+									img.rounded(src="/img/avatar_100x100.jpg")
+							
+							.content_column
+								.info
+									.name Ирина
+								
+								.text Text
+					
+					.item
+						.date 15 сен.
+						
+						.item_table
+							.avatar_column
+								.avatar.crown
+									img.rounded(src="/img/avatar_100x100.jpg")
+							
+							.content_column
+								.info
+									.name Ирина
+								
+								.text Text
+				
+				.item.form_container
+					.item_table
+						.avatar_column
+							.avatar.crown
+								img.rounded(src="/img/avatar_100x100.jpg")
+						
+						.content_column
+							.textarea_container
+								textarea(name="text")
+							
+							button.message_button Отправить
+							
+							.attach.adorable_table
+								.adorable_cell
+									img(src="/img/user/messages/clip.png")
+									span Прикрепить фото
