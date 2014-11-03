@@ -64,7 +64,7 @@ export default {
 
         img = entity.attr('image.' + size);
 
-        return img ? 'background-image: url("/img/uploads/"' + img + ');' : '';
+        return img ? 'background-image: url(/img/uploads/' + img + ');' : '';
     },
     is: function () {
         var options = arguments[arguments.length - 1],
