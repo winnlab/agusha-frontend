@@ -37,11 +37,6 @@ include helpers
 			.bookshelf
 				- each t, key in themes
 					mixin theme(t)
-		
-		.footer
-			.adorable_table
-				.adorable_cell
-					button.filter_button Применить
 
 if params.age || params.theme
 	.center

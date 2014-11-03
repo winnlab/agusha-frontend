@@ -93,6 +93,18 @@ $ageFilterWidth: 160px;
 			}
 		}
 
+		&:hover {
+			img {
+				&.normal {
+					display: none;
+				}
+
+				&.hover {
+					display: block;
+				}
+			}
+		}
+
 		.image {
 			@include inline_block;
 			height: 43px;
