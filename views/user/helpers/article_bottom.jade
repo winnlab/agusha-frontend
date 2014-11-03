@@ -44,13 +44,9 @@
 			- classname += similarArticle.is_quiz ? ' poll' : '';
 			
 			- classname += ' ' + articleType
-
 			a(class="new_module card #{classname}" href="/article/" + similarArticle._id)
-				.inner					
-					if similarArticle.image && similarArticle.image.background
-						img.background(src='/img/uploads/' + similarArticle.image.background)
-				
-					
+				- a = similarArticle
+				.inner(style=( a && a.image && a.image['S'] ? "background-image: url(/img/uploads/" + a.image['S'] + ");" : '')
 					.topper
 						.topper_label
 							.adorable_table
