@@ -7,13 +7,13 @@
 
 @mixin number_pseudo {
 	@include pseudo;
-	background-color: #4d4d4d;
+	background-color: #78c6eb;
 	bottom: 0;
-	height: 6px;
+	height: 5px;
 	margin: auto;
 	overflow: hidden;
 	top: 0;
-	width: 2px;
+	width: 1px;
 }
 
 @mixin min_max_height {
@@ -506,49 +506,49 @@ table tr {
 		white-space: nowrap;
 		opacity: 1;
 	}
-
+	
 	.count {
 		@include transition(opacity 0.3s ease-in-out);
 		text-align: center;
 		opacity: 1;
 	}
-
+	
 	.number {
-		@include border_radius(5px);
-		@include box_shadow(0 1px 0 #2c98ca);
+		@include border_boxed;
+		@include border_radius(1px);
 		@include inline_block;
 		@include transition(width 0.3s ease-in-out);
-		background: url(/img/user/core/number_bg.png) center no-repeat;
 		position: relative;
-		width: 31px;
-		height: 44px;
+		width: 27px;
+		height: 41px;
 		font-family: 'PT_Sans_Bold';
 		font-size: 29px;
 		line-height: 44px;
-
+		border: 1px solid #76c6eb;
+		
 		&:after {
 			@include number_pseudo;
-			right: -1px;
+			right: 0;
 		}
-
+		
 		&:before {
 			@include number_pseudo;
-			left: -1px;
+			left: 0;
 		}
 	}
-
+	
 	.line {
 		&:before {
 			@include transition(width 0.3s ease-in-out);
 			@include pseudo;
-			background-color: #5cd5f7;
+			background-color: #78c6eb;
 			bottom: 0;
-			height: 2px;
+			height: 1px;
 			left: 0;
 			margin: auto;
 			right: 0;
 			top: 0;
-			width: 29px;
+			width: 26px;
 		}
 	}
 
