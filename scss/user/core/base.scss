@@ -69,7 +69,7 @@ table tr {
 .right_menu {
 	@include transition(width 0.3s ease-in-out);
 	display: table-cell;
-	width: 70px;
+	width: 0;
 	vertical-align: top;
 
 	&.active {

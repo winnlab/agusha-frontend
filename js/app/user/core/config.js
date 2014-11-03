@@ -114,6 +114,13 @@ var config = {
 					client: 'js/app/user/modules/main/',
 					server: ':name'
 				}
+			},
+			{
+				name: 'messages',
+				path: {
+					client: 'js/app/user/modules/messages/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'
