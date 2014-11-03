@@ -47,6 +47,25 @@ export default {
 
         return classname;
     },
+    getBg: function (entity, index) {
+        var i = computedVal(index),
+            e = entity,
+            size = 'S',
+            img,
+            doubles = [3, 6, 11, 12, 15, 20, 24];
+
+        if (i == 0) {
+            size = 'XL';
+        }
+
+        if (doubles.indexOf(i) !== -1) {
+            size = 'L';
+        }
+
+        img = entity.attr('image.' + size);
+
+        return img ? 'background-image: url("/img/uploads/"' + img + ');' : '';
+    },
     is: function () {
         var options = arguments[arguments.length - 1],
             comparator = computedVal(arguments[0]),
