@@ -185,6 +185,13 @@ table tr {
 			left: 0;
 			top: 83px;
 			width: 10px;
+			display: none;
+		}
+		
+		&.active {
+			&:before {
+				display: block;
+			}
 		}
 	}
 
