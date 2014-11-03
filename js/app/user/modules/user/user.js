@@ -13,6 +13,7 @@ var getCurrentUser = function() {
 
 var User = can.Map.extend({
 	user: null,
+	getCurrentUser: getCurrentUser,
 	checkAuth: function(callback) {
 		var that = this;
 		can.ajax({
