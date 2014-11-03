@@ -117,9 +117,6 @@ $half: round($loops / 2);
       color: #aaa;
     }
   }
-  // &:checked:focus + label:before, &:not(:checked):focus + label:before {
-  //   border: 1px dotted blue;
-  // }
 }
 
 input {
@@ -292,7 +289,7 @@ input {
 					background: #e3ddd2;
 					border-radius: 20px;
 					margin: 0 auto;
-					background-color: none;
+					background: none;
 				}
 			}
 		}
@@ -406,6 +403,9 @@ input {
 					width: 35px;
 					float: left;
 					display: inline-block;
+					background: #fff;
+					border-radius: 15px;
+
 
 					&:before  {
 						top: 0px;
@@ -415,13 +415,11 @@ input {
 						border-radius: 14px;
 					}
 
-					// &.upload {
-					// 	&:before {
-					// 		background-image: url(/img/user/profile/download_button.png);
-					// 		background-repeat: no-repeat;
-					// 		background-position: center center;
-					// 	}
-					// }
+					&.fb {
+						&.active {
+							background: #3c599b;
+						}
+					}
 				}
 			}
 

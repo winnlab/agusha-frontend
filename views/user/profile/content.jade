@@ -4,7 +4,7 @@
 			.breadcrumbs
 				a(href='/') Главная
 				span &nbsp; / &nbsp;
-					a(href="/") Ирина
+					a(href="/" can-value="user.profile.first_name")=user.profile.first_name
 				span &nbsp; / &nbsp;
 					a(href="/profile/settings") Настройки
 			h1.titlePage Настройки профиля
@@ -51,23 +51,6 @@
 					.about
 						textarea(placeholder="Пара слов о себе").about_area
 
-			.profileHead.passwordHead
-				h3.inner_title Изменить пароль
-				.question_bubble ?
-
-			.profileInfo.passwordInfo
-				.userInputs(style="margin-top: 0px;")
-					.column.left
-						.inner
-							.input_row
-								input(type="password" data-passid="pass" placeholder="Пароль").password
-								span.switcher(data-passid="pass")
-					.column.right
-						.inner
-							.input_row
-								input(type="password" data-passid="newPass" placeholder="Новый пароль").newPassword
-								span.switcher(data-passid="newPass")
-
 			.profileHead
 				h3.inner_title Контактные данные
 				.question_bubble ?
@@ -98,3 +81,20 @@
 									.button.social_fb
 									.button.social_vk
 									.button.social_ok
+
+			.profileHead.passwordHead
+				h3.inner_title Изменить пароль
+				.question_bubble ?
+
+			.profileInfo.passwordInfo
+				.userInputs(style="margin-top: 0px;")
+					.column.left
+						.inner
+							.input_row
+								input(type="password" data-passid="pass" placeholder="Пароль").password
+								span.switcher(data-passid="pass")
+					.column.right
+						.inner
+							.input_row
+								input(type="password" data-passid="newPass" placeholder="Новый пароль").newPassword
+								span.switcher(data-passid="newPass")
