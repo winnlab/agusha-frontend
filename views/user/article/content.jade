@@ -1,4 +1,4 @@
-.bg(style='background-image: url("/img/uploads/#{article.image}");')
+.bg(style=(article.image && article.image.background ? 'background-image: url("/img/uploads/#{article.image.background}");' : ''))
 
 .content
 	include ../helpers/breadcrumbs
