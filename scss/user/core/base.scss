@@ -825,15 +825,14 @@ table tr {
 
 	.bottom {
 		display: table-row;
-		height: 130px;
+		height: 70px;
 		background-color: $darkblue;
 	}
 
 	.social {
 		@include border_boxed;
 		border-top: 1px solid $blackblue;
-		border-bottom: 1px solid $blackblue;
-		height: 72px;
+		height: 70px;
 		white-space: nowrap;
 		position: relative;
 	}
