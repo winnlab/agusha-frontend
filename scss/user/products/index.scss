@@ -172,32 +172,69 @@
 }
 
 .products_age_select, #select2-drop {
+	.select2-result {
+		&:hover {
+			.right {
+				color: #404040;
+			}
+			
+			.icon {
+				&.normal {
+					display: none;
+				}
+
+				&.hover {
+					display: block;
+				}
+			}
+		}
+	}
+	
+	.select2-chosen {
+		.right {
+			color: #404040;
+		}
+		
+		.left {
+			.icon {
+				&.normal {
+					display: none;
+				}
+				
+				&.hover {
+					display: block;
+				}
+			}
+		}
+	}
+	
 	.part {
 		float: left;
 		height: 70px;
 	}
-
+	
 	.left {
 		width: 70px;
 		position: relative;
-
+		
 		.icon {
 			@include absolute_centered;
 			max-width: 48px;
 			max-height: 48px;
 
 			&.normal {
-				display: none;
+				display: block;
 			}
 
 			&.hover {
-				display: block;
+				display: none;
 			}
 		}
 	}
 
 	.right {
 		width: 80px;
+		color: #b2b2b2;
 		
 		.adorable_cell {
 			text-align: left;
@@ -209,7 +246,7 @@
 #products_container {
     padding: 10px;
 	overflow: visible;
-
+	
 	.product_block {
 		height: 465px;
 		float: left;
@@ -220,7 +257,7 @@
 		color: $grey;
 		background-color: $white;
 		display: block;
-
+		
 		.image {
 			@include absolute_horizontal_centered;
 			height: 225px;
