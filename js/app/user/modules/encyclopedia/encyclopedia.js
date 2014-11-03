@@ -160,9 +160,7 @@ export default Controller.extend(
 		},
 
 		setScroll: function () {
-			var bookshelfHeight = this.filterHeight - 160;
-
-			$('.bookshelfWrap', this.element).height(bookshelfHeight).mCustomScrollbar({
+			$('.filterContent', this.element).mCustomScrollbar({
                 scrollInertia: 0
             });
 		},

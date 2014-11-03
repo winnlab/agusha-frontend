@@ -140,20 +140,27 @@ $ageFilterWidth: 160px;
 			display: block;
 		}
 
+		.close {
+			position: absolute;
+			width: 34px;
+			height: 36px;
+			top: 52px;
+			right: -17px;
+			background: url('/img/user/encyclopedia/close.png');
+			cursor: pointer;
+			z-index: 2;
+		}
+
+		.filterContent {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+
 		.topper {
 			height: 160px;
 			width: 100%;
 			background-color: $blue;
-
-			.close {
-				position: absolute;
-				width: 34px;
-				height: 36px;
-				top: 52px;
-				right: -17px;
-				background: url('/img/user/encyclopedia/close.png');
-				cursor: pointer;
-			}
 
 			.adorable_cell {
 				padding: 0 130px
@@ -180,6 +187,7 @@ $ageFilterWidth: 160px;
 			@include inline_block;
 			width: 100%;
 			overflow: hidden;
+			padding-bottom: 20px;
 		}
 
 		.book {

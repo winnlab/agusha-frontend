@@ -27,16 +27,17 @@ include helpers
 							.title #{a.title}
 
 	.theme_filter
-		.topper
-			.adorable_table
-				.adorable_cell
-					.close
-					.label.novito_nova Какая тема вам ближе?
+		.close
+		.filterContent
+			.topper
+				.adorable_table
+					.adorable_cell
+						.label.novito_nova Какая тема вам ближе?
 
-		.center.bookshelfWrap
-			.bookshelf
-				- each t, key in themes
-					mixin theme(t)
+			.center.bookshelfWrap
+				.bookshelf
+					- each t, key in themes
+						mixin theme(t)
 
 if params.age || params.theme
 	.center
