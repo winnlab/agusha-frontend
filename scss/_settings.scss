@@ -11,6 +11,6 @@
 
 // // make the use of media queries really easy
 @include gridle_register_state ( desktop , (
-	max-width : 1060px,
+	max-width : 880px,
 	gutter-width : 20px
 ) );

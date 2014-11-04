@@ -11,7 +11,6 @@ System.config({
 		'google': 'js/plugins/social/google.plusone.js',
 		'googlemaps_api': 'js/plugins/google/googlemaps_api.js',
 		'googlemaps_main': 'js/plugins/google/googlemaps_main.js',
-		'user': 'js/app/user/modules/user/user.js',
 
 		'router': 'js/app/user/router/router.js',
 		'placeholder': 'js/app/user/router/placeholder.js',
@@ -29,6 +28,7 @@ System.config({
 		'controller': 'js/app/user/lib/controller/controller.js',
 		'module/*': 'js/app/user/modules/*.js',
 		'baseModel': 'js/app/admin/lib/model/baseModel.js',
+		'like': 'js/app/user/lib/like/like.js',
 
 		'lodash': 'js/plugins/lodash/dist/lodash.js',
 

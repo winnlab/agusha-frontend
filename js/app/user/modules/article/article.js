@@ -1,3 +1,5 @@
+'use strict';
+
 import Controller from 'controller'
 import Model from 'module/article/articleModel'
 import 'bx-slider'
