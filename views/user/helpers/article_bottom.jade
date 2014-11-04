@@ -4,7 +4,7 @@
 			.adorable_table
 				.adorable_cell
 					| Вам будет интересно
-		
+
 		.half.right
 			.adorable_table
 				.adorable_cell
@@ -23,34 +23,33 @@
 			//- 		.adorable_cell
 			//- 			.top_label #{similarArticle.theme.name}
 			//- 			.label #{similarArticle.title}
-				
+
 			//- 	.item_body(style=(similarArticle.image && similarArticle.image.background ? "background-image: url('/img/uploads/#{similarArticle.image.background}')" : ''))
-				
+
 			//- 	.item_footer.adorable_table
 			//- 		.adorable_cell 396 мам одобряют
-			
+
 			- var classname = ''
 			- var articleType = ''
-			if similarArticle.type.name === 'Статья от редакции' 
+			if similarArticle.type.name === 'Статья от редакции'
 				- articleType = 'redaction'
-			else if similarArticle.type.name === 'Тема недели' 
+			else if similarArticle.type.name === 'Тема недели'
 				- articleType = 'week'
-			else 
+			else
 				- articleType = 'author'
 
-			
+
 
 			- classname += (!similarArticle.image || !similarArticle.image.background ? ' no-image' : '')
 			- classname += similarArticle.is_quiz ? ' poll' : '';
-			
+
 			- classname += ' ' + articleType
 			a(class="new_module card #{classname}" href="/article/" + similarArticle._id)
-				- a = similarArticle
-				.inner(style=( a && a.image && a.image['S'] ? "background-image: url(/img/uploads/" + a.image['S'] + ");" : '')
+				.inner(style=( similarArticle && similarArticle.image && similarArticle.image['S'] ? "background-image: url(/img/uploads/" + similarArticle.image['S'] + ");" : ''))
 					.topper
 						.topper_label
 							.adorable_table
-								.adorable_cell= similarArticle.theme[0].name 
+								.adorable_cell= similarArticle.theme[0].name
 
 						.topper_title= similarArticle.title
 						.topper_text= similarArticle.desc.shorttext
@@ -65,21 +64,21 @@
 					if similarArticle.is_quiz
 						.button_content.gold
 							button.me_too Я тоже
-											
+
 					if articleType === 'author' && similarArticle.is_quiz === false
 						.user_content
 							.avatar.medical_cap
 								img.rounded(src='/img/avatar_100x100.jpg')
 							.name врач-педиатр
 							.name Ирина Матвиенко
-					
-					
+
+
 					.footer
 						.heart
 							img(src="/img/user/article/heart.png")
 							if similarArticle.recommended
 								img(src="/img/user/helpers/cards/lamp.png")
-							
+
 						.counters.adorable_table
 							.adorable_cell
 								img.like(src="/img/user/article/heart.png")
@@ -88,7 +87,7 @@
 									| мамочек
 									br
 									| одобряют
-								
+
 								img.comment(src="/img/user/article/comment.png")
 								span.count= (similarArticle ? similarArticle.counter.comment : '{{counter.comment}}')
 
@@ -96,7 +95,7 @@
 		.comments_topper
 			.comments_title Коментарии
 			.comments_all Все 12
-		
+
 		.comments_container
 			.item
 				.comment_table
@@ -114,7 +113,7 @@
 							img.plus(src='/img/user/article/plus.png')
 							.number 19
 							img.minus(src='/img/user/article/minus.png')
-			
+
 			.item
 				.comment_table
 					.icon
@@ -137,7 +136,7 @@
 			.image
 				.avatar.rounded
 					img.rounded(src='/img/avatar_100x100.jpg')
-			
+
 			.form_container
 				form.comment_form
 					textarea(name="text", placeholder="А что Вы думаете по этому поводу?")
@@ -153,10 +152,10 @@
 				.adorable_cell
 					.warning Добавлять комментарии могут только авторизированные пользователи
 					.explanation
-						| Есть что сказать? Авторизируйся и используй 
+						| Есть что сказать? Авторизируйся и используй
 						span.italic все приимущества
 						|  своего профиля!
-					
+
 					.links
 						a.login(href="/login", class="new_module") Вход
 						span /
