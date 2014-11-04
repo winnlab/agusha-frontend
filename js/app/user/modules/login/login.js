@@ -1,5 +1,5 @@
 import Controller from 'controller'
-import user from 'js/app/user/modules/user/user'
+import appState from 'core/appState';
 
 var ViewModel = can.Map.extend({
 	define: {
@@ -46,6 +46,8 @@ export default Controller.extend(
 				method: 'POST',
 				data: data.serialize(),
 				success: function(response) {
+					var user = appState.attr('user');
+
 					data.attr({
 						email: null,
 						password: null

@@ -1,6 +1,8 @@
 import Controller from 'controller';
-import User from 'modules/user/user';
 import appState from 'core/appState';
+// import import Cropper from 'lib/cropper/';
+// import Remodal from 'js/plugins/Remodal/dist/jquery.remodal.min';
+
 
 export default Controller.extend(
 	{
@@ -9,8 +11,10 @@ export default Controller.extend(
         }
     }, {
 		after_init: function(data) {
-			// alert(JSON.stringify(this.user));
-            console.log(appState.attr('user'));
+            // System.import('js/plugins/Remodal/dist/jquery.remodal.css!').then(can.proxy(this.request, this));
+            appState.attr('cropper').show({});
+
+			return true;
         }
     }
 );
