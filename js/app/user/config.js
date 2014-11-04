@@ -29,6 +29,7 @@ System.config({
 		'controller': 'js/app/user/lib/controller/controller.js',
 		'module/*': 'js/app/user/modules/*.js',
 		'baseModel': 'js/app/admin/lib/model/baseModel.js',
+		'like': 'js/app/user/lib/like/like.js',
 
 		'lodash': 'js/plugins/lodash/dist/lodash.js',
 

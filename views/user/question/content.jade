@@ -1,3 +1,5 @@
+- var likesAmount = consultation.likes ? consultation.likes.length : 0;
+
 .bg
 
 .content
@@ -90,8 +92,9 @@
 			.footer
 				.adorable_table
 					.adorable_cell
-						img.like(src="/img/user/article/heart.png")
-						span.count 8 
+						img.like(src="/img/user/article/heart.png", data-component_id="#{consultation._id}", data-component="Consultation")
+						span.count(data-component_id="#{consultation._id}")
+							| #{likesAmount}
 						span.slash / 
 						span.post_like Одобрить
 		

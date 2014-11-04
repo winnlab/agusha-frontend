@@ -5,6 +5,7 @@ import config from 'rConfig'
 import helpers from 'helpers'
 import user from 'modules/user/';
 import appState from 'core/appState'
+import Like from 'like'
 
 var Core = can.Control.extend(
 	{
@@ -122,3 +123,5 @@ var Core = can.Control.extend(
 window.core = new Core(document.body);
 
 window.router = new Router(document.body, config.router);
+
+new Like(document.body);
