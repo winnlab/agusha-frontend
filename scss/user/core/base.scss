@@ -221,11 +221,20 @@ table tr {
 		right: 189px;
 		font-size: 10px;
 	}
+	
+	#profile_circle {
+		width: 128px;
+		height: 128px;
+	}
 
 	.avatar {
-		padding: 14px;
+		@include inline_block;
+		width: 128px;
+		height: 128px;
+		position: relative;
 
 		img {
+			@include absolute_centered;
 			height: 100px;
 			width: 100px;
 		}
