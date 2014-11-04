@@ -11,7 +11,6 @@ export default Controller.extend(
         }
     }, {
 		after_init: function(data) {
-            // System.import('js/plugins/Remodal/dist/jquery.remodal.css!').then(can.proxy(this.request, this));
             appState.attr('cropper').show({});
 
 			return true;
