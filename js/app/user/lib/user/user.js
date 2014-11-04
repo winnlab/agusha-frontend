@@ -12,20 +12,44 @@ var getCurrentUser = function() {
 }
 
 var User = can.Map.extend({
+	init: function() {
+		this.initUser();
+
+		console.log('initUser',this.attr('user'));
+	},
 	user: null,
 	getCurrentUser: getCurrentUser,
 	checkAuth: function(callback) {
 		var that = this;
 		can.ajax({
-			url: '/registartion?ajax=true',
+			url: '/user?ajax=true',
+			sync: true,
 			success: function(data) {
-				that.attr('user', data.data.user);
+				var user = data.data.user || null
 
-				callback(null, data.data);
+				that.attr('user', user);
+
+				callback(null, user);
 			},
 			error: function(resp) {
 				callback(resp.err);
 			}
+		});
+	},
+	initUser: function() {
+		var that = this;
+
+		this.checkAuth(function (err, user) {
+			if(err) {
+				console.log('user Error: ', err);
+
+				that.attr('user', null);
+				return;
+			}
+
+			that.attr('user', user);
+
+			return user;
 		});
 	},
 	define: {
@@ -47,13 +71,16 @@ var User = can.Map.extend({
 		},
 		user: {
 			set: function(obj) {
+				if(!obj) {
+					return null;
+				}
+
 				window.localStorage.setItem('isAuth', JSON.stringify(obj));
 
 				return obj;
 			},
 			get: function (obj) {
-				var luser = window.localStorage.getItem('isAuth');
-				luser = JSON.parse(luser);
+				var luser = getCurrentUser();
 
 				if(luser) {
 					return luser;
@@ -65,8 +92,4 @@ var User = can.Map.extend({
 	}
 });
 
-var user = new User();
-
-appState.attr('user', user);
-
-export default user
+export default User

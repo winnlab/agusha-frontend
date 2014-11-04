@@ -3,7 +3,6 @@ import 'can/map/define/'
 import Router from 'router'
 import config from 'rConfig'
 import helpers from 'helpers'
-import user from 'modules/user/';
 import appState from 'core/appState'
 import Like from 'like'
 

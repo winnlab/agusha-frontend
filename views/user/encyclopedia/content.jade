@@ -82,9 +82,12 @@ if params.age || params.theme
 				.subscribe
 					.adorable_table
 						.adorable_cell
-							button
+							button(class="subscribeIt" style=(subscription ? 'display: none;' : '') )
 								img(src="/img/user/encyclopedia/pencil.png")
 								span Подписаться на тему
+							button(class="unSubscribeIt"  style=(subscription ? '' : 'display: none;') )
+								img(src="/img/user/encyclopedia/pencil.png")
+								span Отписаться от темы
 			
 			.items_container
 				- each a, i in articles

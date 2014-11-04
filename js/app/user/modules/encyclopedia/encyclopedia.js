@@ -2,6 +2,7 @@ import Controller from 'controller';
 import select2 from 'select2';
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 import appState from 'core/appState';
+import Sub from 'lib/subscribe/';
 import 'custom-scrollbar';
 
 var Theme = can.Model.extend({
@@ -186,6 +187,20 @@ export default Controller.extend(
 
 		'.author_select change': function (el) {
 			this.data.attr('filter', el.val());
+		},
+
+		'.subscribeIt click': function () {
+			Sub.subscribe(this.data.attr('theme'), function () {
+				this.element.find('.subscribeIt').hide();
+				this.element.find('.unSubscribeIt').show();
+			});
+		},
+
+		'.unSubscribeIt click': function () {
+			Sub.unsubscribe(this.data.attr('theme'), function () {
+				this.element.find('.unSubscribeIt').hide();
+				this.element.find('.subscribeIt').show();
+			});
 		}
 	}
 );
