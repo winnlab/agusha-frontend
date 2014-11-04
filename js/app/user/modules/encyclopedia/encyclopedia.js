@@ -32,8 +32,6 @@ export default Controller.extend(
 			this.theme_filter = this.element.find('.theme_filter');
 			this.bookshelf = this.theme_filter.find('.bookshelf');
 
-			this.filter = this.element.find('.filter'),
-
 			this.items_container = this.element.find('.items_container');
 		},
 
@@ -74,9 +72,9 @@ export default Controller.extend(
 				ageFilterHeight = ageFilter.height();
 
 			if (viewportHeight >= ageFilterHeight) {
-				this.filter.height(this.filterHeight = viewportHeight);
+				this.element.find('.filter').height(this.filterHeight = viewportHeight);
 			} else {
-				this.filter.height(this.filterHeight = ageFilterHeight);
+				this.element.find('.filter').height(this.filterHeight = ageFilterHeight);
 			}
 
 		},
@@ -162,9 +160,7 @@ export default Controller.extend(
 		},
 
 		setScroll: function () {
-			var bookshelfHeight = this.filterHeight - 160 - 130;
-
-			$('.bookshelfWrap', this.element).height(bookshelfHeight).mCustomScrollbar({
+			$('.filterContent', this.element).mCustomScrollbar({
                 scrollInertia: 0
             });
 		},
@@ -173,6 +169,10 @@ export default Controller.extend(
 			this.element.find('.book').removeClass(this.active);
 			el.addClass(this.active);
 			this.data.attr('theme', el.data('theme'));
+			var age = this.data.attr('age') || null,
+				theme = el.data('theme') || null;
+
+			router.new_module('encyclopedia' + (age ? '/' + age : '') + (theme ? '/' + theme : ''));
 		},
 
 		'.theme_filter .close click': function(el) {
@@ -188,11 +188,43 @@ export default Controller.extend(
 			this.data.attr('filter', el.val());
 		},
 
-		'.filter_button click': function() {
-			var age = this.data.attr('age') || null,
-				theme = this.data.attr('theme') || null;
+		'.subscribeIt click': function () {
+			this.processingSubscribe('POST', {
+				text: 'Вы успешно подписались на тему.'
+			}, function () {
+				this.element.find('.subscribeIt').hide();
+				this.element.find('.unSubscribeIt').show();
+			});
+		},
 
-			router.new_module('encyclopedia' + (age ? '/' + age : '') + (theme ? '/' + theme : ''));
+		'.unSubscribeIt click': function () {
+			this.processingSubscribe('DELETE', {
+				text: 'Вы успешно отписались от темы.',
+			}, function () {
+				this.element.find('.unSubscribeIt').hide();
+				this.element.find('.subscribeIt').show();
+			});
+		},
+
+		processingSubscribe: function (method, popUpObj, cb) {
+			var self = this;
+			can.ajax({
+				url: '/subscribe',
+				method: method,
+				data: {
+					theme_id: this.data.attr('theme')
+				}
+			}).done(function (data) {
+				appState.attr('popUp').show(popUpObj);
+				cb.call(self, data);
+			}).fail(this.reqFail);
+		},
+
+		reqFail: function (data) {
+			var err = data.responseJSON.err;
+			appState.attr('popUp').show({
+				text: typeof err == 'string' ? err : err.message,
+			});
 		}
 	}
 );

@@ -1,0 +1,177 @@
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+@import '../helpers/topper_title';
+@import '../helpers/tabs';
+
+.module.subscriptions {
+	width: 920px;
+	text-align: left;
+	
+	&:before {
+		@include pseudo;
+		@include absolute_horizontal_centered;
+		top: 0;
+		left: 0;
+		background: url('/img/user/subscriptions/topper_bg.jpg') center top no-repeat;
+		width: 100%;
+		height: 100%;
+		z-index: 5;
+	}
+	
+	.topper_title {
+		height: 80px;
+	}
+	
+	.tab_contents {
+		padding: 40px 20px;
+	}
+	
+	.tab_content {
+		display: none;
+		
+		&.active {
+			display: block;
+		}
+	}
+	
+	.tab_head {
+		height: 70px;
+		background-color: #e9e4e0;
+		color: #8b7d74;
+	}
+	
+	.age {
+		@include border_boxed;
+		@include inline_block;
+		width: 218px;
+		height: 100%;
+		
+		.adorable_cell {
+			padding: 0 20px;
+			text-align: left;
+		}
+	}
+	
+	.theme {
+		@include border_boxed;
+		@include inline_block;
+		width: 562px;
+		height: 100%;
+		
+		.adorable_cell {
+			padding: 0 20px;
+			text-align: left;
+		}
+	}
+	
+	.unsub {
+		@include border_boxed;
+		@include inline_block;
+		width: 100px;
+		height: 100%;
+		
+		.adorable_cell {
+			padding: 0 20px;
+		}
+	}
+	
+	.tab_block {
+		@include transition(margin 0.3s ease-in-out);
+		position: relative;
+		background: $white;
+		margin: 1px 0;
+		
+		&.active {
+			margin: 20px 0;
+			
+			.title {
+				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
+				
+				&:before {
+					bottom: -17px;
+				}
+			}
+			
+			.text {
+				display: block;
+			}
+		}
+		
+		.close {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			width: 34px;
+			height: 36px;
+			background: url('/img/user/subscriptions/close.png') no-repeat;
+			cursor: pointer;
+			right: 33px;
+			z-index: 2;
+		}
+		
+		.title {
+			@include border_boxed;
+			@include box_shadow(0 0 0 0 rgba(0, 0, 0, 0.22));
+			@include transition(box-shadow 0.3s ease-in-out, -moz-box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out);
+			height: 70px;
+			cursor: pointer;
+			position: relative;
+			
+			&:hover {
+				.title_inner {
+					background-color: #fafafa;
+				}
+				
+				&:before {
+					background-position: -46px 0;
+				}
+			}
+			
+			&:before {
+				@include pseudo;
+				@include transition(bottom 0.3s ease-in-out);
+				bottom: -0;
+				left: 50px;
+				width: 46px;
+				height: 17px;
+				background: url('/img/user/help/title_arrow.png') no-repeat;
+			}
+			
+			.theme {
+				font-size: 18px;
+				text-transform: uppercase;
+				font-family: 'PT_Sans_Narrow_Bold';
+				color: #595959;
+			}
+		}
+		
+		.title_inner {
+			z-index: 1;
+			position: relative;
+			background-color: $white;
+			height: 100%;
+		}
+		
+		.title_img {
+			vertical-align: middle;
+			margin: 0 20px 0 0;
+			height: 43px;
+			width: 43px;
+		}
+		
+		.label {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 12px;
+		}
+		
+		.text {
+			padding: 30px 70px 45px;
+			
+			a {
+				color: #2ca7e0;
+			}
+		}
+	}
+}

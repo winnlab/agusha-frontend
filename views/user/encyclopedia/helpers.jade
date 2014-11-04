@@ -19,6 +19,7 @@ mixin theme(t)
 mixin article(a, i)
 	- var classname = ''
 	- var articleType = ''
+	- var bgSize
 	if a 
 		if a.type.name === 'Статья от редакции' 
 			- articleType = 'redaction'
@@ -30,7 +31,8 @@ mixin article(a, i)
 		- articleType = '{{articleType . @index}}'
 	
 	if a
-		- classname = i == 0 ? 'x2' : i === 3 ? 'double' : ''
+		- classname = i == 0 ? 'x2' : ([3, 6, 11, 12, 15, 20, 24]).indexOf(i) !== -1 ? 'double' : ''
+		- bgSize = classname ? i == 0 ? 'XL' : 'L' : 'S';
 		- classname += (!a.image || !a.image.background ? ' no-image' : '')
 		- classname += a.is_quiz ? ' poll' : '';
 	else
@@ -39,13 +41,7 @@ mixin article(a, i)
 	- classname += ' ' + articleType
 	
 	a(class="new_module card #{classname}" href="/article/" + (a ? a._id : '{{_id}}') style=(a ? '' : '{{filterBy . filter}}'))
-		.inner
-			if a 
-				if a.image && a.image.background
-					img.background(src='/img/uploads/' + a.image.background)
-			else 
-				| {{#if image.background}}<img class="background" src="/img/uploads/{{image.background}}" />{{/if}}
-			
+		.inner(style=( a ? a.image && a.image[bgSize] && articleType !== 'author' ? "background-image: url(/img/uploads/" + a.image[bgSize] + ");" : '' : '{{getBg . @index}}'))
 			.topper.bg
 				.topper_label
 					.adorable_table
@@ -53,19 +49,28 @@ mixin article(a, i)
 
 				.topper_title= (a ? a.title : '{{title}}')
 				.topper_text= (a ? a.desc.shorttext : '{{desc.shorttext}}')
-				if a && a.is_quiz
+				if a 
+					if a.is_quiz
+						.topper_approve
+							span.count= (a.answer ? a.answer.length : 0)
+							span.approve
+								div мамочек
+								div ответили
+				else 
+					| {{#if is_quiz}}
 					.topper_approve
-						span.count= (a ? a.answer.length : '{{answer.length}}')
+						span.count= '{{answer.length}}'
 						span.approve
 							div мамочек
-							div ответили
+							div ответили						
+					| {{/if}}
 
 			if a 
 				if a.is_quiz
 					.button_content.gold
 						button.me_too Я тоже
 			else 
-				| {{#if is_quis}}
+				| {{#if is_quiz}}
 				.button_content.gold
 					button.me_too Я тоже
 				| {{/if}}

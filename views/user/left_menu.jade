@@ -1,7 +1,7 @@
 .left_content
 	.close
 	
-	.top.active
+	.top.module_tab.module_tab_main
 		.small_logo
 			a.new_module(href="/")
 				img(src="/img/user/core/small_logo.png")
@@ -26,19 +26,19 @@
 			form.search_form.item.search_item
 				input#search_input.search_input(placeholder="Поиск")
 			
-			a.item.adorable_table.encyclopedia.new_module(href="/encyclopedia")
+			a.item.adorable_table.encyclopedia.module_tab.module_tab_encyclopedia.new_module(href="/encyclopedia")
 				.icon
 				.label
 
-			a.item.adorable_table.specialist.new_module(href="/specialist")
+			a.item.adorable_table.specialist.module_tab.module_tab_specialist(href="/specialist")
 				.icon
 				.label
 			
-			a.item.adorable_table.action.new_module(href="/products")
+			.item.adorable_table.action
 				.icon
 				.label
 			
-			.item.adorable_table.about
+			.item.adorable_table.about.module_tab.module_tab_production.module_tab_products
 				.icon
 				.label
 	
@@ -49,4 +49,4 @@
 			.social_block.odnoklassniki
 			.small_social_block
 			
-		.copyright
+		// .copyright

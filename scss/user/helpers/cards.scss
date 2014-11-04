@@ -42,7 +42,6 @@
 			font-size: 45px;
 			line-height: 45px;
 			text-transform: uppercase;
-			height: 84px;
 		}
 
 		.button_content {
@@ -68,12 +67,12 @@
 
 	&.author {
 		.inner {
-			background-color: #38c9f2;
+			background-color: #63ce88;
 		}
 
 		.footer {
 			.counters {
-				background-color: #00aed6;
+				background-color: #45b26e;
 			}
 		}
 	}
@@ -275,6 +274,8 @@
 		height: 100%;
 		position: relative;
 		overflow: hidden;
+		background-size: cover;
+		background-position: center center;
 
 		&.gradient {
 			background: url('/img/user/helpers/cards/gradient_bg.png') repeat-x;

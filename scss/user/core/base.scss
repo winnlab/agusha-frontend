@@ -7,13 +7,13 @@
 
 @mixin number_pseudo {
 	@include pseudo;
-	background-color: #4d4d4d;
+	background-color: #78c6eb;
 	bottom: 0;
-	height: 6px;
+	height: 5px;
 	margin: auto;
 	overflow: hidden;
 	top: 0;
-	width: 2px;
+	width: 1px;
 }
 
 @mixin min_max_height {
@@ -69,7 +69,7 @@ table tr {
 .right_menu {
 	@include transition(width 0.3s ease-in-out);
 	display: table-cell;
-	width: 70px;
+	width: 0;
 	vertical-align: top;
 
 	&.active {
@@ -185,6 +185,13 @@ table tr {
 			left: 0;
 			top: 83px;
 			width: 10px;
+			display: none;
+		}
+		
+		&.active {
+			&:before {
+				display: block;
+			}
 		}
 	}
 
@@ -433,6 +440,99 @@ table tr {
 	background-color: $blue;
 	color: $white;
 	z-index: 11;
+	
+	&.small {
+		.small_logo {
+			opacity: 1;
+		}
+
+		.logo {
+			@include transition(opacity 0.3s ease-in-out);
+			opacity: 0;
+		}
+
+		.glow {
+			width: 27px;
+			opacity: 0;
+		}
+
+		.counter {
+			opacity: 0;
+			cursor: default;
+		}
+
+		.count {
+			opacity: 0;
+		}
+
+		.counter_label {
+			opacity: 0;
+		}
+
+		.number {
+			width: 14px;
+		}
+
+		.line {
+			&:before {
+				width: 12px;
+			}
+		}
+
+		.counter_label {
+			letter-spacing: -7px;
+		}
+
+		.search_item {
+			&:before {
+				background-image: url('/img/user/core/search_small.png');
+				background-color: $blue;
+			}
+		}
+
+		#search_input {
+			width: 0;
+			opacity: 0;
+			padding: 0 10px;
+		}
+
+		.item {
+			width: 70px;
+			padding: 0 0 0 18px;
+
+			.label {
+				width: 2px;
+				letter-spacing: -8px;
+
+				&:before {
+					content: '\00a0' !important; /* &nbsp; */
+				}
+			}
+
+			&.adorable_table {
+				&:hover, &.active {
+					&:before {
+						background: url('/img/user/core/small_item_bg.png');
+					}
+				}
+			}
+		}
+
+		.social_block  {
+			width: 22px;
+		}
+
+		.small_social_block {
+			opacity: 1;
+		}
+
+		.copyright {
+			&:before {
+				content: '© 2014' !important;
+				width: 37px;
+			}
+		}
+	}
 
 	.left_content {
 		@include min_max_height;
@@ -483,7 +583,7 @@ table tr {
 	}
 
 	.logo {
-		@include transition(opacity 0.3s ease-in-out, width 0.3s ease-in-out);
+		@include transition(opacity 0.3s ease-in-out 0.3s);
 		width: 157px;
 		height: 77px;
 		position: absolute;
@@ -506,49 +606,49 @@ table tr {
 		white-space: nowrap;
 		opacity: 1;
 	}
-
+	
 	.count {
 		@include transition(opacity 0.3s ease-in-out);
 		text-align: center;
 		opacity: 1;
 	}
-
+	
 	.number {
-		@include border_radius(5px);
-		@include box_shadow(0 1px 0 #2c98ca);
+		@include border_boxed;
+		@include border_radius(1px);
 		@include inline_block;
 		@include transition(width 0.3s ease-in-out);
-		background: url(/img/user/core/number_bg.png) center no-repeat;
 		position: relative;
-		width: 31px;
-		height: 44px;
-		font-family: 'PT_Sans_Bold';
-		font-size: 29px;
-		line-height: 44px;
-
+		width: 27px;
+		height: 41px;
+		font-family: 'Oswald_Regular';
+		font-size: 30px;
+		line-height: 39px;
+		border: 1px solid #76c6eb;
+		
 		&:after {
 			@include number_pseudo;
-			right: -1px;
+			right: 0;
 		}
-
+		
 		&:before {
 			@include number_pseudo;
-			left: -1px;
+			left: 0;
 		}
 	}
-
+	
 	.line {
 		&:before {
 			@include transition(width 0.3s ease-in-out);
 			@include pseudo;
-			background-color: #5cd5f7;
+			background-color: #78c6eb;
 			bottom: 0;
-			height: 2px;
+			height: 1px;
 			left: 0;
 			margin: auto;
 			right: 0;
 			top: 0;
-			width: 29px;
+			width: 26px;
 		}
 	}
 
@@ -732,15 +832,14 @@ table tr {
 
 	.bottom {
 		display: table-row;
-		height: 130px;
+		height: 70px;
 		background-color: $darkblue;
 	}
 
 	.social {
 		@include border_boxed;
 		border-top: 1px solid $blackblue;
-		border-bottom: 1px solid $blackblue;
-		height: 72px;
+		height: 70px;
 		white-space: nowrap;
 		position: relative;
 	}
@@ -811,99 +910,6 @@ table tr {
 			content: '© 2014 Вимм-Билль-Данн' !important;
 			width: 129px;
 			height: 11px;
-		}
-	}
-
-	&.small {
-		.small_logo {
-			opacity: 1;
-		}
-
-		.logo {
-			width: 27px;
-			opacity: 0;
-		}
-
-		.glow {
-			width: 27px;
-			opacity: 0;
-		}
-
-		.counter {
-			opacity: 0;
-			cursor: default;
-		}
-
-		.count {
-			opacity: 0;
-		}
-
-		.counter_label {
-			opacity: 0;
-		}
-
-		.number {
-			width: 14px;
-		}
-
-		.line {
-			&:before {
-				width: 12px;
-			}
-		}
-
-		.counter_label {
-			letter-spacing: -7px;
-		}
-
-		.search_item {
-			&:before {
-				background-image: url('/img/user/core/search_small.png');
-				background-color: $blue;
-			}
-		}
-
-		#search_input {
-			width: 0;
-			opacity: 0;
-			padding: 0 10px;
-		}
-
-		.item {
-			width: 70px;
-			padding: 0 0 0 18px;
-
-			.label {
-				width: 2px;
-				letter-spacing: -8px;
-
-				&:before {
-					content: '\00a0'; /* &nbsp; */
-				}
-			}
-
-			&.adorable_table {
-				&:hover, &.active {
-					&:before {
-						background: url('/img/user/core/small_item_bg.png');
-					}
-				}
-			}
-		}
-
-		.social_block  {
-			width: 22px;
-		}
-
-		.small_social_block {
-			opacity: 1;
-		}
-
-		.copyright {
-			&:before {
-				content: '© 2014' !important;
-				width: 37px;
-			}
 		}
 	}
 }
