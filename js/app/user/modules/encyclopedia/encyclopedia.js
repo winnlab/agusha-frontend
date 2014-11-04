@@ -186,6 +186,45 @@ export default Controller.extend(
 
 		'.author_select change': function (el) {
 			this.data.attr('filter', el.val());
+		},
+
+		'.subscribeIt click': function () {
+			this.processingSubscribe('POST', {
+				text: 'Вы успешно подписались на тему.'
+			}, function () {
+				this.element.find('.subscribeIt').hide();
+				this.element.find('.unSubscribeIt').show();
+			});
+		},
+
+		'.unSubscribeIt click': function () {
+			this.processingSubscribe('DELETE', {
+				text: 'Вы успешно отписались от темы.',
+			}, function () {
+				this.element.find('.unSubscribeIt').hide();
+				this.element.find('.subscribeIt').show();
+			});
+		},
+
+		processingSubscribe: function (method, popUpObj, cb) {
+			var self = this;
+			can.ajax({
+				url: '/subscribe',
+				method: method,
+				data: {
+					theme_id: this.data.attr('theme')
+				}
+			}).done(function (data) {
+				appState.attr('popUp').show(popUpObj);
+				cb.call(self, data);
+			}).fail(this.reqFail);
+		},
+
+		reqFail: function (data) {
+			var err = data.responseJSON.err;
+			appState.attr('popUp').show({
+				text: typeof err == 'string' ? err : err.message,
+			});
 		}
 	}
 );
