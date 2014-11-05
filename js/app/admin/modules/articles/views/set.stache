@@ -55,13 +55,12 @@
             {{#if ageValue.length}}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Пока так...
+                    Темы статьи
                 </div>
                 <div class="panel-body">
                     {{#if themes.length}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label" for="theme">Тема статьи:</label>
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <select class="currentThemeSelect form-control" multiple>
                                     {{#sortedBy themes 'name'}}
                                         {{#arrOfObjectsContains article.age '_id' age_id false}}
