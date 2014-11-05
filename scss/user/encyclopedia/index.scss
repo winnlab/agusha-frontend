@@ -200,6 +200,16 @@ $ageFilterWidth: 160px;
 			position: relative;
 			cursor: pointer;
 
+			&:hover {
+				z-index: 10;
+				.title {
+					color: #fff;
+				}
+				.count {
+					color: #fff;
+				}
+			}
+
 			&:after {
 				@include pseudo;
 				width: 35px;
@@ -276,6 +286,11 @@ $ageFilterWidth: 160px;
 			}
 
 			/* -1 */ /* -4, -14, -24, ... */
+			&:hover:last-child, &:hover:nth-last-child(10n+4) {
+				.cover {
+					background: url('/img/user/encyclopedia/book_last_child_h.png') no-repeat;
+				}
+			}
 			&:last-child, &:nth-last-child(10n+4) {
 				height: 53px;
 				margin-left: 24px;
@@ -293,6 +308,11 @@ $ageFilterWidth: 160px;
 			}
 
 			/* -2, -7, -12, ... */ /* -3, -8, -13, ... */
+			&:hover:nth-last-child(5n+2), &:hover:nth-last-child(5n+3) {
+				.cover {
+					background: url('/img/user/encyclopedia/book_nth_last_child_5n_2_h.png') no-repeat;
+				}
+			}
 			&:nth-last-child(5n+2), &:nth-last-child(5n+3) {
 				margin-left: 34px;
 				height: 45px;
@@ -311,6 +331,11 @@ $ageFilterWidth: 160px;
 			}
 
 			/* -5, -10, -15, ... */ /* -9, -14, -19, ... */
+			&:hover:nth-last-child(5n+5), &:hover:nth-last-child(5n+9)  {
+				.cover {
+					background: url('/img/user/encyclopedia/book_nth_last_child_5n_5_h.png') no-repeat;
+				}
+			}
 			&:nth-last-child(5n+5), &:nth-last-child(5n+9)  {
 				margin-left: 24px;
 				height: 53px;
@@ -336,6 +361,11 @@ $ageFilterWidth: 160px;
 			}
 
 			/* -6, -11, -16, ... */
+			&:hover:nth-last-child(5n+6)  {
+				.cover {
+					background: url('/img/user/encyclopedia/book_nth_last_child_5n_2_h.png') no-repeat;
+				}
+			}
 			&:nth-last-child(5n+6)  {
 				margin-left: 24px;
 				height: 45px;

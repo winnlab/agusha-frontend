@@ -18,6 +18,7 @@ html
 			#center_container
 				#modules
 					block content
+				include footer
 
 			.right_menu.right_resizable
 		
@@ -31,9 +32,7 @@ html
 			include right_menu_small
 		
 		#right_menu.right_menu
-			include right_menu
-		
-		include footer
+			include right_menu		
 		
 		script(src="/js/plugins/steal/steal.js", config-path="/js/app/user/config.js", main="js/app/user/core/")
 		
