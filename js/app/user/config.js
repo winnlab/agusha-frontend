@@ -29,6 +29,8 @@ System.config({
 		'module/*': 'js/app/user/modules/*.js',
 		'baseModel': 'js/app/admin/lib/model/baseModel.js',
 		'like': 'js/app/user/lib/like/like.js',
+		'commentaries': 'js/app/user/lib/commentaries/commentaries.js',
+		'ratings': 'js/app/user/lib/commentaries/ratings.js',
 
 		'lodash': 'js/plugins/lodash/dist/lodash.js',
 

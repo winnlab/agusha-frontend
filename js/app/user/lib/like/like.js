@@ -13,6 +13,7 @@ export default can.Control.extend({
 
     '.like click': function (el, ev) {
         ev.preventDefault();
+        ev.stopPropagation();
 
         this.toggleLike(el, el.data('component'), el.data('component_id'), this.displayResponse);
     },
@@ -38,24 +39,18 @@ export default can.Control.extend({
 
         var authData = localStorage.getItem('isAuth');
 
-        if (authData && authData.data) {
+        if (model && docId && callback) {
 
-            var userId = authData.data._id;
-
-            if (model && docId && userId && callback) {
-
-                can.ajax({
-                    url: '/like/toggleLike',
-                    type: 'POST',
-                    data: {model: model, userId: userId, _id: docId},
-                    success: function (data) {
-                        callback(el, data);
-                    }
-                });
-            } else {
-                console.log('param is missing');
-            }
-
+            can.ajax({
+                url: '/like/toggleLike',
+                type: 'POST',
+                data: {model: model, _id: docId},
+                success: function (data) {
+                    callback(el, data);
+                }
+            });
+        } else {
+            console.log('param is missing');
         }
     }
 });
