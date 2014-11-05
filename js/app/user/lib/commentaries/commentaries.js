@@ -14,7 +14,7 @@ export default can.Control.extend({
     '.like click': function (el, ev) {
         ev.preventDefault();
 
-        this.toggleLike(el, el.data('component'), el.data('component_id'), this.displayResponse);
+        this.addCommentary(el, el.data('component'), el.data('component_id'), this.displayResponse);
     },
 
     displayResponse: function (el, data) {
