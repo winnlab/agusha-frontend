@@ -1,7 +1,19 @@
 import 'can/';
 import appState from 'core/appState';
 
-var getCurrentUser = function() {
+var getCurrentUser, getUserImage, User,
+	defaults;
+
+defaults = {
+	images: {
+		orig: '/img/user/helpers/stub/orig.png',
+		large: '/img/user/helpers/stub/large.png',
+		medium: '/img/user/helpers/stub/medium.png',
+		small: '/img/user/helpers/stub/small.png'
+	}
+};
+
+getCurrentUser = function() {
 	var obj = window.localStorage.getItem('isAuth');
 
 	try {
@@ -9,16 +21,25 @@ var getCurrentUser = function() {
 	} catch(err){
 		return false;
 	}
-}
+};
 
-var User = can.Map.extend({
+getUserImage = function(type) {
+	var user = this.attr('user');
+
+	if(!user.image || !user.image[type]) {
+		return defaults.images[type];
+	}
+
+	return '/img/uploads/'+user.image[type];
+};
+
+User = can.Map.extend({
 	init: function() {
 		this.initUser();
-
-		console.log('initUser',this.attr('user'));
 	},
 	user: null,
 	getCurrentUser: getCurrentUser,
+	getUserImage: getUserImage,
 	checkAuth: function(callback) {
 		var that = this;
 		can.ajax({
@@ -75,16 +96,9 @@ var User = can.Map.extend({
 					return null;
 				}
 
+				obj = obj.attr();
+
 				window.localStorage.setItem('isAuth', JSON.stringify(obj));
-
-				return obj;
-			},
-			get: function (obj) {
-				var luser = getCurrentUser();
-
-				if(luser) {
-					return luser;
-				}
 
 				return obj;
 			}
