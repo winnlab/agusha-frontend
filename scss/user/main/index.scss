@@ -17,6 +17,10 @@
 	}
 }
 
+#modules .main .content {
+	height: auto;
+}
+
 .module.main {
 	&:before {
 		@include pseudo;
@@ -27,6 +31,24 @@
 		width: 100%;
 		height: 100%;
 		z-index: 5;
+	}
+
+	.content {
+		display: block;
+		margin: 0 auto;
+		&.itemsWrap {
+			@include respond-to(small) {
+				width: 620px;
+			}
+
+			@include respond-to(medium) {
+				width: 920px;
+			}
+
+			@include respond-to(large) {
+				width: 1220px;
+			}
+		}
 	}
 
 	.whats_up {
@@ -117,7 +139,6 @@
 	}
 
 	.content {
-		@include inline_block;
 		text-align: left;
 		width: 920px;
 
