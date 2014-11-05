@@ -4,6 +4,9 @@ import Router from 'router'
 import config from 'rConfig'
 import helpers from 'helpers'
 import appState from 'core/appState'
+import RightMenu from 'lib/right_menu/'
+
+// console.log(RightMenu.init())
 
 var Core = can.Control.extend(
 	{
@@ -94,10 +97,32 @@ var Core = can.Control.extend(
 			this.requestAnimFrame();
 		},
 		
-		'#right_menu_small, #right_menu .close click': function(el) {
+		// '#right_menu_small, #right_menu .close click': function(el) {
+		// 	this.left_resizable.addClass('small');
+		// 	this.right_menu.toggleClass('active');
+			
+		// 	this.requestAnimFrame();
+		// },
+		
+		'#right_menu_small click': function(el) {
+			var user = appState.attr('user'),
+				isAuth = user.isAuth();
+
+			if (!isAuth) {
+				return;
+			}
+
 			this.left_resizable.addClass('small');
 			this.right_menu.toggleClass('active');
-			
+			this.requestAnimFrame();
+		},
+
+		'#right_menu .close click' : function(el) {
+			var user = appState.attr('user'),
+				isAuth = user.isAuth();
+
+			this.left_resizable.addClass('small');
+			this.right_menu.toggleClass('active');
 			this.requestAnimFrame();
 		},
 
