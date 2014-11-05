@@ -5,6 +5,7 @@ import config from 'rConfig'
 import helpers from 'helpers'
 import appState from 'core/appState'
 import Like from 'like'
+import Commentaries from 'commentaries'
 
 var Core = can.Control.extend(
 	{
@@ -145,3 +146,4 @@ window.core = new Core(document.body);
 window.router = new Router(document.body, config.router);
 
 new Like(document.body);
+new Commentaries(document.body);
