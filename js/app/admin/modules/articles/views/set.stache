@@ -260,6 +260,7 @@
                                     accept="image/*"
                                     multiple="true"
                                     sortable="true"
+                                    showurl="true"
                                     parentname="gallery"
                                 >
                                     Загрузить изображения

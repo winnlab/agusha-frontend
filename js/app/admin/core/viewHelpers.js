@@ -220,3 +220,8 @@ can.mustache.registerHelper('arrOfObjectsContains', function (array, property, v
 
 	return Boolean(result) ^ reverse ? options.fn() : false;
 });
+
+can.mustache.registerHelper('getURLRoot', function () {
+	var url = document.URL;
+	return url.split('/')[0] || url;
+});
