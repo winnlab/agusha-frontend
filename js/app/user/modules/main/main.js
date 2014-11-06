@@ -1,10 +1,11 @@
 import Controller from 'controller';
 import appState from 'core/appState';
+import LoginForm from 'js/app/user/modules/login/login'
 
 export default Controller.extend(
 	{
 		defaults: {
-
+			login: new LoginForm()
 		}
 	}, {
 		variables: function() {
