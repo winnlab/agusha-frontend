@@ -23,7 +23,7 @@ export default can.Control.extend({
         if (data && data.data) {
 
             var id = el.data('component_id');
-            var $counters = $(document).find('.count[data-component_id='+id+']');
+            var $counters = $(document).find('.count.like[data-component_id='+id+']');
 
             if ($counters.length > 0) {
                 var likesAmount = data.data.doc.likes.length;

@@ -1242,3 +1242,24 @@ table tr {
 		}
 	}
 }
+
+.comments {
+
+	.comments_container .item {
+		display: none;
+	}
+
+	.comments_container.allVisible .item {
+		display: block;
+	}
+
+	.comments_container .item:nth-last-child(-n+3) {
+		display: block;
+	}
+
+	.comments_all {
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

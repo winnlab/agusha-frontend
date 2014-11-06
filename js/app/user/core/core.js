@@ -28,8 +28,9 @@ var Core = can.Control.extend(
 			this.right_menu = this.element.find('.right_menu');
 			
 			this.start = null;
-			
-			this.profile_circle(0.75);
+
+			//this.profile_circle(0.75);
+
 			this.initBindings();
 			// this.profile_circle(0.75);
 			
@@ -168,19 +169,15 @@ var Core = can.Control.extend(
 		},
 
 		initBindings: function () {
-			console.log('init bindings');
-			console.log(appState);
-
-			appState.bind('change', function () {
-				console.info(arguments);
-			});
 
 			appState.attr('user').delegate('user', 'set', function (ev, newVal) {
-				console.info('delegate', arguments);
-			});
-
-			appState.attr('user').bind('change', function (ev, newVal) {
-				console.info('bind', arguments);
+				if (newVal && newVal._id) {
+					$(document).find('.comment_box').css('display', 'block');
+					$(document).find('.login_box').css('display', 'none');
+				} else {
+					$(document).find('.comment_box').css('display', 'none');
+					$(document).find('.login_box').css('display', 'block');
+				}
 			});
 		}
 	}
