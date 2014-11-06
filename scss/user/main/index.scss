@@ -5,7 +5,7 @@
 @import '../helpers/tabs';
 @import '../helpers/cards';
 
-@media all, (min-width: $min-width) and (max-width: $extend) {
+@media all and (min-width: $min-width) and (max-width: $extend) {
 	.module.main {
 		width: 920px;
 	}
@@ -17,8 +17,13 @@
 	}
 }
 
-#modules .main .content {
+#modules .main .content.itemsWrap {
 	height: auto;
+	&:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
 }
 
 .module.main {
@@ -91,8 +96,8 @@
 
 	.itemsWrap {
 		padding-top: 10px;
-		position: absolute;
-		top: 100%;
+		position: relative;
+		top: 0;
 	}
 }
 
