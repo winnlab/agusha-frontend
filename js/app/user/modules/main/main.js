@@ -5,7 +5,7 @@ import LoginForm from 'js/app/user/modules/login/login'
 export default Controller.extend(
 	{
 		defaults: {
-			login: new LoginForm()
+			
 		}
 	}, {
 		variables: function() {
@@ -24,6 +24,18 @@ export default Controller.extend(
 			user.delegate('isAuth', 'set', this.isAuth);
 		},
 
+		'.social .facebook click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/login/fb';
+		},
+		'.social .vkontakte click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/login/vk';
+		},
+		'.social .ok click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/login/ok';
+		},
 		isAuth: function (el, isAuth) {
 			var self = this;
 			if (isAuth) {
