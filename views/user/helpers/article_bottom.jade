@@ -93,6 +93,12 @@
 								img.comment(src="/img/user/article/comment.png")
 								span.count= (similarArticle ? similarArticle.counter.comment : '{{counter.comment}}')
 
+	- var commentVisibility = 'none'
+	- var loginVisibility = 'block'
+	if user && user._id
+		- commentVisibility = 'block'
+		- loginVisibility = 'none'
+
 	.comments
 		.comments_topper
 			.comments_title Коментарии
@@ -133,7 +139,8 @@
 									.number 19
 									img.minus(src='/img/user/article/minus.png', data-model="Article", data-component_id="#{article._id}", data-commentary_id="#{commentaryItem._id}")
 
-		.comment_box
+
+		.comment_box(style="display: #{commentVisibility}")
 			.comment_table
 				.image
 					.avatar.rounded
@@ -150,7 +157,7 @@
 								//img.clip(src="/img/user/article/clip.png")
 								//span.attach Прикрепить фото
 
-	.login_box
+	.login_box(style="display: #{loginVisibility}")
 		.info.column.double
 			.adorable_table
 				.adorable_cell

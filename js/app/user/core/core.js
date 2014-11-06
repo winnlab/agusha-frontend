@@ -26,6 +26,7 @@ var Core = can.Control.extend(
 			this.start = null;
 			
 			this.profile_circle(0.75);
+			this.initBindings();
 			
 			// #register_corner is no more
 			// appState.attr('user').delegate('isAuth', 'set', function (el, newVal) {
@@ -137,6 +138,23 @@ var Core = can.Control.extend(
 			if(phrase != '') {
 				router.new_module('search/' + phrase);
 			}
+		},
+
+		initBindings: function () {
+			console.log('init bindings');
+			console.log(appState);
+
+			appState.bind('change', function () {
+				console.info(arguments);
+			});
+
+			appState.attr('user').delegate('user', 'set', function (ev, newVal) {
+				console.info('delegate', arguments);
+			});
+
+			appState.attr('user').bind('change', function (ev, newVal) {
+				console.info('bind', arguments);
+			});
 		}
 	}
 );

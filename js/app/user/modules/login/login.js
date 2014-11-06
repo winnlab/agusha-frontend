@@ -59,7 +59,7 @@ export default Controller.extend(
 
 					user.attr('user', response.message.user);
 
-					can.route.attr({module: 'profile'});
+					//can.route.attr({module: 'profile'});
 				},
 				error: function () {
 					alert('Произошла ошибка. Пожалуйста, обратитесь к администратору');
