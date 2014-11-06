@@ -84,20 +84,24 @@
 	border-radius: 1px solid #000;
 	&.current:after {
 		position: absolute;
-		right: 0;
-		top: 0;
+		right: 3%;
+		top: -4%;
 		background: red;
-		width: 16px;
-		height: 16px;
+		width: 24px;
+		height: 24px;
+		text-align: center;
+		padding-top: 5px;
 		border-radius: 50%;
 		font-family: FontAwesome;
 		line-height: 1;
+		font-size: 16px;
 		content: "\f00c";
 	}
 }
 
 .af-image {
 	height: 80%;
+	border: 1px dotted black;
 	background: {
 		position: center;
 		repeat: no-repeat;
