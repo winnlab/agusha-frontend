@@ -5,6 +5,7 @@
 	.settings
 	.subToppper
 		.percentage= (user ? user.fillingProfile() : '0') + '%'
+		//- canvas#profile_circle(width="128", height="128")
 		.avatar
 			img.rounded(src=(user ? user.getImage('middle') : ''))
 		.name= (user ? user.name(): '')
