@@ -38,8 +38,13 @@ export default Edit.extend({
 			langs: appState.attr('langs')
 		});
 
-		if (!options.doc._id) {
-			options.doc.position = 0;
+		if (!options.doc.attr('_id')) {
+            can.ajax({
+                url: `/admin/article/maxpos`
+            }).always((response) => {
+                var pos = response.data && response.data.max || 0;
+                options.doc.attr('position', pos);
+            });
 		};
 
 		self.ensureObject(options.doc, 'age');
@@ -69,8 +74,8 @@ export default Edit.extend({
 		self.module.attr('themeValue', themeValue);
 
 		if (options.doc) {
-			if (options.doc._id) {
-				gallery = new GalleryModel.List({article_id: options.doc._id});
+			if (options.doc.attr('_id')) {
+				gallery = new GalleryModel.List({article_id: options.doc.attr('_id')});
 			}
 		}
 
@@ -193,7 +198,7 @@ export default Edit.extend({
 			options = self.options;
 
 		var doc = new GalleryModel({
-			article_id: options.doc._id,
+			article_id: options.doc.attr('_id'),
 		    name: self.module.attr('newGalleryName'),
 		    images: []
 		});
