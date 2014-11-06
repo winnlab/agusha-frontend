@@ -29,7 +29,7 @@ var Core = can.Control.extend(
 			
 			this.start = null;
 			
-			this.profile_circle(0.75);
+			// this.profile_circle(0.75);
 			this.initBindings();
 			// this.profile_circle(0.75);
 			
