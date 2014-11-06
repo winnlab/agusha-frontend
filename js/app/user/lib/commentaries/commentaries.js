@@ -63,7 +63,7 @@ export default can.Control.extend({
             if ($counters.length > 0) {
                 var commentariesAmount = data.data.doc.commentaries.length;
 
-                $counters.html(commentariesAmount);
+                $counters.html(' ' + commentariesAmount);
             }
         }
     },
