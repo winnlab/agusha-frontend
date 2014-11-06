@@ -1,0 +1,16 @@
+
+
+
+.top
+	- if (user && user.getImage('min'))
+		| #{JSON.stringify(user)}
+		img(src="/img/uploads/"+(user ? user.getImage('min') : ''))
+	- else
+		h1
+
+- if(user)
+	.message
+		.circle.rounded.adorable_table
+			.adorable_cell 0
+	
+

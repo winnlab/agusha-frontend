@@ -1,0 +1,11 @@
+
+.top
+	| {{#if user}}
+	img(src="{{getUserImage 'small'}}")
+	| {{/if}}
+
+| {{#if user}}
+.message
+	.circle.rounded.adorable_table
+		.adorable_cell 0
+| {{/if}}

@@ -4,7 +4,7 @@
 			.breadcrumbs
 				a(href='/') Главная
 				span &nbsp; / &nbsp;
-					a(href="/" can-value="user.profile.first_name")=user.profile.first_name
+					//- a(href="/" can-value="user.profile.first_name")=user.profile.first_name
 				span &nbsp; / &nbsp;
 					a(href="/profile/settings") Настройки
 			h1.titlePage Настройки профиля
@@ -30,11 +30,11 @@
 					.column.left
 						.inner
 							.input_row
-								input(placeholder="Имя" can-value='user.profile.first_name' value=user.profile.first_name).firstname
+								//- input(placeholder="Имя" can-value='user.profile.first_name' value=user.profile.first_name).firstname
 					.column.right
 						.inner
 							.input_row
-								input(placeholder="Фамилия" value=user.profile.last_name).lastname
+								//- input(placeholder="Фамилия" value=user.profile.last_name).lastname
 					.column.left
 						.inner
 							.input_row.birth_date
@@ -44,9 +44,9 @@
 					.column.right
 						.inner
 							.input_row
-								input(type="radio" id="female" name="gender" checked=(user.profile.gender == 1))
+								//- input(type="radio" id="female" name="gender" checked=(user.profile.gender == 1))
 								label(for="female") Женщина
-								input(type="radio" id="male" name="gender" checked=(user.profile.gender == 2))
+								//- input(type="radio" id="male" name="gender" checked=(user.profile.gender == 2))
 								label(for="male") Мужчина
 					.about
 						textarea(placeholder="Пара слов о себе").about_area
@@ -79,9 +79,9 @@
 							.input_row
 								.social_buttons.buttons.horizontal
 									//- | #{JSON.stringify(user.social)}
-									.button.fb(class=(user.social.fb.id ? 'active':''))
-									.button.vk(class=(user.social.vk.id ? 'active':''))
-									.button.ok(class=(user.social.ok.id ? 'active':''))
+									//- .button.fb(class=(user.social.fb.id ? 'active':''))
+									//- .button.vk(class=(user.social.vk.id ? 'active':''))
+									//- .button.ok(class=(user.social.ok.id ? 'active':''))
 
 			.profileHead.passwordHead
 				h3.inner_title Изменить пароль

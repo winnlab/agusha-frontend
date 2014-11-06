@@ -4,6 +4,10 @@ import Router from 'router'
 import config from 'rConfig'
 import helpers from 'helpers'
 import appState from 'core/appState'
+import RightMenu from 'lib/right_menu/'
+
+// console.log(RightMenu.init())
+
 import Like from 'like'
 import Commentaries from 'commentaries'
 
@@ -27,6 +31,7 @@ var Core = can.Control.extend(
 			
 			this.profile_circle(0.75);
 			this.initBindings();
+			// this.profile_circle(0.75);
 			
 			// #register_corner is no more
 			// appState.attr('user').delegate('isAuth', 'set', function (el, newVal) {
@@ -39,28 +44,28 @@ var Core = can.Control.extend(
 			// });
 		},
 		
-		profile_circle: function(percentage) {
-			var degreeInRad = Math.PI / 180;
-			var degrees = 360 * percentage;
+		// profile_circle: function(percentage) {
+		// 	var degreeInRad = Math.PI / 180;
+		// 	var degrees = 360 * percentage;
 			
-			var canvas = document.getElementById('profile_circle');
-			var context = canvas.getContext('2d');
-			var x = canvas.width / 2;
-			var y = canvas.height / 2;
-			var radius = 57;
-			var startRadian = 1.5 * Math.PI;
-			var endRadian = (degrees - 90 + 1) * degreeInRad;
-			var counterClockwise = false;
+		// 	var canvas = document.getElementById('profile_circle');
+		// 	var context = canvas.getContext('2d');
+		// 	var x = canvas.width / 2;
+		// 	var y = canvas.height / 2;
+		// 	var radius = 57;
+		// 	var startRadian = 1.5 * Math.PI;
+		// 	var endRadian = (degrees - 90 + 1) * degreeInRad;
+		// 	var counterClockwise = false;
 			
-			context.beginPath();
-			context.arc(x, y, radius, startRadian, endRadian, counterClockwise);
-			context.lineWidth = 14;
-			context.lineCap = 'round';
+		// 	context.beginPath();
+		// 	context.arc(x, y, radius, startRadian, endRadian, counterClockwise);
+		// 	context.lineWidth = 14;
+		// 	context.lineCap = 'round';
 			
-			// line color
-			context.strokeStyle = '#2483b3';
-			context.stroke();
-		},
+		// 	// line color
+		// 	context.strokeStyle = '#2483b3';
+		// 	context.stroke();
+		// },
 		
 		step: function(timestamp) {
 			var that = this;
@@ -118,10 +123,32 @@ var Core = can.Control.extend(
 			this.requestAnimFrame();
 		},
 		
-		'#right_menu_small, #right_menu .close click': function(el) {
+		// '#right_menu_small, #right_menu .close click': function(el) {
+		// 	this.left_resizable.addClass('small');
+		// 	this.right_menu.toggleClass('active');
+			
+		// 	this.requestAnimFrame();
+		// },
+		
+		'#right_menu_small click': function(el) {
+			var user = appState.attr('user'),
+				isAuth = user.isAuth();
+
+			if (!isAuth) {
+				return;
+			}
+
 			this.left_resizable.addClass('small');
 			this.right_menu.toggleClass('active');
-			
+			this.requestAnimFrame();
+		},
+
+		'#right_menu .close click' : function(el) {
+			var user = appState.attr('user'),
+				isAuth = user.isAuth();
+
+			this.left_resizable.addClass('small');
+			this.right_menu.toggleClass('active');
 			this.requestAnimFrame();
 		},
 

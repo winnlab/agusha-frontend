@@ -1,0 +1,33 @@
+
+
+
+//- span #{JSON.stringify(user.fillingProfile)}
+//- .percentage= '{{user.fillingProfile}}%'
+
+.avatar
+	| {{#if user}}
+	img.rounded(src="{{getUserImage 'medium'}}")
+	| {{/if}}
+
+//- .name {{user.fullName}}
+
+//- .children
+//- 	.child
+//- 		.image
+//- 			img.rounded(src="/img/avatar_100x100.jpg")
+		
+//- 		.desc
+//- 			.adorable_table
+//- 				.adorable_cell
+//- 					.child_name Катенька
+//- 					.child_age 6 мес.
+	
+//- 	.child
+//- 		.image
+//- 			img.rounded(src="/img/avatar_100x100.jpg")
+		
+//- 		.desc
+//- 			.adorable_table
+//- 				.adorable_cell
+//- 					.child_name Катенька
+//- 					.child_age 6 мес.
