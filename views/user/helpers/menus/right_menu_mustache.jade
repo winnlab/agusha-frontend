@@ -5,9 +5,9 @@
 //- .percentage= '{{user.fillingProfile}}%'
 
 .avatar
-	{{#if user}}
+	| {{#if user}}
 	img.rounded(src="{{getUserImage 'medium'}}")
-	{{/if}}
+	| {{/if}}
 
 //- .name {{user.fullName}}
 
