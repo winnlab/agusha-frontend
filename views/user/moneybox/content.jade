@@ -1,5 +1,8 @@
 .bg
 
+- var lvl = (user ? user.lvl() : 'Новичек')
+- var points = (user && user.points ? user.points : 0)
+
 .content
 	include ../helpers/breadcrumbs
 	
@@ -26,7 +29,7 @@
 					div Ваш
 					div уровень:
 				
-				.right Ученик
+				.right= lvl
 			
 			.big_image_container
 				.column.left
@@ -38,7 +41,7 @@
 						.adorable_cell
 							.text У вас
 							.count
-								- var points = [3, 6, 5]
+								- var points = user && user.points ? user.points.toString() : [0]
 								- each p, key in points
 									.number
 										.symbol #{p}
@@ -50,62 +53,26 @@
 			
 			.rating_container
 				.icons
-					.icon
-						img(src="/img/user/moneybox/novice.png")
-					
-					.icon
-						img(src="/img/user/moneybox/disciple.png")
-					
-					.icon
-						img(src="/img/user/moneybox/adept.png")
-					
-					.icon
-						img(src="/img/user/moneybox/expert.png")
-					
-					.icon
-						img(src="/img/user/moneybox/pro.png")
-				
+					- each l, i in lvls
+						- if (i < lvls.length - 1)
+							.icon
+								img(src="/img/user/moneybox/" + l.name + ( Number(points) + 200 > l.points ? '_achieve' : '' ) + ".png")
 				.bar
-					.icon.filled
-						.adorable_table
-							.adorable_cell
-								.label Новичек
-					
-					.icon
-						.adorable_table
-							.adorable_cell
-								.partial(style='width: 82.5%;')
-								.label Ученик
-					
-					.icon
-						.adorable_table
-							.adorable_cell
-								.label Знаток
-					
-					.icon
-						.adorable_table
-							.adorable_cell
-								.label Эксперт
-					
-					.icon
-						.adorable_table
-							.adorable_cell
-								.label Профи
-				
+					- each l, i in lvls
+						- if (i < lvls.length - 1)
+							div(class='icon ' + (Number(points) > l.points ? 'filled' : '' ))
+								.adorable_table
+									.adorable_cell
+										- var diff = 200 - (Number(l.points) - Number(points))
+										- if ( diff > 0 && diff < 200 )
+											.partial(style='width: ' + (diff / 200 * 100) + '%;')
+										.label= l.label
+
 			.labels_container
-				.star.novice.filled
-				.star.disciple.filled
-				.star.adept
-				.star.expert
-				.star.pro
-				.circle.last
-				
-				.label.novice 0
-				.label.disciple 200
-				.label.adept 400
-				.label.expert 600
-				.label.pro 800
-				.label.last 1000
+				- each l, i in lvls
+					div(class=l.name + ' ' + (i == lvls.length - 1 ? 'circle' : 'star') + ' ' + (Number(points) + 200 > l.points ? 'filled' : '' ))
+				- each l, i in lvls
+					div(class="label " + l.name)= (l.points - 200)
 			
 			.prizes_topper
 				.calendar
