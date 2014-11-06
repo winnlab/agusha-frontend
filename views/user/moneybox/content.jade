@@ -51,24 +51,26 @@
 					.adorable_table
 						.adorable_cell Как заработать больше баллов?
 			
-			.rating_container				
+			.rating_container
 				.icons
 					- each l, i in lvls
-						.icon
-							img(src="/img/user/moneybox/" + l.name + (points + 200 > l.points ? '_achieve' : '' ) + ".png")
+						- if (i < lvls.length - 1)
+							.icon
+								img(src="/img/user/moneybox/" + l.name + ( Number(points) + 200 > l.points ? '_achieve' : '' ) + ".png")
 				.bar
 					- each l, i in lvls
-						div(class='icon ' + (points + 200 > l.points ? 'filled' : '' ))
-							.adorable_table
-								.adorable_cell
-									- var diff = l.points - points
-									- if ( diff > 0 && diff < 200 )
-									.partial(style='width: ' + (diff / 200 * 100) + '%;')
-									.label= l.label
+						- if (i < lvls.length - 1)
+							div(class='icon ' + (Number(points) > l.points ? 'filled' : '' ))
+								.adorable_table
+									.adorable_cell
+										- var diff = 200 - (Number(l.points) - Number(points))
+										- if ( diff > 0 && diff < 200 )
+											.partial(style='width: ' + (diff / 200 * 100) + '%;')
+										.label= l.label
 
 			.labels_container
 				- each l, i in lvls
-					div(class=l.name + ' ' + (i == lvls.length - 1 ? 'circle' : 'star') + ' ' + (points + 200 > l.points ? 'filled' : '' ))
+					div(class=l.name + ' ' + (i == lvls.length - 1 ? 'circle' : 'star') + ' ' + (Number(points) + 200 > l.points ? 'filled' : '' ))
 				- each l, i in lvls
 					div(class="label " + l.name)= (l.points - 200)
 			
