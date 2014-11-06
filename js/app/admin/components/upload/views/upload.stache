@@ -32,6 +32,9 @@
 						<i class="fa fa-trash-o"></i>
 					</div>
 				{{/isDeleteBtn}}
+				{{#if showurl}}
+					<input class="col-md-12" type="text" value="{{getURLRoot}}/img/uploads/{{.}}" onClick="this.setSelectionRange(0, this.value.length)"/>
+				{{/if}}
 			</div>
 		{{/each}}
 	</div>

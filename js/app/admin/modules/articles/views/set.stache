@@ -31,8 +31,25 @@
             {{/if}}
 
             <div class="form-group">
+                <label class="col-md-2 control-label" for="position">Позиция на главной (чем больше, тем раньше):</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="number" can-value="article.position" placeholder="Позиция" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 checkbox">
-                    <label class="col-md-4">
+                    <label>
+                        <input type="checkbox" can-value="article.hasBigView" /> Большой вид на главной?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label>
                         <input type="checkbox" can-value="article.recommended" /> Рекомендована?
                     </label>
                     <div class="help help-block"></div>
@@ -55,13 +72,12 @@
             {{#if ageValue.length}}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Пока так...
+                    Темы статьи
                 </div>
                 <div class="panel-body">
                     {{#if themes.length}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label" for="theme">Тема статьи:</label>
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <select class="currentThemeSelect form-control" multiple>
                                     {{#sortedBy themes 'name'}}
                                         {{#arrOfObjectsContains article.age '_id' age_id false}}
@@ -244,6 +260,7 @@
                                     accept="image/*"
                                     multiple="true"
                                     sortable="true"
+                                    showurl="true"
                                     parentname="gallery"
                                 >
                                     Загрузить изображения

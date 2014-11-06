@@ -1,61 +1,87 @@
 'use strict';
 
 import can from 'can/';
+import Ratings from 'ratings';
+import commentaryView from 'js/app/user/lib/commentaries/views/commentary.mustache!'
 
 export default can.Control.extend({
     defaults: {
-
+        viewpath: ''
     }
 }, {
     init: function() {
 
     },
 
-    '.like click': function (el, ev) {
+    '.comment_form submit': function (el, ev) {
         ev.preventDefault();
+        var self = this;
 
-        this.addCommentary(el, el.data('component'), el.data('component_id'), this.displayResponse);
+        can.ajax({
+            url: '/commentaries/addCommentary',
+            type: 'POST',
+            data: can.deparam(el.serialize()),
+            success: function (data) {
+                self.displayResponse(el, data)
+            }
+        });
     },
 
     displayResponse: function (el, data) {
+        var self = this;
+
+        console.log(data);
 
         if (data && data.data) {
 
-            var id = el.data('component_id');
-            var $counters = $(document).find('.count[data-component_id='+id+']');
+            var id = data.data.doc._id;
+
+            var $commentsWrap = el.parents('.comments');
+            var $commentsList = $commentsWrap.find('.comments_container');
+
+            $commentsList.append(can.view(commentaryView, data.data, {
+
+                getDate: function(date) {
+                    var day = null,
+                        month = null;
+
+                    if (date) {
+                        var date = new Date(date);
+                        var monthNames = [ "янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек" ];
+
+                        day = date.getDate();
+                        month = monthNames[date.getMonth()];
+                    }
+
+                    return day + ' ' + month;
+                }
+            }));
+
+            console.log(el.find('textarea[name="content"]'));
+            el.find('textarea[name="content"]').val('');
+
+/*            var $counters = $(document).find('.count[data-component_id='+id+']');
 
             if ($counters.length > 0) {
                 var likesAmount = data.data.doc.likes.length;
 
                 $counters.html(likesAmount);
-            }
+            }*/
 
         }
     },
 
-    toggleLike: function (el, model, docId, callback) {
-        var self = this;
+    '.rating .plus click': function (el, ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
 
-        var authData = localStorage.getItem('isAuth');
+        Ratings.toggleRating(1, el.data('model'), el.data('component_id'), el.data('commentary_id'));
+    },
 
-        if (authData && authData.data) {
+    '.rating .minus click': function (el, ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
 
-            var userId = authData.data._id;
-
-            if (model && docId && userId && callback) {
-
-                can.ajax({
-                    url: '/like/toggleLike',
-                    type: 'POST',
-                    data: {model: model, userId: userId, _id: docId},
-                    success: function (data) {
-                        callback(el, data);
-                    }
-                });
-            } else {
-                console.log('param is missing');
-            }
-
-        }
+        Ratings.toggleRating(-1, el.data('model'), el.data('component_id'), el.data('commentary_id'));
     }
 });
