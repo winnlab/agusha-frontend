@@ -2,6 +2,7 @@ import Controller from 'controller';
 import select2 from 'select2';
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 import appState from 'core/appState';
+import Sub from 'lib/subscribe/';
 import 'custom-scrollbar';
 
 var Theme = can.Model.extend({
@@ -189,41 +190,16 @@ export default Controller.extend(
 		},
 
 		'.subscribeIt click': function () {
-			this.processingSubscribe('POST', {
-				text: 'Вы успешно подписались на тему.'
-			}, function () {
+			Sub.subscribe(this.data.attr('theme'), function () {
 				this.element.find('.subscribeIt').hide();
 				this.element.find('.unSubscribeIt').show();
 			});
 		},
 
 		'.unSubscribeIt click': function () {
-			this.processingSubscribe('DELETE', {
-				text: 'Вы успешно отписались от темы.',
-			}, function () {
+			Sub.unsubscribe(this.data.attr('theme'), function () {
 				this.element.find('.unSubscribeIt').hide();
 				this.element.find('.subscribeIt').show();
-			});
-		},
-
-		processingSubscribe: function (method, popUpObj, cb) {
-			var self = this;
-			can.ajax({
-				url: '/subscribe',
-				method: method,
-				data: {
-					theme_id: this.data.attr('theme')
-				}
-			}).done(function (data) {
-				appState.attr('popUp').show(popUpObj);
-				cb.call(self, data);
-			}).fail(this.reqFail);
-		},
-
-		reqFail: function (data) {
-			var err = data.responseJSON.err;
-			appState.attr('popUp').show({
-				text: typeof err == 'string' ? err : err.message,
 			});
 		}
 	}

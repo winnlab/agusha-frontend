@@ -1,3 +1,5 @@
+- var likesAmount = article.likes ? article.likes.length : 0;
+
 .bg(style=(article.image && article.image.background ? 'background-image: url("/img/uploads/#{article.image.background}");' : ''))
 
 .content
@@ -15,8 +17,9 @@
 			.column.feedback
 				.adorable_table
 					.adorable_cell
-						img.like(src="/img/user/article/heart.png")
-						span.count 8
+						img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+						span.count(data-component_id="#{article._id}")
+							| #{likesAmount}
 						span.approve
 							| мамочек
 							br
@@ -100,8 +103,9 @@
 			.footer
 				.adorable_table
 					.adorable_cell
-						img.like(src="/img/user/article/heart.png")
-						span.count 8
+						img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+						span.count(data-component_id="#{article._id}")
+							| #{likesAmount}
 						span.approve
 							| мамочек
 							br
@@ -200,8 +204,9 @@
 					.half.right
 						.adorable_table
 							.adorable_cell
-								img.like(src="/img/user/article/heart.png")
-								span.count  8 
+								img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+								span.count(data-component_id="#{article._id}")
+									| #{likesAmount}
 								span.slash / 
 								span.post_like Одобрить
 			

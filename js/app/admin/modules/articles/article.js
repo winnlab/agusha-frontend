@@ -38,6 +38,10 @@ export default Edit.extend({
 			langs: appState.attr('langs')
 		});
 
+		if (!options.doc._id) {
+			options.doc.position = 0;
+		};
+
 		self.ensureObject(options.doc, 'age');
 		self.ensureObject(options.doc, 'desc');
 		self.ensureObject(options.doc, 'theme');

@@ -37,7 +37,7 @@
 		//- else 
 		//- 	- articleType = 'author'
 
-		
+		- var likesAmount = similarArticle.likes ? similarArticle.likes.length : 0
 
 		- classname += (!similarArticle.image || !similarArticle.image.background ? ' no-image' : '')
 		- classname += similarArticle.is_quiz ? ' poll' : '';
@@ -85,8 +85,8 @@
 						
 					.counters.adorable_table
 						.adorable_cell
-							img.like(src="/img/user/article/heart.png")
-							span.count= (similarArticle ? similarArticle.counter.like : '{{counter.like}}')
+							img.like(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
+							span.count(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
 							span.approve
 								| мамочек
 								br

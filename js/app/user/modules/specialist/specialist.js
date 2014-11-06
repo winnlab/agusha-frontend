@@ -1,11 +1,10 @@
 import Controller from 'controller'
 import select2 from 'select2'
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
-import user from 'modules/user/';
 import appState from 'core/appState';
 
 var ViewModel = can.Map.extend({
-		isAuth: user.attr('isAuth'),
+		isAuth: appState.attr('user.isAuth'),
 		sort: 'asc',
 		filter: ''
 	});
@@ -100,7 +99,7 @@ export default Controller.extend(
 
 			this.select2();
 
-			user.delegate('isAuth', 'set', function (ev, newVal) {
+			appState.attr('user').delegate('isAuth', 'set', function (ev, newVal) {
 				that.data.attr('isAuth', newVal)
 			});
 		},
