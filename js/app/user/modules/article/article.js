@@ -67,6 +67,8 @@ export default Controller.extend(
             var $pollResults = $pollAnsweredWrapper.find('.pollResults');
             var $plz = $pollAnsweredWrapper.find('.plz');
 
+			console.log(data);
+
             $('.options_container.pollResults').html(
                 can.view(self.options.viewpath + 'pollResults.stache', {
                 	article: data.data
