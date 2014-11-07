@@ -76,6 +76,10 @@ table tr {
 	&.active {
 		width: 230px;
 	}
+
+	.logout {
+		cursor: pointer;
+	}
 }
 
 #right_menu_small {

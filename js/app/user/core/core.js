@@ -68,7 +68,10 @@ var Core = can.Control.extend(
 		// 	context.strokeStyle = '#2483b3';
 		// 	context.stroke();
 		// },
-
+		'.logout click': function() {
+			this.hide_right_menu()
+			RightMenu.data.logout()
+		},
 		step: function(timestamp) {
 			var that = this;
 
