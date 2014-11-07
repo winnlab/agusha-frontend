@@ -84,8 +84,8 @@ export default List.extend(
                 filter = {};
 
             if (data) {
-                filter['age.age_id'] = data.attr('age');
-                filter['theme.theme_id'] = data.attr('theme');
+                filter['age._id'] = data.attr('age');
+                filter['theme._id'] = data.attr('theme');
                 filter['type.name'] = data.attr('type');
             }
 
