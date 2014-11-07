@@ -41,8 +41,9 @@
 					.item_table
 						.avatar_column
 							.avatar
-								img.rounded(src="/img/avatar_100x100.jpg")
-						
+								img.rounded(src="/img/user/specialist/doc_mini.jpg")
+
+
 						.content_column
 							.info
 								.name Ирина Потапенко
@@ -76,7 +77,7 @@
 						.item_table
 							.avatar_column
 								.avatar.medical_cap
-									img.rounded(src="/img/avatar_100x100.jpg")
+									img.rounded(src="/img/user/specialist/doc_mini.jpg")
 							
 							.content_column
 								.info
@@ -93,7 +94,7 @@
 				.adorable_table
 					.adorable_cell
 						img.like(src="/img/user/article/heart.png", data-component_id="#{consultation._id}", data-component="Consultation")
-						span.count(data-component_id="#{consultation._id}")
+						span.count.like(data-component_id="#{consultation._id}")
 							| #{likesAmount}
 						span.slash / 
 						span.post_like Одобрить
@@ -105,7 +106,7 @@
 						.label На вопрос отвечает
 						
 						.avatar
-							img.rounded(src="/img/avatar_100x100.jpg")
+							img.rounded(src="/img/user/specialist/doc_mini.jpg")
 						
 						.author_name
 							div Матвиенко
