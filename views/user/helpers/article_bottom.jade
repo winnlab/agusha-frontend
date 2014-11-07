@@ -47,23 +47,23 @@
 			- classname += similarArticle.is_quiz ? ' poll' : '';
 
 			- classname += ' ' + articleType
+
 			a(class="new_module card #{classname}" href="/article/" + similarArticle._id)
 				.inner(style=( similarArticle && similarArticle.image && similarArticle.image['S'] ? "background-image: url(/img/uploads/" + similarArticle.image['S'] + ");" : ''))
-					.topper
+					.topper.bg
 						.topper_label
 							.adorable_table
 								.adorable_cell= similarArticle.theme[0].name
-
 						.topper_title= similarArticle.title
 						.topper_text= similarArticle.desc.shorttext
 
-					if similarArticle.is_quiz
-						.topper_approve
-							span.count.commentariesCount(data-component_id="#{similarArticle._id}")
-								| #{commentariesAmount}
-							span.approve
-								div мамочек
-								div ответили
+						if similarArticle.is_quiz
+							.topper_approve
+								span.count.commentariesCount(data-component_id="#{similarArticle._id}")
+									| #{commentariesAmount}
+								span.approve
+									div мамочек
+									div ответили
 
 					if similarArticle.is_quiz
 						.button_content.gold

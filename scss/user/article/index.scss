@@ -10,7 +10,41 @@
 	text-align: center;
 	width: 100%;
 
-	.bg {
+	.card {
+		&.redaction, &.poll {
+			.topper.bg:after {
+				position: absolute;
+				content: "";
+				bottom: -13px;
+				left: 0;
+				width: 100%;
+				height: 13px;
+				background: url("/img/user/helpers/cards/topper_after_bg.png") no-repeat;
+			}
+		}
+
+		&.redaction {
+			.footer .counters {
+				background-color: #2da7e0;
+			}
+		}
+		&.redaction, &.poll {
+			.inner {
+				background-color: #ffffff;
+			}
+		}
+		.topper {
+			background: white;
+		}
+		.topper_text {
+			display: none;
+		}
+		&:hover .topper_text {
+			display: block;
+		}
+	}
+
+	> .bg {
 		position: absolute;
 		width: 100%;
 		height: 100%;
