@@ -41,6 +41,8 @@ export default List.extend({
         self.module.attr('doFilter', new can.Map({exec: self.doFilter.bind(self)})
         );
 
+        this.module.attr('filterTheme', null);
+
         self.module.attr('ages', new can.List);
         self.module.attr('themes', new can.List);
         self.module.attr('types', new can.List);
@@ -87,11 +89,76 @@ export default List.extend({
             filter = {};
 
         if (data) {
-            filter['age.age_id'] = data.attr('age');
-            filter['theme.theme_id'] = data.attr('theme');
+            filter['age._id'] = data.attr('age');
+            filter['theme._id'] = data.attr('theme');
             filter['type.name'] = data.attr('type');
+
+            this.module.attr('filterTheme', data.attr('theme'));
+        } else {
+            this.module.attr('filterTheme', null);
         }
 
         this.module.attr(this.options.moduleName, new this.options.Model.List(filter));
+    },
+
+    '.changePosArticle click': function (el) {
+        var posModule = new can.Map,
+            self = this,
+            currentPos, hasBigView, html;
+
+        posModule.attr('article', self.getDocHandle(el));
+
+        if (self.module.attr('filterTheme') != null) {
+            var filtered = posModule.attr('article.theme').filter(function (item, index) {
+                var result = self.module.attr('filterTheme') == item._id;
+                if (result) {
+                    posModule.attr('themeIndex', index);
+                    posModule.attr('themeName', item.name);
+                }
+                return result;
+            });
+
+            if (filtered[0]) {
+                currentPos = filtered[0].attr('position');
+                hasBigView = filtered[0].attr('hasBigView');
+            } else {
+                currentPos = 0;
+                hasBigView = false;
+            }
+        } else {
+            currentPos = posModule.attr('article.position');
+            hasBigView = posModule.attr('article.hasBigView');
+        }
+
+        posModule.attr('position', currentPos);
+        posModule.attr('hasBigView', hasBigView);
+
+        self.posModule = posModule;
+        html = can.view(self.options.viewpath + 'popover.stache', self.posModule);
+
+        self.element.append(html);
+    },
+
+    '.savePosition click': function (el) {
+        var wrap = el.closest('.articlePopover'),
+            index = this.posModule.attr('themeIndex'),
+            newPos = this.posModule.attr('position'),
+            hasBigView = this.posModule.attr('hasBigView');
+        
+        if (index) {
+            this.posModule.attr(`article.theme.${index}.position`, newPos);
+            this.posModule.attr(`article.theme.${index}.hasBigView`, hasBigView);
+        } else {
+            this.posModule.attr('article.position', newPos);
+            this.posModule.attr('article.hasBigView', hasBigView);
+        }
+
+        this.posModule.attr('article').save();
+
+        wrap.remove();
+    },
+
+    '.cancelPosition click': function (el) {
+        el.closest('.articlePopover').remove();
     }
 });
