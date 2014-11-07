@@ -1,13 +1,17 @@
 import can from 'can/';
 import appState from 'core/appState'
 
-var RightMenu = can.Map.extend({
-	init: function() {
+var RightMenu = can.Control.extend({
+	init: function(el) {
 		var user = appState.attr('user');
 		this.data = user;
 
 		this.initRight();
 		this.initRightSmall();
+	},
+	'.settings click': function(el, ev) {
+		ev.stopPropagation()
+		can.route.attr({module: 'profile'})
 	},
 	initRight: function () {
 		var html;
@@ -16,7 +20,7 @@ var RightMenu = can.Map.extend({
 
 		can.view.mustache('RightMenu', html);
 
-		$('#right_menu .subToppper').html(can.view('RightMenu', this.data));
+		$('#right_menu').html(can.view('RightMenu', this.data));
 
 	},
 	initRightSmall: function() {
@@ -26,10 +30,10 @@ var RightMenu = can.Map.extend({
 
 		can.view.mustache('RightMenuSmall', html_small);
 
-		$('#right_menu_small .topper .subTopper').html(can.view('RightMenuSmall', this.data))
+		$('#right_menu_small').html(can.view('RightMenuSmall', this.data))
 	}
 });
 
-var InstanceMenu = new RightMenu();
+var InstanceMenu = new RightMenu('#right_menu');
 
 export default InstanceMenu
