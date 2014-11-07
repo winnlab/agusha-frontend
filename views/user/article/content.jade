@@ -11,7 +11,7 @@
 	
 	.title
 		.label.adorable_table
-			.adorable_cell 
+			.adorable_cell
 				| #{article.title}
 		
 		.middle
@@ -29,12 +29,12 @@
 						img.comment(src="/img/user/article/comment.png")
 						span.count.commentariesCount(data-component_id="#{article._id}")
 							| #{commentariesAmount}
-			
-			.column
-				.adorable_table
-					.adorable_cell
-						.rounded.avatar
-							img.rounded(src='/img/avatar_100x100.jpg')
+
+			//.column
+			//	.adorable_table
+			//		.adorable_cell
+			//			.rounded.avatar
+			//				img.rounded(src='/img/avatar_100x100.jpg')
 						
 			
 			.column.social
@@ -54,10 +54,10 @@
 						
 						.social_button
 							.g-plusone(data-size="medium")
-		
-		.bottom
-			.top_label Ирина Потапенко
-			.bottom_label Детки: мальчик и девочка
+
+		//.bottom
+		//	.top_label Ирина Потапенко
+		//	.bottom_label Детки: мальчик и девочка
 	
 	if article.is_quiz
 
@@ -220,7 +220,7 @@
 						.title Появился вопрос?
 						.subtitle Задай его специалисту!
 						.avatar
-							img.rounded(src='/img/avatar_100x100.jpg')
+							img.rounded(src='/img/user/specialist/doc_mini.jpg')
 						.name Ирина Матвиенко
 						.info Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем здорового ребенка и преморбидных состояний.
 						button.ask_button Задать вопрос
