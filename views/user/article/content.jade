@@ -1,4 +1,5 @@
 - var likesAmount = article.likes ? article.likes.length : 0;
+- var commentariesAmount = article.commentaries ? article.commentaries.length : 0;
 
 .bg(style=(article.image && article.image.background ? 'background-image: url("/img/uploads/#{article.image.background}");' : ''))
 
@@ -18,7 +19,7 @@
 				.adorable_table
 					.adorable_cell
 						img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
-						span.count(data-component_id="#{article._id}")
+						span.count.like(data-component_id="#{article._id}")
 							| #{likesAmount}
 						span.approve
 							| мамочек
@@ -26,7 +27,8 @@
 							| одобряют
 						
 						img.comment(src="/img/user/article/comment.png")
-						span.count 37
+						span.count.commentariesCount(data-component_id="#{article._id}")
+							| #{commentariesAmount}
 			
 			.column
 				.adorable_table
@@ -104,7 +106,7 @@
 				.adorable_table
 					.adorable_cell
 						img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
-						span.count(data-component_id="#{article._id}")
+						span.count.like(data-component_id="#{article._id}")
 							| #{likesAmount}
 						span.approve
 							| мамочек
@@ -112,7 +114,8 @@
 							| одобряют
 						
 						img.comment(src="/img/user/article/comment.png")
-						span.count 37
+						span.count.commentariesCount(data-component_id="#{article._id}")
+							| #{commentariesAmount}
 
 		.poll_container.answered
 			.center
@@ -197,7 +200,8 @@
 						.adorable_table
 							.adorable_cell
 								img.comment(src="/img/user/article/comment.png")
-								span.count 37 
+								span.count.commentariesCount(data-component_id="#{article._id}")
+									| #{commentariesAmount}
 								span.slash / 
 								span.post_comment Комментировать
 								
@@ -205,7 +209,7 @@
 						.adorable_table
 							.adorable_cell
 								img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
-								span.count(data-component_id="#{article._id}")
+								span.count.like(data-component_id="#{article._id}")
 									| #{likesAmount}
 								span.slash / 
 								span.post_like Одобрить

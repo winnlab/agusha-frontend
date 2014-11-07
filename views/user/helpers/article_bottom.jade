@@ -30,6 +30,7 @@
 			//- 		.adorable_cell 396 мам одобряют
 
 			- var likesAmount = similarArticle.likes ? similarArticle.likes.length : 0
+			- var commentariesAmount = similarArticle.commentaries ? similarArticle.commentaries.length : 0
 
 			- var classname = ''
 			- var articleType = ''
@@ -58,7 +59,8 @@
 
 					if similarArticle.is_quiz
 						.topper_approve
-							span.count= (similarArticle ? similarArticle.answer.length : '{{answer.length}}')
+							span.count.commentariesCount(data-component_id="#{similarArticle._id}")
+								| #{commentariesAmount}
 							span.approve
 								div мамочек
 								div ответили
@@ -84,14 +86,15 @@
 						.counters.adorable_table
 							.adorable_cell
 								img.like(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
-								span.count(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
+								span.count.like(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
 								span.approve
 									| мамочек
 									br
 									| одобряют
 
 								img.comment(src="/img/user/article/comment.png")
-								span.count= (similarArticle ? similarArticle.counter.comment : '{{counter.comment}}')
+								span.count.commentariesCount(data-component_id="#{similarArticle._id}")
+									| #{commentariesAmount}
 
 	- var commentVisibility = 'none'
 	- var loginVisibility = 'block'
@@ -102,7 +105,10 @@
 	.comments
 		.comments_topper
 			.comments_title Коментарии
-			.comments_all Все 12
+			.comments_all.all Все
+				span.commentariesCount(data-component_id="#{article._id}")
+					|  #{commentariesAmount}
+			.comments_all.hide(style="display: none;") Скрыть
 
 		.comments_container
 
@@ -114,6 +120,8 @@
 					- var day = date.getDate();
 					- var monthNames = [ "янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек" ];
 					- var month = monthNames[date.getMonth()]
+
+					- var commentaryRating = commentaryItem.scoreInc - commentaryItem.scoreDec
 
 					.item
 						.comment_table
@@ -136,7 +144,8 @@
 							.rating
 								div
 									img.plus(src='/img/user/article/plus.png', data-model="Article", data-component_id="#{article._id}", data-commentary_id="#{commentaryItem._id}")
-									.number 19
+									.number
+										| #{commentaryRating}
 									img.minus(src='/img/user/article/minus.png', data-model="Article", data-component_id="#{article._id}", data-commentary_id="#{commentaryItem._id}")
 
 

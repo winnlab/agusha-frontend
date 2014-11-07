@@ -4,7 +4,7 @@ import can from 'can/';
 
 export default {
 
-    toggleRating: function (ratingValue, model, component_id, commentary_id) {
+    toggleRating: function (el, ratingValue, model, component_id, commentary_id, callback) {
 
         if (model && component_id && commentary_id) {
 
@@ -18,7 +18,7 @@ export default {
                     ratingValue: ratingValue
                 },
                 success: function (data) {
-                    console.log(data);
+                    callback(el, data);
                 }
             });
 

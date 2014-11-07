@@ -8,13 +8,13 @@
 	width: 920px;
 	text-align: left;
 	color: $grey;
-	
+
 	.bg {
 		@include absolute_horizontal_centered;
 		width: 100%;
 		height: 210px;
 		top: 0;
-		
+
 		&:before {
 			@include pseudo;
 			@include absolute_horizontal_centered;
@@ -26,35 +26,35 @@
 			z-index: 5;
 		}
 	}
-	
+
 	.topper_title {
 		color: $blue;
 		height: 80px;
 	}
-	
+
 	.tab_contents {
 		margin-top: 50px;
 		padding: 0 10px 20px;
 		overflow: hidden;
 	}
-	
+
 	.tab_content {
 		display: none;
-		
+
 		&.active {
 			display: block;
 		}
-		
+
 		&.my_moneybox {
 			.level {
 				height: 79px;
-				
+
 				.left {
 					padding-top: 7px;
 					float: left;
 					font-family: 'PT_Sans_Italic';
 				}
-				
+
 				.right {
 					float: right;
 					font-size: 55px;
@@ -64,14 +64,14 @@
 					font-family: 'PT_Sans_Narrow_Bold';
 				}
 			}
-			
+
 			.big_image_container {
 				height: 214px;
-				
+
 				.column {
 					height: 194px;
 				}
-				
+
 				.left, .right {
 					.adorable_cell {
 						text-align: left;
@@ -79,16 +79,16 @@
 						text-decoration: underline;
 					}
 				}
-				
+
 				.center {
 					background: url('/img/user/moneybox/moneybox.png') center no-repeat;
-					
+
 					.text {
 						font-size: 22px;
 						font-family: 'PT_Sans_Narrow_Bold';
 						color: #996666;
 					}
-					
+
 					.number {
 						@include inline_block;
 						height: 61px;
@@ -100,77 +100,79 @@
 						width: 40px;
 					}
 				}
-				
+
 				.adorable_cell {
 					padding: 0 50px;
 				}
 			}
-			
+
 			.rating_container {
 				margin-top: 30px;
 				padding: 0 14px;
 			}
-			
+
 			.icons {
 				height: 100px;
 			}
-			
+
 			.icon {
 				@include inline_block;
 				width: 168px;
 				position: relative;
 				height: 100%;
-				
+
 				&:last-child {
 					width: 182px;
 				}
-				
+
 				&:first-child {
 					width: 182px;
 				}
-				
+
 				&:not(:last-child) {
 					border-right: 1px solid transparent;
 				}
-				
+
 				img {
 					@include absolute_horizontal_centered;
 					bottom: 14px;
 				}
 			}
-			
+
 			.bar {
 				height: 37px;
 				color: $white;
 				text-transform: uppercase;
 				font-family: 'PT_Sans_Bold';
-				
+
 				.icon {
 					background: url('/img/user/moneybox/grey_bar.png') repeat-x;
-					
+
 					&:first-child {
 						border-top-left-radius: 9999em;
 						border-bottom-left-radius: 9999em;
+						overflow: hidden;
 					}
-					
+
 					&:last-child {
 						border-top-right-radius: 9999em;
 						border-bottom-right-radius: 9999em;
+						overflow: hidden;
 					}
-					
+
 					&:not(:last-child) {
 						border-right: 1px solid #909599;
 					}
-					
+
 					&.filled {
 						background: url('/img/user/moneybox/blue_bar.png') repeat-x;
-						
+
 						&:not(:last-child) {
 							border-right: 1px solid #3e9cc8;
 						}
 					}
 				}
-				
+
 				.partial {
 					position: absolute;
 					height: 100%;
@@ -178,17 +180,17 @@
 					top: 0;
 					left: 0;
 				}
-				
+
 				.label {
 					position: relative;
 				}
 			}
-			
+
 			.labels_container {
 				height: 57px;
 				margin: 0 10px;
 				position: relative;
-				
+
 				.star {
 					position: absolute;
 					width: 10px;
@@ -196,32 +198,32 @@
 					background: url('/img/user/moneybox/star_icon.png') no-repeat;
 					background-position: -10px 0;
 					top: 12px;
-					
+
 					&.filled {
 						background-position: 0 0;
 					}
-					
+
 					&.novice {
 						left: 12px;
 					}
-					
+
 					&.disciple {
 						left: 182px;
 					}
-					
+
 					&.adept {
 						left: 351px;
 					}
-					
+
 					&.expert {
 						left: 520px;
 					}
-					
+
 					&.pro {
 						left: 688px;
 					}
 				}
-				
+
 				.circle {
 					position: absolute;
 					width: 7px;
@@ -230,45 +232,45 @@
 					background-position: -7px 0;
 					top: 13px;
 					right: 16px;
-					
+
 					&.filled {
 						background-position: 0 0;
 					}
 				}
-				
+
 				.label {
 					position: absolute;
 					top: 31px;
-					
+
 					&.novice {
 						left: 13px;
 					}
-					
+
 					&.disciple {
 						left: 176px;
 					}
-					
+
 					&.adept {
 						left: 344px;
 					}
-					
+
 					&.expert {
 						left: 514px;
 					}
-					
+
 					&.pro {
 						left: 682px;
 					}
-					
+
 					&.last {
 						right: 5px;
 					}
 				}
 			}
-			
+
 			.prizes_topper {
 				margin: 59px 10px 0;
-				
+
 				.title {
 					font-size: 55px;
 					line-height: 55px;
@@ -279,7 +281,7 @@
 					height: 68px;
 				}
 			}
-			
+
 			.calendar {
 				float: left;
 				width: 70px;
@@ -288,14 +290,14 @@
 				font-family: 'PT_Sans_Bold';
 				text-transform: uppercase;
 				margin-right: 30px;
-				
+
 				.topper {
 					height: 21px;
 					background: url('/img/user/moneybox/calendar_topper.png') repeat-x;
 					font-size: 12px;
 					color: $white;
 				}
-				
+
 				.number {
 					background: url('/img/user/moneybox/number_bg.png') top no-repeat;
 					background-color: $white;
@@ -305,92 +307,94 @@
 					color: $titlegrey;
 				}
 			}
-			
+
 			.closest {
 				@include border_boxed;
 				height: 107px;
 				font-family: 'PT_Sans_Italic';
 				padding: 18px 0 0;
 			}
-			
+
 			.you_participate {
 				font-size: 24px;
 				font-family: 'PT_Sans_Narrow_Bold';
-				
+
 				.left {
 					color: $titlegrey;
 					text-transform: uppercase;
-					
+
 					.adorable_cell {
 						text-align: left;
 					}
 				}
-				
+
 				.right {
 					color: #b2b2b2;
-					
+
 					.adorable_cell {
 						text-align: right;
-						
+
 						> * {
 							vertical-align: middle;
 						}
 					}
-					
+
 					.left_arrow {
 						margin-right: 25px;
 						cursor: pointer;
+						width: 18px;
 					}
-					
+
 					.right_arrow {
 						margin-left: 25px;
 						cursor: pointer;
+						width: 18px;
 					}
 				}
 			}
-			
+
 			.cards_container {
 				height: 360px;
 				clear: both;
-				
+
 				.column {
 					height: 100%;
 				}
 			}
-			
+
 			.your_level {
 				font-size: 12px;
 				font-family: 'PT_Sans_Italic';
 				color: #b5b0ad;
 			}
-			
+
 			.level_title {
 				font-family: 'PT_Sans_Bold';
 				color: $titlegrey;
 				text-transform: uppercase;
 				font-size: 16px;
 			}
-			
+
 			.level_img {
 				margin: 29px 0 18px;
 			}
-			
+
 			.level_prize {
 				font-size: 12px;
 				font-family: 'PT_Sans_Italic';
 				color: #b5b0ad;
 			}
-			
+
 			.prize_name {
 				font-size: 18px;
 				font-family: 'PT_Sans_Bold';
 			}
-			
+
 			.moneybox_card {
 				background: url('/img/user/moneybox/moneybox_card_bg.png') top no-repeat;
 				position: relative;
 			}
-			
+
 			.card_images {
 				@include border_boxed;
 				@include border_radius(22px);
@@ -401,23 +405,23 @@
 				width: 100%;
 				border: 3px solid $white;
 				background-color: $white;
-				
+
 				.img_container {
 					wisth: 100%;
 					height: 100%;
 				}
-				
+
 				img {
 					@include border_radius(19px);
 					max-width: 100%;
 					max-height: 100%;
 					display: none;
-					
+
 					&.active {
 						display: block;
 					}
 				}
-				
+
 				.bottom {
 					position: absolute;
 					width: 100%;
@@ -428,7 +432,7 @@
 					border-bottom-left-radius: 19px;
 					border-bottom-right-radius: 19px;
 				}
-				
+
 				.arrow {
 					position: absolute;
 					width: 18px;
@@ -439,23 +443,23 @@
 					bottom: 0;
 					cursor: pointer;
 					z-index: 1;
-					
+
 					&.left {
 						left: 12px;
 					}
-					
+
 					&.right {
 						background-position: -18px 0;
 						right: 12px;
 					}
 				}
-				
+
 				.circles {
 					@include absolute_centered;
 					height: 7px;
 					text-align: center;
 				}
-				
+
 				.circle {
 					@include inline_block;
 					width: 7px;
@@ -463,19 +467,19 @@
 					background: url('/img/user/moneybox/last_icon.png') no-repeat;
 					margin: 0 5px;
 					background-position: -7px 0;
-					
+
 					&.active {
 						background-position: 0 0;
 					}
 				}
 			}
-			
+
 			.all_prizes {
 				height: 57px;
 				margin-top: 70px;
 				text-align: center;
 				position: relative;
-				
+
 				&:before {
 					@include pseudo;
 					@include absolute_centered;
@@ -484,7 +488,7 @@
 					width: 10000px;
 					left: -5000px;
 				}
-				
+
 				button {
 					@include border_boxed;
 					background-color: $bg;
@@ -494,105 +498,105 @@
 					border: 1px solid #ccbfb8;
 					padding: 0 52px;
 					position: relative;
-					
+
 					&:hover {
 						opacity: 1;
 					}
 				}
 			}
-			
+
 			.table_container {
 				clear: both;
 				padding: 20px 10px 80px;
-				
+
 				table {
 					margin-top: 0px;
 					font-size: 14px;
 				}
-				
+
 				tr {
 					&.old {
 						background-color: #cec1b9;
 						color: $white;
 						border-bottom: 1px solid #f2efed;
-						
+
 						th {
 							&.total {
 								color: $white;
 							}
 						}
 					}
-					
+
 					&.bottom {
 						background-color: #e5dfda;
-						
+
 						.date {
 							width: 710px;
 							padding: 0 39px;
 						}
-						
+
 						.total {
 							width: 71px;
 							padding: 0;
 							color: #73777a;
 						}
-						
+
 						.number {
 							width: 99px;
 							font-size: 20px;
 						}
 					}
 				}
-				
+
 				th {
 					&.date {
 						font-size: 16px;
 						font-family: 'PT_Sans_Bold';
 						text-transform: uppercase;
 					}
-					
+
 					&.total {
 						color: #7fd4ff;
 						font-family: 'PT_Sans_Italic';
-						
+
 						span, img {
 							vertical-align: middle;
 						}
-						
+
 						img {
 							margin-left: 7px;
 						}
 					}
-					
+
 					&.number {
 						font-size: 16px;
 					}
 				}
-				
+
 				td {
 					height: 70px;
 				}
-				
+
 				.date {
 					@include border_boxed;
 					width: 127px;
 					padding: 0 0 0 39px;
 				}
-				
+
 				.time {
 					width: 134px;
 				}
-				
+
 				.label {
 					@include border_boxed;
 					width: 476px;
 					padding: 0 39px 0 0;
 				}
-				
+
 				.total {
 					width: 81px;
 				}
-				
+
 				.number {
 					@include border_boxed;
 					width: 62px;
@@ -602,7 +606,7 @@
 				}
 			}
 		}
-		
+
 		&.how_it_works {
 			.simple {
 				font-size: 55px;
@@ -612,18 +616,18 @@
 				text-transform: uppercase;
 				color: #ccbfb8;
 			}
-			
+
 			.desc {
 				font-size: 18px;
 				font-family: 'PT_Sans_Italic';
 				margin-top: 35px;
 				text-align: center;
 			}
-			
+
 			.steps {
 				margin-top: 140px;
 				position: relative;
-				
+
 				&:before {
 					@include pseudo;
 					@include absolute_centered;
@@ -632,12 +636,12 @@
 					width: 423px;
 					height: 1731px;
 				}
-				
+
 				.column {
 					height: 100%;
 				}
 			}
-			
+
 			.step_title {
 				font-size: 55px;
 				line-height: 55px;
@@ -645,19 +649,19 @@
 				color: $blue;
 				text-transform: uppercase;
 			}
-			
+
 			.step_subtitle {
 				margin-top: 25px;
 				font-size: 18px;
 				font-family: 'PT_Sans_Italic';
 				line-height: 25px;
 			}
-			
+
 			.step_desc {
 				margin-top: 25px;
 				line-height: 25px;
 			}
-			
+
 			.step_button {
 				@include box_shadow(0 0 1px #d5d0cb);
 				background-color: transparent;
@@ -667,96 +671,96 @@
 				padding: 7px 19px;
 				text-transform: none;
 				margin-top: 35px;
-				
+
 				&.rules_button {
 					margin-top: 12px;
 				}
 			}
-			
+
 			.step_1 {
 				height: 328px;
-				
+
 				.double_img {
 					position: absolute;
 					left: 140px;
 					top: 0;
 				}
 			}
-			
+
 			.step_2 {
 				height: 364px;
 				margin-top: 150px;
-				
+
 				.double_img {
 					position: absolute;
 					left: 46px;
 					top: 0;
 				}
 			}
-			
+
 			.step_3 {
 				height: 365px;
 				margin-top: 150px;
-				
+
 				.double_img {
 					position: absolute;
 					left: 140px;
 					top: 0;
 				}
 			}
-			
+
 			.step_4 {
 				height: 372px;
 				margin-top: 150px;
-				
+
 				.double_img {
 					position: absolute;
 					left: 83px;
 					top: 0;
 				}
 			}
-			
+
 			.up {
 				margin-top: 141px;
 				text-align: center;
 				margin-bottom: 80px;
 				position: relative;
 			}
-			
+
 			.up_button {
 				background-color: $lightblue;
 				color: $white;
 				padding: 10px 57px;
-				
+
 				&:hover {
 					opacity: 1;
 				}
 			}
 		}
 	}
-	
+
 	.tab_block {
 		@include transition(margin 0.3s ease-in-out);
 		position: relative;
 		background: $white;
 		margin: 1px 0;
-		
+
 		&.active {
 			margin: 20px 0;
-			
+
 			.title {
 				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
-				
+
 				&:before {
 					bottom: -17px;
 				}
 			}
-			
+
 			.text {
 				display: block;
 			}
 		}
-		
+
 		.title {
 			@include border_boxed;
 			@include box_shadow(0 0 0 0 rgba(0, 0, 0, 0.22));
@@ -768,17 +772,17 @@
 			color: #4c4c4c;
 			cursor: pointer;
 			position: relative;
-			
+
 			&:hover {
 				.adorable_table {
 					background-color: #fafafa;
 				}
-				
+
 				&:before {
 					background-position: -46px 0;
 				}
 			}
-			
+
 			&:before {
 				@include pseudo;
 				@include transition(bottom 0.3s ease-in-out);
@@ -788,40 +792,40 @@
 				height: 17px;
 				background: url('/img/user/help/title_arrow.png') no-repeat;
 			}
-			
+
 			.adorable_table {
 				background-color: $white;
 				z-index: 1;
 			}
-			
+
 			.adorable_cell {
 				padding: 0 70px;
 				text-align: left;
 			}
 		}
-		
+
 		.text {
 			padding: 30px 70px 45px;
-			
+
 			a {
 				color: #2ca7e0;
 			}
 		}
 	}
-	
+
 	table {
 		margin-top: 35px;
-		
+
 		.action {
 			@include border_boxed;
 			width: 321px;
 			padding: 0 111px 0 30px;
 		}
-		
+
 		.points {
 			width: 234px;
 		}
-		
+
 		.grey {
 			color: #b2b2b2;
 			font-family: 'PT_Sans_Italic';
