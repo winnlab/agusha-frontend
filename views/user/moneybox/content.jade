@@ -257,7 +257,7 @@
 								- if (!user)
 									- return '0 дней'
 								- var diffYears = now.diff(moment(user.activated_at), 'years');
-								- var diffMonths = now.diff(moment().startOf('year'), 'months');
+								- var diffMonths = now.diff(moment(user.activated_at), 'months') % 12;
 								- var diffDays = now.diff(moment().startOf('month'), 'days');
 								- var localeData = moment.localeData();
 								- var result = '';
