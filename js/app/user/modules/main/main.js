@@ -5,7 +5,7 @@ import LoginForm from 'js/app/user/modules/login/login'
 export default Controller.extend(
 	{
 		defaults: {
-			
+
 		}
 	}, {
 		variables: function() {
@@ -19,9 +19,9 @@ export default Controller.extend(
 		after_init: function(data) {
 			var user = appState.attr('user')
 
-			this.isAuth(user, user.attr('isAuth'));
+			this.isAuth(user, user.attr('user'));
 
-			user.delegate('isAuth', 'set', this.isAuth);
+			user.delegate('user', 'set', this.isAuth);
 		},
 
 		'.social .facebook click': function(el, ev) {

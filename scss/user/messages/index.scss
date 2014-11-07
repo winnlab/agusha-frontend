@@ -6,12 +6,12 @@
 .module.messages {
 	text-align: center;
 	width: 100%;
-
+	
 	.bg {
 		position: absolute;
 		width: 100%;
 		height: 100%;
-
+		
 		&:before {
 			@include pseudo;
 			width: 100%;
@@ -22,7 +22,7 @@
 			background: url('/img/user/messages/topper_bg.jpg') no-repeat center top;
 		}
 	}
-
+	
 	.content {
 		@include inline_block;
 		text-align: left;

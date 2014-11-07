@@ -132,6 +132,21 @@ input {
 		margin: 0px;
 		// display: inline-block;
 		// width: 360px;
+		
+		&.middle {
+			margin: 0 auto;
+			@include gridle(6);
+
+			// input {
+			// 	width: 100%;
+			// }
+
+			.inner {
+				@include gridle(5);
+				padding: 0px;
+				margin: 0 74px;
+			}			
+		}
 
 		&.right {
 		// 	// float: left;
@@ -139,6 +154,9 @@ input {
 			.inner {
 				// float: left;
 				margin-right: 74px;
+				margin-right: 74px;
+				display: block;
+				float: right;
 			}
 		}
 
@@ -426,7 +444,7 @@ input {
 				margin-bottom: 20px;
 
 				textarea {
-					width: 740px;
+					width: 720px;
 					height: 115px;
 					float: left;
 					// margin: 0 auto;
@@ -438,6 +456,13 @@ input {
 			.password, .newPassword {
 				width: 260px;
 				border-radius: 5px 0px 0px 5px;
+			}
+
+			.middle input {
+				@include gridle(6);
+				width: 660px;
+				margin: 0 auto;
+				float: none;
 			}
 
 			.switcher {

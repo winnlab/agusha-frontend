@@ -2,7 +2,7 @@ import 'can/';
 import appState from 'core/appState';
 
 var getCurrentUser, getUserImage, User,
-	defaults;
+	defaults, fullName, logout;
 
 defaults = {
 	images: {
@@ -12,6 +12,19 @@ defaults = {
 		small: '/img/user/helpers/stub/small.png'
 	}
 };
+
+logout = function () {
+	var that = this;
+
+	can.ajax({
+		url: '/profile/logout',
+		success: function() {
+			localStorage.removeItem('isAuth');
+			that.attr('user', null);
+			can.route.attr({module: ''});
+		}
+	});
+}
 
 getCurrentUser = function() {
 	var obj = window.localStorage.getItem('isAuth');
@@ -33,6 +46,25 @@ getUserImage = function(type) {
 	return '/img/uploads/'+user.image[type];
 };
 
+fullName = function	() {
+	var fname, lname, user;
+
+	if(!(user = this.attr('user'))) {
+		console.log(this.user);
+		console.log(this.attr('user'));
+		return false;
+	}
+
+	if(user.profile) {
+		fname = user.profile.first_name || '';
+		lname = user.profile.last_name || '';
+
+		return ''+fname + ' ' + lname;
+	}
+
+	return '';
+}
+
 User = can.Map.extend({
 	init: function() {
 		this.initUser();
@@ -40,6 +72,8 @@ User = can.Map.extend({
 	user: null,
 	getCurrentUser: getCurrentUser,
 	getUserImage: getUserImage,
+	fullName: fullName,
+	logout: logout,
 	checkAuth: function(callback) {
 		var that = this;
 		can.ajax({
@@ -74,6 +108,11 @@ User = can.Map.extend({
 		});
 	},
 	define: {
+		// fullName: {
+		// 	get: function() {
+
+		// 	}
+		// },
 		isAuth: {
 			get: function() {
 				if(!this.attr('user')) {

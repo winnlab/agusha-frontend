@@ -13,6 +13,10 @@ $ageFilterWidth: 160px;
 	text-align: left;
 	width: 100%;
 
+	.mCSB_inside > .mCSB_container {
+		margin-right: 9px;
+	}
+
 	.filter {
 		@include position(fixed, 0 null null null);
 		width: $ageFilterWidth;
@@ -148,7 +152,7 @@ $ageFilterWidth: 160px;
 			right: -17px;
 			background: url('/img/user/encyclopedia/close.png');
 			cursor: pointer;
-			z-index: 2;
+			z-index: 15;
 		}
 
 		.filterContent {
@@ -188,6 +192,15 @@ $ageFilterWidth: 160px;
 			width: 100%;
 			overflow: hidden;
 			padding-bottom: 20px;
+
+			&:after {
+				content: '';
+				display: block;
+				background: url('/img/user/encyclopedia/bookShelf.png');
+				width: 465px;
+				height: 106px;
+				margin: 0 auto;
+			}
 		}
 
 		.book {
