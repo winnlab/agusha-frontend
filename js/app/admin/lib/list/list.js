@@ -224,7 +224,7 @@ export default can.Control.extend({
 
 	'{remove} click': function (el) {
 		var options = this.options,
-			doc = el.parents(options.parentData).data(options.moduleName);
+			doc = el.clolest(options.parentData).data(options.moduleName);
 
 		swal({
 			title: options.deleteMsgTitle,
@@ -272,7 +272,7 @@ export default can.Control.extend({
 
     getDocHandle: function (el) {
     	return el
-    		.parents(this.options.parentData)
+    		.closest(this.options.parentData)
             .data(this.options.moduleName);
     },
 
