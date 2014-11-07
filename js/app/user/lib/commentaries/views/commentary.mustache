@@ -1,0 +1,30 @@
+<div class="item">
+    <div class="comment_table">
+        <div class="icon"><img src="/img/user/article/comment_icon.png"></div>
+        <div class="image">
+            <div class="avatar rounded">
+                {{#if addData.client.image}}
+                    <img src="/img/uploads/{{addData.client.image}}" class="rounded">
+                {{else}}
+                    <img src="/img/avatar_100x100.jpg" class="rounded">
+                {{/if}}
+            </div>
+        </div>
+        <div class="text">
+            <div class="time">{{getDate addData.commentaryDate}}.</div>
+            <div class="name">{{addData.client.profile.first_name}}</div>
+            <div>{{addData.content}}</div>
+        </div>
+        <div class="rating">
+            <div>
+                <img class="plus" src="/img/user/article/plus.png" alt="" data-model="{{addData.model}}"
+                     data-component_id="{{doc._id}}" data-commentary_id="{{addData.commentaryId}}"/>
+
+                <div class="number">0</div>
+
+                <img class="minus" src="/img/user/article/minus.png" alt="" data-model="{{addData.model}}"
+                     data-component_id="{{doc._id}}" data-commentary_id="{{addData.commentaryId}}"/>
+            </div>
+        </div>
+    </div>
+</div>

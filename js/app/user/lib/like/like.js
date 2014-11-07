@@ -13,6 +13,7 @@ export default can.Control.extend({
 
     '.like click': function (el, ev) {
         ev.preventDefault();
+        ev.stopPropagation();
 
         this.toggleLike(el, el.data('component'), el.data('component_id'), this.displayResponse);
     },
@@ -22,7 +23,7 @@ export default can.Control.extend({
         if (data && data.data) {
 
             var id = el.data('component_id');
-            var $counters = $(document).find('.count[data-component_id='+id+']');
+            var $counters = $(document).find('.count.like[data-component_id='+id+']');
 
             if ($counters.length > 0) {
                 var likesAmount = data.data.doc.likes.length;
@@ -38,26 +39,18 @@ export default can.Control.extend({
 
         var authData = localStorage.getItem('isAuth');
 
-        if (/*authData && authData.data*/ true) {
+        if (model && docId && callback) {
 
-            /*            var userId = authData.data._id;*/
-
-            var userId = '54563d70b73d83ef44da53f1';
-
-            if (model && docId && userId && callback) {
-
-                can.ajax({
-                    url: '/like/toggleLike',
-                    type: 'POST',
-                    data: {model: model, userId: userId, _id: docId},
-                    success: function (data) {
-                        callback(el, data);
-                    }
-                });
-            } else {
-                console.log('param is missing');
-            }
-
+            can.ajax({
+                url: '/like/toggleLike',
+                type: 'POST',
+                data: {model: model, _id: docId},
+                success: function (data) {
+                    callback(el, data);
+                }
+            });
+        } else {
+            console.log('param is missing');
         }
     }
 });

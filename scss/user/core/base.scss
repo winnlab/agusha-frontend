@@ -188,7 +188,7 @@ table tr {
 			width: 10px;
 			display: none;
 		}
-		
+
 		&.active {
 			&:before {
 				display: block;
@@ -222,7 +222,7 @@ table tr {
 		right: 189px;
 		font-size: 10px;
 	}
-	
+
 	#profile_circle {
 		width: 128px;
 		height: 128px;
@@ -450,7 +450,7 @@ table tr {
 	background-color: $blue;
 	color: $white;
 	z-index: 11;
-	
+
 	&.small {
 		.small_logo {
 			opacity: 1;
@@ -616,13 +616,13 @@ table tr {
 		white-space: nowrap;
 		opacity: 1;
 	}
-	
+
 	.count {
 		@include transition(opacity 0.3s ease-in-out);
 		text-align: center;
 		opacity: 1;
 	}
-	
+
 	.number {
 		@include border_boxed;
 		@include border_radius(1px);
@@ -635,18 +635,18 @@ table tr {
 		font-size: 30px;
 		line-height: 39px;
 		border: 1px solid #76c6eb;
-		
+
 		&:after {
 			@include number_pseudo;
 			right: 0;
 		}
-		
+
 		&:before {
 			@include number_pseudo;
 			left: 0;
 		}
 	}
-	
+
 	.line {
 		&:before {
 			@include transition(width 0.3s ease-in-out);
@@ -1129,4 +1129,141 @@ table tr {
 
 .clearfix {
 	@include clearfix;
+}
+
+
+#footer {
+
+	.footer {
+		width: 100%;
+		height: 210px;
+		border-top: 1px solid $brown;
+		color: $brownfont;
+		background-color: #efebe9;
+
+		.content {
+			display: inline-block;
+			vertical-align: top;
+			text-align: left;
+			height: auto;
+
+			@media only screen and (max-width: 1180px) {
+				width: 580px;
+			}
+
+			@media only screen and (min-width: 1180px) {
+				width: 900px;
+			}
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.top {
+			padding-bottom: 20px;
+			line-height: 25px;
+		}
+
+		.bottom {
+			border-top: 1px solid $brown;
+			height: 58px;
+			position: relative;
+		}
+
+		.copyright {
+			height: 100%;
+			color: $darkbrown;
+			text-transform: uppercase;
+
+			.content {
+				height: 100%;
+			}
+		}
+
+		.left {
+			width: 280px;
+			margin-right: 20px;
+			float: left;
+			padding-top: 25px;
+		}
+
+		.right {
+			width: 280px;
+			float: left;
+			padding-top: 25px;
+		}
+
+		.last {
+			float: left;
+			margin-left: 20px;
+			width: 280px;
+			padding-top: 25px;
+			clear: none;
+			@media only screen and (max-width: 1180px) {
+				clear: both;
+				width: 100%;
+				margin-left: 0;
+			}
+		}
+
+		.last_left {
+			width: 280px;
+			float: left;
+			margin-right: 20px;
+		}
+
+		.last_right {
+			width: 280px;
+			float: left;
+		}
+
+		.c_2014 {
+			width: 180px;
+			height: 100%;
+			float: left;
+			font-size: 12px;
+
+			.adorable_cell {
+				text-align: left;
+			}
+		}
+
+		.use_link {
+			width: 400px;
+			height: 100%;
+			float: right;
+			font-size: 10px;
+
+			.adorable_cell {
+				text-align: right;
+				padding-right: 100px;
+			}
+		}
+	}
+}
+
+.comments {
+
+	.comments_container .item {
+		display: none;
+	}
+
+	.comments_container.allVisible .item {
+		display: block;
+	}
+
+	.comments_container .item:nth-last-child(-n+3) {
+		display: block;
+	}
+
+	.comments_all {
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
+
+.hidden {
+	display: none;
 }

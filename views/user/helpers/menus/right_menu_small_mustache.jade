@@ -1,0 +1,36 @@
+
+
+
+.topper
+	.subTopper
+		.top
+			| {{#if user}}
+			img(src="{{getUserImage 'small'}}")
+			| {{/if}}
+
+		| {{#if user}}
+		.message
+			.circle.rounded.adorable_table
+				.adorable_cell 0
+		| {{/if}}
+.points
+	.you_have
+		div У ВАС
+		| {{#if user.points}}
+		div {{user.points}} б.
+		| {{else}}
+		div 0 б.
+		| {{/if}}
+
+	
+	.moneybox
+		img(src="/img/user/core/moneybox.png")
+	
+	.for_gifts
+		div на
+		div подарки
+	
+
+
+
+

@@ -74,6 +74,19 @@ export default Controller.extend(
 
 			$('#registration').html(can.view('reg', this.data));
 		},
+
+		'.social .facebook click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/registration/fb';
+		},
+		'.social .vkontakte click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/registration/vk';
+		},
+		'.social .ok click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/registration/ok';
+		},
 		
 		'.registration_form .done click': function(el, ev) {
 			var user,

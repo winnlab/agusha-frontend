@@ -31,11 +31,6 @@ export default Controller.extend(
 		
 		after_init: function(data) {
 			var id = this.id.split('-')[1];
-			Model.findOne({_id: id})
-				.done(function(data){
-					console.log(data);
-				})
-				.fail(function(data){});
 
 			this.carousel();
 		},
@@ -71,6 +66,8 @@ export default Controller.extend(
             var $pollAnsweredWrapper = $('.poll_container.answered');
             var $pollResults = $pollAnsweredWrapper.find('.pollResults');
             var $plz = $pollAnsweredWrapper.find('.plz');
+
+			console.log(data);
 
             $('.options_container.pollResults').html(
                 can.view(self.options.viewpath + 'pollResults.stache', {

@@ -1,7 +1,19 @@
 import 'can/';
 import appState from 'core/appState';
 
-var getCurrentUser = function() {
+var getCurrentUser, getUserImage, User,
+	defaults, fullName;
+
+defaults = {
+	images: {
+		orig: '/img/user/helpers/stub/orig.png',
+		large: '/img/user/helpers/stub/large.png',
+		medium: '/img/user/helpers/stub/medium.png',
+		small: '/img/user/helpers/stub/small.png'
+	}
+};
+
+getCurrentUser = function() {
 	var obj = window.localStorage.getItem('isAuth');
 
 	try {
@@ -9,16 +21,45 @@ var getCurrentUser = function() {
 	} catch(err){
 		return false;
 	}
+};
+
+getUserImage = function(type) {
+	var user = this.attr('user');
+
+	if(!user.image || !user.image[type]) {
+		return defaults.images[type];
+	}
+
+	return '/img/uploads/'+user.image[type];
+};
+
+fullName = function	() {
+	var fname, lname, user;
+
+	if(!(user = this.attr('user'))) {
+		console.log(this.user);
+		console.log(this.attr('user'));
+		return false;
+	}
+
+	if(user.profile) {
+		fname = user.profile.first_name || '';
+		lname = user.profile.last_name || '';
+
+		return ''+fname + ' ' + lname;
+	}
+
+	return '';
 }
 
-var User = can.Map.extend({
+User = can.Map.extend({
 	init: function() {
 		this.initUser();
-
-		console.log('initUser',this.attr('user'));
 	},
 	user: null,
 	getCurrentUser: getCurrentUser,
+	getUserImage: getUserImage,
+	fullName: fullName,
 	checkAuth: function(callback) {
 		var that = this;
 		can.ajax({
@@ -53,6 +94,11 @@ var User = can.Map.extend({
 		});
 	},
 	define: {
+		// fullName: {
+		// 	get: function() {
+
+		// 	}
+		// },
 		isAuth: {
 			get: function() {
 				if(!this.attr('user')) {
@@ -75,16 +121,9 @@ var User = can.Map.extend({
 					return null;
 				}
 
+				obj = obj.attr();
+
 				window.localStorage.setItem('isAuth', JSON.stringify(obj));
-
-				return obj;
-			},
-			get: function (obj) {
-				var luser = getCurrentUser();
-
-				if(luser) {
-					return luser;
-				}
 
 				return obj;
 			}

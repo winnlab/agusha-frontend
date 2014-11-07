@@ -1,0 +1,60 @@
+
+//- h1= moment()
+
+.topper.module_tab.module_tab_profile
+	.close
+	.settings
+	.subToppper
+		.percentage= (user ? user.fillingProfile() : '0') + '%'
+		//- canvas#profile_circle(width="128", height="128")
+		.avatar
+			img.rounded(src=(user ? user.getImage('middle') : ''))
+		.name= (user ? user.name(): '')
+
+	
+.buttons
+	a.item.adorable_table.messages.module_tab.module_tab_messages.new_module(href="/messages")
+		.icon
+		.label
+	
+	a.item.adorable_table.subscribes.module_tab.module_tab_subscriptions.new_module(href="/subscriptions")
+		.icon
+		.label
+	
+	a.item.adorable_table.moneybox.module_tab.module_tab_moneybox.new_module(href="/moneybox")
+		.icon
+		.label
+	
+	a.item.adorable_table.help.module_tab.module_tab_help.new_module(href="/help")
+		.icon
+		.label
+
+//- mixin topper (user)
+//- 	//- span #{JSON.stringify(user.fillingProfile)}
+//- 	.percentage= (user.fillingProfile? user.fillingProfile() : '{{user.fillingProfile}}') + '%'
+	
+//- 	.avatar
+//- 		img.rounded(src="/img/avatar_100x100.jpg")
+	
+//- 	.name= (user.name? user.name():'{{user.fullName}}')
+	
+//- 	//- .children
+//- 	//- 	.child
+//- 	//- 		.image
+//- 	//- 			img.rounded(src="/img/avatar_100x100.jpg")
+			
+//- 	//- 		.desc
+//- 	//- 			.adorable_table
+//- 	//- 				.adorable_cell
+//- 	//- 					.child_name Катенька
+//- 	//- 					.child_age 6 мес.
+		
+//- 	//- 	.child
+//- 	//- 		.image
+//- 	//- 			img.rounded(src="/img/avatar_100x100.jpg")
+			
+//- 	//- 		.desc
+//- 	//- 			.adorable_table
+//- 	//- 				.adorable_cell
+//- 	//- 					.child_name Катенька
+//- 	//- 					.child_age 6 мес.

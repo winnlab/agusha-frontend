@@ -30,6 +30,7 @@
 			//- 		.adorable_cell 396 мам одобряют
 
 			- var likesAmount = similarArticle.likes ? similarArticle.likes.length : 0
+			- var commentariesAmount = similarArticle.commentaries ? similarArticle.commentaries.length : 0
 
 			- var classname = ''
 			- var articleType = ''
@@ -58,7 +59,8 @@
 
 					if similarArticle.is_quiz
 						.topper_approve
-							span.count= (similarArticle ? similarArticle.answer.length : '{{answer.length}}')
+							span.count.commentariesCount(data-component_id="#{similarArticle._id}")
+								| #{commentariesAmount}
 							span.approve
 								div мамочек
 								div ответили
@@ -84,71 +86,87 @@
 						.counters.adorable_table
 							.adorable_cell
 								img.like(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
-								span.count(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
+								span.count.like(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
 								span.approve
 									| мамочек
 									br
 									| одобряют
 
 								img.comment(src="/img/user/article/comment.png")
-								span.count= (similarArticle ? similarArticle.counter.comment : '{{counter.comment}}')
+								span.count.commentariesCount(data-component_id="#{similarArticle._id}")
+									| #{commentariesAmount}
+
+	- var commentVisibility = 'none'
+	- var loginVisibility = 'block'
+	if user && user._id
+		- commentVisibility = 'block'
+		- loginVisibility = 'none'
 
 	.comments
 		.comments_topper
 			.comments_title Коментарии
-			.comments_all Все 12
+			.comments_all.all Все
+				span.commentariesCount(data-component_id="#{article._id}")
+					|  #{commentariesAmount}
+			.comments_all.hide(style="display: none;") Скрыть
 
 		.comments_container
-			.item
-				.comment_table
-					.icon
-						img(src='/img/user/article/comment_icon.png')
-					.image
-						.avatar.rounded
-							img.rounded(src='/img/avatar_100x100.jpg')
-					.text
-						.time 15 сен.
-						.name Ирина
-						div У меня столько друзей и родственников, рожденных в апреле, и ни одного правильно не назвали.
-					.rating
-						div
-							img.plus(src='/img/user/article/plus.png')
-							.number 19
-							img.minus(src='/img/user/article/minus.png')
 
-			.item
-				.comment_table
-					.icon
-						img(src='/img/user/article/comment_icon.png')
-					.image
-						.avatar.rounded
-							img.rounded(src='/img/avatar_100x100.jpg')
-					.text
-						.time 15 сен.
-						.name Ирина
-						div У меня столько друзей и родственников, рожденных в апреле, и ни одного правильно не назвали. У меня столько друзей и родственников, рожденных в апреле, и ни одного правильно не назвали. У меня столько друзей и родственников, рожденных в апреле, и ни одного правильно не назвали. У меня столько друзей и родственников, рожденных в апреле, и ни одного правильно не назвали. У меня столько друзей и родственников, рожденных в апреле, и ни одного правильно не назвали.
-					.rating
-						div
-							img.plus(src='/img/user/article/plus.png')
-							.number 19
-							img.minus(src='/img/user/article/minus.png')
+			if article.commentaries
 
-	.comment_box
-		.comment_table
-			.image
-				.avatar.rounded
-					img.rounded(src='/img/avatar_100x100.jpg')
+				- each commentaryItem, commentaryKey in article.commentaries
 
-			.form_container
-				form.comment_form
-					textarea(name="text", placeholder="А что Вы думаете по этому поводу?")
-					.bottom.adorable_table
-						.adorable_cell
-							button.comment_button Высказаться
-							img.clip(src="/img/user/article/clip.png")
-							span.attach Прикрепить фото
+					- var date = new Date(commentaryItem.date);
+					- var day = date.getDate();
+					- var monthNames = [ "янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек" ];
+					- var month = monthNames[date.getMonth()]
 
-	.login_box
+					- var commentaryRating = commentaryItem.scoreInc - commentaryItem.scoreDec
+
+					.item
+						.comment_table
+							.icon
+								img(src='/img/user/article/comment_icon.png')
+							.image
+								.avatar.rounded
+									- var avatarPath = "/img/avatar_100x100.jpg"
+									if commentaryItem.client && commentaryItem.client.profile && commentaryItem.client.profile.image
+										- avatarPath = "/img/uploads/#{commentaryItem.client.profile.image}"
+									img.rounded(src=avatarPath)
+							.text
+								.time
+									| #{day} #{month}.
+								if commentaryItem.client && commentaryItem.client.profile && commentaryItem.client.profile.first_name
+									.name #{commentaryItem.client.profile.first_name}
+								div
+									| #{commentaryItem.content}
+
+							.rating
+								div
+									img.plus(src='/img/user/article/plus.png', data-model="Article", data-component_id="#{article._id}", data-commentary_id="#{commentaryItem._id}")
+									.number
+										| #{commentaryRating}
+									img.minus(src='/img/user/article/minus.png', data-model="Article", data-component_id="#{article._id}", data-commentary_id="#{commentaryItem._id}")
+
+
+		.comment_box(style="display: #{commentVisibility}")
+			.comment_table
+				.image
+					.avatar.rounded
+						img.rounded(src='/img/avatar_100x100.jpg')
+
+				.form_container
+					form.comment_form
+						input(type='hidden', name='_id', value='#{article._id}')
+						input(type='hidden', name='model', value='Article')
+						textarea(name="content", placeholder="А что Вы думаете по этому поводу?")
+						.bottom.adorable_table
+							.adorable_cell
+								button.comment_button Высказаться
+								//img.clip(src="/img/user/article/clip.png")
+								//span.attach Прикрепить фото
+
+	.login_box(style="display: #{loginVisibility}")
 		.info.column.double
 			.adorable_table
 				.adorable_cell

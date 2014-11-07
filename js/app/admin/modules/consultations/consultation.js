@@ -99,20 +99,49 @@ export default Edit.extend({
     },
 
     '.currentThemeSelect change': function (el) {
-        var themes = this.module.attr(this.options.moduleName + '.theme');
+        var self = this,
+            themes = self.module.attr(self.options.moduleName + '.theme'),
+            newThemes = [];
 
-        if (themes instanceof can.List) {
-            themes.replace([]);
-        } else {
+        if (! themes instanceof can.List) {
             themes = new can.List;
-            this.module.attr(this.options.moduleName + '.theme', themes);
+            self.module.attr(self.options.moduleName + '.theme', themes);
         }
 
         el.find('option:selected').each(function () {
             var data = $(this).data('themes');
-            themes.push({
+            newThemes.push({
                 _id: data.attr('_id'),
                 name: data.attr('name')
+            });
+        });
+
+        var toRemove = [];
+        themes.each((item, index) => {
+            var newItem = _.detect(newThemes, {_id: item._id});
+            if (newItem) {
+                var idx = _.findIndex(newThemes, {_id: newItem._id});
+                newThemes.splice(idx, 1);
+            } else {
+                toRemove.push(index);
+            }
+        });
+
+        _.eachRight(toRemove, (index) => {
+            themes.splice(index, 1);
+        });
+
+        _.each(newThemes, (item) => {
+            can.ajax({
+                url: `/admin/theme/maxpos/${item._id}`
+            }).always((response) => {
+                var pos = response.data && response.data.max || 0;
+
+                themes.push({
+                    _id: item._id,
+                    name: item.name,
+                    position: pos
+                });
             });
         });
     },

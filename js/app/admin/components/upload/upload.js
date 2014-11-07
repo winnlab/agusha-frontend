@@ -17,6 +17,7 @@ var UploadViewModel = can.Map.extend({
 	'multiple': '@',
 	'sortable': null,
 	'parentname': '@',
+	'showurl': '@',
 	'nested': null,
 	'files': [],
 	'progress': 0,

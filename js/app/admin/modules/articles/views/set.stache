@@ -31,8 +31,25 @@
             {{/if}}
 
             <div class="form-group">
+                <label class="col-md-2 control-label" for="position">Позиция на главной (чем больше, тем раньше):</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="number" can-value="article.position" placeholder="Позиция" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 checkbox">
-                    <label class="col-md-4">
+                    <label>
+                        <input type="checkbox" can-value="article.hasBigView" /> Большой вид на главной?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label>
                         <input type="checkbox" can-value="article.recommended" /> Рекомендована?
                     </label>
                     <div class="help help-block"></div>
@@ -51,21 +68,47 @@
                     </div>
                 </div>
             {{/if}}
+
             {{#if ageValue.length}}
-                {{#if themes.length}}
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="theme">Тема статьи:</label>
-                        <div class="col-md-10">
-                            <select class="currentThemeSelect form-control" multiple>
-                                {{#sortedBy themes 'name'}}
-                                    {{#arrOfObjectsContains article.age '_id' age_id false}}
-                                        <option {{data "themes"}} value="{{_id}}" {{#arrContains themeValue _id false false}}selected{{/arrContains}}>{{name}}</option>
-                                    {{/arrContains}}
-                                {{/sortedBy}}
-                            </select>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Темы статьи
+                </div>
+                <div class="panel-body">
+                    {{#if themes.length}}
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <select class="currentThemeSelect form-control" multiple>
+                                    {{#sortedBy themes 'name'}}
+                                        {{#arrOfObjectsContains article.age '_id' age_id false}}
+                                            <option {{data "themes"}} value="{{_id}}" {{#arrContains themeValue _id false false}}selected{{/arrContains}}>{{name}}</option>
+                                        {{/arrContains}}
+                                    {{/sortedBy}}
+                                </select>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="panel-body">
+                {{#sortedBy article.theme 'name'}}
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{name}}:
+                        </div>
+                        <div class="col-md-4">
+                            <label>Позиция (чем больше, тем раньше):</label>
+                            <input type="number" can-value="position" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="pull-right">
+                                <input type="checkbox" can-value="hasBigView" />
+                                Отображать большой
+                            </label>
                         </div>
                     </div>
-                {{/if}}
+                {{/sortedBy}}
+                </div>
+            </div>
             {{/if}}
 
             {{#if types.length}}
@@ -217,6 +260,7 @@
                                     accept="image/*"
                                     multiple="true"
                                     sortable="true"
+                                    showurl="true"
                                     parentname="gallery"
                                 >
                                     Загрузить изображения

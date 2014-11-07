@@ -33,6 +33,18 @@ export default Controller.extend(
 
 			$('#login').html(can.view('signin', this.data));
 		},
+		'.social .facebook click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/login/fb';
+		},
+		'.social .vkontakte click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/login/vk';
+		},
+		'.social .ok click': function(el, ev) {
+			ev.preventDefault();
+			window.location.href = '/login/ok';
+		},
 		'.login_form .done click': function(el, ev) {
 			ev.preventDefault();
 			var data;
