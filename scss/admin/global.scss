@@ -2,10 +2,22 @@ html, body, .wrapper, aside, .moduleWrap {
     height: 100%;
 }
 
+body {
+	overflow: hidden;
+}
+
+aside {
+	margin-bottom: -50px;
+}
+
 .moduleWrap {
     position: relative;
 }
 
 .note-editor {
 	background: white;
+}
+
+body > .header {
+	width: 100%;
 }

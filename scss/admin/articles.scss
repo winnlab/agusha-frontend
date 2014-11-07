@@ -5,19 +5,25 @@
 	background-color: #f2eeeb;
 }
 
-.editArticle, .removeArticle {
+.editArticle, .removeArticle, .changePosArticle {
 	display: none;
 	position: absolute;
-	top: 2%;
 	z-index: 5;
 }
 
 .editArticle {
+	top: 2%;
 	left: 2%;
 }
 
 .removeArticle {
+	top: 2%;
 	right: 2%;
+}
+
+.changePosArticle {
+	bottom: 16%;
+	left: 2%;
 }
 
 .article-box {
@@ -30,8 +36,8 @@
 	cursor: pointer;
 	@include transition(box-shadow .3s ease-out 0s);
 	&:hover {
-		box-shadow:0px 0px 15px 5px #0066cc;
-		.editArticle, .removeArticle {
+		box-shadow:0px 0px 15px 5px #367fa9;
+		.editArticle, .removeArticle, .changePosArticle {
 			display: block !important;
 		}
 	}

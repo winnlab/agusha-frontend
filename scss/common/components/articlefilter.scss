@@ -2,10 +2,11 @@
 @import "../../customMixins.scss";
 
 .af-wrap {
+	z-index: 15;
 	background: lighten(blue, 20%);
 	overflow: hidden;
 	width: 100%;
-	height: 100%;
+	height: 80%;
 	position: absolute;
 	left: 0;
 	top: -100%;

@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA,oCAAyC,CACrC,MAAM,CAAE,IAAI,CAGhB,WAAY,CACR,QAAQ,CAAE,QAAQ,CAGtB,YAAa,CACZ,UAAU,CAAE,KAAK",
+"mappings": "AAAA,oCAAyC,CACrC,MAAM,CAAE,IAAI,CAGhB,IAAK,CACJ,QAAQ,CAAE,MAAM,CAGjB,KAAM,CACL,aAAa,CAAE,KAAK,CAGrB,WAAY,CACR,QAAQ,CAAE,QAAQ,CAGtB,YAAa,CACZ,UAAU,CAAE,KAAK,CAGlB,YAAe,CACd,KAAK,CAAE,IAAI",
 "sources": ["../../scss/admin/global.scss"],
 "names": [],
 "file": "global.css"
