@@ -2,7 +2,7 @@ import 'can/';
 import appState from 'core/appState';
 
 var getCurrentUser, getUserImage, User,
-	defaults, fullName;
+	defaults, fullName, logout;
 
 defaults = {
 	images: {
@@ -12,6 +12,19 @@ defaults = {
 		small: '/img/user/helpers/stub/small.png'
 	}
 };
+
+logout = function () {
+	var that = this;
+
+	can.ajax({
+		url: '/profile/logout',
+		success: function() {
+			localStorage.removeItem('isAuth');
+			that.attr('user', null);
+			can.route.attr({module: ''});
+		}
+	});
+}
 
 getCurrentUser = function() {
 	var obj = window.localStorage.getItem('isAuth');
@@ -60,6 +73,7 @@ User = can.Map.extend({
 	getCurrentUser: getCurrentUser,
 	getUserImage: getUserImage,
 	fullName: fullName,
+	logout: logout,
 	checkAuth: function(callback) {
 		var that = this;
 		can.ajax({
