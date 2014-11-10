@@ -17,9 +17,9 @@ export default Controller.extend(
 		},
 
 		after_init: function(data) {
-			var auth = appState.attr('user.auth');
+			var auth = appState.attr('user').auth;
 
-			this.isAuth(null, auth.isAuth);
+			this.isAuth(null, auth.attr('isAuth'));
 
 			auth.delegate('isAuth', 'set', can.proxy(this.isAuth, this));
 		},
