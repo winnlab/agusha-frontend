@@ -18,6 +18,6 @@ block append scripts
 		mixin theme()
 		| {{/each}}
 	script#encyclopedia_mustache(type="text/mustache")
-		| {{#sortBy articles 'updated' sort}}
+		| {{#each articles}}
 		mixin article()
-		| {{/sortBy}}
+		| {{/each}}

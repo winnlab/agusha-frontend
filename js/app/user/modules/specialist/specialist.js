@@ -1,6 +1,5 @@
-import Controller from 'controller'
-import select2 from 'select2'
-import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
+import Controller from 'controller';
+import select2 from 'select2';
 import appState from 'core/appState';
 
 var ViewModel = can.Map.extend({
@@ -81,11 +80,8 @@ export default Controller.extend(
 			can.view.mustache('consultation_view', html);
 			can.view.mustache('specialist_view', specHtml);
 
-			this.formWrap.html(can.view('consultation_view', this.data, {
-				arrContains: encyclopediaHelpers.arrContains
-			}));
+			this.formWrap.html(can.view('consultation_view', this.data));
 			this.itemsContainer.html(can.view('specialist_view', this.data, {
-				sortBy: encyclopediaHelpers.sortBy,
 				getClassName: function (index) {
 					return (index - 6) % 5 == 0 ? 'double' : '';
 				},

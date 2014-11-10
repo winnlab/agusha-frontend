@@ -1,5 +1,6 @@
 import can from 'can/';
 import _ from 'lodash';
+import appState from 'core/appState';
 
 function computedVal (value) {
     if (typeof value === 'function') {
@@ -9,15 +10,6 @@ function computedVal (value) {
 };
 
 export default {
-    filterBy: function (entity, filter) {
-        filter = computedVal(filter);
-        if (filter == 0) {
-            return 'display: block;';
-        }
-        if (entity.attr('type.name') !== filter) {
-            return 'display: none;'
-        }
-    },
     articleType: function (entity) {
         var type = entity.attr('type.name'),
             result = '';
@@ -35,12 +27,11 @@ export default {
     getClassName: function (entity, index) {
         var i = computedVal(index),
             e = entity;
-        var classname = i == 0 ? 'x2' : '',
-            doubles = [3, 6, 11, 12, 15, 20, 24];
-
-        if (doubles.indexOf(i) !== -1) {
-            classname = 'double';
-        }
+        var classname = entity.attr('XL')
+            ? 'x2'
+            : entity.attr('theme.0.hasBigView')
+                ? 'double'
+                : '';
 
         classname += (!e.attr('image.background') ? ' no-image' : '')
         classname += e.attr('is_quiz') ? ' poll' : '';
@@ -50,78 +41,103 @@ export default {
     getBg: function (entity, index) {
         var i = computedVal(index),
             e = entity,
-            size = 'S',
-            img,
-            doubles = [3, 6, 11, 12, 15, 20, 24];
-
-        if (i == 0) {
-            size = 'XL';
-        }
-
-        if (doubles.indexOf(i) !== -1) {
-            size = 'L';
-        }
+            size = entity.attr('XL')
+               ? 'XL'
+               : entity.attr('theme.0.hasBigView')
+                   ? 'L'
+                   : 'S',
+            img;
 
         img = entity.attr('image.' + size);
 
         return img && entity.attr('type.name') !== 'Статья от специалиста' ? 'background-image: url(/img/uploads/' + img + ');' : '';
     },
-    is: function () {
-        var options = arguments[arguments.length - 1],
-            comparator = computedVal(arguments[0]),
-            result = true;
 
-        for (var i = 1, ln = arguments.length - 1; i < ln; i += 1) {
-            if (comparator !== computedVal(arguments[i])) {
-                result = false;
-                break;
-            }
+    // Sorting articles functions
+    sortArticles: function (sourceData, order, isXL) {
+        order = order || 'desc';
+        if (!sourceData.length)
+            return [];
+        var data = _.clone(sourceData, true);
+        data = _.sortBy(data, function (item) {
+            return item.theme[0].position ? (order == 'desc' ? -1 : 1) * item.theme[0].position : 0;
+        });
+
+        var self = this,
+            result = new Array(data.length),
+            isXL = typeof isXL == 'function' ? isXL() : isXL,
+            lineWidth = 0,
+            row = 0,
+            width = appState.attr('viewport').getViewportWidth(),
+            elementWidth,
+            lineWidthConst;
+
+        if (width <= 1180)
+            lineWidthConst = 2;
+        if (width > 1180 && width < 1600)
+            lineWidthConst = 3;
+        if (width >= 1600)
+            lineWidthConst = 4;
+
+        result[0] = data[0];
+
+        if (isXL) {
+            result[0].XL = true;
         }
 
-        return result ? options.fn() : options.inverse();
-    },
-    sortBy:  function (collection, prop, direction, options) {
-        if (arguments.length == 3) {
-            options = direction;
-            direction = false;
-        }
-        collection = computedVal(collection);
-        direction = computedVal(direction);
-        if (collection && collection.attr('length') && prop) {
-            var sorted = _.sortBy(collection, function (member) {
-                var p = member.attr(prop);
-                if (_.isArray(p)) {
-                    return p.length;
+        _.each(result, function (element, i) {
+            if (i == 0) {
+                elementWidth = element.theme[0].hasBigView || isXL ? 2 : 1;
+                lineWidth += elementWidth;
+            } else {
+                if (lineWidth == lineWidthConst) {
+                    row += 1;
+                    if (row == 1 && isXL == 1 && lineWidthConst !== 2) {
+                        lineWidth = 2;
+                    } else {
+                        lineWidth = 0;
+                    }
                 }
-                return p;
+                result[i] = self.findSuitableEl(data, lineWidthConst - lineWidth, lineWidthConst);
+                elementWidth = result[i].theme[0].hasBigView ? 2 : 1;
+                lineWidth += elementWidth;
+            }
+        });
+
+        return result;
+    },
+
+    findSuitableEl: function (data, delta, lineWidthConst) {
+        var iteration,
+            element = _.find(data, function (el, i) {
+                iteration = i;
+                if (i == 0 || el == undefined)
+                    return false;
+                if (delta == 0 || delta > 2)
+                    return true;
+                if (lineWidthConst == 2 && (delta == 0 || delta > 1))
+                    return true;
+                if (delta == 1 && el.theme[0].hasBigView == false)
+                    return true
+                if (delta == 2 && el.theme[0].hasBigView == true)
+                    return true
             });
 
-            if (direction && direction == 'desc') {
-                sorted.reverse();
-            }
-
-            return _.map(sorted, function (member, index) {
-                return options.fn(options.scope
-                    .add({'@index': index})
-                    .add(member)
-                );
-            }).join('');
+        if (!element) {
+            element = _.find(data, function (el, i) {
+                iteration = i;
+                if (el && i !== 0) {
+                    el.theme[0].hasBigView = false;
+                    return true;
+                }
+                return false;
+            });
         }
-    },
-    arrContains: function (array, value, strict, reverse, options) {
-    	strict = computedVal(strict);
-    	value = computedVal(value)
 
-    	if (strict && !value) {
-    		return false;
-    	}
+        if (iteration) {
+            data[iteration] = undefined;
+        }
 
-    	array = computedVal(array);
-
-    	if(!_.isArray(array) && !array[0]) {
-    		return false;
-    	}
-
-    	return (array.indexOf(value) > -1) ^ reverse ? options.fn() : false;
+        return element;
     }
 }
