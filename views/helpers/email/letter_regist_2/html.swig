@@ -23,17 +23,17 @@
 									<table class="topper_table">
 										<tr>
 											<td class="logo_cell">
-												
+												<img class="logo" src="http://agusha.com.ua:8080/img/user/helpers/email/logo.png" />
 											</td>
 											
 											<td class="greeting_cell">
 												<div class="greeting">
 													<div>
-														Здравствуйте, дорогие мама или папа!
+														Здравствуйте, {{ client.login|title }}
 													</div>
 													
 													<div>
-														Поздравляем, вы удачно зарегистрировалась на сайте agusha.com.ua!
+														Поздравляем, вы удачно зарегистрировались на сайте <a href="agusha.com.ua" target="_blank">agusha.com.ua</a>!
 													</div>
 												</div>
 											</td>
@@ -44,7 +44,9 @@
 							</tr>
 							
 							<tr>
-								
+								<td>
+									<img src="http://agusha.com.ua:8080/img/user/helpers/email/blue_triangle.png" />
+								</td>
 							</tr>
 						</table>
 						
@@ -59,7 +61,15 @@
 						<table class="join_table">
 							<tr>
 								<td>
+									<img src="http://agusha.com.ua:8080/img/user/helpers/email/come_and_get.png" />
+									<img src="http://agusha.com.ua:8080/img/user/helpers/email/blue_button.png" />
+									<img src="http://agusha.com.ua:8080/img/user/helpers/email/tell_friends.png" />
 									
+									<div class="social">
+										<img src="http://agusha.com.ua:8080/img/user/helpers/email/facebook.png" />
+										<img src="http://agusha.com.ua:8080/img/user/helpers/email/vk.png" />
+										<img src="http://agusha.com.ua:8080/img/user/helpers/email/odnoklasniki.png" />
+									</div>
 								</td>
 							</tr>
 						</table>
@@ -67,7 +77,8 @@
 						<table class="footer_table">
 							<tr>
 								<td>
-									
+									<img src="http://agusha.com.ua:8080/img/user/helpers/email/copyright.png" />
+									<img src="http://agusha.com.ua:8080/img/user/helpers/email/decline.png" />
 								</td>
 							</tr>
 						</table>

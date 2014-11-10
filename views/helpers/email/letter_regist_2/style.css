@@ -20,6 +20,7 @@ img {
 
 a {
 	cursor: pointer;
+	color: #0d5c92;
 }
 
 a img {
@@ -73,14 +74,28 @@ table, tr, td {
 .topper_top {
 	height: 170px;
 	width: 740px;
+	background-color: #47b6e9;
 }
 
 .logo_cell {
 	width: 280px;
 }
 
+.logo {
+	margin: 14px 0 0 51px;
+}
+
 .greeting_cell {
 	width: 460px;
+	color: #ffffff;
+	font-size: 21px;
+	line-height: 30px;
+	font-style: italic;
+	font-family: sans-serif;	
+}
+
+.greeting {
+	padding: 0 10px 0 0;
 }
 
 .info_table {
@@ -91,9 +106,11 @@ table, tr, td {
 .join_table {
 	height: 380px;
 	width: 740px;
+	background-color: #fbf8ef;
 }
 
 .footer_table {
 	height: 56px;
 	width: 740px;
+	background-color: #45b4e8;
 }
