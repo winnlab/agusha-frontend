@@ -44,7 +44,7 @@
 							</tr>
 							
 							<tr>
-								<td>
+								<td class="blue_triangle">
 									<img src="http://agusha.com.ua:8080/img/user/helpers/email/blue_triangle.png" />
 								</td>
 							</tr>
@@ -61,14 +61,26 @@
 						<table class="join_table">
 							<tr>
 								<td>
-									<img src="http://agusha.com.ua:8080/img/user/helpers/email/come_and_get.png" />
-									<img src="http://agusha.com.ua:8080/img/user/helpers/email/blue_button.png" />
-									<img src="http://agusha.com.ua:8080/img/user/helpers/email/tell_friends.png" />
+									<img class="come_and_get" src="http://agusha.com.ua:8080/img/user/helpers/email/come_and_get.png" />
+									
+									<a class="button" href="http://agusha.com.ua:8080" target="_blank">
+										<img src="http://agusha.com.ua:8080/img/user/helpers/email/blue_button.png" />
+									</a>
+									
+									<img class="tell_friends" src="http://agusha.com.ua:8080/img/user/helpers/email/tell_friends.png" />
 									
 									<div class="social">
-										<img src="http://agusha.com.ua:8080/img/user/helpers/email/facebook.png" />
-										<img src="http://agusha.com.ua:8080/img/user/helpers/email/vk.png" />
-										<img src="http://agusha.com.ua:8080/img/user/helpers/email/odnoklasniki.png" />
+										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
+											<img src="http://agusha.com.ua:8080/img/user/helpers/email/facebook.png" />
+										</a>
+										
+										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
+											<img src="http://agusha.com.ua:8080/img/user/helpers/email/vk.png" />
+										</a>
+										
+										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
+											<img src="http://agusha.com.ua:8080/img/user/helpers/email/odnoklasniki.png" />
+										</a>
 									</div>
 								</td>
 							</tr>
@@ -77,8 +89,15 @@
 						<table class="footer_table">
 							<tr>
 								<td>
-									<img src="http://agusha.com.ua:8080/img/user/helpers/email/copyright.png" />
-									<img src="http://agusha.com.ua:8080/img/user/helpers/email/decline.png" />
+									<div class="half left">
+										<img class="copyright" src="http://agusha.com.ua:8080/img/user/helpers/email/copyright.png" />
+									</div>
+									
+									<div class="half right">
+										<a class="decline" href="http://agusha.com.ua:8080" target="_blank">
+											<img src="http://agusha.com.ua:8080/img/user/helpers/email/decline.png" />
+										</a>
+									</div>
 								</td>
 							</tr>
 						</table>

@@ -95,7 +95,11 @@ table, tr, td {
 }
 
 .greeting {
-	padding: 0 10px 0 0;
+	padding: 30px 10px 0 0;
+}
+
+.blue_triangle {
+	vertical-align: top;
 }
 
 .info_table {
@@ -109,8 +113,54 @@ table, tr, td {
 	background-color: #fbf8ef;
 }
 
+.come_and_get {
+	width: 519px;
+	margin: 0 auto;
+}
+
+.button {
+	width: 378px;
+	margin: 51px auto 0 auto;
+	display: block;
+}
+
+.tell_friends {
+	width: 185px;
+	margin: 27px auto 0 auto;
+}
+
+.social {
+	width: 171px;
+	margin: 24px auto 0 auto;
+}
+
+.social_icon {
+	float: left;
+	margin: 0 10px;
+	display: block;
+}
+
 .footer_table {
 	height: 56px;
 	width: 740px;
 	background-color: #45b4e8;
+}
+
+.footer_table .half {
+	height: 56px;
+	width: 370px;
+	float: left;
+}
+
+.footer_table .right {
+	text-align: right;
+}
+
+.copyright {
+	margin: 24px 0 0 47px;
+}
+
+.decline {
+	margin: 24px 47px 0 0;
+	display: inline-block;
 }
