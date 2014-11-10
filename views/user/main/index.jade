@@ -6,3 +6,13 @@ block append header
 block content
 	.module.server#main
 		include content
+		
+block append scripts
+	script.
+		var app = {
+			articles: !{JSON.stringify(articles)}			
+		};
+	script#encyclopedia_mustache(type="text/mustache")
+		| {{#each articles}}
+		mixin article()
+		| {{/each}}

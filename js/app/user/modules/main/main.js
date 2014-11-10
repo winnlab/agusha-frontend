@@ -1,6 +1,7 @@
 import Controller from 'controller';
 import appState from 'core/appState';
 import LoginForm from 'js/app/user/modules/login/login'
+import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 
 export default Controller.extend(
 	{
@@ -14,9 +15,32 @@ export default Controller.extend(
 			this.tab_selectors = this.element.find('.tab_selector');
 			this.bannerWrap = this.element.find('.bannerWrap');
 			this.userTitle = this.element.find('.userTitle');
+			this.items_container = this.element.find('.items_container');
 		},
 
 		after_init: function(data) {
+			this.articlesSource = data ? data.articles : app.articles;
+
+			var encyclopediaHtml,
+				articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, true);
+
+			this.data = new can.Map({
+				articles: articles,
+				filter: 0
+			});
+
+			var encyclopedia_mustache = $('#encyclopedia_mustache');
+
+			if(!encyclopedia_mustache.length) {
+				encyclopediaHtml = jadeTemplate.get('user/encyclopedia/encyclopedia_mustache');
+			} else {
+				encyclopediaHtml = encyclopedia_mustache.html();
+			}
+
+			can.view.mustache('encyclopedia_view', encyclopediaHtml);
+
+			this.items_container.html(can.view('encyclopedia_view', this.data, encyclopediaHelpers));
+
 			var auth = appState.attr('user.auth');
 
 			this.isAuth(null, auth.isAuth);
@@ -55,6 +79,17 @@ export default Controller.extend(
 
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
+		},
+
+		'{window} resize': function () {
+			this.reRenderArticles();
+		},
+
+		reRenderArticles: function () {
+			if (this.data) {
+				var articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, true);
+				this.data.attr('articles', articles);
+			}
 		}
     }
 );
