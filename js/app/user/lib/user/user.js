@@ -147,13 +147,19 @@ User = can.Control.extend({
 			url: '/user?ajax=true',
 			sync: true,
 			success: function(response) {
-				user.attr(response.data.user);
-				that.auth.attr('isAuth', true)
+				if(response.data.user) {
+					user.attr(response.data.user);
+					that.auth.attr('isAuth', true)
 
-				callback(null, response.data.user);
+					callback(null, response.data.user);
+				}
+
+				callback("User not exist");
 			},
 			error: function(resp) {
 				callback(resp.err);
+				that.auth.attr('isAuth', false)
+
 			}
 		});
 	},
