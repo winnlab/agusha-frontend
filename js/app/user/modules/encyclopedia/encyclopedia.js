@@ -83,12 +83,16 @@ export default Controller.extend(
 		'{window} resize': function () {
 			this.setFilterHeight();
 			this.setScroll();
+			this.reRenderArticles();
 		},
 
 		after_init: function(data) {
+			this.articlesSource = data ? data.articles : app.articles;
+			this.isXL(data ? data.themes : app.themes);
 			var that = this,
 				encyclopediaHtml,
-				html;
+				html,
+				articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, can.proxy(this.isXL, this));
 
 			this.first_call = true;
 
@@ -102,8 +106,8 @@ export default Controller.extend(
 					},
 					theme: {
 						value: function () {
-							var age = can.route.attr('param2');
-							return age ? age : null
+							var theme = can.route.attr('param2');
+							return theme ? theme : null
 						}
 					},
 					themes: {
@@ -119,7 +123,7 @@ export default Controller.extend(
 						}
 					}
 				},
-				articles: data ? data.articles : app.articles,
+				articles: articles,
 				sort: 'asc',
 				filter: 0
 			});
@@ -144,6 +148,21 @@ export default Controller.extend(
 			this.items_container.html(can.view('encyclopedia_view', this.data, encyclopediaHelpers));
 
 			this.first_call = false;
+		},
+
+		isXL: function (themes) {
+			if (this.isFirstXl !== undefined)
+				return this.isFirstXl;
+			var themeId = this.data ? this.data.attr('theme') : can.route.attr('param2');
+			this.isFirstXl = _.find(themes, { _id: themeId}).isFirstCardXL || false;
+			return this.isFirstXl;
+		},
+
+		reRenderArticles: function () {
+			if (this.data) {
+				var articles = encyclopediaHelpers.sortArticles(this.articlesSource, this.data.attr('sort'), can.proxy(this.isXL, this));
+				this.data.attr('articles', articles);
+			}
 		},
 
 		'.age_block click': function(el) {
@@ -183,6 +202,7 @@ export default Controller.extend(
 		'.order_select change': function (el) {
 			var val = el.val();
 			this.data.attr('sort', val === 'date' ? 'asc' : 'desc');
+			this.reRenderArticles();
 		},
 
 		'.author_select change': function (el) {
