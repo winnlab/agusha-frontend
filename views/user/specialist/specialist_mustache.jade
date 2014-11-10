@@ -1,5 +1,5 @@
 include helpers
 
-| {{#each articles}}
+| {{#sortBy articles 'answer' sort}}
 mixin article()
 | {{/each}}
