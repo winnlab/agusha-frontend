@@ -1,0 +1,57 @@
+/*
+	Reset styles
+*/
+
+body {
+    margin:0;
+    padding:0;
+	background: #fff;
+	font-family: sans-serif;
+}
+
+img {
+    border:0 none;
+    height:auto;
+    line-height:100%;
+    outline:none;
+    text-decoration:none;
+}
+
+a {
+	cursor: pointer;
+}
+
+a img {
+    border:0 none;
+}
+
+table, td {
+    border-collapse:collapse;
+}
+
+/**/
+
+.frame_table {
+	width: 760px;
+	height: 976px;
+}
+
+.top_border {
+	height: 10px;
+}
+
+.left_border {
+	width: 10px;
+}
+
+.right_border {
+	width: 10px;
+}
+
+.bottom_border {
+	height: 10px;
+}
+
+.center_table {
+	width: 740px;
+}
