@@ -1,21 +1,39 @@
 import Controller from 'controller';
 import appState from 'core/appState';
 // import import Cropper from 'lib/cropper/';
-// import Remodal from 'js/plugins/Remodal/dist/jquery.remodal.min';
 
-// var viewModel = new can.Map appState.attr('user')
+import Profile from 'js/app/user/modules/profile/profileModel'
 
 export default Controller.extend(
 	{
         defaults: {
+            Model: Profile,
+            input: '.editableInput',
+            user: appState.attr('user'),
+            css_path: 'css/user/'
         }
     }, {
 		after_init: function(data) {
-            // appState.attr('cropper').show({});
-
             this.data = appState.attr('user');
 
+            if(!this.data.isAuth()) {
+                can.route.attr({module: 'login'});
+                return;
+            }
+
+            this.options.model = new Profile( this.data.options.user );
+
             this.bindTpl();
+        },
+        'change': function(el, ev) {
+            var user = this.data.options.user;
+            ev.preventDefault();
+
+            this.options.model._data = user.attr();
+
+            this.options.model.save().fail(function() {
+                console.log(arguments);
+            });
         },
         bindTpl: function() {
             var html, that = this;
@@ -24,13 +42,11 @@ export default Controller.extend(
 
             can.view.mustache('prfl', html);
 
-            $('#profile').html(can.view('prfl', this.data, {
+            $('#profile').html(can.view('prfl', this.data.options.user, {
                 genderChecked: function(sex) {
-                    var data = that.data, gender;
+                    var user = that.data.user(), gender;
 
-                    console.log('gender', data.user);
-
-                    if(!(gender = data.user.profile.gender)) {
+                    if(!(gender = user.profile.gender)) {
                         return '';
                     }
 

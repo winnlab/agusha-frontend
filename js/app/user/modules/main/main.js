@@ -17,11 +17,12 @@ export default Controller.extend(
 		},
 
 		after_init: function(data) {
-			var user = appState.attr('user')
+			var user = appState.attr('user'),
+				auth = user.auth;
 
-			this.isAuth(user, user.attr('user'));
+			this.isAuth(user, auth.isAuth);
 
-			user.delegate('user', 'set', this.isAuth);
+			auth.delegate('isAuth', 'set', this.isAuth);
 		},
 
 		'.social .facebook click': function(el, ev) {
@@ -38,6 +39,7 @@ export default Controller.extend(
 		},
 		isAuth: function (el, isAuth) {
 			var self = this;
+
 			if (isAuth) {
 				self.element.addClass('logedIn');
 				self.bannerWrap.hide();

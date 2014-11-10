@@ -5,11 +5,10 @@
 		//- .percentage {{fillingProfile}}'%'
 		//- canvas#profile_circle(width="128", height="128")
 		.avatar
-			| {{#if user}}
-			img.rounded(src="{{getUserImage 'medium'}}")
+			| {{#if auth.isAuth}}
+			img.rounded(src="{{user.image.large}}")
 			| {{/if}}
-		.name {{fullName}}
-
+		.name {{user.fullName}}
 	
 .buttons
 	a.item.adorable_table.messages.module_tab.module_tab_messages.new_module(href="/messages")

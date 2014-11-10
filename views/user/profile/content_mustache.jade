@@ -4,19 +4,19 @@
 			.breadcrumbs
 				a(href='/') Главная
 				span &nbsp; / &nbsp;
-					a(href="#") {{user.profile.first_name}}
+					a(href="#") {{profile.first_name}}
 				span &nbsp; / &nbsp;
 					a(href="/profile/settings") Настройки
 			h1.titlePage Настройки профиля
 		.user_profile
 			.profileFilling
-				.title Профиль заполнен на {{user.profile.filling}}%
+				.title Профиль заполнен на {{profile.filling}}%
 				.bar
-					.progress(style="width: {{user.profile.filling}}%" class="progress-{{user.profile.filling}}")
+					.progress(style="width: {{profile.filling}}%" class="progress-{{profile.filling}}")
 			.userMeta
 				.userPic
 					.pic
-						img(src="{{getImage 'large'}}")
+						img(src="{{image.large}}")
 					.buttons.horizontal
 						.upload.button Загрузить фото
 						.remove.button Удалить
@@ -31,49 +31,49 @@
 							.input_row
 								input(
 									placeholder="Имя"
-									can-value='user.profile.first_name'
-									value="{{user.profile.first_name}}"
-								).firstname
+									can-value='profile.first_name'
+									value="{{profile.first_name}}"
+								).firstname.editableInput
 					.column.right
 						.inner
 							.input_row
 								input(
 									placeholder="Фамилия"
-									can.value="user.profile.last_name"
-									value="{{user.profile.last_name}}"
-								).lastname
+									can-value="profile.last_name"
+									value="{{profile.last_name}}"
+								).lastname.editableInput
 					.column.left
 						.inner
 							.input_row.birth_date
 								input(
 									placeholder="День"
-									value="{{user.profile.birth_date.day}}"
-									can-value="user.profile.birth_date.day"
-								).birth_day
+									value="{{birth_date.day}}"
+									can-value="birth_date.day"
+								).birth_day.editableInput
 								input(
 									placeholder="Мес."
-									value="{{user.profile.birth_date.month}}"
-									can-value="user.profile.birth_date.month"
-								).birth_month
+									value="{{birth_date.month}}"
+									can-value="birth_date.month"
+								).birth_month.editableInput
 								input(
 									placeholder="Год"
-									value="{{user.profile.birth_date.year}}"
-									can-value="user.profile.birth_date.year"
-								).birth_year
+									value="{{birth_date.year}}"
+									can-value="birth_date.year"
+								).birth_year.editableInput
 					.column.right
 						.inner
 							.input_row
-								| <input type="radio" id="female" name="gender" {{#genderChecked 'female'}}checked{{/genderChecked}}/ >
+								| <input type="radio" class="editableInput" can-value="profile.gender" value="1" id="female" name="gender" {{#genderChecked 'female'}}checked{{/genderChecked}}/ >
 								label(for="female") Женщина
-								| <input type="radio" id="male" name="gender" {{#genderChecked 'male'}}checked{{/genderChecked}}/>
+								| <input type="radio" class=".editableInput" can-value="profile.gender" value="2" id="male" name="gender" {{#genderChecked 'male'}}checked{{/genderChecked}}/>
 								label(for="male") Мужчина
 								
 					.about
 						textarea(
 							placeholder="Пара слов о себе"
-							value="{{user.profile.about}}"
-							can-value="user.profile.about"
-						).about_area
+							value="{{profile.about}}"
+							can-value="profile.about"
+						).about_area.editableInput
 
 			.profileHead
 				h3.inner_title Контактные данные
@@ -87,64 +87,64 @@
 								input(
 									type="text"
 									placeholder="Город"
-									value="{{user.contacts.city}}"
-									can-value="user.contacts.city"
-								)
+									value="{{contacts.city}}"
+									can-value="contacts.city"
+								).editableInput
 							.input_row
 								input(
 									type="text"
 									placeholder="Страна"
-									value="{{user.contacts.country}}"
-									can-value="user.contacts.country"
+									value="{{contacts.country}}"
+									can-value="contacts.country"
 								)
 							.input_row
 								input(
 									type="text"
 									placeholder="Улица"
-									value="{{user.contacts.street}}"
-									can-value="user.contacts.street"
-								)
+									value="{{contacts.street}}"
+									can-value="contacts.street"
+								).editableInput
 							.input_row.address
 								input(
 									type="text"
 									placeholder="Дом"
-									value="{{user.contacts.houseNum}}"
-									can-value="user.contacts.houseNum"
-								)
+									value="{{contacts.houseNum}}"
+									can-value="contacts.houseNum"
+								).editableInput
 								input(
 									type="text"
 									placeholder="Квартира"
-									value="{{user.contacts.apartament}}"
-									can-value="user.contacts.apartament"
-								)
+									value="{{contacts.apartament}}"
+									can-value="contacts.apartament"
+								).editableInput
 					.column.right
 						.inner
 							.input_row
 								input(
 									type="text"
 									placeholder="Телефон"
-									value="{{user.contacts.phone}}"
-									can-value="user.contacts.phone"
-								)
+									value="{{contacts.phone}}"
+									can-value="contacts.phone"
+								).editableInput
 							.input_row
 								input(
 									type="text"
 									placeholder="E-mail"
-									value="{{user.contacts.email}}"
-									can-value="user.contacts.email"
-								)
+									value="{{email}}"
+									can-value="email"
+								).editableInput
 							.input_row
 								input(
 									type="text"
 									placeholder="Запасной E-mail"
-									value="{{user.contacts.spareEmail}}"
-									can-value="user.contacts.spareEmail"
-								)
+									value="{{contacts.spareEmail}}"
+									can-value="contacts.spareEmail"
+								).editableInput
 							.input_row
 								.social_buttons.buttons.horizontal
-									.button.fb(class="{{#if user.social.fb.id}}active{{/if}}")
-									.button.vk(class="{{#if user.social.vk.id}}active{{/if}}")
-									.button.ok(class="{{#if user.social.ok.id}}active{{/if}}")
+									.button.fb(class="{{#if social.fb.id}}active{{/if}}")
+									.button.vk(class="{{#if social.vk.id}}active{{/if}}")
+									.button.ok(class="{{#if social.ok.id}}active{{/if}}")
 
 
 			.profileHead.passwordHead

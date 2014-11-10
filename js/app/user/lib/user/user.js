@@ -1,17 +1,9 @@
 import 'can/';
 import appState from 'core/appState';
+import weights from 'lib/user/profileWeight'
+import _ from 'lodash';
 
-var getCurrentUser, getUserImage, User,
-	defaults, fullName, logout;
-
-defaults = {
-	images: {
-		orig: '/img/user/helpers/stub/orig.png',
-		large: '/img/user/helpers/stub/large.png',
-		medium: '/img/user/helpers/stub/medium.png',
-		small: '/img/user/helpers/stub/small.png'
-	}
-};
+var getCurrentUser, User, logout, UserMap;
 
 logout = function () {
 	var that = this;
@@ -19,8 +11,12 @@ logout = function () {
 	can.ajax({
 		url: '/profile/logout',
 		success: function() {
+			var user = that.options.user;
+
 			localStorage.removeItem('isAuth');
-			that.attr('user', null);
+			user.attr({});
+			that.auth.attr('isAuth', false);
+
 			can.route.attr({module: ''});
 		}
 	});
@@ -36,113 +32,139 @@ getCurrentUser = function() {
 	}
 };
 
-getUserImage = function(type) {
-	var user = this.attr('user');
-
-	if(!user.image || !user.image[type]) {
-		return defaults.images[type];
-	}
-
-	return '/img/uploads/'+user.image[type];
-};
-
-fullName = function	() {
-	var fname, lname, user;
-
-	if(!(user = this.attr('user'))) {
-		console.log(this.user);
-		console.log(this.attr('user'));
-		return false;
-	}
-
-	if(user.profile) {
-		fname = user.profile.first_name || '';
-		lname = user.profile.last_name || '';
-
-		return ''+fname + ' ' + lname;
-	}
-
-	return '';
-}
-
-User = can.Map.extend({
-	init: function() {
-		this.initUser();
-	},
-	user: null,
-	getCurrentUser: getCurrentUser,
-	getUserImage: getUserImage,
-	fullName: fullName,
-	logout: logout,
-	checkAuth: function(callback) {
-		var that = this;
-		can.ajax({
-			url: '/user?ajax=true',
-			sync: true,
-			success: function(data) {
-				var user = data.data.user || null
-
-				that.attr('user', user);
-
-				callback(null, user);
-			},
-			error: function(resp) {
-				callback(resp.err);
-			}
-		});
-	},
-	initUser: function() {
-		var that = this;
-
-		this.checkAuth(function (err, user) {
-			if(err) {
-				console.log('user Error: ', err);
-
-				that.attr('user', null);
-				return;
-			}
-
-			that.attr('user', user);
-
-			return user;
-		});
-	},
+UserMap = can.Map.extend({
 	define: {
-		// fullName: {
-		// 	get: function() {
-
-		// 	}
-		// },
-		isAuth: {
+		fullName: {
 			get: function() {
-				if(!this.attr('user')) {
-					var localuser = getCurrentUser();
-					if(!localuser) {
-						return false;
-					}
+				var fname, lname;
 
-					this.attr('user', localuser)
-
-					return true;
+				if(!this.attr('profile')) {
+					return '';
 				}
 
-				return true;
+				fname = this.attr('profile.first_name') || '';
+				lname = this.attr('profile.last_name') || '';
+
+				return ''+fname + ' ' + lname;
 			}
 		},
-		user: {
-			set: function(obj) {
-				if(!obj) {
-					return null;
-				}
-
-				obj = obj.attr();
-
-				window.localStorage.setItem('isAuth', JSON.stringify(obj));
-
-				return obj;
+		image: {
+			value: {
+				orig: '/img/user/helpers/stub/orig.png',
+				large: '/img/user/helpers/stub/large.png',
+				medium: '/img/user/helpers/stub/medium.png',
+				small: '/img/user/helpers/stub/small.png'
 			}
 		}
 	}
 });
+
+User = can.Control.extend({
+	defaults: {
+		user: new UserMap
+	}
+},{
+	init: function () {
+		this.initUser();
+	},
+	user: function() {
+		return this.options.user;
+	},
+	initUser: function() {
+		var that = this,
+			user = this.options.user;
+
+		this.checkAuth(function (err, newUser) {
+			if(err) {
+				user = null
+				return;
+			}
+
+			user.attr(newUser);
+
+			that.bindFilling();
+
+			return user;
+		});
+	},
+	auth: new can.Map,
+	bindFilling: function() {
+		var user = this.options.user;
+
+		user.bind('change', this.reCheckFilling);
+	},
+	reCheckFilling: function(ev, attr, how, newVal, oldVal) {
+		var def = 0,
+		that = this;
+
+		if(how != 'set') {
+			return false;
+		}
+
+		_.forEach(weights, function(item, key, list) {
+			var isField;
+
+			isField = _.every(item.fields, function (field) {
+				return that.attr(field);
+			});
+
+			if(isField) {
+				def += item.weight
+			}
+		});
+
+		this.attr('profile.filling', def)
+	},
+	isAuth: function() {
+		var that = this,
+			localuser = null,
+			user = this.options.user;
+
+		if(this.options.user.attr('_id')) {
+			this.auth.attr('isAuth', true);
+			return true;
+		}
+
+		localuser = this.getCurrentUser();
+
+		if(!localuser) {
+			this.auth.attr('isAuth', false);
+
+			return false;
+		}
+
+		user.attr(localuser);
+
+		this.auth.attr('isAuth', true);
+
+		return true;
+	},
+	checkAuth: function(callback) {
+		var that = this,
+			user = this.options.user;
+
+		can.ajax({
+			url: '/user?ajax=true',
+			sync: true,
+			success: function(response) {
+				if(response.data.user) {
+					user.attr(response.data.user);
+					that.auth.attr('isAuth', true)
+
+					callback(null, response.data.user);
+				}
+
+				callback("User not exist");
+			},
+			error: function(resp) {
+				callback(resp.err);
+				that.auth.attr('isAuth', false)
+
+			}
+		});
+	},
+	getCurrentUser: getCurrentUser,
+	logout: logout,
+})
 
 export default User
