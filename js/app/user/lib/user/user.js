@@ -158,8 +158,7 @@ User = can.Control.extend({
 			},
 			error: function(resp) {
 				callback(resp.err);
-				that.auth.attr('isAuth', false)
-
+				that.auth.attr('isAuth', false);
 			}
 		});
 	},

@@ -17,12 +17,11 @@ export default Controller.extend(
 		},
 
 		after_init: function(data) {
-			var user = appState.attr('user'),
-				auth = user.auth;
+			var auth = appState.attr('user.auth');
 
-			this.isAuth(user, auth.isAuth);
+			this.isAuth(null, auth.isAuth);
 
-			auth.delegate('isAuth', 'set', this.isAuth);
+			auth.delegate('isAuth', 'set', can.proxy(this.isAuth, this));
 		},
 
 		'.social .facebook click': function(el, ev) {
@@ -49,7 +48,6 @@ export default Controller.extend(
 				self.userTitle.hide();
 				self.bannerWrap.show();
 			}
-
 		},
 
 		'.tab click': function(el) {
