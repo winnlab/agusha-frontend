@@ -706,4 +706,63 @@
 			background-color: $blue;
 		}
 	}
+
+	.login_box {
+		height: 190px;
+		background-color: $blue;
+		margin: 10px 0 80px;
+		position: relative;
+		color: $white;
+
+		&:before {
+			@include pseudo;
+			width: 156px;
+			height: 205px;
+			background: url('/img/user/registration/child.png');
+			top: 20px;
+			left: 62px;
+		}
+
+		.adorable_cell {
+			text-align: left;
+		}
+
+		.info {
+			float: right;
+			height: 100%;
+			margin: 0;
+		}
+
+		.warning {
+			font-size: 24px;
+			line-height: 30px;
+			font-family: 'PT_Sans_Bold';
+			text-transform: uppercase;
+			margin-bottom: 10px;
+		}
+
+		.explanation {
+			margin-bottom: 20px;
+		}
+
+		.italic {
+			font-family: 'PT_Sans_Italic';
+			text-decoration: underline;
+		}
+
+		.links {
+			@include bold;
+			font-size: 15.25px;
+			color: $lightblue;
+			text-transform: uppercase;
+
+			span, a {
+				padding: 0 2px;
+			}
+
+			:hover {
+				color: $white;
+			}
+		}
+	}
 }

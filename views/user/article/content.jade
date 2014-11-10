@@ -64,43 +64,62 @@
 		.poll_container
 			.text
 				| !{article.desc.text}
-			.center
-				form(name='pollForm', class='pollForm options_container')
 
-					input(type="hidden", name="article", value="#{article._id}")
+			.center.pollContentWrapper(style=(user ? '' : 'display: none'))
+				if userVoted
+					.plz Вы уже проголосовали в этом опросе
 
-					.options_container
+				else
+					form(name='pollForm', class='pollForm options_container')
 
-							- each answerItem, answerKey in article.answer
-								.option
-									.radio_cell
-										.checkbox
-											input(name="answer", type="radio", value="#{answerItem._id}")
-											label
-												.img
-									.label #{answerItem.text}
+						input(type="hidden", name="article", value="#{article._id}")
 
-					.bottom.adorable_table
-						.adorable_cell
-							button.poll_button(type="submit") Проголосовать
+						.options_container
 
-				.plz Для того, чтобы увидеть результаты опроса, плз, ответьте сами
+								- each answerItem, answerKey in article.answer
+									.option
+										.radio_cell
+											.checkbox
+												input(name="answer", type="radio", value="#{answerItem._id}")
+												label
+													.img
+										.label #{answerItem.text}
+
+						.bottom.adorable_table
+							.adorable_cell
+								button.poll_button(type="submit") Проголосовать
+
+					.plz Для того, чтобы увидеть результаты опроса, плз, ответьте сами
 
 				.social
 					.social_button
 						.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
-					
+
 					.social_button
 						a(href="https://twitter.com/share" class="twitter-share-button") Tweet
-					
+
 					.social_button
 						div(id="vk_top_poll_" + params.alias)
-					
+
 					.social_button
 						div(id="ok_top_poll_" + params.alias)
-					
+
 					.social_button
 						.g-plusone(data-size="medium")
+
+			.login_box(style=(user ? 'display: none' : ''))
+				.info.column.double
+					.adorable_table
+						.adorable_cell
+							.warning Добавлять комментарии могут только авторизированные пользователи
+							.explanation
+								| Есть что сказать? Авторизируйся и используй
+								span.italic  все приимущества
+								|  своего профиля!
+								.links
+								a.login(href="/login", class="new_module") Вход
+								span /
+								a.register(href="/registration", class="new_module") Регистрация
 
 			.footer
 				.adorable_table
@@ -127,7 +146,7 @@
 					
 					div Результаты опроса:
 				
-				.options_container.pollResults(style='display: none')
+				.options_container.pollResults(style=(userVoted ? '' : 'display: none'))
 
 					- each answerItem, answerKey in article.answer
 
@@ -138,7 +157,7 @@
 								.progress_line
 									.progress(style="width: #{answerItem.percent}%;")
 				
-				.plz Для того, чтобы увидеть результаты опроса, плз, ответьте сами
+				.plz(style=(userVoted ? 'display: none' : '')) Для того, чтобы увидеть результаты опроса, плз, ответьте сами
 				.social
 					.social_button
 						.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
