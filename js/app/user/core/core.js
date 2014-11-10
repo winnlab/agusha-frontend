@@ -166,9 +166,7 @@ var Core = can.Control.extend(
 		},
 
 		initBindings: function () {
-
-			appState.attr('user').user().delegate('user', 'set', function (ev, newVal) {
-				console.log('newVal', newVal);
+			appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
 				if (newVal && newVal._id) {
 					$(document).find('.comment_box').css('display', 'block');
 					$(document).find('.login_box').css('display', 'none');
