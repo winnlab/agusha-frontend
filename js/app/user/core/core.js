@@ -177,9 +177,11 @@ var Core = can.Control.extend(
 			appState.attr('user').delegate('user', 'set', function (ev, newVal) {
 				if (newVal && newVal._id) {
 					$(document).find('.comment_box').css('display', 'block');
+					$(document).find('.pollContentWrapper').css('display', 'block');
 					$(document).find('.login_box').css('display', 'none');
 				} else {
 					$(document).find('.comment_box').css('display', 'none');
+					$(document).find('.pollContentWrapper').css('display', 'none');
 					$(document).find('.login_box').css('display', 'block');
 				}
 			});
