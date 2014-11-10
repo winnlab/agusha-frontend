@@ -1,5 +1,6 @@
 import 'can/map/delegate/'
 import 'can/map/define/'
+import 'core/viewHelpers'
 import Router from 'router'
 import config from 'rConfig'
 import helpers from 'helpers'
