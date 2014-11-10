@@ -15,6 +15,7 @@ img {
     line-height:100%;
     outline:none;
     text-decoration:none;
+	display: block;
 }
 
 a {
@@ -25,8 +26,12 @@ a img {
     border:0 none;
 }
 
-table, td {
-    border-collapse:collapse;
+table, tr, td {
+	border-spacing: 0;
+	border: 0;
+	border-collapse: collapse;
+	margin:0;
+    padding:0;
 }
 
 /**/
@@ -53,5 +58,42 @@ table, td {
 }
 
 .center_table {
+	width: 760px;
+}
+
+.content {
+	width: 740px;
+}
+
+.topper_cell {
+	height: 250px;
+	width: 740px;
+}
+
+.topper_top {
+	height: 170px;
+	width: 740px;
+}
+
+.logo_cell {
+	width: 280px;
+}
+
+.greeting_cell {
+	width: 460px;
+}
+
+.info_table {
+	height: 270px;
+	width: 740px;
+}
+
+.join_table {
+	height: 380px;
+	width: 740px;
+}
+
+.footer_table {
+	height: 56px;
 	width: 740px;
 }
