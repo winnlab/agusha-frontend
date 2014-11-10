@@ -164,6 +164,68 @@ var wysiwyg = function (slider, module, options) {
 can.mustache.registerHelper('wysihtml5', wysiwyg);
 can.mustache.registerHelper('wysiwyg', wysiwyg);
 
+var wysiwyg = function (slider, module, options) {
+	if (options === undefined) {
+		if (module === undefined) {
+			options = slider;
+			slider = undefined;
+		} else {
+			options = module;
+			module = undefined;
+		}
+	}
+
+	return function (el) {
+		_.defer(function (slider) {
+			var opts = {
+				height: 300,
+				module: module,
+				toolbar: [
+					['style', ['style']],
+					['font', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
+					['fontname', ['fontname']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+					['table', ['table']],
+					['insert', ['link', 'picture', 'video', 'hr']],
+					['view', ['fullscreen', 'codeview']],
+					['help', ['help']]
+				]
+			};
+
+			if (slider) {
+				opts.toolbar[8][1].splice(2, 0, 'slider');
+			}
+			$(el).summernote(opts);
+		}, slider);
+	};
+};
+
+can.mustache.registerHelper('cropper', function (img, data, options) {
+	if (options === undefined) {
+		options = data;
+		data = {};
+	}
+
+	return function (el) {
+		var params = {
+			multiple: true,
+			dashed: false,
+			done: function(data) {
+				console.log('cropper data', data);
+			}
+		};
+
+		if (data) {
+			params.data = data;
+		}
+
+		$(el).cropper(params);
+	};
+});
+
 can.mustache.registerHelper('arrContains', function (array, value, strict, reverse, options) {
 	strict = computedVal(strict);
 	value = computedVal(value)

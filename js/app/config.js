@@ -15,6 +15,7 @@ System.config({
 		'swal': 'js/plugins/sweetalert/lib/sweet-alert.min.js',
 		'summernote': 'js/plugins/summernote/dist/summernote.min.js',
 		'sortable': 'js/plugins/html5sortable/jquery.sortable.js',
+		'cropper': 'js/plugins/cropper/dist/cropper.min.js',
 
 		'adminlte-css/*': 'js/plugins/adminlte/css/*css',
 
@@ -44,6 +45,13 @@ System.config({
 		stache: 'can/view/stache/system'
 	},
 	meta: {
+		cropper: {
+			format: 'global',
+			deps: [
+				'jquery',
+				'js/plugins/cropper/dist/cropper.min.css!'
+			]
+		},
 		sortable: {
 			format: 'global',
 			deps: [
