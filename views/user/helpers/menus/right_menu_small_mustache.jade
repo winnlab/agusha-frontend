@@ -4,11 +4,11 @@
 .topper
 	.subTopper
 		.top
-			| {{#if user}}
-			img(src="{{getUserImage 'small'}}")
+			| {{#if auth.isAuth}}
+			img(src="{{user.image.small}}")
 			| {{/if}}
 
-		| {{#if user}}
+		| {{#if auth.isAuth}}
 		.message
 			.circle.rounded.adorable_table
 				.adorable_cell 0
@@ -16,7 +16,7 @@
 .points
 	.you_have
 		div У ВАС
-		| {{#if user.points}}
+		| {{#if auth.isAuth}}
 		div {{user.points}} б.
 		| {{else}}
 		div 0 б.

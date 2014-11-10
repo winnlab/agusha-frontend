@@ -19,10 +19,6 @@ export default Controller.extend(
 		},
 
 		after_init: function(data) {
-			var user = appState.attr('user')
-			this.isAuth(user, user.attr('user'));
-			user.delegate('user', 'set', this.isAuth);
-
 			this.articlesSource = data ? data.articles : app.articles;
 
 			var encyclopediaHtml,
@@ -44,6 +40,12 @@ export default Controller.extend(
 			can.view.mustache('encyclopedia_view', encyclopediaHtml);
 
 			this.items_container.html(can.view('encyclopedia_view', this.data, encyclopediaHelpers));
+
+			var auth = appState.attr('user.auth');
+
+			this.isAuth(null, auth.isAuth);
+
+			auth.delegate('isAuth', 'set', can.proxy(this.isAuth, this));
 		},
 
 		'.social .facebook click': function(el, ev) {
@@ -60,6 +62,7 @@ export default Controller.extend(
 		},
 		isAuth: function (el, isAuth) {
 			var self = this;
+
 			if (isAuth) {
 				self.element.addClass('logedIn');
 				self.bannerWrap.hide();
@@ -69,7 +72,6 @@ export default Controller.extend(
 				self.userTitle.hide();
 				self.bannerWrap.show();
 			}
-
 		},
 
 		'.tab click': function(el) {

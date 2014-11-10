@@ -69,7 +69,9 @@ export default Controller.extend(
 						return alert('Произошла ошибка при авторизации');
 					}
 
-					user.attr('user', response.message.user);
+					user.options.user.attr(response.message.user);
+
+					user.auth.attr('isAuth', true)
 
 					can.route.attr({module: 'profile'});
 				},

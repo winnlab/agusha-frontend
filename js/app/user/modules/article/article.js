@@ -56,18 +56,19 @@ export default Controller.extend(
 		        type: 'POST',
 		        data: can.deparam(el.serialize()),
 		        success: function (data) {
-		        	self.displayPollFormData(data);
+		        	self.displayPollFormData(el, data);
 		        }
 	        });
 		},
 
-		displayPollFormData: function (data) {
+		displayPollFormData: function (el, data) {
 			var self = this;
             var $pollAnsweredWrapper = $('.poll_container.answered');
             var $pollResults = $pollAnsweredWrapper.find('.pollResults');
             var $plz = $pollAnsweredWrapper.find('.plz');
 
-			console.log(data);
+			el.slideUp();
+			el.parent().find('.plz').html('Вы уже проголосовали в этом опросе');
 
             $('.options_container.pollResults').html(
                 can.view(self.options.viewpath + 'pollResults.stache', {

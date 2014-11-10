@@ -22,7 +22,6 @@ var Core = can.Control.extend(
 	{
 		init: function() {
 			this.window = $(window);
-
 			this.left_resizable = $('.left_resizable');
 			this.left_inner_menu = this.left_resizable.filter('.left_inner_menu');
 
@@ -71,7 +70,7 @@ var Core = can.Control.extend(
 		// },
 		'.logout click': function() {
 			this.hide_right_menu()
-			RightMenu.data.logout()
+			appState.attr('user').logout()
 		},
 		step: function(timestamp) {
 			var that = this;
@@ -129,16 +128,10 @@ var Core = can.Control.extend(
 			this.requestAnimFrame();
 		},
 
-		// '#right_menu_small, #right_menu .close click': function(el) {
-		// 	this.left_resizable.addClass('small');
-		// 	this.right_menu.toggleClass('active');
-
-		// 	this.requestAnimFrame();
-		// },
-
-		'#right_menu_small click': function(el) {
+		'#right_menu_small click': function(el) {			
 			var user = appState.attr('user'),
 				isAuth = user.isAuth();
+
 
 			if (!isAuth) {
 				return;
@@ -174,13 +167,14 @@ var Core = can.Control.extend(
 		},
 
 		initBindings: function () {
-
-			appState.attr('user').delegate('user', 'set', function (ev, newVal) {
+			appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
 				if (newVal && newVal._id) {
 					$(document).find('.comment_box').css('display', 'block');
+					$(document).find('.pollContentWrapper').css('display', 'block');
 					$(document).find('.login_box').css('display', 'none');
 				} else {
 					$(document).find('.comment_box').css('display', 'none');
+					$(document).find('.pollContentWrapper').css('display', 'none');
 					$(document).find('.login_box').css('display', 'block');
 				}
 			});

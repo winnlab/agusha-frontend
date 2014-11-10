@@ -3,8 +3,10 @@ import appState from 'core/appState'
 
 var RightMenu = can.Control.extend({
 	init: function(el) {
-		var user = appState.attr('user');
-		this.data = user;
+		this.data = {
+			user: appState.attr('user').user(),
+			auth: appState.attr('user').auth
+		};
 
 		this.initRight();
 		this.initRightSmall();
@@ -21,7 +23,6 @@ var RightMenu = can.Control.extend({
 		can.view.mustache('RightMenu', html);
 
 		$('#right_menu').html(can.view('RightMenu', this.data));
-
 	},
 	initRightSmall: function() {
 		var html_small,
