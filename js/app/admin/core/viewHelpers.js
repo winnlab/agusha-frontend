@@ -203,14 +203,16 @@ var wysiwyg = function (slider, module, options) {
 	};
 };
 
-can.mustache.registerHelper('cropper', function (entity, prefix, options) {
+can.mustache.registerHelper('cropper', function (entity, prefix, ratio, options) {
 	entity = computedVal(entity);
 	prefix = computedVal(prefix);
+	ratio = computedVal(ratio);
 
 	return function (el) {
 		var params = {
 				multiple: true,
-				dashed: false
+				dashed: false,
+				aspectRatio: ratio || 'auto'
 			},
 			data = entity.attr(`data${prefix}`);
 
