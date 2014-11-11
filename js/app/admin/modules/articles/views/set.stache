@@ -175,10 +175,10 @@
                         </div>
                         {{#if showCroppers}}
                             {{#each cropSizes}}
-                                <div class="panel-body cropper-wrap" data-prefix="{{size}}"> 
+                                <div class="panel-body cropper-wrap" data-prefix="{{size}}" data-w="{{w}}" data-h="{{h}}"> 
                                     <h4>Малое изображение ({{size}})</h4>
                                     <div class="col-md-6">
-                                        <img class="croppedImage" {{cropper article.image size}} src="/img/uploads/{{article.image.background}}" />
+                                        <img class="croppedImage" {{cropper article.image size ratio}} src="/img/uploads/{{article.image.background}}" />
                                     </div>
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-primary cropImage">
