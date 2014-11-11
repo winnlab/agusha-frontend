@@ -766,3 +766,37 @@
 		}
 	}
 }
+
+@media (min-width: 1850px) {
+	.module.article .content {
+		width: 1220px;
+
+		.column.double {
+			width: 880px;
+
+		}
+
+		.poll_container {
+			width: 100%;
+			margin: 0;
+
+
+			.text {
+				width: 100%;
+				box-sizing: border-box;
+			}
+			.pollContentWrapper {
+				width: 100%;
+				box-sizing: border-box;
+			}
+			.login_box {
+				width: 100%;
+				box-sizing: border-box;
+			}
+			.footer {
+				width: 100%;
+				box-sizing: border-box;
+			}
+		}
+	}
+}

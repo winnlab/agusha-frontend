@@ -255,3 +255,14 @@
 		}
 	}
 }
+
+@media (min-width: 1850px) {
+	.module.question .content {
+		width: 1220px;
+
+		.column.double {
+			width: 880px;
+
+		}
+	}
+}
