@@ -19,6 +19,12 @@ export default Controller.extend(
 		},
 
 		after_init: function(data) {
+			var auth = appState.attr('user').auth;
+
+			this.isAuth(null, auth.attr('isAuth'));
+
+			auth.delegate('isAuth', 'set', can.proxy(this.isAuth, this));
+
 			this.articlesSource = data ? data.articles : app.articles;
 
 			var encyclopediaHtml,
@@ -40,12 +46,6 @@ export default Controller.extend(
 			can.view.mustache('encyclopedia_view', encyclopediaHtml);
 
 			this.items_container.html(can.view('encyclopedia_view', this.data, encyclopediaHelpers));
-
-			var auth = appState.attr('user').auth;
-
-			this.isAuth(null, auth.attr('isAuth'));
-
-			auth.delegate('isAuth', 'set', can.proxy(this.isAuth, this));
 		},
 
 		'.social .facebook click': function(el, ev) {
@@ -62,14 +62,15 @@ export default Controller.extend(
 		},
 		isAuth: function (el, isAuth) {
 			var self = this;
-
 			if (isAuth) {
-				self.element.addClass('logedIn');
+				self.element.find('.mainModuleWrap').addClass('logedIn');
 				self.bannerWrap.hide();
+				self.element.find('.commonFeed').hide();
 				self.userTitle.show();
 			} else {
-				self.element.removeClass('logedIn');
+				self.element.find('.mainModuleWrap').removeClass('logedIn');
 				self.userTitle.hide();
+				self.element.find('.commonFeed').show();
 				self.bannerWrap.show();
 			}
 		},

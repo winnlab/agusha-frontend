@@ -1,29 +1,29 @@
-img.apsBg(src="/img/user/main/topper_background.jpg")
-.content.bannerWrap(style = (user ? 'display: none' : ''))
-	.whats_up
-	
-	.topper
-		.top_label
-			| НОВЫЙ
-			br
-			| ЙОГУРТ со злаками
+.mainModuleWrap
+	img.apsBg(src="/img/user/main/topper_background.jpg")
+	.content.bannerWrap(style = (user ? 'display: none' : ''))
+		.whats_up
 		
-		.label.novito_nova
-			| ПОЛЬЗА МОЛОКА
-			br
-			| И ЗЛАКОВ В ОДНОЙ
-			br
-			| БУТЫЛОЧКЕ
+		.topper
+			.top_label
+				| НОВЫЙ
+				br
+				| ЙОГУРТ со злаками
+			
+			.label.novito_nova
+				| ПОЛЬЗА МОЛОКА
+				br
+				| И ЗЛАКОВ В ОДНОЙ
+				br
+				| БУТЫЛОЧКЕ
+			
+			button.banner_button Это вкусно?
 		
-		button.banner_button Это вкусно?
-	
-	include ../helpers/auth_box
+		include ../helpers/auth_box
 
-include ../registered/content
-
-include ../encyclopedia/helpers
-.content.itemsWrap
-	.items_container
-		- each a, i in articles
-			mixin article(a, i)
+	include ../registered/content
 	
+	- if (!user)
+		.content.itemsWrap.commonFeed
+			.items_container
+				- each a, i in articles
+					mixin article(a, i)
