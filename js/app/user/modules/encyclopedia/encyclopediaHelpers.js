@@ -38,18 +38,16 @@ export default {
 
         return classname;
     },
-    getBg: function (entity, index) {
+    getBg: function (entity, index, type) {
         var i = computedVal(index),
             e = entity,
             size = entity.attr('XL')
                ? 'XL'
-               : entity.attr('theme.0.hasBigView')
+               : entity.attr(computedVal(type) == 'main' ? 'hasBigView' : 'theme.0.hasBigView')
                    ? 'L'
                    : 'S',
             img;
-
         img = entity.attr('image.' + size);
-
         return img && entity.attr('type.name') !== 'Статья от специалиста' ? 'background-image: url(/img/uploads/' + img + ');' : '';
     },
 
