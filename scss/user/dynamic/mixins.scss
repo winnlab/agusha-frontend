@@ -94,7 +94,7 @@ $large: 1600px;
 	-moz-background-size: cover;
 }
 
-@mixin inline_block {
+@mixin my_inline_block {
 	display: inline-block;
 	vertical-align: top;
 }
