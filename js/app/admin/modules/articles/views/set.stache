@@ -168,14 +168,40 @@
                     </div>
                     {{#if article.image.background}}
                         <div class="panel-body">
-                            <button type="button" class="btn btn-primary cropImage">
-                                <i class="fa fa-crop"></i>
-                                <span>Сохранить</span>
+                            <button type="button" class="btn btn-primary croppers">
+                                <span>Вырезать изображения&nbsp;</span>
+                                <i class="fa fa-level-down"></i>
                             </button>
-                            <div class="col-md-6 col-md-offset-2">
-                                <img class="croppedImage" {{cropper article.image.background false}} src="/img/uploads/{{article.image.background}}" />
-                            </div>
                         </div>
+                        {{#if showCroppers}}
+                            {{#each cropSizes}}
+                                <div class="panel-body cropper-wrap" data-prefix="{{size}}"> 
+                                    <h4>Малое изображение ({{size}})</h4>
+                                    <div class="col-md-6">
+                                        <img class="croppedImage" {{cropper article.image size}} src="/img/uploads/{{article.image.background}}" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary cropImage">
+                                            <i class="fa fa-crop"></i>
+                                            <span>Вырезать</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{#objectHasProperty article.image size}}
+                                            <h5 class="col-md-6">Превью:</h5>
+                                            <span class="pull-right">
+                                                <button type="button" class="btn-sm btn-danger removeCropped">
+                                                    <i class="fa fa-trash"></i>
+                                                    <span>Удалить</span>
+                                                </button>
+                                            </span>
+                                            <img class="cropped-postview" src="/img/uploads/{{getObjectProperty article.image size}}" />
+                                        {{/objectHasProperty}}
+                                    </div>
+                                </div>
+                            {{/each}}
+                            </div>
+                        {{/if}}
                     {{/if}}
                 </div>
             {{/if}}
