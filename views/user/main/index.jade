@@ -10,7 +10,9 @@ block content
 block append scripts
 	script.
 		var app = {
-			articles: !{JSON.stringify(articles)}			
+			articles: !{JSON.stringify(articles)},
+			themeSubs: !{JSON.stringify(themeSubs)},
+			consultations: !{JSON.stringify(consultations)}
 		};
 	script#encyclopedia_mustache(type="text/mustache")
 		| {{#each articles}}

@@ -166,45 +166,17 @@
                             Загрузить изображение фона
                         </upload>
                     </div>
-                    <div class="panel-body">
-                        <upload
-                            class="col-md-12"
-                            name="image.S"
-                            url="/admin/article/img"
-                            delete-url="/admin/article/img"
-                            entity="{article}"
-                            uploaded="{article.image.S}"
-                            accept="image/*"
-                        >
-                            Загрузить малое изображение (S)
-                        </upload>
-                    </div>
-                    <div class="panel-body">
-                        <upload
-                            class="col-md-12"
-                            name="image.L"
-                            url="/admin/article/img"
-                            delete-url="/admin/article/img"
-                            entity="{article}"
-                            uploaded="{article.image.L}"
-                            accept="image/*"
-                        >
-                            Загрузить большое изображение (L)
-                        </upload>
-                    </div>
-                    <div class="panel-body">
-                        <upload
-                            class="col-md-12"
-                            name="image.XL"
-                            url="/admin/article/img"
-                            delete-url="/admin/article/img"
-                            entity="{article}"
-                            uploaded="{article.image.XL}"
-                            accept="image/*"
-                        >
-                            Загрузить ОЧЕНЬ большое изображение (XL)
-                        </upload>
-                    </div>
+                    {{#if article.image.background}}
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-primary cropImage">
+                                <i class="fa fa-crop"></i>
+                                <span>Сохранить</span>
+                            </button>
+                            <div class="col-md-6 col-md-offset-2">
+                                <img class="croppedImage" {{cropper article.image.background false}} src="/img/uploads/{{article.image.background}}" />
+                            </div>
+                        </div>
+                    {{/if}}
                 </div>
             {{/if}}
 

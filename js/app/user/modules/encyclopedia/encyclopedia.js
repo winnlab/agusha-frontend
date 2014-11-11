@@ -154,7 +154,7 @@ export default Controller.extend(
 			if (this.isFirstXl !== undefined)
 				return this.isFirstXl;
 			var themeId = this.data ? this.data.attr('theme') : can.route.attr('param2');
-			this.isFirstXl = _.find(themes, { _id: themeId}).isFirstCardXL || false;
+			this.isFirstXl = themes.length ? _.find(themes, { _id: themeId}).isFirstCardXL || false : false;
 			return this.isFirstXl;
 		},
 
@@ -210,16 +210,18 @@ export default Controller.extend(
 		},
 
 		'.subscribeIt click': function () {
+			var self = this;
 			Sub.subscribe(this.data.attr('theme'), function () {
-				this.element.find('.subscribeIt').hide();
-				this.element.find('.unSubscribeIt').show();
+				self.element.find('.subscribeIt').hide();
+				self.element.find('.unSubscribeIt').show();
 			});
 		},
 
 		'.unSubscribeIt click': function () {
+			var self = this;
 			Sub.unsubscribe(this.data.attr('theme'), function () {
-				this.element.find('.unSubscribeIt').hide();
-				this.element.find('.subscribeIt').show();
+				self.element.find('.unSubscribeIt').hide();
+				self.element.find('.subscribeIt').show();
 			});
 		}
 	}

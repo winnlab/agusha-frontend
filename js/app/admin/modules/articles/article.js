@@ -6,6 +6,7 @@ import 'upload'
 import appState from 'appState'
 import _ from 'lodash'
 
+import 'cropper'
 import 'slider'
 import 'summernote'
 import 'sortable'
@@ -245,6 +246,11 @@ export default Edit.extend({
 
 	'.galleryName change': function (el) {
 		$(el).parents('.gallery').data('gallery').save();
+	},
+
+	'.cropImage click': function (el) {
+		var data = $(el).parent().find('.croppedImage').cropper('getData');
+		console.log(data);
 	}
 
 });
