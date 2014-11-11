@@ -10,7 +10,6 @@ $ageFilterWidth: 160px;
 
 .module.encyclopedia {
 	position: relative;
-	text-align: left;
 	width: 100%;
 	background: url('/img/user/core/pat.png') repeat;
 
@@ -111,7 +110,7 @@ $ageFilterWidth: 160px;
 		}
 
 		.image {
-			@include inline_block;
+			@include my_inline_block;
 			height: 43px;
 			width: 43px;
 			position: relative;
@@ -189,7 +188,7 @@ $ageFilterWidth: 160px;
 		}
 
 		.bookshelf {
-			@include inline_block;
+			@include my_inline_block;
 			width: 100%;
 			overflow: hidden;
 			padding-bottom: 20px;
@@ -268,7 +267,7 @@ $ageFilterWidth: 160px;
 			}
 
 			.title {
-				@include inline_block;
+				@include my_inline_block;
 				white-space: nowrap;
 				width: 326px;
 				overflow: hidden;
@@ -446,7 +445,7 @@ $ageFilterWidth: 160px;
 	}
 
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		height: auto;
 		text-align: left;
 

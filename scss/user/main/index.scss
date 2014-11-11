@@ -197,7 +197,7 @@
 		}
 
 		.icon {
-			@include inline_block;
+			@include my_inline_block;
 			width: 39px;
 			@include box_shadow(-1px 0 0 0 #e5e5e5);
 			margin-left: 1px !important;

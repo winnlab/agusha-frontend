@@ -40,7 +40,7 @@
 	}
 	
 	.category_container {
-		@include inline_block;
+		@include my_inline_block;
 		vertical-align: top;
 		height: 100%;
 		margin: 0 0 0 27px;

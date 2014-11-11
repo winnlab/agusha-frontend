@@ -4,7 +4,6 @@
 
 #production {
 	color: $grey;
-	text-align: center;
 	width: 100%;
 
 	&:before {
@@ -54,7 +53,7 @@
 	}
 
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		width: 580px;
 		text-align: left;
 		height: auto;
