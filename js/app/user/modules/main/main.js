@@ -22,7 +22,7 @@ export default Controller.extend(
 			this.articlesSource = data ? data.articles : app.articles;
 
 			var encyclopediaHtml,
-				articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, true);
+				articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, true, true);
 
 			this.data = new can.Map({
 				articles: articles,
@@ -87,7 +87,7 @@ export default Controller.extend(
 
 		reRenderArticles: function () {
 			if (this.data) {
-				var articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, true);
+				var articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, true, true);
 				this.data.attr('articles', articles);
 			}
 		}
