@@ -1,3 +1,15 @@
+
+//- +childrenItem()
+mixin childrenItem()
+	.childItem
+		.childPic
+			img(src="/img/user/helpers/stub/child.png").rounded
+
+		.childInfo
+			.childName {{name}}
+			.childGender {{#genders gender}}
+			.childAge {{#dateFromBirth birth_date}}
+
 .content.adorable_table
 	.adorable_cell
 		.header
@@ -27,6 +39,14 @@
 					.question_bubble ?
 
 			.childBlock
+				| {{#each user.children}}
+				.childItem
+					.childPic
+						img(src="/img/user/helpers/stub/child.png").rounded
+
+					.childInfo
+						.childName {{name}}
+				| {{/each}}
 				//- .childItem
 				//- 	.childPic
 				//- 		img(src="/img/user/helpers/stub/child.png").rounded

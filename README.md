@@ -12,4 +12,4 @@ sass --watch public/scss:public/css --style compressed -r sass-css-importer --so
 
 Добавляем forever:
 ===
-PATH=$PATH:/root/ahusha2/node_modules/forever/bin
+PATH=$PATH:/root/agusha2/node_modules/forever/bin
