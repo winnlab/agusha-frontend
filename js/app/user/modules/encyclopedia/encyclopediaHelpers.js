@@ -125,14 +125,10 @@ export default {
                 iteration = i;
                 if (i == 0 || el == undefined)
                     return false;
-                if (delta == 0 || delta > 2)
-                    return true;
-                if (lineWidthConst == 2 && (delta == 0 || delta > 1))
+                if (delta == 0 || delta > 1)
                     return true;
                 if (delta == 1 && (byMain ? el.hasBigView : el.theme[0].hasBigView) == false)
-                    return true
-                if (delta == 2 && (byMain ? el.hasBigView : el.theme[0].hasBigView) == true)
-                    return true
+                    return true;
             });
 
         if (!element) {
