@@ -125,7 +125,8 @@ export default Controller.extend(
 				},
 				articles: articles,
 				sort: 'asc',
-				filter: 0
+				filter: 0,
+				module: 'encyclopedia'
 			});
 
 			this.data = new ViewModel();

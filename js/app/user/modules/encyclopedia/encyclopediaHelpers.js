@@ -24,12 +24,12 @@ export default {
 
         return result;
     },
-    getClassName: function (entity, index) {
+    getClassName: function (entity, index, type) {
         var i = computedVal(index),
             e = entity;
         var classname = entity.attr('XL')
             ? 'x2'
-            : entity.attr('theme.0.hasBigView')
+            : entity.attr(computedVal(type) == 'main' ? 'hasBigView' : 'theme.0.hasBigView')
                 ? 'double'
                 : '';
 
@@ -62,11 +62,11 @@ export default {
         data = _.sortBy(data, function (item) {
             var position;
             if (byMain) {
-                position = item.position ? (order == 'desc' ? -1 : 1) * item.position : 0
+                position = item.position ? (order == 'desc' ? -1 : 1) * item.position : 0;
             } else {
-                position = item.theme[0].position ? (order == 'desc' ? -1 : 1) * item.theme[0].position : 0
+                position = item.theme[0].position ? (order == 'desc' ? -1 : 1) * item.theme[0].position : 0;
             }
-            return ;
+            return position;
         });
 
         var self = this,

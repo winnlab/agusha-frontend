@@ -32,7 +32,8 @@ export default Controller.extend(
 
 			this.data = new can.Map({
 				articles: articles,
-				filter: 0
+				filter: 0,
+				module: 'main'
 			});
 
 			var encyclopedia_mustache = $('#encyclopedia_mustache');
