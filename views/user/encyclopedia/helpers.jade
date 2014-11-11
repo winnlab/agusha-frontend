@@ -45,7 +45,7 @@ mixin article(a, i)
 			.topper.bg
 				.topper_label
 					.adorable_table
-						.adorable_cell= (a ? a.theme[0].name : '{{theme.0.name}}')
+						.adorable_cell= (a && a.theme && a.theme[0] && a.theme[0].name ? a.theme[0].name : '{{theme.0.name}}')
 
 				.topper_title= (a ? a.title : '{{title}}')
 				.topper_text= (a ? a.desc.shorttext : '{{desc.shorttext}}')
