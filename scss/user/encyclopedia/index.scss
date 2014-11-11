@@ -464,7 +464,8 @@ $ageFilterWidth: 160px;
 
 	.content > .topper_title {
 		color: $blue;
-		height: 80px;
+		height: auto;
+		padding-bottom: 10px;
 	}
 
 	.items_filter {

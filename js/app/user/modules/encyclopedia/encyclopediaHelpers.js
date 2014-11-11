@@ -24,12 +24,12 @@ export default {
 
         return result;
     },
-    getClassName: function (entity, index) {
+    getClassName: function (entity, index, type) {
         var i = computedVal(index),
             e = entity;
         var classname = entity.attr('XL')
             ? 'x2'
-            : entity.attr('theme.0.hasBigView')
+            : entity.attr(computedVal(type) == 'main' ? 'hasBigView' : 'theme.0.hasBigView')
                 ? 'double'
                 : '';
 
@@ -38,29 +38,33 @@ export default {
 
         return classname;
     },
-    getBg: function (entity, index) {
+    getBg: function (entity, index, type) {
         var i = computedVal(index),
             e = entity,
             size = entity.attr('XL')
                ? 'XL'
-               : entity.attr('theme.0.hasBigView')
+               : entity.attr(computedVal(type) == 'main' ? 'hasBigView' : 'theme.0.hasBigView')
                    ? 'L'
                    : 'S',
             img;
-
         img = entity.attr('image.' + size);
-
         return img && entity.attr('type.name') !== 'Статья от специалиста' ? 'background-image: url(/img/uploads/' + img + ');' : '';
     },
 
     // Sorting articles functions
-    sortArticles: function (sourceData, order, isXL) {
+    sortArticles: function (sourceData, order, isXL, byMain) {
         order = order || 'desc';
         if (!sourceData.length)
             return [];
         var data = _.clone(sourceData, true);
         data = _.sortBy(data, function (item) {
-            return item.theme[0].position ? (order == 'desc' ? -1 : 1) * item.theme[0].position : 0;
+            var position;
+            if (byMain) {
+                position = item.position ? (order == 'desc' ? -1 : 1) * item.position : 0;
+            } else {
+                position = item.theme[0].position ? (order == 'desc' ? -1 : 1) * item.theme[0].position : 0;
+            }
+            return position;
         });
 
         var self = this,
@@ -87,7 +91,11 @@ export default {
 
         _.each(result, function (element, i) {
             if (i == 0) {
-                elementWidth = element.theme[0].hasBigView || isXL ? 2 : 1;
+                if (byMain) {
+                    elementWidth = element.hasBigView || isXL ? 2 : 1;
+                } else {
+                    elementWidth = element.theme[0].hasBigView || isXL ? 2 : 1;
+                }
                 lineWidth += elementWidth;
             } else {
                 if (lineWidth == lineWidthConst) {
@@ -98,8 +106,12 @@ export default {
                         lineWidth = 0;
                     }
                 }
-                result[i] = self.findSuitableEl(data, lineWidthConst - lineWidth, lineWidthConst);
-                elementWidth = result[i].theme[0].hasBigView ? 2 : 1;
+                result[i] = self.findSuitableEl(data, lineWidthConst - lineWidth, lineWidthConst, byMain);
+                if (byMain) {
+                    elementWidth = result[i].hasBigView ? 2 : 1;
+                } else {
+                    elementWidth = result[i].theme[0].hasBigView ? 2 : 1;
+                }
                 lineWidth += elementWidth;
             }
         });
@@ -107,27 +119,27 @@ export default {
         return result;
     },
 
-    findSuitableEl: function (data, delta, lineWidthConst) {
+    findSuitableEl: function (data, delta, lineWidthConst, byMain) {
         var iteration,
             element = _.find(data, function (el, i) {
                 iteration = i;
                 if (i == 0 || el == undefined)
                     return false;
-                if (delta == 0 || delta > 2)
+                if (delta == 0 || delta > 1)
                     return true;
-                if (lineWidthConst == 2 && (delta == 0 || delta > 1))
+                if (delta == 1 && (byMain ? el.hasBigView : el.theme[0].hasBigView) == false)
                     return true;
-                if (delta == 1 && el.theme[0].hasBigView == false)
-                    return true
-                if (delta == 2 && el.theme[0].hasBigView == true)
-                    return true
             });
 
         if (!element) {
             element = _.find(data, function (el, i) {
                 iteration = i;
                 if (el && i !== 0) {
-                    el.theme[0].hasBigView = false;
+                    if (byMain) {
+                        el.hasBigView = false;
+                    } else {
+                        el.theme[0].hasBigView = false;
+                    }
                     return true;
                 }
                 return false;

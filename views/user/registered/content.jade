@@ -1,5 +1,7 @@
 .bg
 
+include ../encyclopedia/helpers
+
 .content.userTitle(style = (user ? 'display: none' : ''))
 	include ../helpers/breadcrumbs
 	
@@ -7,15 +9,21 @@
 
 	.tabs
 		.tabs_flex
-			//- .tab.tab_selector.my_strip(data-tab="my_strip")
-				//- .tab_selector_inside
-					//- .title Моя лента
+			.tab.tab_selector.my_strip(data-tab="my_strip")
+				.tab_selector_inside
+					.title Моя лента
 			.tab.tab_selector.news.active(data-tab="news")
 				.tab_selector_inside
 					.title Что нового?
 
 	.tab_contents
 		.tab_content.tab_selector.my_strip.active
-
-
+			.content.itemsWrap
+				.items_container
+					
+					
 		.tab_content.tab_selector.news
+			.content.itemsWrap
+				.items_container
+					- each a, i in articles
+						mixin article(a, i)
