@@ -63,7 +63,7 @@
 								<td>
 									<img class="come_and_get" src="http://agusha.com.ua:8080/img/user/helpers/email/come_and_get.png" />
 									
-									<a class="button" href="http://agusha.com.ua:8080" target="_blank">
+									<a class="button" href="{{site.linkTo('registration/activate/'+user._id)}}" target="_blank">
 										<img src="http://agusha.com.ua:8080/img/user/helpers/email/blue_button.png" />
 									</a>
 									
