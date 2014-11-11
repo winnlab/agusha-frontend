@@ -36,7 +36,7 @@ mixin article(a, i)
 		- classname += (!a.image || !a.image.background ? ' no-image' : '')
 		- classname += a.is_quiz ? ' poll' : '';
 	else
-		- classname = '{{getClassName . @index}}'
+		- classname = '{{getClassName . @index module}}'
 	
 	- classname += ' ' + articleType
 	
