@@ -203,23 +203,19 @@ var wysiwyg = function (slider, module, options) {
 	};
 };
 
-can.mustache.registerHelper('cropper', function (img, data, options) {
-	if (options === undefined) {
-		options = data;
-		data = {};
-	}
+can.mustache.registerHelper('cropper', function (entity, prefix, options) {
+	entity = computedVal(entity);
+	prefix = computedVal(prefix);
 
 	return function (el) {
 		var params = {
-			multiple: true,
-			dashed: false,
-			done: function(data) {
-				console.log('cropper data', data);
-			}
-		};
+				multiple: true,
+				dashed: false
+			},
+			data = entity.attr(`data${prefix}`);
 
 		if (data) {
-			params.data = data;
+			params.data = data.attr();
 		}
 
 		$(el).cropper(params);
@@ -284,6 +280,26 @@ can.mustache.registerHelper('arrOfObjectsContains', function (array, property, v
 });
 
 can.mustache.registerHelper('getURLRoot', function () {
-	var url = document.URL;
-	return url.split('/')[0] || url;
+	var url = document.URL.split('/');
+
+	return url.length > 1 
+		? url[0] + '//' + url[2]
+		: url;
+});
+
+can.mustache.registerHelper('objectHasProperty', function (obj, prop, options) {
+	var value;
+
+	obj = computedVal(obj);
+	prop = computedVal(prop);
+	value = _.isFunction(obj.attr) && obj.attr(prop) || obj[prop];
+
+	return _.isEmpty(value) ? false : options.fn();
+});
+
+can.mustache.registerHelper('getObjectProperty', function (obj, prop) {
+	obj = computedVal(obj);
+	prop = computedVal(prop);
+
+	return _.isFunction(obj.attr) && obj.attr(prop) || obj[prop];
 });
