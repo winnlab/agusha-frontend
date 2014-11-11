@@ -124,7 +124,7 @@ $large: 1600px;
 }
 
 @mixin column {
-	@include inline_block;
+	@include my_inline_block;
 	@include border_boxed;
 	margin: 10px;
 	width: 280px;
