@@ -36,12 +36,12 @@ mixin article(a, i)
 		- classname += (!a.image || !a.image.background ? ' no-image' : '')
 		- classname += a.is_quiz ? ' poll' : '';
 	else
-		- classname = '{{getClassName . @index}}'
+		- classname = '{{getClassName . @index module}}'
 	
 	- classname += ' ' + articleType
 	
 	a(class="new_module card #{classname}" href="/article/" + (a ? a._id : '{{_id}}') style=(a ? '' : '{{filterBy . filter}}'))
-		.inner(style=( a ? a.image && a.image[bgSize] && articleType !== 'author' ? "background-image: url(/img/uploads/" + a.image[bgSize] + ");" : '' : '{{getBg . @index}}'))
+		.inner(style=( a ? a.image && a.image[bgSize] && articleType !== 'author' ? "background-image: url(/img/uploads/" + a.image[bgSize] + ");" : '' : '{{getBg . @index module}}'))
 			.topper.bg
 				.topper_label
 					.adorable_table
