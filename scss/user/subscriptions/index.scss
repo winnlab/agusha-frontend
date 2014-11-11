@@ -42,7 +42,7 @@
 	
 	.age {
 		@include border_boxed;
-		@include inline_block;
+		@include my_inline_block;
 		width: 218px;
 		height: 100%;
 		
@@ -54,7 +54,7 @@
 	
 	.theme {
 		@include border_boxed;
-		@include inline_block;
+		@include my_inline_block;
 		width: 562px;
 		height: 100%;
 		
@@ -66,7 +66,7 @@
 	
 	.unsub {
 		@include border_boxed;
-		@include inline_block;
+		@include my_inline_block;
 		width: 100px;
 		height: 100%;
 		

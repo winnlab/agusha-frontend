@@ -233,7 +233,7 @@ table tr {
 	}
 
 	.avatar {
-		@include inline_block;
+		@include my_inline_block;
 		width: 128px;
 		height: 128px;
 		position: relative;
@@ -630,7 +630,7 @@ table tr {
 	.number {
 		@include border_boxed;
 		@include border_radius(1px);
-		@include inline_block;
+		@include my_inline_block;
 		@include transition(width 0.3s ease-in-out);
 		position: relative;
 		width: 27px;
@@ -859,7 +859,7 @@ table tr {
 	}
 
 	.social_block {
-		@include inline_block;
+		@include my_inline_block;
 		@include transition(width 0.3s ease-in-out);
 		width: 76px;
 		height: 100%;
@@ -1118,7 +1118,7 @@ table tr {
 	}
 
 	&.active {
-		@include inline_block;
+		@include my_inline_block;
 	}
 }
 
