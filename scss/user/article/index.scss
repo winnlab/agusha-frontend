@@ -9,6 +9,7 @@
 	color: $grey;
 	text-align: center;
 	width: 100%;
+	background: url('/img/user/core/pat.png') repeat;
 
 	.card {
 		&.redaction, &.poll {
