@@ -6,13 +6,13 @@
 @import '../helpers/cards';
 
 @media all and (min-width: $min-width) and (max-width: $extend) {
-	.module.main {
+	.module .mainModuleWrap {
 		width: 920px;
 	}
 }
 
 @media all and (min-width: $extend_plus_one) {
-	.module.main {
+	.module .mainModuleWrap {
 		width: 1220px;
 	}
 }
@@ -28,6 +28,12 @@
 }
 
 .module.main {
+	width: 100%;
+}
+
+.module .mainModuleWrap {
+	text-align: center;
+	display: inline-block;
 
 	.apsBg {
 		position: absolute;
@@ -104,9 +110,17 @@
 	}
 }
 
-.module.logedIn {
+.module .mainModuleWrap.logedIn {
 	text-align: center;
 	width: 100% !important;
+
+	.tab_content {
+		display: none;
+
+		&.active {
+			display: block;
+		}
+	}
 
 	.apsBg {
 		display: none;

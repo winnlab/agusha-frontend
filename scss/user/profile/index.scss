@@ -16,36 +16,7 @@ $backColor: #f2efed;
 	        transition: $values;
 }
 
-.progress-radial{
-	float: left;
-	margin-right: 30px;
-	position: relative;
-	width: 212px;
-	height: 212px;
-	border-radius: 50%;
-	// border: 2px solid $backColor; // remove gradient color
-	background-color: $barColor; // default 100%
-}
-
-$step: 5; // step of % for created classes
-
-$loops: round(100 / $step);
-$increment: 360 / $loops;
-$half: round($loops / 2);
-
-@for $i from 0 through $loops {
-	.progress-#{$i*$step} {
-		@if $i < $half {
-			$nextdeg: 90deg + ( $increment * $i );
-			background-image: linear-gradient(90deg, $backColor 50%, transparent 50%, transparent), linear-gradient($nextdeg, $barColor 50%, $backColor 50%, $backColor);
-		} @else {
-			$nextdeg: -90deg + ( $increment * ( $i - $half ) );
-			background-image: linear-gradient($nextdeg, $barColor 50%, transparent 50%, transparent), linear-gradient(270deg, $barColor 50%, $backColor 50%, $backColor);
-		}
-	}
-}
-
-/* Base for label styling */
+/* Base for label styling for radio button */
 
 [type="radio"] {
   &:not(:checked), &:checked {
@@ -121,6 +92,34 @@ $half: round($loops / 2);
 
 input {
 	line-height: normal !important;
+	// @include transition (box-shadow .2s linear);
+
+	&:focus, &:hover {
+		box-shadow: black 0px 4px 11px -5px;
+	}
+}
+
+span.deleteicon {
+	position: relative;
+
+	input:focus+span, span:hover {
+		display: block;
+	}
+
+	span {
+		position: absolute;
+		display: none;
+		top: 3px;
+		right: 20px;
+		width: 18px;
+		height: 18px;
+		background: url(/img/user/helpers/input/clearButton.png) center center no-repeat;
+		cursor: pointer;
+	}
+
+	input {
+		padding-right: 20px;
+	}
 }
 
 .userInputs {
@@ -211,9 +210,13 @@ input {
 		padding-top: 20px;
 		margin: 0 auto;
 
+		.headWrap {
+			margin: 0 auto;
+		}
+
 		.profileHead {
-			@include gridle(2);
-			@include gridle_push ( 2 ); 
+			@include gridle(4);
+			@include gridle_push ( 1 ); 
 			margin: 0 auto;
 
 			h3 {
@@ -246,6 +249,111 @@ input {
 					width: 19px;
 					position: relative;  
 				    top: 21px;
+				}
+			}
+		}
+
+		.childBlock {
+			@include gridle(4);
+			margin: 0 auto;
+			float: none;
+			text-align: left;
+
+			margin-top: 28px;
+
+			.childItem {
+				min-width: 160px;
+				margin-right: 40px;
+				margin-bottom: 35px;
+				// display: inline-block;
+				cursor: pointer;
+				float: left;
+
+				&:nth-child(3n+3) {
+					margin-right: 0px;
+				}
+
+				.childPic {
+					float: left;
+					width: 80px;
+					height: 80px;
+
+					img {
+						float: left;
+					}
+
+					&:hover {
+						&:before {
+							width: 80px;
+							height: 80px;
+							background: #000;
+							display: block;
+							border-radius: 100px;
+							opacity: 0.3;
+							position: absolute;
+							content: ' ';
+						}
+
+						&:after {
+							content: ' ';
+							position: absolute;
+							background: url(/img/user/profile/edit-child.png) no-repeat center center;
+							width: 80px;
+							height: 80px;
+							margin-left: -80px;
+						}
+					}
+				}
+
+				.childInfo {
+					display: inline-block;
+					float: left;
+					line-height: 16px;
+
+					margin-top: 20px;
+					margin-left: 20px;
+
+					.childName {
+						float: left;
+						font-weight: bold;
+					}
+
+					.childGender {
+						font-size: 12px;
+					}
+
+					.childAge {
+						font-size: 12px;
+					}
+				}
+			}
+
+			.addChild {
+				display: inline-block;
+				min-width: 160px;
+				margin-bottom: 35px;
+				cursor: pointer;
+
+				.button {
+					width: 80px;
+					height: 80px;
+					background: #e3ddd2;
+					float: left;
+
+					&:after {
+						content: ' ';
+						position: absolute;
+						background: url(/img/user/profile/add_child.png) no-repeat center center;
+						width: 80px;
+						height: 80px;
+						// margin-left: -80px;
+					}
+				}
+
+				.text {
+					float:left;
+					margin-top: 20px;
+					margin-left: 20px;
 				}
 			}
 		}
@@ -347,10 +455,11 @@ input {
 						text-align: left;
 
 						&:before {
-							top: -15px;
+							top: -5px;
 							margin: auto;
 							float: left;
 							background-color: none;
+							height: 27px
 						}
 
 						&:first-child {
@@ -480,6 +589,153 @@ input {
 				&.active {
 					background: url(/img/user/profile/password_open.png) #fff no-repeat center center;
 				}
+			}
+		}
+	}
+}
+
+.popUpWrap {
+	&.addChildPopUp {
+		input[type="text"] {
+			height: 60px;
+			padding-top: 3px;
+		}
+
+		.contentWrap {
+			@include gridle(6);
+			max-width: 880px;
+			float: none;
+			padding: 30px 0px 50px 0px;
+			
+			.title {
+				h1 {
+					margin-top: 0px;
+					text-transform: uppercase;
+				}
+			}
+
+			.text {
+				@include gridle(4);
+				margin: 0 auto;
+				float: none;
+			}
+
+			.childUserPic {
+				@include gridle(3);
+
+				.photoArea {
+					width: 100%;
+					height: 200px;
+					border: 1px solid #fff;
+					background: #e3ddd2;
+					border-radius: 8px;
+
+					.photoCircle {
+						width: 118px;
+						height: 118px;
+						border: 2px dashed #797670;
+						border-radius: 100px;
+						margin: 0 auto;
+						margin-top: 42px;
+					}
+				}
+			}
+
+			.childMetaInfo {
+				@include gridle(3);
+
+				.buttons {
+					height: 70px;
+					margin-top: 20px;
+				}
+
+				[type="radio"] {
+
+					+label {
+						text-transform: uppercase;
+						margin-right: 20px;
+					}
+
+					&:checked + label {
+						font-weight: bold;
+					}
+
+					&:checked+label:before {
+						background-color: #fff;
+						border: 0px solid ccc6bd;
+					}
+
+					&:not(:checked)+label:before {
+						background-color: #f2efed;
+						border: 2px solid ccc6bd;
+					}
+
+					&:not(:checked), &:checked {
+						+label:after {
+							height: 25px;
+						}
+
+						+label[for="child_male"]:after {
+							width: 15px;
+						}
+
+						+label[for="child_frmale"]:after {
+							width: 16px;
+						}
+					}
+
+					&:not(:checked)+label:after, &:checked+label:after {
+						top: 8px;
+						left: 11px;
+					}
+
+					&:checked + label:before {
+						box-shadow: black 0px 4px 11px -5px;
+					}
+
+					&:not(:checked) + label[for="child_male"]:before {
+						background: url(/img/user/profile/child_male_inactive.png) no-repeat center center;
+					}
+
+					&:checked + label[for="child_male"]:after {
+						background: url(/img/user/profile/child_male_active.png);
+					}
+
+					&:not(:checked) + label[for="child_female"]:before {
+						background: url(/img/user/profile/child_female_inactive.png) no-repeat center center;
+					}
+
+					&:checked + label[for="child_female"]:after {
+						background: url(/img/user/profile/child_female_active.png);
+					}
+
+					// &:checked + label[for="child_male"]:after {
+					// 	background: url(/img/user/profile/checkbox.png);
+					// }
+				}
+
+				.childBirthDate {
+					.childBirthInput {
+						width: 75px;
+						display: block;
+						margin-right: 18px;
+						float: left;
+					}
+
+					.childBirthInput:last-child {
+						margin-right: 0px;
+					}
+				}
+			}
+
+			.bottomButton {
+				margin-top: 60px;
+				width: 100%;
+
+				.button {
+					background: #36a8de;
+					color: white;
+				}				
 			}
 		}
 	}
