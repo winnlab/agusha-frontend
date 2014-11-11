@@ -41,7 +41,7 @@
 		background-color: $white;
 
 		.left {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_boxed;
 			height: 100%;
 			width: 280px;
@@ -49,7 +49,7 @@
 		}
 
 		.right {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_boxed;
 			height: 100%;
 			width: 600px;
@@ -79,7 +79,7 @@
 
 		.left {
 			@include border_boxed;
-			@include inline_block;
+			@include my_inline_block;
 			width: 280px;
 			border-right: 2px solid $bg;
 
@@ -91,7 +91,7 @@
 		}
 
 		.right {
-			@include inline_block;
+			@include my_inline_block;
 			width: 600px;
 
 			.items_container {
