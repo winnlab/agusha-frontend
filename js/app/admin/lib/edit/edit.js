@@ -84,7 +84,7 @@ export default can.Control.extend({
         	if (err.errors.title) {
             	msg = err.errors.title.message;
         	} else if (_.isObject(err.errors)) {
-        		msg = '';
+        		msg = msg || '';
         		for (prop in err.errors) {
         			if (err.errors.hasOwnProperty(prop) && prop[0] !== '_') {
         				msg += err.errors[prop].message + '\r\n';
@@ -102,6 +102,6 @@ export default can.Control.extend({
             msg = 'Произошла не определенная ошибка на сервере.';
         }
 
-        this.setNotification('error', msg);
+        saError(msg);
     }
 });
