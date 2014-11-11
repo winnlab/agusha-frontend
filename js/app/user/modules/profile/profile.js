@@ -1,6 +1,6 @@
 import Controller from 'controller';
 import appState from 'core/appState';
-// import import Cropper from 'lib/cropper/';
+// import childPopUp from 'lib/childPopUp/';
 
 import Profile from 'js/app/user/modules/profile/profileModel'
 
@@ -15,6 +15,7 @@ export default Controller.extend(
     }, {
 		after_init: function(data) {
             this.data = appState.attr('user');
+            this.child =  appState.attr('childPopUp.child')
 
             if(!this.data.isAuth()) {
                 can.route.attr({module: 'login'});
@@ -34,6 +35,9 @@ export default Controller.extend(
             this.options.model.save().fail(function() {
                 console.log(arguments);
             });
+        },
+        '.addChild click': function() {
+            appState.attr('childPopUp').show({})
         },
         bindTpl: function() {
             var html, that = this;
@@ -60,6 +64,10 @@ export default Controller.extend(
 
                     return '';
                 }
+            }));
+
+            $('input.deletable').wrap('<span class="deleteicon" />').after($('<span/>').click(function() {
+                $(this).prev('input').val('').focus();
             }));
         }
     }
