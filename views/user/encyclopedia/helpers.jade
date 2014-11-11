@@ -41,11 +41,11 @@ mixin article(a, i)
 	- classname += ' ' + articleType
 	
 	a(class="new_module card #{classname}" href="/article/" + (a ? a._id : '{{_id}}') style=(a ? '' : '{{filterBy . filter}}'))
-		.inner(style=( a ? a.image && a.image[bgSize] && articleType !== 'author' ? "background-image: url(/img/uploads/" + a.image[bgSize] + ");" : '' : '{{getBg . @index}}'))
+		.inner(style=( a ? a.image && a.image[bgSize] && articleType !== 'author' ? "background-image: url(/img/uploads/" + a.image[bgSize] + ");" : '' : '{{getBg . @index module}}'))
 			.topper.bg
 				.topper_label
 					.adorable_table
-						.adorable_cell= (a ? a.theme[0].name : '{{theme.0.name}}')
+						.adorable_cell= (a && a.theme && a.theme[0] && a.theme[0].name ? a.theme[0].name : '{{theme.0.name}}')
 
 				.topper_title= (a ? a.title : '{{title}}')
 				.topper_text= (a ? a.desc.shorttext : '{{desc.shorttext}}')

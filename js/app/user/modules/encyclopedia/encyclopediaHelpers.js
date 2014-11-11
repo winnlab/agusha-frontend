@@ -38,18 +38,16 @@ export default {
 
         return classname;
     },
-    getBg: function (entity, index) {
+    getBg: function (entity, index, type) {
         var i = computedVal(index),
             e = entity,
             size = entity.attr('XL')
                ? 'XL'
-               : entity.attr('theme.0.hasBigView')
+               : entity.attr(computedVal(type) == 'main' ? 'hasBigView' : 'theme.0.hasBigView')
                    ? 'L'
                    : 'S',
             img;
-
         img = entity.attr('image.' + size);
-
         return img && entity.attr('type.name') !== 'Статья от специалиста' ? 'background-image: url(/img/uploads/' + img + ');' : '';
     },
 
@@ -127,14 +125,10 @@ export default {
                 iteration = i;
                 if (i == 0 || el == undefined)
                     return false;
-                if (delta == 0 || delta > 2)
-                    return true;
-                if (lineWidthConst == 2 && (delta == 0 || delta > 1))
+                if (delta == 0 || delta > 1)
                     return true;
                 if (delta == 1 && (byMain ? el.hasBigView : el.theme[0].hasBigView) == false)
-                    return true
-                if (delta == 2 && (byMain ? el.hasBigView : el.theme[0].hasBigView) == true)
-                    return true
+                    return true;
             });
 
         if (!element) {

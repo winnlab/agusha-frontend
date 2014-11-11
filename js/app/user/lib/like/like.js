@@ -37,8 +37,6 @@ export default can.Control.extend({
     toggleLike: function (el, model, docId, callback) {
         var self = this;
 
-        var authData = localStorage.getItem('isAuth');
-
         if (model && docId && callback) {
 
             can.ajax({
