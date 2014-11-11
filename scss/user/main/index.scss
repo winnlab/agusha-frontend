@@ -37,6 +37,7 @@
 .module .mainModuleWrap {
 	text-align: center;
 	display: inline-block;
+	margin: 0 auto;
 
 	.apsBg {
 		position: absolute;
@@ -53,7 +54,7 @@
 	
 	.content {
 		display: block;
-		margin: 0 auto;
+		
 		&.itemsWrap {
 			@include respond-to(small) {
 				width: 620px;
