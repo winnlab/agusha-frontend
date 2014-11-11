@@ -56,7 +56,7 @@
 	.ask_specialist {
 		@include border_boxed;
 		height: 516px;
-		padding: 70px 10px 0;
+		padding: 0 10px;
 
 		.column {
 			text-align: center;
