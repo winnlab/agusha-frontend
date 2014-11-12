@@ -17,6 +17,7 @@ logout = function () {
 			localStorage.removeItem('isAuth');
 			user.attr({});
 			that.auth.attr('isAuth', false);
+			console.log(that.auth.attr());
 
 			can.route.attr({module: ''});
 		}

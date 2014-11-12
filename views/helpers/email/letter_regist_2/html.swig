@@ -33,7 +33,7 @@
 													</div>
 													
 													<div>
-														Поздравляем, вы удачно зарегистрировались на сайте <a href="agusha.com.ua" target="_blank">agusha.com.ua</a>!
+														Поздравляем, вы удачно зарегистрировались на сайте <a href="{{ site.baseUrl }}" target="_blank">agusha.com.ua</a>!
 													</div>
 												</div>
 											</td>
@@ -63,7 +63,7 @@
 								<td>
 									<img class="come_and_get" src="{{ site.baseUrl }}img/user/helpers/email/come_and_get.png" />
 									
-									<a class="button" href="{{ site.baseUrl }}registration/activate/{{ user._id }}" target="_blank">
+									<a href="{{site.linkTo('registration/activate/'+user._id)}}" class="button" target="_blank">
 										<img src="{{ site.baseUrl }}img/user/helpers/email/blue_button.png" />
 									</a>
 									

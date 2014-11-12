@@ -541,8 +541,26 @@ span.deleteicon {
 					}
 
 					&.fb {
+						background: url(/img/user/profile/social/fb-inactive.png) #fff no-repeat center center;
+
 						&.active {
-							background: #3c599b;
+							background: url(/img/user/profile/social/fb-active.png) #3c599b no-repeat center center;
+						}
+					}
+
+					&.vk {
+						background: url(/img/user/profile/social/vk-inactive.png) #fff no-repeat center center;
+
+						&.active {
+							background: url(/img/user/profile/social/vk-active.png) #45668e no-repeat center center;
+						}
+					}
+
+					&.ok {
+						background: url(/img/user/profile/social/ok-inactive.png) #fff no-repeat center center;
+
+						&.active {
+							background: url(/img/user/profile/social/ok-active.png) #ed812b no-repeat center center;
 						}
 					}
 				}
@@ -649,8 +667,7 @@ span.deleteicon {
 					margin-top: 20px;
 				}
 
-				[type="radio"] {
-
+				.childGender[type="radio"] {
 					+label {
 						text-transform: uppercase;
 						margin-right: 20px;

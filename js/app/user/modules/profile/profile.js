@@ -27,9 +27,18 @@ export default Controller.extend(
             this.bindTpl();
             this.bindChild();
         },
+        '.social_buttons .vk click': function() {
+            window.location.href = '/registration/vk'
+        },
+        '.social_buttons .fb click': function() {
+            window.location.href = '/registration/fb'
+        },
         'change': function(el, ev) {
             ev.preventDefault();
 
+            this.saveModel();
+        },
+        saveModel: function () {
             var user = this.data.options.user;
 
             this.options.model._data = user.attr();
@@ -51,14 +60,17 @@ export default Controller.extend(
                     return false;
                 }
 
-                if(attr == false) {
+                if(this.attr(attr) == false) {
                     return false;
                 }
 
                 child = this.attr();
 
+
                 that.data.options.user.attr('children').push(child);
                 this.attr({isSaved: false}, {});
+
+                that.saveModel();
             });
         },
         bindTpl: function() {
