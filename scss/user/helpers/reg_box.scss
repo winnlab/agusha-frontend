@@ -58,7 +58,7 @@
 	}
 	
 	.social_inline {
-		@include inline_block;
+		@include my_inline_block;
 		height: 40px;
 	}
 	

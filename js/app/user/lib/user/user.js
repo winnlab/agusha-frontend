@@ -3,7 +3,8 @@ import appState from 'core/appState';
 import weights from 'lib/user/profileWeight'
 import _ from 'lodash';
 
-var getCurrentUser, User, logout, UserMap;
+var getCurrentUser, User, logout, UserMap,
+	childrenList;
 
 logout = function () {
 	var that = this;
@@ -32,8 +33,13 @@ getCurrentUser = function() {
 	}
 };
 
+childrenList = can.List.extend({})
+
 UserMap = can.Map.extend({
 	define: {
+		children: {
+			value: new childrenList
+		},
 		fullName: {
 			get: function() {
 				var fname, lname;

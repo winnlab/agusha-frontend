@@ -7,9 +7,8 @@
 @import '../helpers/cards';
 
 .module.specialist {
-	text-align: center;
 	width: 100%;
-
+	
 	.bg {
 		position: absolute;
 		width: 100%;
@@ -23,7 +22,7 @@
 			top: 0;
 			left: 0;
 		}
-
+		
 		&:after {
 			@include pseudo;
 			width: 100%;
@@ -33,9 +32,9 @@
 			left: 0;
 		}
 	}
-
+	
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		text-align: left;
 		width: 920px;
 
@@ -57,7 +56,7 @@
 	.ask_specialist {
 		@include border_boxed;
 		height: 516px;
-		padding: 70px 10px 0;
+		padding: 0 10px;
 
 		.column {
 			text-align: center;
@@ -65,7 +64,7 @@
 		}
 
 		.avatar {
-			@include inline_block;
+			@include my_inline_block;
 			width: 216px;
 			height: 216px;
 			position: relative;
@@ -162,7 +161,7 @@
 			margin-top: 20px;
 
 			.select {
-				@include inline_block;
+				@include my_inline_block;
 				width: 280px;
 
 				&.theme {
@@ -201,7 +200,7 @@
 		}
 
 		.icon {
-			@include inline_block;
+			@include my_inline_block;
 			width: 39px;
 			@include box_shadow(-1px 0 0 0 #e5e5e5);
 			margin-left: 1px !important;

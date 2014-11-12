@@ -7,7 +7,6 @@
 
 .module.poll {
 	color: $grey;
-	text-align: center;
 	width: 100%;
 	
 	.bg {
@@ -18,7 +17,7 @@
 	}
 	
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		text-align: left;
 		width: 920px;
 	}
@@ -237,7 +236,7 @@
 			}
 			
 			.checkbox {
-				@include inline_block;
+				@include my_inline_block;
 				width: 28px;
 				height: 28px;
 			}

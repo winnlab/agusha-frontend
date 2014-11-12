@@ -70,15 +70,23 @@ export default can.Control.extend({
 	},
 
     processError: function (err) {
-        var msg;
+        var msg, prop;
 
-        if(err.errors) {
-        	if(err.errors.title) {
+        if (err.responseJSON || err.responseText) {
+            err = err.responseJSON || err.responseText;
+        }
+
+        if (err.err) {
+            err = err.err;
+        }
+
+        if (err.errors) {
+        	if (err.errors.title) {
             	msg = err.errors.title.message;
-        	} else if(_.isObject(err.errors)) {
-        		msg = '';
-        		for(var prop in err.errors) {
-        			if(err.errors.hasOwnProperty(prop) && prop[0] !== '_') {
+        	} else if (_.isObject(err.errors)) {
+        		msg = msg || '';
+        		for (prop in err.errors) {
+        			if (err.errors.hasOwnProperty(prop) && prop[0] !== '_') {
         				msg += err.errors[prop].message + '\r\n';
         			}
         		}
@@ -86,10 +94,14 @@ export default can.Control.extend({
         	
         }
 
-        if(!msg) {
+        if (!msg) {
             msg = err.message || err.err || err;
         }
 
-        this.setNotification('error', msg);
+        if (! _.isString(msg)) {
+            msg = 'Произошла не определенная ошибка на сервере.';
+        }
+
+        saError(msg);
     }
 });

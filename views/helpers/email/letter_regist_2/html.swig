@@ -1,7 +1,7 @@
 <table class="frame_table">
 	<tr class="top_border">
 		<td class="top_border">
-			<img src="http://agusha.com.ua:8080/img/user/helpers/email/top_border.png" />
+			<img src="{{ site.baseUrl }}img/user/helpers/email/top_border.png" />
 		</td>
 	</tr>
 	
@@ -11,7 +11,7 @@
 			<table class="center_table">
 				<tr>
 					<td class="left_border">
-						<img src="http://agusha.com.ua:8080/img/user/helpers/email/left_border.png" />
+						<img src="{{ site.baseUrl }}img/user/helpers/email/left_border.png" />
 					</td>
 					
 					<td class="content">
@@ -23,7 +23,7 @@
 									<table class="topper_table">
 										<tr>
 											<td class="logo_cell">
-												<img class="logo" src="http://agusha.com.ua:8080/img/user/helpers/email/logo.png" />
+												<img class="logo" src="{{ site.baseUrl }}img/user/helpers/email/logo.png" />
 											</td>
 											
 											<td class="greeting_cell">
@@ -45,7 +45,7 @@
 							
 							<tr>
 								<td class="blue_triangle">
-									<img src="http://agusha.com.ua:8080/img/user/helpers/email/blue_triangle.png" />
+									<img src="{{ site.baseUrl }}img/user/helpers/email/blue_triangle.png" />
 								</td>
 							</tr>
 						</table>
@@ -53,7 +53,7 @@
 						<table class="info_table">
 							<tr>
 								<td>
-									<img src="http://agusha.com.ua:8080/img/user/helpers/email/letter_regist_2_info.png" />
+									<img src="{{ site.baseUrl }}img/user/helpers/email/letter_regist_2_info.png" />
 								</td>
 							</tr>
 						</table>
@@ -61,25 +61,25 @@
 						<table class="join_table">
 							<tr>
 								<td>
-									<img class="come_and_get" src="http://agusha.com.ua:8080/img/user/helpers/email/come_and_get.png" />
+									<img class="come_and_get" src="{{ site.baseUrl }}img/user/helpers/email/come_and_get.png" />
 									
-									<a class="button" href="http://agusha.com.ua:8080" target="_blank">
-										<img src="http://agusha.com.ua:8080/img/user/helpers/email/blue_button.png" />
+									<a class="button" href="{{ site.baseUrl }}registration/activate/{{ user._id }}" target="_blank">
+										<img src="{{ site.baseUrl }}img/user/helpers/email/blue_button.png" />
 									</a>
 									
-									<img class="tell_friends" src="http://agusha.com.ua:8080/img/user/helpers/email/tell_friends.png" />
+									<img class="tell_friends" src="{{ site.baseUrl }}img/user/helpers/email/tell_friends.png" />
 									
 									<div class="social">
 										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
-											<img src="http://agusha.com.ua:8080/img/user/helpers/email/facebook.png" />
+											<img src="{{ site.baseUrl }}img/user/helpers/email/facebook.png" />
 										</a>
 										
 										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
-											<img src="http://agusha.com.ua:8080/img/user/helpers/email/vk.png" />
+											<img src="{{ site.baseUrl }}img/user/helpers/email/vk.png" />
 										</a>
 										
 										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
-											<img src="http://agusha.com.ua:8080/img/user/helpers/email/odnoklasniki.png" />
+											<img src="{{ site.baseUrl }}img/user/helpers/email/odnoklasniki.png" />
 										</a>
 									</div>
 								</td>
@@ -90,12 +90,12 @@
 							<tr>
 								<td>
 									<div class="half left">
-										<img class="copyright" src="http://agusha.com.ua:8080/img/user/helpers/email/copyright.png" />
+										<img class="copyright" src="{{ site.baseUrl }}img/user/helpers/email/copyright.png" />
 									</div>
 									
 									<div class="half right">
 										<a class="decline" href="http://agusha.com.ua:8080" target="_blank">
-											<img src="http://agusha.com.ua:8080/img/user/helpers/email/decline.png" />
+											<img src="{{ site.baseUrl }}img/user/helpers/email/decline.png" />
 										</a>
 									</div>
 								</td>
@@ -105,7 +105,7 @@
 					</td>
 					
 					<td class="right_border">
-						<img src="http://agusha.com.ua:8080/img/user/helpers/email/left_border.png" />
+						<img src="{{ site.baseUrl }}img/user/helpers/email/left_border.png" />
 					</td>
 				</tr>
 			</table>
@@ -115,7 +115,7 @@
 	
 	<tr class="bottom_border">
 		<td class="top_border">
-			<img src="http://agusha.com.ua:8080/img/user/helpers/email/top_border.png" />
+			<img src="{{ site.baseUrl }}img/user/helpers/email/top_border.png" />
 		</td>
 	</tr>
 </table>

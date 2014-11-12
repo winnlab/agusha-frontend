@@ -25,10 +25,12 @@ export default Controller.extend(
             this.options.model = new Profile( this.data.options.user );
 
             this.bindTpl();
+            this.bindChild();
         },
         'change': function(el, ev) {
-            var user = this.data.options.user;
             ev.preventDefault();
+
+            var user = this.data.options.user;
 
             this.options.model._data = user.attr();
 
@@ -38,6 +40,26 @@ export default Controller.extend(
         },
         '.addChild click': function() {
             appState.attr('childPopUp').show({})
+        },
+        bindChild: function() {
+            var that = this;
+
+            appState.attr('childPopUp').child.bind('change', function(ev, attr, how, newVal, oldVal) {
+                var child;
+
+                if(ev.type != 'change' || attr != 'isSaved') {
+                    return false;
+                }
+
+                if(attr == false) {
+                    return false;
+                }
+
+                child = this.attr();
+
+                that.data.options.user.attr('children').push(child);
+                this.attr({isSaved: false}, {});
+            });
         },
         bindTpl: function() {
             var html, that = this;

@@ -4,7 +4,6 @@
 @import '../helpers/topper_title';
 
 .module.messages {
-	text-align: center;
 	width: 100%;
 	
 	.bg {
@@ -24,7 +23,7 @@
 	}
 	
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		text-align: left;
 		width: 920px;
 		
@@ -32,25 +31,25 @@
 			margin: 0 20px 90px;
 		}
 	}
-	
+
 	.messages_container {
 		padding: 40px 20px 139px;
 	}
-	
+
 	.search_container {
 		height: 70px;
 		background-color: $white;
-		
+
 		.left {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_boxed;
 			height: 100%;
 			width: 280px;
 			padding: 15px 0 15px 20px;
 		}
-		
+
 		.right {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_boxed;
 			height: 100%;
 			width: 600px;
@@ -58,7 +57,7 @@
 			text-align: right;
 		}
 	}
-	
+
 	.search_contacts {
 		height: 40px;
 		background-color: #f2f2f2;
@@ -66,7 +65,7 @@
 		font-size: 'PT_Sans_Regular';
 		line-height: normal !important;
 	}
-	
+
 	.message_button {
 		background-color: $blue;
 		color: $white;
@@ -74,42 +73,42 @@
 		padding: 10px 20px;
 		line-height: 20px;
 	}
-	
+
 	.conversations_container {
 		margin-top: 10px;
-		
+
 		.left {
 			@include border_boxed;
-			@include inline_block;
+			@include my_inline_block;
 			width: 280px;
 			border-right: 2px solid $bg;
-			
+
 			.item {
 				&:not(:last-child) {
 					border-bottom: 2px solid $bg;
 				}
 			}
 		}
-		
+
 		.right {
-			@include inline_block;
+			@include my_inline_block;
 			width: 600px;
-			
+
 			.items_container {
 				border-bottom: 2px solid $bg;
 			}
 		}
-		
+
 		.item {
 			padding: 20px;
 			background-color: $white;
 			position: relative;
-			
+
 			&.active {
 				z-index: 1;
 				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22), 2px 2px 0px 0px $white);
 				border-bottom: 2px solid transparent !important;
-				
+
 				&:after {
 					@include pseudo;
 					top: 0;
@@ -122,7 +121,7 @@
 				}
 			}
 		}
-		
+
 		.date {
 			position: absolute;
 			right: 20px;
@@ -131,22 +130,22 @@
 			font-family: 'PT_Sans_Italic';
 			color: $base;
 		}
-		
+
 		.item_table {
 			display: table;
 			width: 100%;
 		}
-		
+
 		.avatar_column {
 			width: 69px;
 			display: table-cell;
-			
+
 			.avatar {
-				@include inline-block;
+				@include my_inline_block;
 				width: 51px;
 				height: 51px;
 				position: relative;
-				
+
 				&.crown {
 					&:before {
 						@include pseudo;
@@ -158,42 +157,42 @@
 					}
 				}
 			}
-			
+
 			img {
 				max-width: 100%;
 				max-height: 100%;
 				position: relative;
 			}
 		}
-		
+
 		.content_column {
 			display: table-cell;
 		}
-		
+
 		.info {
 			 line-height: 20px;
 		}
-		
+
 		.name {
 			font-family: 'PT_Sans_Bold';
 			text-decoration: underline;
 			color: #4c4c4c;
 		}
-		
+
 		.text {
 			color: $base;
 			margin-top: 7px;
 		}
 	}
-	
+
 	.form_container {
 		.avatar {
 			margin-top: 20px;
 		}
-		
+
 		.textarea_container {
 			position: relative;
-			
+
 			&:before {
 				@include pseudo;
 				width: 5px;
@@ -203,32 +202,32 @@
 				background: url('/img/user/messages/textarea_arrow.png') no-repeat;
 			}
 		}
-		
+
 		textarea {
 			@include border_radius(8px);
 			height: 96px;
 			margin-bottom: 20px;
 		}
-		
+
 		.message_button {
 			padding: 10px 26px;
 		}
 	}
-	
+
 	.attach {
 		float: right;
 		width: 141px;
 		height: 40px;
 		font-size: 12px;
-		
+
 		.adorable_cell {
 			text-align: left;
 		}
-		
+
 		img, span {
 			vertical-align: middle;
 		}
-		
+
 		img {
 			margin-right: 9px;
 		}

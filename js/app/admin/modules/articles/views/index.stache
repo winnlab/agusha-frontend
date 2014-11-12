@@ -17,7 +17,7 @@
     <div class='panel-body' id='articleList'>
     	{{#if encyclopedia-article.isResolved}}
     		{{#if encyclopedia-article.length}}
-    			{{#sortedBy encyclopedia-article 'position'}}
+    			{{#sortedBy encyclopedia-article 'position' 'desc'}}
     				<div class='article article-box' {{data "encyclopedia-article"}}>
                         <div class="btn btn-success editArticle"><i class="fa fa-edit"></i></div>
                         <div class="btn btn-danger removeArticle"><i class="fa fa-trash-o"></i></div>

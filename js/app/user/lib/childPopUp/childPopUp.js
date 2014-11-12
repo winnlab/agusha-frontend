@@ -11,6 +11,7 @@ export default PopUp.extend({
 		var that = this;
 
 		this.child = new childMap({
+            isSaved: 'false',
             birth_date: {
                 value: {}
             }
@@ -27,7 +28,7 @@ export default PopUp.extend({
         this.element.append(can.view(view, this.module));
 	},
     '.button.ok click': function() {
-        console.log(this.child);
+        this.child.attr('isSaved', true)
     },
 	show: function (options) {
 		var that = this;

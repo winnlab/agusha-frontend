@@ -1,4 +1,5 @@
 extends ../layout
+include helpers
 
 block append header
 	link(href="/css/user/main/main.css" rel="stylesheet")
@@ -18,3 +19,5 @@ block append scripts
 		| {{#each articles}}
 		mixin article()
 		| {{/each}}
+	script#feed_mustache(type="text/mustache")
+		mixin feed()

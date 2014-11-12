@@ -6,7 +6,6 @@
 @import '../helpers/article_bottom';
 
 .module.question {
-	text-align: center;
 	width: 100%;
 	
 	.bg {
@@ -19,7 +18,7 @@
 	}
 	
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		text-align: left;
 		width: 920px;
 	}
@@ -27,7 +26,7 @@
 	.breadcrumbs {
 		color: $white;
 	}
-	
+
 	.topper_title {
 		color: $white;
 		margin-bottom: 51px;
@@ -35,29 +34,29 @@
 		line-height: 24px;
 		text-decoration: underline;
 	}
-	
+
 	.social {
 		height: 70px;
 		margin: 0 20px;
-		
+
 		.adorable_cell {
 			text-align: left;
 		}
 	}
-	
+
 	.question_container {
 		margin: 0 10px;
-		
+
 		.item {
 			padding: 20px;
 			background-color: $white;
 			position: relative;
-			
+
 			&:not(:last-child) {
 				border-bottom: 1px solid #cccccc;
 			}
 		}
-		
+
 		.date {
 			position: absolute;
 			right: 20px;
@@ -65,22 +64,22 @@
 			font-size: 12px;
 			font-family: 'PT_Sans_Italic';
 		}
-		
+
 		.item_table {
 			display: table;
 			width: 100%;
 		}
-		
+
 		.avatar_column {
 			width: 77px;
 			display: table-cell;
-			
+
 			.avatar {
-				@include inline-block;
+				@include my_inline_block;
 				width: 60px;
 				height: 60px;
 				position: relative;
-				
+
 				&.medical_cap {
 					&:before {
 						@include pseudo;
@@ -92,48 +91,48 @@
 					}
 				}
 			}
-			
+
 			img {
 				max-width: 100%;
 				max-height: 100%;
 				position: relative;
 			}
 		}
-		
+
 		.content_column {
 			display: table-cell;
 		}
-		
+
 		.info {
 			 line-height: 20px;
 		}
-		
+
 		.name {
 			font-family: 'PT_Sans_Bold';
 			text-decoration: underline;
 			color: #404040;
 		}
-		
+
 		.level {
 			color: $titlegrey;
 			font-size: 12px;
 		}
-		
+
 		.league {
 			vertical-align: middle;
 			margin-right: 10px;
 		}
-		
+
 		.star {
 			vertical-align: middle;
 			margin-right: 2px;
 		}
-		
+
 		.children {
 			color: $titlegrey;
 			font-size: 12px;
 		}
-		
+
 		.title {
 			font-size: 40px;
 			line-height: 40px;
@@ -142,39 +141,39 @@
 			text-transform: uppercase;
 			margin-top: 30px;
 		}
-		
+
 		.text {
 			font-size: 16px;
 			color: $titlegrey;
 			margin-top: 20px;
 			margin-bottom: 15px;
 		}
-		
+
 		.footer {
 			height: 70px;
 			background-color: $blue;
 			color: $white;
 		}
-		
+
 		.like {
 			vertical-align: middle;
 			margin-right: 6px;
 			cursor: pointer;
 		}
-		
+
 		.count {
 			vertical-align: middle;
 			font-size: 26px;
 			font-family: 'PT_Sans_Narrow_Bold';
 			margin-right: 6px;
 		}
-		
+
 		.slash {
 			vertical-align: middle;
 			margin-right: 6px;
 			font-size: 12px;
 		}
-		
+
 		.post_like {
 			vertical-align: middle;
 			margin-right: 6px;
@@ -183,12 +182,12 @@
 			text-transform: uppercase;
 		}
 	}
-	
+
 	.author {
 		height: 360px;
 		background-color: $green;
 		color: $white;
-		
+
 		.label {
 			text-transform: uppercase;
 			font-size: 20px;
@@ -196,13 +195,13 @@
 			font-family: 'PT_Sans_Narrow_Bold';
 			margin: 30px 20px;
 		}
-		
+
 		.avatar {
-			@include inline_block;
+			@include my_inline_block;
 			width: 70px;
 			height: 70px;
 			position: relative;
-			
+
 			&:before {
 				@include pseudo;
 				width: 21px;
@@ -211,40 +210,40 @@
 				top: -6px;
 				left: -1px;
 			}
-			
+
 			img {
 				max-height: 100%;
 				max-width: 100%;
 				position: relative;
 			}
 		}
-		
+
 		.author_name {
 			margin: 8px 20px;
 		}
-		
+
 		.desc {
 			font-size: 12px;
 			color: #30784a;
 			margin: 20px;
 		}
-		
+
 		.author_button {
 			margin: 0 0 20px 0;
 			color: $green;
 			font-size: 14px;
 		}
 	}
-	
+
 	.meta {
 		margin-top: 20px;
 		padding: 20px;
 		background-color: $white;
 		font-size: 12px;
 		line-height: 20px;
-		
+
 		.tag {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_radius(2px);
 			padding: 3px;
 			background-color: #e6e6e6;
