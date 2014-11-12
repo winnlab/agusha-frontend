@@ -22,8 +22,8 @@
                         <div class="btn btn-success editArticle"><i class="fa fa-edit"></i></div>
                         <div class="btn btn-danger removeArticle"><i class="fa fa-trash-o"></i></div>
                         <div class="btn btn-info changePosArticle"><i class="fa fa-list-alt"></i></div>
-                        {{#if image.background}}
-                            <div class="article-top" style="background-image: url(/img/uploads/{{image.background}})"></div>
+                        {{#if image.B}}
+                            <div class="article-top" style="background-image: url(/img/uploads/{{image.B}})"></div>
                             <div class="article-bottom">
                                 <div class="article-title">
                                     {{title}}
