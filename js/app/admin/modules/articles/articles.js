@@ -1,4 +1,5 @@
 import 'can/'
+import 'can/map/backup/'
 import List from 'list'
 
 import Article from 'js/app/admin/modules/articles/article'
@@ -64,6 +65,11 @@ export default List.extend({
                 self.module.attr('types').push(doc);
             });
         });
+
+        setTimeout(function () {
+            console.log('updating articles...');
+            ArticleModel.findAll({});
+        }, 3000);
     },
 
     initSetControl: function (area, doc, entity) {
@@ -140,11 +146,14 @@ export default List.extend({
     },
 
     '.savePosition click': function (el) {
-        var wrap = el.closest('.articlePopover'),
+        var self = this,
+            wrap = el.closest('.articlePopover'),
             index = this.posModule.attr('themeIndex'),
             newPos = this.posModule.attr('position'),
             hasBigView = this.posModule.attr('hasBigView');
         
+        this.posModule.backup();
+
         if (index) {
             this.posModule.attr(`article.theme.${index}.position`, newPos);
             this.posModule.attr(`article.theme.${index}.hasBigView`, hasBigView);
@@ -153,7 +162,11 @@ export default List.extend({
             this.posModule.attr('article.hasBigView', hasBigView);
         }
 
-        this.posModule.attr('article').save();
+        this.posModule.attr('article').save()
+            .fail(function (response) {
+                self.posModule.restore();
+                self.processError(response.responseJSON || response.responseText)
+            });
 
         wrap.remove();
     },
