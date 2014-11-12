@@ -90,7 +90,7 @@
 					}
 
 					.number {
-						@include inline_block;
+						@include my_inline_block;
 						height: 61px;
 						font-size: 55px;
 						line-height: 61px;
@@ -116,7 +116,7 @@
 			}
 
 			.icon {
-				@include inline_block;
+				@include my_inline_block;
 				width: 168px;
 				position: relative;
 				height: 100%;
@@ -461,7 +461,7 @@
 				}
 
 				.circle {
-					@include inline_block;
+					@include my_inline_block;
 					width: 7px;
 					height: 7px;
 					background: url('/img/user/moneybox/last_icon.png') no-repeat;

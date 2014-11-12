@@ -32,6 +32,15 @@ can.mustache.registerHelper('is', function () {
     return result ? options.fn() : options.inverse();
 });
 
+can.mustache.registerHelper('plus', function () {
+    var options = arguments[arguments.length - 1],
+        result = 0;
+    for (var i = 0, ln = arguments.length - 1; i < ln; i += 1) {
+        result += +computedVal(arguments[i]);
+    }
+    return result;
+});
+
 can.mustache.registerHelper('sortBy', function (collection, prop, direction, options) {
     if (arguments.length == 3) {
         options = direction;

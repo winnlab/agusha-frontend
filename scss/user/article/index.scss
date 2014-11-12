@@ -7,9 +7,9 @@
 
 .module.article {
 	color: $grey;
-	text-align: center;
 	width: 100%;
-
+	background: url('/img/user/core/pat.png') repeat;
+	
 	.card {
 		&.redaction, &.poll {
 			.topper.bg:after {
@@ -22,7 +22,7 @@
 				background: url("/img/user/helpers/cards/topper_after_bg.png") no-repeat;
 			}
 		}
-
+		
 		&.redaction {
 			.footer .counters {
 				background-color: #2da7e0;
@@ -55,11 +55,11 @@
 	}
 
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		text-align: left;
 		width: 920px;
 	}
-
+	
 	.breadcrumbs {
 		color: $white;
 	}
@@ -431,7 +431,7 @@
 			}
 
 			.checkbox {
-				@include inline_block;
+				@include my_inline_block;
 				width: 28px;
 				height: 28px;
 				margin: 0 auto;
@@ -650,7 +650,7 @@
 
 		.info {
 			@include border_boxed;
-			@include inline_block;
+			@include my_inline_block;
 			width: 180px;
 			height: 88px;
 			padding: 0 0 0 20px;
@@ -692,7 +692,7 @@
 		}
 
 		.tag {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_radius(2px);
 			padding: 3px 5px;
 			background-color: #e6e6e6;

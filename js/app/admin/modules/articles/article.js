@@ -85,6 +85,12 @@ export default Edit.extend({
 
 		self.module.attr('newGalleryName', '');
 		self.module.attr('addingGallery', false);
+		self.module.attr('showCroppers', false);
+		self.module.attr('cropSizes', [
+			{size: 'S', ratio: 0.96, w: 290, h: 303},
+			{size: 'L', ratio: 1.91, w: 580, h: 303},
+			{size: 'XL', ratio: 0.96, w: 580, h: 606}
+		]);
 
 		self.loadView(options.viewpath + options.viewName, self.module);
 	},
@@ -248,9 +254,58 @@ export default Edit.extend({
 		$(el).parents('.gallery').data('gallery').save();
 	},
 
+	'.croppers click': function () {
+		this.module.attr('showCroppers', !this.module.attr('showCroppers'));
+	},
+
 	'.cropImage click': function (el) {
-		var data = $(el).parent().find('.croppedImage').cropper('getData');
-		console.log(data);
+		var self = this,
+			moduleName = self.options.moduleName,
+			wrap = el.closest('.cropper-wrap'),
+			prefix = wrap.data('prefix').toUpperCase(),
+			data = {
+				data: wrap.find('.croppedImage').cropper('getData'),
+				prefix,
+				id: self.module.attr(`${moduleName}._id`)
+			};
+
+			data.data.imgWidth = wrap.data('w');
+			data.data.imgHeight = wrap.data('h');
+
+		can.ajax({
+			url: '/admin/article/crop',
+			method: 'POST',
+			data
+		}).done(function (response) {
+			self.module.attr(`${moduleName}.image.${prefix}`, `${response.data.filename}?${new Date().getTime()}`);
+			self.module.attr(`${moduleName}.image.data${prefix}`, response.data.data);
+			self.module.attr(`${moduleName}.__v`, response.data.__v);
+
+			saSuccess('Изображение успешно обрезано.');
+
+		}).fail(self.processError);
+	},
+
+	'.removeCropped click': function (el) {
+		var self = this,
+			moduleName = self.options.moduleName,
+			prefix = el.closest('.cropper-wrap').data('prefix').toUpperCase(),
+			data = {
+				prefix,
+				id: self.module.attr(`${moduleName}._id`)
+			};
+
+		can.ajax({
+			url: '/admin/article/crop',
+			method: 'DELETE',
+			data
+		}).done(function (response) {
+			self.module.attr(`${moduleName}.image.${prefix}`, null);
+			self.module.attr(`${moduleName}.__v`, response.data.__v);
+
+			saSuccess('Изображение успешно удалено.');
+
+		}).fail(self.processError);
 	}
 
 });

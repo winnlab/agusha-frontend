@@ -1,0 +1,88 @@
+mixin feed()
+    .filters
+        select.feed_select
+            option(data-count="{{plus themeSubs authorSubs}}" value=0) Все подписки
+            option(data-count="{{themeSubs}}" value=1) Подписки на тему
+            option(data-count="{{authorSubs}}" value=2) Подписки на автора
+            option(data-count="{{consultations}}" value=3) Вопросы специалисту
+        
+        select.order_select
+            option(value = 'date') Сначала новые
+            option(value = '-date') Сначала старые
+        
+        .icons
+            .icon.eye
+                .adorable_table
+                    .adorable_cell
+                        img(src="/img/user/specialist/eye.png")
+            
+            .icon.lamp
+                .adorable_table
+                    .adorable_cell
+                        img(src="/img/user/specialist/lamp.png")
+            
+            .icon.check
+                .adorable_table
+                    .adorable_cell
+                        img(src="/img/user/specialist/check.png")
+    .feedWrap
+        | {{#each feed}}
+        - var classname = '{{getClassName . @index module}} {{articleType . @index}}'
+        a(class="new_module card #{classname}" href="/article/{{_id}}")
+            .inner(style='{{getBg . @index module}}')
+                .topper.bg
+                    .topper_label
+                        .adorable_table
+                            .adorable_cell= '{{theme.0.name}}{{theme.name}}'
+
+                    .topper_title= '{{title}}{{name}}'
+                    .topper_text= '{{desc.shorttext}}'
+                        | {{#if is_quiz}}
+                        .topper_approve
+                            span.count= '{{answer.length}}'
+                            span.approve
+                                div мамочек
+                                div ответили
+                        .button_content.gold
+                            button.me_too Я тоже
+                        | {{/if}}
+                    | {{#is type.name 'Статья от специалиста'}}
+                    .user_content
+                        .avatar.medical_cap
+                            img.rounded(src='/img/user/specialist/doc_mini.jpg')
+                        .name врач-педиатр
+                        .name Ирина Матвиенко
+                    | {{/is}}
+                    | {{#is type.name "Статья от пользователя"}}
+                    .user_content
+                        | {{#if author.name}}
+                        .user
+                            .avatar
+                                img.rounded(src='/img/avatar_100x100.jpg')
+                            .name '{{autor.name}}'
+                        | {{/if}}
+                        .user.doctor
+                            .avatar.medical_cap
+                                img.rounded(src='/img/avatar_100x100.jpg')
+                            .name врач-педиатр
+                            .name Ирина Матвиенко
+                    | {{/is}}
+                .footer
+                    .heart
+                        img(src="/img/user/article/heart.png")
+                        | {{#if recommended}}
+                        img(src="/img/user/helpers/cards/lamp.png")
+                        | {{/if}}
+                        
+                    .counters.adorable_table
+                        .adorable_cell
+                            img.like(src="/img/user/article/heart.png", data-component_id='{{_id}}', data-component="Article")
+                            span.count(data-component_id='{{_id}}')= '{{likes.length}}'
+                            span.approve
+                                | мамочек
+                                br
+                                | одобряют
+                            img.comment(src="/img/user/article/comment.png")
+                            span.count= '{{commentaries.length}}{{answer.length}}'
+
+        | {{/each}}

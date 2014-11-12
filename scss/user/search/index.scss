@@ -3,13 +3,12 @@
 
 .module.search {
 	color: $grey;
-	text-align: center;
 	width: 100%;
 	
 	.content {
-		@include inline_block;
-		text-align: left;
+		margin: 0 auto;
 		width: 920px;
+		text-align: left;
 	}
 	
 	.input_container {

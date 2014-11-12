@@ -6,9 +6,8 @@
 @import '../helpers/article_bottom';
 
 .module.question {
-	text-align: center;
 	width: 100%;
-
+	
 	.bg {
 		position: absolute;
 		width: 100%;
@@ -17,13 +16,13 @@
 		top: 0;
 		left: 0;
 	}
-
+	
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		text-align: left;
 		width: 920px;
 	}
-
+	
 	.breadcrumbs {
 		color: $white;
 	}
@@ -198,7 +197,7 @@
 		}
 
 		.avatar {
-			@include inline_block;
+			@include my_inline_block;
 			width: 70px;
 			height: 70px;
 			position: relative;
@@ -244,7 +243,7 @@
 		line-height: 20px;
 
 		.tag {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_radius(2px);
 			padding: 3px;
 			background-color: #e6e6e6;

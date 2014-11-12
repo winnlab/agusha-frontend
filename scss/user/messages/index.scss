@@ -4,14 +4,13 @@
 @import '../helpers/topper_title';
 
 .module.messages {
-	text-align: center;
 	width: 100%;
-
+	
 	.bg {
 		position: absolute;
 		width: 100%;
 		height: 100%;
-
+		
 		&:before {
 			@include pseudo;
 			width: 100%;
@@ -22,12 +21,12 @@
 			background: url('/img/user/messages/topper_bg.jpg') no-repeat center top;
 		}
 	}
-
+	
 	.content {
-		@include inline_block;
+		margin: 0 auto;
 		text-align: left;
 		width: 920px;
-
+		
 		.topper_title {
 			margin: 0 20px 90px;
 		}
@@ -42,7 +41,7 @@
 		background-color: $white;
 
 		.left {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_boxed;
 			height: 100%;
 			width: 280px;
@@ -50,7 +49,7 @@
 		}
 
 		.right {
-			@include inline_block;
+			@include my_inline_block;
 			@include border_boxed;
 			height: 100%;
 			width: 600px;
@@ -80,7 +79,7 @@
 
 		.left {
 			@include border_boxed;
-			@include inline_block;
+			@include my_inline_block;
 			width: 280px;
 			border-right: 2px solid $bg;
 
@@ -92,7 +91,7 @@
 		}
 
 		.right {
-			@include inline_block;
+			@include my_inline_block;
 			width: 600px;
 
 			.items_container {
