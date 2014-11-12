@@ -16,28 +16,18 @@
 		.conversations_container
 			.left.items_container
 
-				- each conversationKey, conversationItem in conversations
-					.item
-						.item_table
-							.avatar_column
-								.avatar
-									img.rounded(src="/img/avatar_100x100.jpg")
-							.content_column
-								.info
-									.name Ирина
-								.text Text
 
-				//.item.active
-				//	.item_table
-				//		.avatar_column
-				//			.avatar
-				//				img.rounded(src="/img/avatar_100x100.jpg")
-				//
-				//		.content_column
-				//			.info
-				//				.name Ирина
-				//
-				//			.text Text
+				.item.active
+					.item_table
+						.avatar_column
+							.avatar
+								img.rounded(src="/img/avatar_100x100.jpg")
+
+						.content_column
+							.info
+								.name Ирина
+
+							.text Text
 			
 			.right
 				.items_container
