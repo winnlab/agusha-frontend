@@ -63,7 +63,7 @@
 								<td>
 									<img class="come_and_get" src="{{ site.baseUrl }}img/user/helpers/email/come_and_get.png" />
 									
-									<a class="button" href="{{ site.baseUrl }}registration/activate/{{ user._id }}" target="_blank">
+									<a href="{{site.linkTo('registration/activate/'+user._id)}}" class="button" target="_blank">
 										<img src="{{ site.baseUrl }}img/user/helpers/email/blue_button.png" />
 									</a>
 									

@@ -130,7 +130,7 @@ var Core = can.Control.extend(
 
 		'#right_menu_small click': function(el) {			
 			var user = appState.attr('user'),
-				isAuth = user.isAuth();
+				isAuth = user.auth.attr('isAuth');
 
 
 			if (!isAuth) {
