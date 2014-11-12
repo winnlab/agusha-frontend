@@ -1,3 +1,11 @@
-/**
- * Created by yuriy_kabay on 12.11.14.
- */
+import baseModel from 'baseModel'
+import can from 'can/'
+
+export default can.Model.extend(
+    {
+        id: '_id',
+        resource: baseModel.chooseResource('/conversations'),
+        parseModel: baseModel.parseModel,
+        parseModels: baseModel.parseModels
+    }, {}
+);
