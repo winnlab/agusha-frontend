@@ -44,13 +44,13 @@ export default Edit.extend({
                 url: `/admin/article/maxpos`
             }).always((response) => {
                 var pos = response.data && response.data.max || 0;
-                options.doc.attr('position', pos);
+                options.doc.attr('position', pos + 1);
             });
 		};
 
-		self.ensureObject(options.doc, 'age');
 		self.ensureObject(options.doc, 'desc');
-		self.ensureObject(options.doc, 'theme');
+		self.ensureObject(options.doc, 'age', []);
+		self.ensureObject(options.doc, 'theme', []);
 		self.ensureObject(options.doc, 'type');
 		self.ensureObject(options.doc, 'image');
 		
@@ -96,9 +96,9 @@ export default Edit.extend({
 		self.loadView(options.viewpath + options.viewName, self.module);
 	},
 
-	ensureObject: function(obj, key) {
+	ensureObject: function(obj, key, value = {}) {
 		if (!_.isObject(obj.attr(key))) {
-			obj.attr(key, {});
+			obj.attr(key, value);
 		}
 	},
 
@@ -170,7 +170,7 @@ export default Edit.extend({
 				themes.push({
 					_id: item._id,
 					name: item.name,
-					position: pos
+					position: pos + 1
 				});
 			});
 		});
