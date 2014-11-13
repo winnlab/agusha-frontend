@@ -63,6 +63,7 @@ export default Controller.extend(
 				type: 'POST',
 				data: formData,
 				success: function (data) {
+					el.find('textarea').val('');
 					self.renderNewAnswer(formData, data);
 				},
 				error: function (data) {
@@ -74,18 +75,25 @@ export default Controller.extend(
 		renderNewAnswer: function (formData, data) {
 			var self = this;
 
-			console.log(data.updated);
-
 			var $answersContainer = $('.question_items', self.element);
 
 			$answersContainer.append(
 				can.view(self.options.viewpath + 'answer.stache', {
 					answer: formData.answer.text,
 					user: appState.attr('user').user(),
-					date: 'helper date'
+					date: data.data.updated
 				}, {
 					getDate: function (date) {
-						console.log(date);
+						var result = null;
+
+						var date = new Date(date);
+						var day = date.getDate();
+						var monthNames = [ "янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек" ];
+						var month = monthNames[date.getMonth()];
+
+						result = day + ' ' + month + '.';
+
+						return result;
 					}
 				})
 			);
