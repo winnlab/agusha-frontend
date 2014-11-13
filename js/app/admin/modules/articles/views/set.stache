@@ -132,7 +132,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc[shorttext]">Краткое описание:</label>
                         <div class="col-md-10">
-                            <textarea rows="4" class="form-control" type="text" can-value="article.desc.shorttext" placeholder="Краткое описание"></textarea>
+                            <textarea maxlength="145" rows="4" class="form-control" type="text" can-value="article.desc.shorttext" placeholder="Краткое описание"></textarea>
                             <div class="help help-block"></div>
                         </div>
                     </div>
