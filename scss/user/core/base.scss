@@ -233,21 +233,23 @@ table tr {
 	}
 
 	.avatar {
-		@include my_inline_block;
 		width: 128px;
 		height: 128px;
 		position: relative;
+		margin: 0 auto;
+		margin-top: -139px;
+
 
 		img {
 			@include absolute_centered;
-			height: 100px;
-			width: 100px;
+			height: 102px;
+			width: 102px;
 		}
 	}
 
 	.name {
 		font-family: 'PT_Sans_Bold';
-		margin-top: 4px;
+		margin-top: 14px;
 	}
 
 	.children {
