@@ -89,7 +89,22 @@
 									.children Детки: мальчик и девочка
 								
 								.text !{answerItem.text}
-				
+
+			if user && consultation.author.author_id._id.toString() == user._id.toString()
+				form.consultationResponse
+
+					input(type="hidden" name="_id" value="#{consultation._id}")
+					input(type="hidden" name="answer[author][author_id]" value="#{user._id}")
+					input(type="hidden" name="answer[author][name]" value="#{user.profile.first_name} #{user.profile.last_name}")
+
+					.authorImage
+						img(src=(user.image.small ? '/img/uploads/x160/' + user.image.small : '/img/user/helpers/stub/small.png'))
+					.responseBody
+						textarea(name="answer[text]")
+						.responseBottom
+							button(type="submit") Высказаться
+					.clearfix
+
 			.footer
 				.adorable_table
 					.adorable_cell

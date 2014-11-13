@@ -165,7 +165,7 @@ User = can.Control.extend({
 					callback(null, response.data.user);
 				}
 
-				callback("User not exist");
+				callback("User not exist"); // Це перекладається як "Користувач не існувати" :)
 			},
 			error: function(resp) {
 				callback(resp.err);

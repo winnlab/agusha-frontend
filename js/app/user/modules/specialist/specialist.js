@@ -3,7 +3,7 @@ import select2 from 'select2';
 import appState from 'core/appState';
 
 var ViewModel = can.Map.extend({
-		isAuth: appState.attr('user.auth.isAuth'),
+		isAuth: appState.attr('user').auth.attr('isAuth'),
 		sort: 'asc',
 		filter: ''
 	});
@@ -95,7 +95,9 @@ export default Controller.extend(
 
 			this.select2();
 
-			appState.attr('user.auth').delegate('isAuth', 'set', function (ev, newVal) {
+			var auth = appState.attr('user').auth;
+
+			auth.delegate('isAuth', 'set', function (ev, newVal) {
 				that.data.attr('isAuth', newVal);
 				that.select2Options.width = '100%'
 				that.element.find('select.specialist_theme_select, select.specialist_age_select').select2(that.select2Options);

@@ -14,7 +14,7 @@ mixin theme(t)
 					.title=(t ? t.name : '{{name}}')
 					.count
 						.adorable_table
-							.adorable_cell 0
+							.adorable_cell= (t ? t.counter && t.counter.article ? t.counter.article : 0 : '{{#if counter.article}}{{counter.article}}{{else}}0{{/if}}')
 
 mixin article(a, i)
 	- var classname = ''

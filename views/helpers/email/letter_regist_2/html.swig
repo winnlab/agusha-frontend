@@ -33,7 +33,7 @@
 													</div>
 													
 													<div>
-														Поздравляем, вы удачно зарегистрировались на сайте <a href="agusha.com.ua" target="_blank">agusha.com.ua</a>!
+														Поздравляем, вы удачно зарегистрировались на сайте <a href="{{ site.baseUrl }}" target="_blank">agusha.com.ua</a>!
 													</div>
 												</div>
 											</td>

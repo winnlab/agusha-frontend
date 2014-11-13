@@ -8,7 +8,7 @@ import 'bx-slider'
 export default Controller.extend(
 	{
 		defaults: {
-            viewpath: '/js/app/user/modules/article/views/',
+            viewpath: '/js/app/user/modules/article/views/'
 		}
 	}, {
 		variables: function() {
