@@ -46,15 +46,15 @@
 		width: 100%;
 		z-index: 5;
 	}
-	
+
 	.bannerWrap {
 		min-height: 624px;
 		margin: 0 20px;
 	}
-	
+
 	.content {
 		display: block;
-		
+
 		&.itemsWrap {
 			@include respond-to(small) {
 				width: 620px;
@@ -118,6 +118,10 @@
 .module .mainModuleWrap.logedIn {
 	text-align: center;
 	width: 100% !important;
+
+	.content {
+		display: inline-block;
+	}
 
 	.tab_content {
 		display: none;
