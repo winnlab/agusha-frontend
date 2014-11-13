@@ -49,8 +49,6 @@ export default Controller.extend(
 			ev.preventDefault();
 			var data;
 
-			ev.preventDefault();
-
 			data = this.data;
 
 			can.ajax({

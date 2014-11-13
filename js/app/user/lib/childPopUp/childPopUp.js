@@ -1,6 +1,7 @@
 import can from 'can/';
 import PopUp from 'lib/popUp/';
 import view from 'js/app/user/lib/childPopUp/views/index.mustache!';
+import appState from 'core/appState';
 
 var childMap;
 
@@ -11,9 +12,11 @@ export default PopUp.extend({
 		var that = this;
 
 		this.child = new childMap({
-            isSaved: 'false',
-            birth_date: {
-                value: {}
+            isSaved: false,
+            birth: {
+                value: {
+                    
+                }
             }
         });
 
@@ -25,7 +28,25 @@ export default PopUp.extend({
             'classes': 'addChildPopUp',
         });
 
-        this.element.append(can.view(view, this.module));
+        this.element.append(can.view(view, this.module, {
+            genderChecked: function(sex) {
+                var child = that.child, gender;
+
+                if(!(gender = child.gender)) {
+                    return '';
+                }
+
+                if(gender == 1 && sex == 'female') {
+                    return 'checked';
+                }
+
+                if(gender == 2 && sex == 'male') {
+                    return 'checked';
+                }
+
+                return '';
+            }
+        }));
 	},
     '.button.ok click': function() {
         this.child.attr('isSaved', true)
@@ -37,9 +58,8 @@ export default PopUp.extend({
 
         this.module.attr({
             visible: true,
-            text: '<h1>Hello world</h1>',
             title: '<h1>О вашем малыше</h1>',
-            child: this.child,
+            child: (options.child || this.child),
             cb: options.cb
         });
 	}
