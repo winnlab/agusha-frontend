@@ -3,7 +3,7 @@ import can from 'can/'
 import _ from 'lodash'
 
 var lastId = can.compute(),
-    docsCount = 2,
+    docsCount = 18,
     resource = baseModel.chooseResource('/article');
 
 export default can.Model.extend(
