@@ -72,7 +72,7 @@ mixin article(a, i)
 			else 
 				| {{#if is_quiz}}
 				.button_content.gold
-					button.me_too Я тоже
+					button.me_too= '{{checkAnswer .}}'
 				| {{/if}}
 				
 			if a
@@ -91,24 +91,28 @@ mixin article(a, i)
 					.name Ирина Матвиенко
 				| {{/is}}
 			
-			.footer
+			div(class="footer " + (a ? '' : '{{isLiked .}}'))
 				.heart
-					img(src="/img/user/article/heart.png")
+					img.liked(src="/img/user/article/heart.png")
+					img.not-liked(src="/img/user/article/heart-.png")
 					if a 
 						if a.recommended
 							img(src="/img/user/helpers/cards/lamp.png")
 					else
-						| {{#if recommended}}<img src="/img/user/helpers/cards/lamp.png"/>{{/if}}
+						| {{#if recommended}}
+						img(src="/img/user/helpers/cards/lamp.png")
+						| {{/if}}
 					
 				.counters.adorable_table
 					.adorable_cell
 						- var component_id = a ? a._id : '{{_id}}'
-						img.like(src="/img/user/article/heart.png", data-component_id=component_id, data-component="Article")
-						span.count(data-component_id=component_id)= (a ? a.likes ? a.likes.length : 0 : '{{likes.length}}')
+						img.like.liked(src="/img/user/article/heart.png", data-component_id=component_id, data-component="Article")
+						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id=component_id, data-component="Article")
+						span.count.like(data-component_id=component_id)= (a ? a.likes ? a.likes.length : 0 : '{{likes.length}}')
 						span.approve
 							| мамочек
 							br
 							| одобряют
 						
 						img.comment(src="/img/user/article/comment.png")
-						span.count= (a ? a.counter.comment : '{{counter.comment}}')
+						span.count.commentariesCount= (a ? a.counter.comment : '{{counter.comment}}')

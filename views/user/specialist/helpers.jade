@@ -98,9 +98,10 @@ mixin article(a, i)
                         img.rounded(src='/img/avatar_100x100.jpg')
                     .name врач-педиатр
                     .name Ирина Матвиенко
-            .footer
+            div(class="footer " + (a ? '' : '{{isLiked .}}'))
                 .heart
-                    img(src="/img/user/article/heart.png")
+                    img.liked(src="/img/user/article/heart.png")
+                    img.not-liked(src="/img/user/article/heart-.png")
                     if a 
                         if a.recommended
                             img(src="/img/user/helpers/cards/lamp.png")
@@ -111,8 +112,10 @@ mixin article(a, i)
                     
                 .counters.adorable_table
                     .adorable_cell
-                        img.like(src="/img/user/article/heart.png")
-                        span.count= (a ? a.counter && a.counter.like ? a.counter.like : 0 : '{{#if counter.like}}{{counter.like}}{{else}}0{{/if}}')
+                        - var component_id = a ? a._id : '{{_id}}'
+                        img.like.liked(src="/img/user/article/heart.png", data-component_id=component_id, data-component="Article")
+                        img.like.not-liked(src="/img/user/article/heart-.png", data-component_id=component_id, data-component="Article")
+                        span.count.like(data-component_id=component_id)= (a ? a.likes ? a.likes.length : 0 : '{{likes.length}}')
                         span.approve
                             | мамочек
                             br
