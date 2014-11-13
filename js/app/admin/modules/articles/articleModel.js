@@ -9,23 +9,37 @@ var lastId = can.compute(),
 export default can.Model.extend(
 	{
 	    id: '_id',
+        lastPageReached: false,
 	    parseModel: baseModel.parseModel,
 	    parseModels: function (response) {
             var data = response.data || {};
+
             lastId(data.nextAnchorId);
-            console.log(data.documents)
+
+            if (!data.nextAnchorId || data.documents.length === 0) {
+                this.lastPageReached = true;
+            }
             return data.documents || [];
         },
         findAll: function (params) {
-            _.extend(params, {
-                queryOptions: {
-                    lastId: lastId(),
-                    docsCount: docsCount,
-                    sort: {
-                        position: -1
-                    }
-                }
-            });
+            if (params === false) {
+                params = this.lastParams;
+            }
+
+            if (this.lastParams && ! _.isEqual(params.queryOptions.sort, this.lastParams.queryOptions.sort)) {
+                this.lastPageReached = false;
+            }
+
+            this.lastParams = params;
+
+            if (this.lastPageReached) {
+                var def = can.Deferred();
+                return def.resolve({data: {documents: []}});
+            }
+            
+            params.queryOptions = params.queryOptions || {};
+            params.queryOptions.lastId = lastId();
+            params.queryOptions.docsCount = docsCount;
 
             return $.ajax({
                 url: resource,
@@ -37,11 +51,6 @@ export default can.Model.extend(
         create: resource,
         update: resource,
         destroy: resource
-        makeFindAll: function (findAllData) {
-            return function (params, success, error) {
-
-            };
-        }
 	}, {
 		uploaded: baseModel.simpleUploaded,
 		removeUploaded: baseModel.simpleRemoveUploaded

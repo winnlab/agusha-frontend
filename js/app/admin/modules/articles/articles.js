@@ -65,11 +65,27 @@ export default List.extend({
                 self.module.attr('types').push(doc);
             });
         });
+    },
 
-        setTimeout(function () {
-            console.log('updating articles...');
-            ArticleModel.findAll({});
-        }, 3000);
+    '{window} scroll': function () {
+        if (!this.element.hasClass('hidden')) {
+            var atBottom = $(window).scrollTop() == ($(document).height() - $(window).height());
+
+            if (atBottom) {
+                this.options.Model.findAll(false, this.processFindAll.bind(this));
+            }
+        }
+    },
+
+    populateModel: function () {
+        this.module.attr(this.options.moduleName, new this.options.Model.List({queryOptions: {sort: {position: -1}}}));
+    },
+
+    processFindAll: function (docs) {
+        var module = this.module.attr(this.options.moduleName);
+        docs.each(function (doc) {
+            module.push(doc);
+        });
     },
 
     initSetControl: function (area, doc, entity) {
@@ -94,17 +110,41 @@ export default List.extend({
         var moduleList = this.module.attr(this.options.moduleName),
             filter = {};
 
+        filter.queryOptions = {};
+        filter.queryOptions.sort = {}
+
         if (data) {
             filter['age._id'] = data.attr('age');
             filter['theme._id'] = data.attr('theme');
             filter['type.name'] = data.attr('type');
 
+            /*
+                nestedAnchor object used by mongoose-pages as rules of finding nested anchor
+
+                    (0) .wrap - name of property of document where array is
+                    (1) .field - field which should be used as nested object identifier
+                    (2) .value - value of (1) which should be used for identification
+                    (3) .anchorField - value of which field should be used as anchorField
+
+                Probably could get (0) and (3) by splitting first sort option in mongoose-pages, but whatever
+             */
+            filter.queryOptions.nestedAnchor = {};
+            filter.queryOptions.nestedAnchor.wrap = 'theme';
+            filter.queryOptions.nestedAnchor.field = '_id';
+            filter.queryOptions.nestedAnchor.value = filter['theme._id'];
+            filter.queryOptions.nestedAnchor.anchorField = 'position';
+            
+            filter.queryOptions.sort['theme.position'] = -1;
+
             this.module.attr('filterTheme', data.attr('theme'));
         } else {
+            filter.queryOptions.sort['position'] = -1;
             this.module.attr('filterTheme', null);
         }
 
         this.module.attr(this.options.moduleName, new this.options.Model.List(filter));
+        // console.log(123)
+        // ArticleModel.findAll(filter, this.processFindAll.bind(this));
     },
 
     '.changePosArticle click': function (el) {
