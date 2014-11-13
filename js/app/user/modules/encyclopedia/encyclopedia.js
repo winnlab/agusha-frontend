@@ -124,7 +124,7 @@ export default Controller.extend(
 					}
 				},
 				articles: articles,
-				sort: 'asc',
+				sort: 'desc',
 				filter: 0,
 				module: 'encyclopedia'
 			});
@@ -202,7 +202,7 @@ export default Controller.extend(
 
 		'.order_select change': function (el) {
 			var val = el.val();
-			this.data.attr('sort', val === 'date' ? 'asc' : 'desc');
+			this.data.attr('sort', val === 'date' ? 'desc' : 'asc');
 			this.reRenderArticles();
 		},
 
