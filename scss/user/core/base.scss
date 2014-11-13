@@ -166,17 +166,19 @@ table tr {
 	text-align: center;
 	color: $white;
 	width: 230px;
-
+	overflow: hidden;
+	
 	&.active {
 		right: 0;
-
+		overflow: visible;
+		
 		.topper {
 			&:before {
 				left: -10px;
 			}
 		}
 	}
-
+	
 	.topper {
 		background-color: $darkblue;
 		padding: 41px 0 14px;
