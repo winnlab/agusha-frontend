@@ -36,43 +36,17 @@ mixin childrenItem()
 			.profileHead
 				.headWrap
 					h3.inner_title Информация о ваших детках
-					.question_bubble ?
+					.question_bubble.tooltip(title="Some text") ?
 
 			.childBlock
 				| {{#each children}}
 				.childItem
-					.childPic
+					.childPic(data-id="{{_id}}" "{{data 'children'}}")
 						img(src="/img/user/helpers/stub/child.png").rounded
 
 					.childInfo
 						.childName {{name}}
 				| {{/each}}
-				//- .childItem
-				//- 	.childPic
-				//- 		img(src="/img/user/helpers/stub/child.png").rounded
-
-				//- 	.childInfo
-				//- 		.childName Катенька
-				//- 		.childGender Девочка
-				//- 		.childAge 28 мес.
-
-				//- .childItem
-				//- 	.childPic
-				//- 		img(src="/img/user/helpers/stub/child.png").rounded
-
-				//- 	.childInfo
-				//- 		.childName Катенька
-				//- 		.childGender Девочка
-				//- 		.childAge 28 мес.
-
-				//- .childItem
-				//- 	.childPic
-				//- 		img(src="/img/user/helpers/stub/child.png").rounded
-
-				//- 	.childInfo
-				//- 		.childName Катенька
-				//- 		.childGender Девочка
-				//- 		.childAge 28 мес.
 
 				.addChild
 					.button.rounded

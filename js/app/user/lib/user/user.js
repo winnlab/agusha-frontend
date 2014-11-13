@@ -1,5 +1,4 @@
 import 'can/';
-import appState from 'core/appState';
 import weights from 'lib/user/profileWeight'
 import _ from 'lodash';
 
@@ -40,6 +39,11 @@ UserMap = can.Map.extend({
 	define: {
 		children: {
 			value: new childrenList
+		},
+		profile: {
+			value: {
+				filling: 0
+			}
 		},
 		fullName: {
 			get: function() {
@@ -161,7 +165,7 @@ User = can.Control.extend({
 					callback(null, response.data.user);
 				}
 
-				callback("User not exist");
+				callback("User not exist"); // Це перекладається як "Користувач не існувати" :)
 			},
 			error: function(resp) {
 				callback(resp.err);

@@ -8,7 +8,7 @@ import 'bx-slider'
 export default Controller.extend(
 	{
 		defaults: {
-            viewpath: '/js/app/user/modules/article/views/',
+            viewpath: '/js/app/user/modules/article/views/'
 		}
 	}, {
 		variables: function() {
@@ -88,6 +88,17 @@ export default Controller.extend(
 
 		'.slideLeft click': function(el, ev) {
 			$('.bx-wrapper .bx-prev', this.element).trigger('click');
+		},
+
+		'{window} scroll': function (el, ev) {
+			var self = this;
+			var $bg = $('.articleBackground', self.element);
+
+			var scrollTop = $('body').scrollTop();
+
+			$bg.css({
+				top: scrollTop
+			});
 		}
 	}
 );

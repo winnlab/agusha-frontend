@@ -1,7 +1,8 @@
 - var likesAmount = article.likes ? article.likes.length : 0;
 - var commentariesAmount = article.commentaries ? article.commentaries.length : 0;
 
-.bg(style=(article.image && article.image.background ? 'background-image: url("/img/uploads/#{article.image.background}");' : ''))
+if article.image
+	.articleBackground.bg(style=(article.image && article.image.B ? 'background-image: url("/img/uploads/#{article.image.B}");' : 'background-image: url("/img/uploads/#{article.image.background}");'))
 
 .content
 	include ../helpers/breadcrumbs

@@ -1,8 +1,9 @@
 import Controller from 'controller';
 import appState from 'core/appState';
 // import childPopUp from 'lib/childPopUp/';
-
-import Profile from 'js/app/user/modules/profile/profileModel'
+import tooltip from 'tooltipster';
+import Profile from 'js/app/user/modules/profile/profileModel';
+import _ from 'lodash'
 
 export default Controller.extend(
 	{
@@ -14,8 +15,12 @@ export default Controller.extend(
         }
     }, {
 		after_init: function(data) {
+            System.import('./js/plugins/tooltipster/css/tooltipster.css!')
+            System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!')
+
             this.data = appState.attr('user');
-            this.child =  appState.attr('childPopUp.child')
+            this.child =  appState.attr('childPopUp.child');
+            this.user = this.data.options.user;
 
             if(!this.data.isAuth()) {
                 can.route.attr({module: 'login'});
@@ -26,6 +31,11 @@ export default Controller.extend(
 
             this.bindTpl();
             this.bindChild();
+
+            $('.tooltip').tooltipster({
+                position: 'right',
+                theme: 'tooltipster-agusha'
+            });
         },
         '.social_buttons .vk click': function() {
             window.location.href = '/registration/vk'
@@ -44,34 +54,56 @@ export default Controller.extend(
             this.options.model._data = user.attr();
 
             this.options.model.save().fail(function() {
-                console.log(arguments);
+                if(callback) {
+                    callback(user)
+                }
             });
         },
         '.addChild click': function() {
             appState.attr('childPopUp').show({})
         },
+        '.childPic click': function(el, ev) {
+            var child = el.data('children');
+
+            appState.attr('childPopUp').show({child: child})
+        },
+        updateUser: function(child) {
+            this.saveModel()
+        },
+        saveChild: function(ev, newVal, oldVal, prop) {
+            var that = this,
+                user = this.data.options.user,
+                child;
+
+            if(!appState.attr('childPopUp').module.attr) {
+                return false;
+            }
+
+            child = appState.attr('childPopUp').module.attr('child');
+
+            if(!child.attr) {
+                return false;
+            }
+
+            if(child.attr('_id')) {
+                return this.updateUser(child);
+            }
+
+            user.attr('children').push(child);
+
+            this.saveModel(function() {
+                child.attr({isSaved: false});
+            });
+        },
         bindChild: function() {
             var that = this;
-
-            appState.attr('childPopUp').child.bind('change', function(ev, attr, how, newVal, oldVal) {
-                var child;
-
-                if(ev.type != 'change' || attr != 'isSaved') {
-                    return false;
-                }
-
-                if(this.attr(attr) == false) {
-                    return false;
-                }
-
-                child = this.attr();
-
-
-                that.data.options.user.attr('children').push(child);
-                this.attr({isSaved: false}, {});
-
-                that.saveModel();
-            });
+            appState
+                .attr('childPopUp')
+                .child.delegate(
+                    'isSaved',
+                    'set',
+                    can.proxy(this.saveChild, this)
+                );
         },
         bindTpl: function() {
             var html, that = this;

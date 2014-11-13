@@ -8,7 +8,12 @@ var AppState = can.Map.extend({
     viewport: new Viewport('body'),
     popUp: new PopUp('body'),
     childPopUp: new childPopUp('body'),
-    user: new User('body')
+    user: new User('body'),
+    agushaUser: {
+        image: 'agushaAvatar.png',
+        first_name: 'Агуша',
+        last_name: ''
+    }
 });
 
 export default new AppState();
