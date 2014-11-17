@@ -89,6 +89,12 @@ export default {
             result[0].XL = true;
         }
 
+        if (result[0].type.name == 'Статья от специалиста' 
+            || result[0].type.name == 'Статья от пользователя') {
+            result[0].XL = false;
+            isXL = false;
+        }
+
         _.each(result, function (element, i) {
             if (i == 0) {
                 if (byMain) {

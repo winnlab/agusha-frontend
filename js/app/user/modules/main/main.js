@@ -117,6 +117,23 @@ export default Controller.extend(
 			this.initPlugins();
 		},
 
+		'/ route': function () {
+			var self = this;
+			can.ajax({
+				url: '/feed',
+				method: 'GET'
+			}).done(function (data) {
+				self.themeSubs = data ? data.themeSubs : app.themeSubs
+				self.consultations = data ? data.consultations : app.consultations;
+				self.feedSource = ([]).concat(self.themeSubs, self.consultations);
+				var data = self.getFilteredData(),
+					feed = encyclopediaHelpers.sortArticles(data, self.data.attr('sort'), true, true);
+				self.data.attr('feed', feed);
+			}).fail(function () {
+				console.error(arguments);
+			});
+		},
+
 		'.social .facebook click': function(el, ev) {
 			ev.preventDefault();
 			window.location.href = '/login/fb';
@@ -159,7 +176,7 @@ export default Controller.extend(
 					can.route.attr({module: 'profile'});
 				},
 				error: function (xhr, type, resp) {
-					
+
 				}
 			});
 		},

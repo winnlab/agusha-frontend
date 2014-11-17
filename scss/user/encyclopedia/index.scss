@@ -191,14 +191,13 @@ $ageFilterWidth: 160px;
 			@include my_inline_block;
 			width: 100%;
 			overflow: hidden;
-			padding-bottom: 20px;
 
 			&:after {
 				content: '';
 				display: block;
 				background: url('/img/user/encyclopedia/bookShelf.png');
 				width: 465px;
-				height: 106px;
+				height: 86px;
 				margin: 0 auto;
 			}
 		}
