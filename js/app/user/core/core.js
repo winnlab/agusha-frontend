@@ -81,10 +81,10 @@ var Core = can.Control.extend(
 		},
 
 		requestAnimFrame: function() {
-			var	that = this;
-			window.requestAnimFrame(function(timestamp) {
-				that.step(timestamp);
-			});
+			// var	that = this;
+			// window.requestAnimFrame(function(timestamp) {
+				// that.step(timestamp);
+			// });
 		},
 
 		'#left_menu .close click': function(el) {
