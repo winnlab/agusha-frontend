@@ -29,8 +29,6 @@ var Core = can.Control.extend(
 
 			this.start = null;
 			this.initBindings();
-			
-			this.custom_resize_event();
 		},
 		'.logout click': function() {
 			this.hide_right_menu()
@@ -45,12 +43,6 @@ var Core = can.Control.extend(
 			}
 
 			can.route.attr({module: 'registration'})
-		},
-		
-		custom_resize_event: function() {
-			this.window.on('custom_resize', function() {
-				console.log(34)
-			});
 		},
 		
 		step: function(timestamp) {

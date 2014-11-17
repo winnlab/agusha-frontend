@@ -94,7 +94,6 @@ export default can.Control.extend({
 	'{window} resize': 'resize',
 	
 	resize: function() {
-		console.log(36)
 		if(!this.element.hasClass('active')) {
 			return false;
 		}
