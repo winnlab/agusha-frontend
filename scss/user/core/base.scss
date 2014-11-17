@@ -502,10 +502,10 @@ table tr {
 		}
 
 		.search_item {
-			&:before {
+			.search_icon {
 				background-image: url('/img/user/core/search_small.png');
 				background-color: $blue;
-			}
+			}	
 		}
 
 		#search_input {
@@ -832,9 +832,8 @@ table tr {
 
 	.search_item {
 		height: 35px;
-
-		&:before {
-			@include pseudo;
+		
+		.search_icon {
 			@include border_radius(5px);
 			@include transition(background-color 0.3s ease-in-out);
 			background: url('/img/user/core/search.png') center no-repeat;
@@ -845,6 +844,7 @@ table tr {
 			width: 35px;
 			height: 100%;
 			z-index: 10;
+			cursor: pointer;
 		}
 	}
 
@@ -948,7 +948,6 @@ table tr {
 	height: 35px;
 	background-color: $darkblue;
 	color: $white;
-	line-height: 35px !important;
 	font-size: 12px;
 	padding: 0 10px 0 35px;
 	position: relative;
