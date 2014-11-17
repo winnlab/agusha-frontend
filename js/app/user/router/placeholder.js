@@ -41,7 +41,7 @@ export default can.Map.extend({
 		if(exists) {
 			this.activateModule(id);
 			
-			$(window).resize();
+			$(window).trigger('custom_resize');
 			
 			this.moduleActivated(id);
 		}
