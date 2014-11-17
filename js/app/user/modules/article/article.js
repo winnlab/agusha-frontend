@@ -33,6 +33,7 @@ export default Controller.extend(
 			var id = this.id.split('-')[1];
 
 			this.carousel();
+			this.moveBackground();
 		},
 
 		carousel: function () {
@@ -91,14 +92,35 @@ export default Controller.extend(
 		},
 
 		'{window} scroll': function (el, ev) {
-			var self = this;
-			var $bg = $('.articleBackground', self.element);
+			if (this.element.hasClass('active')) {
+				this.moveBackground();
+			}
+		},
 
-			var scrollTop = $('body').scrollTop();
+		moveBackground: function () {
+			var $bg = $('.articleBackground', this.element);
+			var yPos = window.scrollY || $(window).scrollTop();
+			var coords = 'center';
 
-			$bg.css({
-				top: scrollTop
-			});
+			var img = new Image;
+			var bgImage = $bg.css('background-image');
+
+			if ($bg.css('background-image').length > 0) {
+				img.src = $bg.css('background-image').replace(/url\(|\)$/ig, "");
+				var bgImgHeight = img.height;
+
+				var limit = $('.article_bottom', this.element).offset().top - bgImgHeight;
+
+				if ( yPos <= limit ) {
+					coords = '50% '+ yPos + 'px';
+				} else {
+					coords = '50% '+ limit + 'px';
+				}
+
+				$bg.css({
+					backgroundPosition: coords
+				});
+			}
 		}
 	}
 );
