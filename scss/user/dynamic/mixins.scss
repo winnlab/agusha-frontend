@@ -116,6 +116,13 @@ $large: 1600px;
 	-webkit-flex-direction: row-reverse;
 }
 
+@mixin backface_visibility_hidden {
+	-webkit-backface-visibility: 	hidden;
+	-moz-backface-visibility:    	hidden;
+	-ms-backface-visibility:     	hidden;
+	backface-visibility:     		hidden;
+}
+
 /* base */
 
 @mixin bold {
