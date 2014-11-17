@@ -87,7 +87,7 @@ export default Edit.extend({
 		self.module.attr('addingGallery', false);
 		self.module.attr('showCroppers', false);
 		self.module.attr('cropSizes', [
-			{size: 'B', name: 'Фоновое изображение', ratio: 2.4, w: 1850, h: 800},
+			{size: 'B', name: 'Фоновое изображение', ratio: 2.31, w: 1850, h: 800},
 			{size: 'S', name: 'Малое изображение (S)', ratio: 0.96, w: 290, h: 303},
 			{size: 'L', name: 'Большое изображение (L)', ratio: 1.91, w: 580, h: 303},
 			{size: 'XL', name: 'Экстра большое изображение (XL)', ratio: 0.96, w: 580, h: 606}
