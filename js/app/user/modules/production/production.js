@@ -14,7 +14,7 @@ export default Controller.extend(
 			var width = this.element.width(),
 				classname = 'high_resolution',
 				func = 'addClass';
-			
+			console.log(width)
 			if(width < 900) {
 				func = 'removeClass'
 			}

@@ -29,6 +29,8 @@ var Core = can.Control.extend(
 
 			this.start = null;
 			this.initBindings();
+			
+			this.custom_resize_event();
 		},
 		'.logout click': function() {
 			this.hide_right_menu()
@@ -44,17 +46,24 @@ var Core = can.Control.extend(
 
 			can.route.attr({module: 'registration'})
 		},
+		
+		custom_resize_event: function() {
+			this.window.on('custom_resize', function() {
+				console.log(34)
+			});
+		},
+		
 		step: function(timestamp) {
 			var that = this;
 
 			if(this.start === null) {
 				this.start = timestamp;
 			}
-
+			
 			var progress = timestamp - this.start;
-
-			this.window.resize();
-
+			
+			this.window.trigger('custom_resize');
+			
 			if(progress <= 300) {
 				return this.requestAnimFrame();
 			}
@@ -81,10 +90,10 @@ var Core = can.Control.extend(
 		},
 
 		requestAnimFrame: function() {
-			// var	that = this;
-			// window.requestAnimFrame(function(timestamp) {
-				// that.step(timestamp);
-			// });
+			var	that = this;
+			window.requestAnimFrame(function(timestamp) {
+				that.step(timestamp);
+			});
 		},
 
 		'#left_menu .close click': function(el) {
