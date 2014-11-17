@@ -129,21 +129,27 @@ export default Controller.extend(
 			ev.preventDefault();
 
 			var self = this,
-				data = el.serialize();
-			data += '&age_id=' + self.element.find('select.specialist_age_select').val();
-			data += '&theme_id=' + self.element.find('select.specialist_theme_select').val()
+				data = can.deparam(el.serialize());
+			data.age_id = self.element.find('select.specialist_age_select').val();
+			data.theme_id = self.element.find('select.specialist_theme_select').val();
+
+			if (!data.text || !data.name) {
+				return appState.attr('popUp').show({
+					text: 'Пожалуйста заполните все поля.'
+				});
+			}
 
 			can.ajax({
 				url: '/consultation',
 				type: 'POST',
-				data: can.deparam(data)
+				data: data
 			}).done(function (data) {
 				appState.attr('popUp').show({
-					text: 'Ваш вопрос успешно отправлен консультанту.',
+					text: 'Ваш вопрос успешно отправлен консультанту.'
 				});
 			}).fail(function (data) {
 				appState.attr('popUp').show({
-					text: data.responseJSON.err.message,
+					text: data.responseJSON.err.message
 				});
 			});
 
