@@ -44,13 +44,13 @@ export default Edit.extend({
                 url: `/admin/article/maxpos`
             }).always((response) => {
                 var pos = response.data && response.data.max || 0;
-                options.doc.attr('position', pos);
+                options.doc.attr('position', pos + 1);
             });
 		};
 
-		self.ensureObject(options.doc, 'age');
 		self.ensureObject(options.doc, 'desc');
-		self.ensureObject(options.doc, 'theme');
+		self.ensureObject(options.doc, 'age', []);
+		self.ensureObject(options.doc, 'theme', []);
 		self.ensureObject(options.doc, 'type');
 		self.ensureObject(options.doc, 'image');
 		
@@ -87,7 +87,7 @@ export default Edit.extend({
 		self.module.attr('addingGallery', false);
 		self.module.attr('showCroppers', false);
 		self.module.attr('cropSizes', [
-			{size: 'B', name: 'Фоновое изображение', ratio: 2.4, w: 1850, h: 768},
+			{size: 'B', name: 'Фоновое изображение', ratio: 2.4, w: 1850, h: 800},
 			{size: 'S', name: 'Малое изображение (S)', ratio: 0.96, w: 290, h: 303},
 			{size: 'L', name: 'Большое изображение (L)', ratio: 1.91, w: 580, h: 303},
 			{size: 'XL', name: 'Экстра большое изображение (XL)', ratio: 0.96, w: 580, h: 606}
@@ -96,9 +96,9 @@ export default Edit.extend({
 		self.loadView(options.viewpath + options.viewName, self.module);
 	},
 
-	ensureObject: function(obj, key) {
+	ensureObject: function(obj, key, value = {}) {
 		if (!_.isObject(obj.attr(key))) {
-			obj.attr(key, {});
+			obj.attr(key, value);
 		}
 	},
 
@@ -170,7 +170,7 @@ export default Edit.extend({
 				themes.push({
 					_id: item._id,
 					name: item.name,
-					position: pos
+					position: pos + 1
 				});
 			});
 		});

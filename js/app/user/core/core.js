@@ -137,6 +137,12 @@ var Core = can.Control.extend(
 				router.new_module('search/' + phrase);
 			}
 		},
+		
+		'#left_menu.small .search_icon click': function(el) {
+			this.left_resizable.toggleClass('small');
+			this.right_menu.removeClass('active');
+			this.requestAnimFrame();
+		},
 
 		initBindings: function () {
 			appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
