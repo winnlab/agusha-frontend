@@ -66,6 +66,10 @@
 	}
 
 	&.author {
+		.topper_title {
+			color: #45b26e;
+		}
+
 		.inner {
 			background-color: #63ce88;
 		}
@@ -552,6 +556,19 @@
 		bottom: 0;
 		width: 100%;
 		left: 0;
+
+		&.isLiked {
+			.not-liked {
+				display: none;
+			}
+			.liked {
+				display: inline;
+			}
+		}
+
+		.liked {
+			display: none;
+		}
 
 		&.silver {
 			.counters {

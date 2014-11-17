@@ -224,7 +224,7 @@ export default can.Control.extend({
 
 	'{remove} click': function (el) {
 		var options = this.options,
-			doc = el.clolest(options.parentData).data(options.moduleName);
+			doc = this.getDocHandle(el);
 
 		swal({
 			title: options.deleteMsgTitle,

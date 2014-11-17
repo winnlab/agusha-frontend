@@ -28,49 +28,21 @@ var Core = can.Control.extend(
 			this.right_menu = this.element.find('.right_menu');
 
 			this.start = null;
-
-			//this.profile_circle(0.75);
-
-			// this.profile_circle(0.75);
 			this.initBindings();
-			// this.profile_circle(0.75);
-
-			// #register_corner is no more
-			// appState.attr('user').delegate('isAuth', 'set', function (el, newVal) {
-				// var regBlock = $('#register_corner');
-				// if (newVal) {
-					// regBlock.hide();
-				// } else {
-					// regBlock.show();
-				// }
-			// });
 		},
-
-		// profile_circle: function(percentage) {
-		// 	var degreeInRad = Math.PI / 180;
-		// 	var degrees = 360 * percentage;
-
-		// 	var canvas = document.getElementById('profile_circle');
-		// 	var context = canvas.getContext('2d');
-		// 	var x = canvas.width / 2;
-		// 	var y = canvas.height / 2;
-		// 	var radius = 57;
-		// 	var startRadian = 1.5 * Math.PI;
-		// 	var endRadian = (degrees - 90 + 1) * degreeInRad;
-		// 	var counterClockwise = false;
-
-		// 	context.beginPath();
-		// 	context.arc(x, y, radius, startRadian, endRadian, counterClockwise);
-		// 	context.lineWidth = 14;
-		// 	context.lineCap = 'round';
-
-		// 	// line color
-		// 	context.strokeStyle = '#2483b3';
-		// 	context.stroke();
-		// },
 		'.logout click': function() {
 			this.hide_right_menu()
 			appState.attr('user').logout()
+		},
+		'#right_menu_small .subTopper .top click': function() {
+			var user = appState.attr('user'),
+				isAuth = user.auth.attr('isAuth');
+
+			if (isAuth) {
+				return;
+			}
+
+			can.route.attr({module: 'registration'})
 		},
 		step: function(timestamp) {
 			var that = this;
@@ -144,7 +116,7 @@ var Core = can.Control.extend(
 
 		'#right_menu .close click' : function(el) {
 			var user = appState.attr('user'),
-				isAuth = user.isAuth();
+				isAuth = user.auth.isAuth;
 
 			this.left_resizable.addClass('small');
 			this.right_menu.toggleClass('active');
@@ -164,6 +136,12 @@ var Core = can.Control.extend(
 			if(phrase != '') {
 				router.new_module('search/' + phrase);
 			}
+		},
+		
+		'#left_menu.small .search_icon click': function(el) {
+			this.left_resizable.toggleClass('small');
+			this.right_menu.removeClass('active');
+			this.requestAnimFrame();
 		},
 
 		initBindings: function () {

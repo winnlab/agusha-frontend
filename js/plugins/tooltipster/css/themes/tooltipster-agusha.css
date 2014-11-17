@@ -1,0 +1,19 @@
+.tooltipster-agusha {
+	width: 201px;
+	height: 89px;
+	background: url("/img/user/registration/message_bg.png") no-repeat;
+	/*padding: 20px 20px 20px 35px;*/
+	color: #fff;
+	font-size: 12px;
+	font-family: 'PT_Sans_Italic';
+	display: table;
+	margin-top: 9px;
+}
+
+.tooltipster-content {
+	overflow: none;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+
+}

@@ -1,11 +1,12 @@
 import Controller from 'controller'
 import Model from 'module/question/questionModel'
+import appState from 'core/appState';
 import 'bx-slider';
 
 export default Controller.extend(
 	{
 		defaults: {
-
+			viewpath: '/js/app/user/modules/question/views/'
 		}
 	}, {
 		variables: function() {
@@ -50,6 +51,52 @@ export default Controller.extend(
 
 		'.slideLeft click': function(el, ev) {
 			$('.bx-wrapper .bx-prev', this.element).trigger('click');
+		},
+
+		'.consultationResponse submit': function (el, ev) {
+			ev.preventDefault();
+			var self = this;
+			var formData = can.deparam(el.serialize());
+
+			can.ajax({
+				url: '/question/sendAnswer',
+				type: 'POST',
+				data: formData,
+				success: function (data) {
+					el.find('textarea').val('');
+					self.renderNewAnswer(formData, data);
+				},
+				error: function (data) {
+					console.error('error', data);
+				}
+			});
+		},
+
+		renderNewAnswer: function (formData, data) {
+			var self = this;
+
+			var $answersContainer = $('.question_items', self.element);
+
+			$answersContainer.append(
+				can.view(self.options.viewpath + 'answer.stache', {
+					answer: formData.answer.text,
+					user: appState.attr('user').user(),
+					date: data.data.updated
+				}, {
+					getDate: function (date) {
+						var result = null;
+
+						var date = new Date(date);
+						var day = date.getDate();
+						var monthNames = [ "янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек" ];
+						var month = monthNames[date.getMonth()];
+
+						result = day + ' ' + month + '.';
+
+						return result;
+					}
+				})
+			);
 		}
 	}
 );

@@ -37,32 +37,36 @@
 						- var month = monthNames[date.getMonth()];
 
 						| #{day} #{month}
-					
-					.item_table
-						.avatar_column
-							.avatar
-								img.rounded(src="/img/user/specialist/doc_mini.jpg")
+
+					if consultation.author && consultation.author.author_id
+						.item_table
+							.avatar_column
+								.avatar
+									if consultation.author.author_id.image.small
+										img.rounded(src="#{consultation.author.author_id.image.small}")
+									else
+										img.rounded(src="/img/user/helpers/stub/small.png")
 
 
-						.content_column
-							.info
-								.name Ирина Потапенко
-								
-								.level
-									span.league Мама профи
-									img.star(src="/img/user/article/star.png")
-									img.star(src="/img/user/article/star.png")
-									img.star(src="/img/user/article/star.png")
-									img.star(src="/img/user/article/star.png")
-									img.star(src="/img/user/article/star.png")
-								
-								.children Детки: мальчик и девочка
-							
-							.title
-								| #{consultation.name}
-							
-							.text
-								| !{consultation.text}
+							.content_column
+								.info
+									.name #{consultation.author.author_id.profile.first_name} #{consultation.author.author_id.profile.last_name}
+
+									//.level
+									//	span.league Мама профи
+									//	img.star(src="/img/user/article/star.png")
+									//	img.star(src="/img/user/article/star.png")
+									//	img.star(src="/img/user/article/star.png")
+									//	img.star(src="/img/user/article/star.png")
+									//	img.star(src="/img/user/article/star.png")
+									//
+									//.children Детки: мальчик и девочка
+
+								.title
+									| #{consultation.name}
+
+								.text
+									| !{consultation.text}
 				
 				- each answerItem, answerKey in consultation.answer
 					.item
@@ -76,20 +80,45 @@
 						
 						.item_table
 							.avatar_column
-								.avatar.medical_cap
-									img.rounded(src="/img/user/specialist/doc_mini.jpg")
+								if answerItem.author && answerItem.author.author_id
+									.avatar
+										if answerItem.author.author_id.image.small
+											img.rounded(src="#{answerItem.author.author_id.image.small}")
+										else
+											img.rounded(src="/img/user/helpers/stub/small.png")
+								else
+									.avatar.medical_cap
+										img.rounded(src="/img/user/specialist/doc_mini.jpg")
 							
 							.content_column
 								.info
-									.name Ирина Потапенко
-									
-									.level
-										span.league Врач педиатр
-									
-									.children Детки: мальчик и девочка
+									if answerItem.author && answerItem.author.author_id
+										.name #{answerItem.author.author_id.profile.first_name} #{answerItem.author.author_id.profile.last_name}
+									else
+										.name Ирина Потапенко
+
+										.level
+											span.league Врач педиатр
+
+										.children Детки: мальчик и девочка
 								
 								.text !{answerItem.text}
-				
+
+			if user && consultation.author.author_id._id.toString() == user._id.toString()
+				form.consultationResponse
+
+					input(type="hidden" name="_id" value="#{consultation._id}")
+					input(type="hidden" name="answer[author][author_id]" value="#{user._id}")
+					input(type="hidden" name="answer[author][name]" value="#{user.profile.first_name} #{user.profile.last_name}")
+
+					.authorImage
+						img(src=(user.image.small ? '/img/uploads/x160/' + user.image.small : '/img/user/helpers/stub/small.png'))
+					.responseBody
+						textarea(name="answer[text]")
+						.responseBottom
+							button(type="submit") Высказаться
+					.clearfix
+
 			.footer
 				.adorable_table
 					.adorable_cell

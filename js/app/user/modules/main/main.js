@@ -4,6 +4,17 @@ import appState from 'core/appState';
 import LoginForm from 'js/app/user/modules/login/login'
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 
+var ViewModel = can.Map.extend({
+	define: {
+		email: {
+			value: null
+		},
+		password: {
+			value: null
+		}
+	}
+});
+
 export default Controller.extend(
 	{
 		defaults: {
@@ -49,7 +60,6 @@ export default Controller.extend(
 
 			return html;
 		},
-
 		after_init: function(data) {
 			var auth = appState.attr('user').auth;
 
@@ -64,6 +74,7 @@ export default Controller.extend(
 
 			var encyclopediaHtml,
 				feedHtml,
+				loginHtml,
 				articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, true, true),
 				feed = encyclopediaHelpers.sortArticles(this.feedSource, null, true, true);
 
@@ -76,11 +87,13 @@ export default Controller.extend(
 				module: 'main',
 				themeSubs: data ? data.themeSubs.length : app.themeSubs.length,
 				authorSubs: 0,
-				consultations: data ? data.consultations.length : app.consultations.length
+				consultations: data ? data.consultations.length : app.consultations.length,
+				loginForm: new ViewModel()
 			});
 
 			var encyclopedia_mustache = $('#encyclopedia_mustache'),
-				feed_mustache = $('#feed_mustache');
+				feed_mustache = $('#feed_mustache'),
+				loginForm = $('.reg_box');
 
 			if(!encyclopedia_mustache.length) {
 				encyclopediaHtml = jadeTemplate.get('user/encyclopedia/encyclopedia_mustache');
@@ -90,11 +103,16 @@ export default Controller.extend(
 				feedHtml = feed_mustache.html();
 			}
 
+
+			loginHtml = loginForm.html();
+
 			can.view.mustache('encyclopedia_view', encyclopediaHtml);
 			can.view.mustache('feed_view', feedHtml);
+			can.view.mustache('logIn', loginHtml);
 
 			this.items_container.html(can.view('encyclopedia_view', this.data, encyclopediaHelpers));
 			this.feed_container.html(can.view('feed_view', this.data, encyclopediaHelpers));
+			loginForm.html(can.view('logIn', this.data.loginForm));
 
 			this.initPlugins();
 		},
@@ -110,6 +128,40 @@ export default Controller.extend(
 		'.social .ok click': function(el, ev) {
 			ev.preventDefault();
 			window.location.href = '/login/ok';
+		},
+
+		'.login_form .done click': function(el, ev) {
+			var data;
+			ev.preventDefault();
+
+			data = this.data.loginForm;
+
+			can.ajax({
+				url: '/login?ajax=true',
+				method: 'POST',
+				data: data.serialize(),
+				success: function(response) {
+					var user = appState.attr('user');
+
+					data.attr({
+						email: null,
+						password: null
+					});
+
+					if(!response.message || !response.message.user) {
+						return alert('Произошла ошибка при авторизации');
+					}
+
+					user.options.user.attr(response.message.user);
+
+					user.auth.attr('isAuth', true)
+
+					can.route.attr({module: 'profile'});
+				},
+				error: function (xhr, type, resp) {
+					
+				}
+			});
 		},
 		isAuth: function (el, isAuth) {
 			var self = this;

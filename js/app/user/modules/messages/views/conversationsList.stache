@@ -1,0 +1,13 @@
+<div class="item conversationItem" data-conversation_id="{{conversation._id}}">
+    <div class="item_table">
+        <div class="avatar_column">
+            <div class="avatar"><img src="/img/{{lastMessage.user.image}}" class="rounded"></div>
+        </div>
+        <div class="content_column">
+            <div class="info">
+                <div class="name">{{lastMessage.user.first_name}} {{lastMessage.user.last_name}}</div>
+            </div>
+            <div class="text">{{{lastMessage.message.content}}}</div>
+        </div>
+    </div>
+</div>

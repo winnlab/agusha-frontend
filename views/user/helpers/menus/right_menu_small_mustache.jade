@@ -5,7 +5,7 @@
 	.subTopper
 		.top
 			| {{#if auth.isAuth}}
-			img(src="{{user.image.small}}")
+			img(src="{{image.small}}")
 			| {{/if}}
 
 		| {{#if auth.isAuth}}
@@ -17,7 +17,7 @@
 	.you_have
 		div У ВАС
 		| {{#if auth.isAuth}}
-		div {{user.points}} б.
+		div {{points}} б.
 		| {{else}}
 		div 0 б.
 		| {{/if}}

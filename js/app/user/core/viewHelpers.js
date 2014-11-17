@@ -1,4 +1,5 @@
 import can from 'can/';
+import appState from 'core/appState';
 
 function computedVal (value) {
     if (typeof value === 'function') {
@@ -85,4 +86,24 @@ can.mustache.registerHelper('arrContains', function (array, value, strict, rever
     }
 
     return (array.indexOf(value) > -1) ^ reverse ? options.fn() : false;
+});
+
+can.mustache.registerHelper('isLiked', function (article) {
+    var result = false,
+        user = appState.attr('user').user();
+    if (appState.attr('user').auth.attr('isAuth')) {
+        result = _.find(article.likes, { client: user._id });
+    }
+    return !!result ? 'isLiked' : '';
+});
+
+can.mustache.registerHelper('checkAnswer', function (article) {
+    var result = false,
+        user = appState.attr('user').user();
+    if (appState.attr('user').auth.attr('isAuth')) {
+        result = _.find(article.answer, function (answer) {
+            return _.find(answer.clients, { client: user._id });
+        });
+    }
+    return !!result ? 'Я уже' : 'Я тоже';
 });

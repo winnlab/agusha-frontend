@@ -183,6 +183,75 @@
 		}
 	}
 
+	.form_container {
+		padding: 20px;
+		background: #FFFFFF;
+
+		.avatar {
+			margin-top: 20px;
+		}
+
+		.textarea_container {
+			position: relative;
+
+			&:before {
+				@include pseudo;
+				width: 5px;
+				height: 32px;
+				top: 30px;
+				left: -5px;
+				background: url('/img/user/messages/textarea_arrow.png') no-repeat;
+			}
+		}
+
+		textarea {
+			@include border_radius(8px);
+			height: 96px;
+			margin-bottom: 20px;
+		}
+
+		.message_button {
+			padding: 10px 26px;
+		}
+	}
+
+	.consultationResponse {
+		padding: 20px;
+		background: #ffffff;
+		width: 100%;
+		box-sizing: border-box;
+
+		.authorImage {
+			float: left;
+			position: relative;
+			width: 15%;
+
+			img {
+				border-radius: 50%;
+			}
+		}
+		.responseBody {
+			float: left;
+			position: relative;
+			width: 85%;
+
+			textarea {
+				margin-bottom: 20px;
+
+				&:focus {
+					outline: none;
+				}
+			}
+		}
+		.responseBottom {
+			button {
+				background-color: #2ca7e0;
+				color: #FFFFFF;
+				padding: 10px 26px;
+			}
+		}
+	}
+
 	.author {
 		height: 360px;
 		background-color: $green;
@@ -255,7 +324,7 @@
 	}
 }
 
-@media (min-width: 1850px) {
+@media (min-width: 1600px) {
 	.module.question .content {
 		width: 1220px;
 
