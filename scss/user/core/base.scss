@@ -440,6 +440,7 @@ table tr {
 }
 
 .left_menu {
+	@include backface_visibility_hidden;
 	@include transition(width 0.3s ease-in-out);
 	display: table-cell;
 	width: 230px;
