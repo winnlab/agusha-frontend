@@ -1,0 +1,124 @@
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+@import '../helpers/topper_title';
+
+.module.contacts {
+	width: 920px;
+	text-align: left;
+	
+	&:before {
+		@include pseudo;
+		@include absolute_horizontal_centered;
+		top: 0;
+		left: 0;
+		background: url('/img/user/help/topper_background.jpg') top no-repeat;
+		width: 100%;
+		height: 210px;
+		z-index: 5;
+	}
+	
+	.topper_title {
+		color: $blue;
+		height: 80px;
+	}
+	
+	.contacts_container {
+		margin: 95px 20px 40px;
+		background-color: $white;
+		height: 655px;
+		
+		.left {
+			@include border_boxed;
+			float: left;
+			width: 300px;
+			height: 655px;
+			padding: 37px 20px 37px 40px;
+			font-size: 18px;
+		}
+		
+		.label {
+			color: $darkblue;
+			margin-bottom: 30px;
+		}
+		
+		.contact_label {
+			color: #b3a8a1;
+			font-family: 'PT_Sans_Italic';
+			padding: 0 0 0 35px;
+			
+			&.address {
+				position: relative;
+				
+				&:before {
+					@include pseudo;
+					background: url('/img/user/help/home.png') center no-repeat;
+					width: 22px;
+					height: 18px;
+					top: 3px;
+					left: 0;
+					bottom: 0;
+				}
+			}
+			
+			&.mail {
+				position: relative;
+				
+				&:before {
+					@include pseudo;
+					background: url('/img/user/help/mail.png') center no-repeat;
+					width: 22px;
+					height: 17px;
+					top: 3px;
+					left: 0;
+					bottom: 0;
+				}
+			}
+			
+			&.phone {
+				position: relative;
+				
+				&:before {
+					@include pseudo;
+					background: url('/img/user/help/phone.png') center no-repeat;
+					width: 20px;
+					height: 19px;
+					top: 3px;
+					left: 0;
+					bottom: 0;
+				}
+			}
+		}
+		
+		.contact_text {
+			padding: 0 0 0 35px;
+			margin-bottom: 25px;
+			
+			.mail {
+				color: $darkblue;
+				text-decoration: underline;
+			}
+			
+			.phone {
+				color: $darkblue;
+				font-size: 24px;
+				line-height: 24px;
+				letter-spacing: 1px;
+				
+				a {
+					text-decoration: none;
+					color: $base;
+				}
+			}
+			
+			.phone_notice {
+				font-size: 13px;
+			}
+		}
+		
+		.right {
+			float: right;
+			height: 655px;
+			width: 580px;
+		}
+	}
+}
