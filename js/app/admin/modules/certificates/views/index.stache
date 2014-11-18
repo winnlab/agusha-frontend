@@ -1,0 +1,39 @@
+<div class='panel panel-default {{#is display 'set'}}hidden{{/is}}'>
+    <div class='panel-heading'>
+        <div class='panel-title'>
+            Сертификаты
+        </div>
+        <div class='row'>
+            <div class='col-md-4'>
+                <button class='btn btn-primary addCertificate'>
+                    <i class="fa fa-plus"></i>
+                    &nbsp;
+                    <span>Добавить</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class='panel-body' id='certificatesList'>
+        {{#if certificates.isResolved}}
+            {{#if certificates.length}}
+                {{#each certificates}}
+                    <div class='row certificates' {{data "certificates"}}>
+                        <div class='input-group'>
+                            <input type='text' class='form-control' disabled can-value='name' />
+                            <div class='input-group-btn'>
+                                <div class="btn btn-default editCertificate" title="Редактировать">
+                                    <i class="fa fa-edit"></i>
+                                </div>
+                                <div class="btn btn-danger removeCertificate" title="Удалить">
+                                    <i class="fa fa-trash-o"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
+
+<div class="certificateForm {{#is display 'list'}}hidden{{/is}}"></div>

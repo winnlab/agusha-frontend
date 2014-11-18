@@ -44,6 +44,10 @@ var config = {
 				path: 'js/app/admin/modules/ranks/'
 			},
 			{
+				name: 'certificates',
+				path: 'js/app/admin/modules/certificates/'
+			},
+			{
 				name: 'tmpRemoveUser',
 				path: 'js/app/admin/modules/tmpRemoveUser/'
 			}
