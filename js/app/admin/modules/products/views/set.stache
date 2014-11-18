@@ -1,0 +1,105 @@
+<div class="box {{#if product._id}}box-warning{{/if}}">
+    <div class="box-header">
+        <h3 class="box-title">
+            {{#if product._id}}Редактирование{{else}}Добавление{{/if}}
+        </h3>
+        <div class="box-tools pull-right">
+            <div class="btn btn-primary toList">
+                Назад
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <form class="form-horizontal setProduct">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="title">Название:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="product.title" placeholder="Наименование" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label class="col-md-4">
+                        <input type="checkbox" can-value="product.active" /> Активна?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="level">Уровень:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="product.level" placeholder="Уровень возраста (в месяцах)" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Описание возраста
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="desc_title">Название описания:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" can-value="product.desc_title" placeholder="Наименование описания" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="desc_subtitle">Под-название описания:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" can-value="product.desc_subtitle" placeholder="Поднаименование описания" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="desc_subsubtitle">Под-под-название описания:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" can-value="product.desc_subsubtitle" placeholder="Подподнаименование описания" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="text">Текст описания:</label>
+                        <div class="col-md-10">
+                            <textarea {{wysiwyg}} name="desc_text">{{{product.desc_text}}}</textarea>
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{#if product._id}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Изоборажения
+                    </div>
+                    <div class="panel-body">
+                        <upload
+                            class="col-md-12"
+                            name="image"
+                            url="/admin/product/img"
+                            delete-url="/admin/product/img"
+                            entity="{product}"
+                            uploaded="{product.image}"
+                            accept="image/*"
+                        >
+                            Загрузить изображение
+                        </upload>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <button class="btn btn-primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
