@@ -1,9 +1,10 @@
 import Controller from 'controller';
 import appState from 'core/appState';
-// import childPopUp from 'lib/childPopUp/';
 import tooltip from 'tooltipster';
+import _ from 'lodash';
+
 import Profile from 'js/app/user/modules/profile/profileModel';
-import _ from 'lodash'
+
 
 export default Controller.extend(
 	{
@@ -15,14 +16,14 @@ export default Controller.extend(
         }
     }, {
 		after_init: function(data) {
-            System.import('./js/plugins/tooltipster/css/tooltipster.css!')
-            System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!')
+            System.import('./js/plugins/tooltipster/css/tooltipster.css!');
+            System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
 
             this.data = appState.attr('user');
             this.child =  appState.attr('childPopUp.child');
             this.user = this.data.options.user;
 
-            if(!this.data.isAuth()) {
+            if(!this.data.auth.isAuth) {
                 can.route.attr({module: 'login'});
                 return;
             }
@@ -36,12 +37,21 @@ export default Controller.extend(
                 position: 'right',
                 theme: 'tooltipster-agusha'
             });
+
         },
         '.social_buttons .vk click': function() {
-            window.location.href = '/registration/vk'
+            window.location.href = '/registration/vk';
         },
         '.social_buttons .fb click': function() {
-            window.location.href = '/registration/fb'
+            window.location.href = '/registration/fb';
+        },
+        '.addChild click': function() {
+            appState.attr('childPopUp').show({});
+        },
+        '.childPic click': function(el, ev) {
+            var child = el.data('children');
+
+            appState.attr('childPopUp').show({child: child});
         },
         'change': function(el, ev) {
             ev.preventDefault();
@@ -55,20 +65,12 @@ export default Controller.extend(
 
             this.options.model.save().fail(function() {
                 if(callback) {
-                    callback(user)
+                    callback(user);
                 }
             });
         },
-        '.addChild click': function() {
-            appState.attr('childPopUp').show({})
-        },
-        '.childPic click': function(el, ev) {
-            var child = el.data('children');
-
-            appState.attr('childPopUp').show({child: child})
-        },
         updateUser: function(child) {
-            this.saveModel()
+            this.saveModel();
         },
         saveChild: function(ev, newVal, oldVal, prop) {
             var that = this,
