@@ -68,7 +68,9 @@ export default List.extend({
 
         $(window).add('body > .wrapper').scroll(function () {
             if (!self.element.hasClass('hidden')) {
-                var atBottom = $(window).scrollTop() == ($(document).height() - $(window).height());
+                console.log('la', $(this).scrollTop());
+                console.log('ra', ($(document).height() - $(this).height()));
+                var atBottom = $(this).scrollTop() == ($(document).height() - $(this).height());
 
                 if (atBottom) {
                     self.options.Model.findAll(false, self.processFindAll.bind(self));
