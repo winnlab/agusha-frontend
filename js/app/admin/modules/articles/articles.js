@@ -70,7 +70,7 @@ export default List.extend({
 
         $(window).add('body > .wrapper').scroll(function () {
             if (!self.element.hasClass('hidden')) {
-                var atBottom = $(this).scrollTop() >= $(this).height() * (self.pagesScrolled * 1);
+                var atBottom = $(this).scrollTop() >= $(this).height() * (self.pagesScrolled + 1);
 
                 if (atBottom) {
                     self.pagesScrolled++;
