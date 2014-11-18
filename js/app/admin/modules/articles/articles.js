@@ -66,7 +66,7 @@ export default List.extend({
             });
         });
 
-        $('#moduleContent').on('scroll', function () {
+        $('window, body > wrapper').on('scroll', function () {
             if (!self.element.hasClass('hidden')) {
                 var atBottom = $(window).scrollTop() == ($(document).height() - $(window).height());
 
