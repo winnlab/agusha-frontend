@@ -53,7 +53,7 @@ export default can.Control.extend({
 			}
 		});
 	},
-
+	
 	successRequest: function(data) {
 		if(data.err) {
 			return console.error(err);
@@ -65,19 +65,19 @@ export default can.Control.extend({
 
 		this.after_request(data.data);
 	},
-
+	
 	after_request: function(data) {
 		this.variables();
 		this.plugins();
-		$(window).resize();
-
+		$(window).trigger('custom_resize');
+		
 		this.after_init(data);
 	},
-
+	
 	after_init: function(data) {
-
+		
 	},
-
+	
 	variables: function() {
 
 	},
@@ -89,8 +89,11 @@ export default can.Control.extend({
 	sizes: function() {
 
 	},
-
-	'{window} resize': function() {
+	
+	'{window} custom_resize': 'resize',
+	'{window} resize': 'resize',
+	
+	resize: function() {
 		if(!this.element.hasClass('active')) {
 			return false;
 		}

@@ -46,27 +46,27 @@ mixin feed()
                         .button_content.gold
                             button.me_too= '{{checkAnswer .}}'
                         | {{/if}}
-                    | {{#is type.name 'Статья от специалиста'}}
-                    .user_content
+                | {{#is type.name 'Статья от специалиста'}}
+                .user_content
+                    .avatar.medical_cap
+                        img.rounded(src='/img/user/specialist/doc_mini.jpg')
+                    .name врач-педиатр
+                    .name Ирина Матвиенко
+                | {{/is}}
+                | {{#is type.name "Статья от пользователя"}}
+                .user_content
+                    //- | {{#if author.name}}
+                    //- .user
+                    //-     .avatar
+                    //-         img.rounded(src='/img/avatar_100x100.jpg')
+                    //-     .name '{{autor.name}}'
+                    //- | {{/if}}
+                    .user.doctor
                         .avatar.medical_cap
                             img.rounded(src='/img/user/specialist/doc_mini.jpg')
                         .name врач-педиатр
                         .name Ирина Матвиенко
-                    | {{/is}}
-                    | {{#is type.name "Статья от пользователя"}}
-                    .user_content
-                        | {{#if author.name}}
-                        .user
-                            .avatar
-                                img.rounded(src='/img/avatar_100x100.jpg')
-                            .name '{{autor.name}}'
-                        | {{/if}}
-                        .user.doctor
-                            .avatar.medical_cap
-                                img.rounded(src='/img/avatar_100x100.jpg')
-                            .name врач-педиатр
-                            .name Ирина Матвиенко
-                    | {{/is}}
+                | {{/is}}
                 div(class="footer {{isLiked .}}")
                     .heart
                         img.liked(src="/img/user/article/heart.png")
@@ -85,6 +85,8 @@ mixin feed()
                                 br
                                 | одобряют
                             img.comment(src="/img/user/article/comment.png")
-                            span.count.commentariesCount= '{{commentaries.length}}{{answer.length}}'
+                            span.count.commentariesCount= '{{commentaries.length}}'
+                                |{{#is type.name "Статья от специалиста"}}{{answer.length}}{{/is}}
+                                |{{#is type.name "Статья от пользователя"}}{{answer.length}}{{/is}}
 
         | {{/each}}

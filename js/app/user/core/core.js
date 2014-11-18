@@ -44,17 +44,18 @@ var Core = can.Control.extend(
 
 			can.route.attr({module: 'registration'})
 		},
+		
 		step: function(timestamp) {
 			var that = this;
 
 			if(this.start === null) {
 				this.start = timestamp;
 			}
-
+			
 			var progress = timestamp - this.start;
-
-			this.window.resize();
-
+			
+			this.window.trigger('custom_resize');
+			
 			if(progress <= 300) {
 				return this.requestAnimFrame();
 			}
@@ -136,6 +137,12 @@ var Core = can.Control.extend(
 			if(phrase != '') {
 				router.new_module('search/' + phrase);
 			}
+		},
+		
+		'#left_menu.small .search_icon click': function(el) {
+			this.left_resizable.toggleClass('small');
+			this.right_menu.removeClass('active');
+			this.requestAnimFrame();
 		},
 
 		initBindings: function () {

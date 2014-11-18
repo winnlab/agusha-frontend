@@ -5,10 +5,6 @@
 	
 	.tabs
 		.tabs_flex
-			.tab.tab_selector.contacts(data-tab="contacts")
-				.tab_selector_inside
-					.title Контакты
-			
 			.tab.tab_selector.agreement(data-tab="agreement")
 				.tab_selector_inside
 					.title Соглашение
@@ -88,23 +84,3 @@
 						.adorable_table
 							.adorable_cell #{f.title}
 					.text !{f.text}
-		
-		.tab_content.tab_selector.contacts
-			.left
-				.contact_label.address Адрес:
-				.contact_text
-					.address
-						| г. Вишневое, 
-						br
-						| ул. Промышленная, 7
-				
-				.contact_label.mail E-mail:
-				.contact_text
-					.mail contact@agusha.com.ua
-				
-				.contact_label.phone Горячая линия:
-				.contact_text
-					.phone 0 800 307 302
-					.phone_notice Звонки по Украине бесплатные
-			
-			.right#contacts_map
