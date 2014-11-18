@@ -1,7 +1,7 @@
 <div class='panel panel-default {{#is display 'set'}}hidden{{/is}}'>
     <div class='panel-heading'>
         <div class='panel-title'>
-            Часто задаваемые вопросы (FAQ)
+            Возраста для продуктов
         </div>
         <div class='row'>
             <div class='col-md-4'>

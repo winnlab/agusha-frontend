@@ -21,7 +21,7 @@ export default List.extend(
 
             formWrap: '.productAgeForm',
 
-            parentData: '.productAge'
+            parentData: '.productAges'
         }
     },
     {

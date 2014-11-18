@@ -1,7 +1,7 @@
 <div class="box {{#if productAge._id}}box-warning{{/if}}">
     <div class="box-header">
         <h3 class="box-title">
-            {{#if productAge._id}}Редактирование{{else}}Добавление{{/if}} статьи
+            {{#if productAge._id}}Редактирование{{else}}Добавление{{/if}}
         </h3>
         <div class="box-tools pull-right">
             <div class="btn btn-primary toList">
