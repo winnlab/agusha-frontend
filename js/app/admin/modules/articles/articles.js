@@ -73,7 +73,6 @@ export default List.extend({
                 var atBottom = $(this).scrollTop() >= $(this).height() * (self.pagesScrolled * 1);
 
                 if (atBottom) {
-                    console.log('doin it')
                     self.pagesScrolled++;
                     self.options.Model.findAll(false, self.processFindAll.bind(self));
                 }
