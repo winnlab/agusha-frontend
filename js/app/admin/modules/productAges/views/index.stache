@@ -20,7 +20,7 @@
                     <div class='row productAges' {{data "productAges"}}>
                         <div class='input-group'>
                             <span class="input-group-addon">
-                                <input class="activateAge" type="checkbox" can-value='active'>
+                                <input class="activateProductAge" type="checkbox" can-value='active'>
                             </span>
                             <input type='text' class='form-control' disabled can-value='title' />
                             <div class='input-group-btn'>

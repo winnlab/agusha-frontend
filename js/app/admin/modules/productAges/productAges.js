@@ -25,7 +25,7 @@ export default List.extend(
         }
     },
     {
-        '.activateproductAge click': function (el) {
+        '.activateProductAge click': function (el) {
             this.getDocHandle(el).save();
         }
     }
