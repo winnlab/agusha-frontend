@@ -1,0 +1,15 @@
+<div class="popUpWrap cropper{{#if visible}} visible{{/if}} {{classes}}">
+	<div class="popUpBody">
+		<div class="contentWrap">
+			<div class="close"></div>
+			<div class="text">
+				<div class="innerImage">
+					{{#if image.url}}
+						<img class="cropImageNode" {{cropper image.url}} src="{{image.url}}">
+					{{/if}}
+				</div>
+	            <button class="button ok">принять</button>
+			</div>
+		</div>
+	</div>
+</div>
