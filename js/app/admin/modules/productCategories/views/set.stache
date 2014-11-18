@@ -1,0 +1,48 @@
+<div class="box {{#if productCategory._id}}box-warning{{/if}}">
+    <div class="box-header">
+        <h3 class="box-title">
+            {{#if productCategory._id}}Редактирование{{else}}Добавление{{/if}}
+        </h3>
+        <div class="box-tools pull-right">
+            <div class="btn btn-primary toList">
+                Назад
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <form class="form-horizontal setProductCategory">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="name">Название:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="productCategory.name" placeholder="Наименование" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label class="col-md-4">
+                        <input type="checkbox" can-value="productCategory.active" /> Активна?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="url_label">url_label (читабельная ссылка):</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="productCategory.url_label" placeholder="url_label" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <button class="btn btn-primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
