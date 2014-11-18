@@ -24,13 +24,17 @@ mixin childrenItem()
 			.profileFilling
 				.title Профиль заполнен на {{profile.filling}}%
 				.bar
-					.progress(style="width: {{profile.filling}}%" class="progress-{{profile.filling}}")
+					.progress(
+						style="width: {{profile.filling}}%"
+						class="progress-{{profile.filling}}"
+					)
 			.userMeta
 				.userPic
 					.pic
 						img(src="{{image.large}}")
 					.buttons.horizontal
-						.upload.button Загрузить фото
+						input(type="file").originalFileInput
+						.upload.button(data-uploader="{{uploader 'profile' 'upload button'}}") Загрузить фото
 						.remove.button Удалить
 
 			.profileHead
@@ -53,7 +57,6 @@ mixin childrenItem()
 					.text
 						div Добавить
 						div детеныша
-
 
 			.profileHead
 				.headWrap
@@ -194,16 +197,28 @@ mixin childrenItem()
 					.column.middle
 						.inner
 							.input_row
-								input(type="password" data-passid="pass" placeholder="Ваш старый пароль").password
+								input(
+									type="password"
+									data-passid="pass"
+									placeholder="Ваш старый пароль"
+								).password
 								span.switcher(data-passid="pass")
 
 					.column.left
 						.inner
 							.input_row
-								input(type="password" data-passid="pass" placeholder="Новый пароль").password
+								input(
+									type="password"
+									data-passid="pass"
+									placeholder="Новый пароль"
+								).password
 								span.switcher(data-passid="pass")
 					.column.right
 						.inner
 							.input_row
-								input(type="password" data-passid="newPass" placeholder="Новый пароль еще раз").newPassword
+								input(
+									type="password"
+									data-passid="newPass"
+									placeholder="Новый пароль еще раз"
+								).newPassword
 								span.switcher(data-passid="newPass")
