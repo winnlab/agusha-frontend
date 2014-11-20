@@ -163,7 +163,8 @@ var Core = can.Control.extend(
 
 		initBindings: function () {
 			appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
-				if (newVal && newVal._id) {
+
+				if (appState.attr('user') && appState.attr('user').user() && appState.attr('user').user()._id) {
 					$(document).find('.comment_box').css('display', 'block');
 					$(document).find('.pollContentWrapper').css('display', 'block');
 					$(document).find('.login_box').css('display', 'none');
