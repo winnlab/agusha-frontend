@@ -137,7 +137,7 @@ export default {
                     return false;
                 if (delta == 0 || delta > 1)
                     return true;
-                if (delta == 1 && (byMain ? el.hasBigView : el.theme[0].hasBigView) == false)
+                if (delta == 1 && (byMain ? el.hasBigView : (el.theme[0] && el.theme[0].hasBigView ? el.theme[0].hasBigView : false )) == false)
                     return true;
             });
 
