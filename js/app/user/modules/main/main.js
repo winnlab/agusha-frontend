@@ -186,7 +186,7 @@ export default Controller.extend(
 				self.element.find('.mainModuleWrap').addClass('logedIn');
 				self.bannerWrap.hide();
 				self.element.find('.commonFeed').hide();
-				self.userTitle.show();
+				self.userTitle.css('display', 'inline-block');
 			} else {
 				self.element.find('.mainModuleWrap').removeClass('logedIn');
 				self.userTitle.hide();
