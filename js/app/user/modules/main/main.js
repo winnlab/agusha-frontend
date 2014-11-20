@@ -67,7 +67,8 @@ export default Controller.extend(
 
 			auth.delegate('isAuth', 'set', can.proxy(this.isAuth, this));
 
-			this.articlesSource = data ? data.articles : app.articles;
+			this.articlesSource = data ? data.articles.documents : app.articles.documents;
+			this.articlesNextId = data ? data.articles.nextAnchorId : app.articles.nextAnchorId;
 			this.themeSubs = data ? data.themeSubs : app.themeSubs
 			this.consultations = data ? data.consultations : app.consultations;
 			this.feedSource = ([]).concat(this.themeSubs, this.consultations);
@@ -106,12 +107,12 @@ export default Controller.extend(
 
 			loginHtml = loginForm.html();
 
-			can.view.mustache('encyclopedia_view', encyclopediaHtml);
-			can.view.mustache('feed_view', feedHtml);
+			can.view.mustache('mainArticlesView', encyclopediaHtml);
+			can.view.mustache('feedView', feedHtml);
 			can.view.mustache('logIn', loginHtml);
 
-			this.items_container.html(can.view('encyclopedia_view', this.data, encyclopediaHelpers));
-			this.feed_container.html(can.view('feed_view', this.data, encyclopediaHelpers));
+			this.items_container.html(can.view('mainArticlesView', this.data, encyclopediaHelpers));
+			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
 			loginForm.html(can.view('logIn', this.data.loginForm));
 
 			this.initPlugins();
@@ -248,6 +249,37 @@ export default Controller.extend(
 			if (val === 3) {
 				return this.consultations;
 			}
+		},
+
+		'.loadMore img click': function (el) {
+			var self = this,
+				articles = self.data.attr('articles');
+
+			if (self.articlesNextId == 1 || !self.articlesNextId) {
+				return;
+			}
+
+			can.ajax({
+				url: '/articles',
+				method: 'get',
+				dataType: 'json',
+				data: {
+					lastId: self.articlesNextId
+				}
+			}).done(function (data) {
+				var sorted = encyclopediaHelpers.sortArticles(data.documents, null, false, true);
+				self.articlesNextId = data.nextAnchorId;
+
+				can.batch.start();
+				_.each(sorted, function (article) {
+					articles.push(article);
+				});
+				can.batch.stop();
+
+				if (self.articlesNextId == 1 || !self.articlesNextId) {
+					el.parent().hide();
+				}
+			});
 		}
     }
 );

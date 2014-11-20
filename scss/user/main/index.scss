@@ -113,6 +113,22 @@
 		position: relative;
 		top: 0;
 	}
+
+	.items_container:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+
+	.loadMore {
+		padding: 50px;
+
+		img {
+			display: block;
+			margin: 0 auto;
+			cursor: pointer;
+		}
+	}
 }
 
 .module .mainModuleWrap.logedIn {
@@ -177,13 +193,14 @@
 		text-align: left;
 		width: 920px;
 
-		&:before {
+		&.userTitle:before {
 			@include pseudo;
 			width: 251px;
 			height: 216px;
 			right: 29px;
 			top: 27px;
 			background: url('/img/user/main/lamp.png') no-repeat;
+			z-index: 15;
 		}
 	}
 
