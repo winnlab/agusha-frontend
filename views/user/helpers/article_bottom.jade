@@ -129,7 +129,7 @@
 								img(src='/img/user/article/comment_icon.png')
 							.image
 								.avatar.rounded
-									- var avatarPath = "/img/avatar_100x100.jpg"
+									- var avatarPath = "/img/user/helpers/stub/small.png"
 									if commentaryItem.client && commentaryItem.client.profile && commentaryItem.client.profile.image
 										- avatarPath = "/img/uploads/#{commentaryItem.client.profile.image}"
 									img.rounded(src=avatarPath)
@@ -153,7 +153,10 @@
 			.comment_table
 				.image
 					.avatar.rounded
-						img.rounded(src='/img/avatar_100x100.jpg')
+						- var avatarPath = "/img/user/helpers/stub/small.png"
+						if user && user.image && user.image.small
+							- avatarPath = "/img/uploads/#{user.image.small}"
+						img.rounded(src=avatarPath)
 
 				.form_container
 					form.comment_form
