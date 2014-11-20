@@ -1,5 +1,6 @@
 @import '../dynamic/dynamic';
 @import '../helpers/breadcrumbs';
+@import '../helpers/cards';
 
 .module.search {
 	color: $grey;
@@ -42,13 +43,14 @@
 	}
 	
 	.blocks_container {
-		margin: 50px 20px 0;
+		margin: 50px 10px 0;
 	}
 	
 	.tab_block {
 		@include transition(margin 0.3s ease-in-out);
 		position: relative;
 		margin: 1px 0;
+		clear: both;
 		
 		&.active {
 			margin: 20px 0;
@@ -59,13 +61,7 @@
 				&:before {
 					bottom: -17px;
 				}
-			}
-			
-			.items_container {
-				display: block;
-			}
-			
-			.title {
+				
 				.hide {
 					display: inline-block;
 				}
@@ -73,6 +69,10 @@
 				.show {
 					display: none;
 				}
+			}
+			
+			.items_container {
+				display: block;
 			}
 		}
 		
@@ -87,6 +87,7 @@
 			color: #4c4c4c;
 			cursor: pointer;
 			position: relative;
+			margin: 0 10px;
 			
 			&:hover {
 				.adorable_table {
@@ -158,6 +159,7 @@
 	}
 	
 	.items_container {
-		padding: 10px;
+		padding: 27px 0 0;
+		overflow: hidden;
 	}
 }
