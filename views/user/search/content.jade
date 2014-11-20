@@ -1,3 +1,5 @@
+include ../encyclopedia/helpers
+
 .content
 	include ../helpers/breadcrumbs
 	
@@ -7,11 +9,11 @@
 			img(src="/img/user/search/search.png")
 	
 	.blocks_container
-		.tab_block
+		.tab_block.articles_block
 			.title
 				.adorable_table
 					.adorable_cell
-						span В статьях (0)
+						span В статьях (#{articles.length})
 						.right.adorable_table
 							.adorable_cell
 								.hide
@@ -23,13 +25,14 @@
 									img(src="/img/user/search/show.png")
 			
 			.items_container
-				
+				- each a, i in articles
+					mixin article(a, i)
 		
-		.tab_block
+		.tab_block.consultations_block
 			.title
 				.adorable_table
 					.adorable_cell
-						span В вопросах специалисту (0)
+						span В вопросах специалисту (#{consultations.length})
 						.right.adorable_table
 							.adorable_cell
 								.hide
@@ -41,7 +44,8 @@
 									img(src="/img/user/search/show.png")
 			
 			.items_container
-				
+				- each c, i in consultations
+					mixin article(c, i)
 		
 		.tab_block
 			.title

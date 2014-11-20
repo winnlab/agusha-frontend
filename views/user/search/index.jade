@@ -8,4 +8,16 @@ block content
 		include content
 
 block append scripts
-	
+	script.
+		var	app = {
+			articles: !{JSON.stringify(articles)},
+			consultations: !{JSON.stringify(consultations)}
+		};
+	script#article_mustache(type="text/mustache")
+		| {{#each articles}}
+		mixin article()
+		| {{/each}}
+	script#consultation_mustache(type="text/mustache")
+		| {{#each consultations}}
+		mixin article()
+		| {{/each}}

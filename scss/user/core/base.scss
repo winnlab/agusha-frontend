@@ -437,6 +437,27 @@ table tr {
 		width: 144px;
 		letter-spacing: 0;
 	}
+	
+	.right_footer {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		height: 58px;
+		width: 100%;
+		background-color: $darkblue;
+		border-top: 1px solid $blackblue;
+		font-size: 12px;
+		color: $darkbluefont;
+		
+		.adorable_cell {
+			text-align: left;
+		}
+		
+		.lock, .logout {
+			margin-left: 30px;
+			vertical-align: middle;
+		}
+	}
 }
 
 .left_menu {
@@ -460,6 +481,10 @@ table tr {
 	z-index: 11;
 
 	&.small {
+		.close {
+			background: url('/img/user/core/menu.png') no-repeat;
+		}
+		
 		.small_logo {
 			opacity: 1;
 		}

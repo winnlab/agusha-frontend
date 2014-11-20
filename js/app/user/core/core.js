@@ -63,12 +63,6 @@ var Core = can.Control.extend(
 			this.start = null;
 		},
 
-		hide_left_inner_menu: function() {
-			this.left_inner_menu.removeClass('show');
-
-			this.requestAnimFrame();
-		},
-
 		hide_left_menu: function() {
 			this.left_resizable.addClass('small');
 
@@ -87,40 +81,62 @@ var Core = can.Control.extend(
 				that.step(timestamp);
 			});
 		},
-
+		
 		'#left_menu .close click': function(el) {
 			this.right_menu.removeClass('active');
 			this.left_resizable.toggleClass('small');
 
 			this.requestAnimFrame();
 		},
-
+		
 		'#left_menu .about click': function(el) {
-			this.left_inner_menu.toggleClass('show');
-
+			this.animate_left_inner_menu(true);
+			
 			this.requestAnimFrame();
 		},
-
+		
 		'#right_menu_small click': function(el) {			
 			var user = appState.attr('user'),
 				isAuth = user.auth.attr('isAuth');
-
-
+			
 			if (!isAuth) {
 				return;
 			}
-
+			
 			this.left_resizable.addClass('small');
 			this.right_menu.toggleClass('active');
+			this.animate_left_inner_menu();
 			this.requestAnimFrame();
 		},
-
+		
 		'#right_menu .close click' : function(el) {
 			var user = appState.attr('user'),
 				isAuth = user.auth.isAuth;
 
 			this.left_resizable.addClass('small');
 			this.right_menu.toggleClass('active');
+			this.requestAnimFrame();
+		},
+		
+		animate_left_inner_menu: function(toggle) {
+			toggle = toggle || false;
+			
+			var func = 'removeClass',
+				filter_func = 'removeClass',
+				classname = 'show';
+			
+			if(toggle) {
+				func = 'toggleClass';
+			}
+			
+			this.left_inner_menu[func](classname);
+			
+			if(!this.left_inner_menu.hasClass(classname)) {
+				filter_func = 'addClass'
+			}
+			
+			this.element.find('.module.encyclopedia .filter')[filter_func](classname);
+			
 			this.requestAnimFrame();
 		},
 
@@ -147,7 +163,8 @@ var Core = can.Control.extend(
 
 		initBindings: function () {
 			appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
-				if (newVal && newVal._id) {
+
+				if (appState.attr('user') && appState.attr('user').user() && appState.attr('user').user()._id) {
 					$(document).find('.comment_box').css('display', 'block');
 					$(document).find('.pollContentWrapper').css('display', 'block');
 					$(document).find('.login_box').css('display', 'none');
