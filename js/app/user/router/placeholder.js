@@ -56,7 +56,7 @@ export default can.Map.extend({
 		module_tabs.removeClass(classname);
 		module_tabs.filter('.module_tab_' + id).addClass(classname);
 		
-		window.core.hide_left_inner_menu();
+		window.core.animate_left_inner_menu();
 		
 		if(id == 'encyclopedia') {
 			window.core.hide_left_menu();
