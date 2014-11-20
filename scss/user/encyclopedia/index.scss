@@ -19,9 +19,15 @@ $ageFilterWidth: 160px;
 
 	.filter {
 		@include position(fixed, 0 null null null);
+		@include transition(margin-left 0.3s ease-in-out);
 		width: $ageFilterWidth;
 		z-index: 12;
 		background-color: #2384b1;
+		margin-left: -160px;
+		
+		&.show {
+			margin-left: 0;
+		}
 	}
 
 	.age_filter {
