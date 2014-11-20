@@ -21,7 +21,7 @@ mixin article(a, i)
 	- var articleType = ''
 	- var bgSize
 	if a
-		if !a.type.name
+		if !a.type || !a.type.name
 			- articleType = ''
 		else if a.type.name === 'Статья от редакции' 
 			- articleType = 'redaction'
