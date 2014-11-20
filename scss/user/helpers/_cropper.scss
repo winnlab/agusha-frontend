@@ -1,27 +1,33 @@
 @import '../../settings';
 
 .cropper.popUpWrap {
+	z-index: 999999;
+
 	.popUpBody {
 		.contentWrap {
-			// @include gridle(4);
 			width: 700px;
-			min-height: 557px;
 			float: none;
-
-			height: 450px;
 
 			.innerImage {
 				max-width: 580px;
-				max-height: 430px;
+				max-height: 460px;
 
 				width: 100%;
-				height: 100%;
+				height: auto;
+
+				margin: 0 auto;
+
+				img {
+					width: 100%;
+				}
 			}
 
 			.button {
-				color: white;
-				background-color: #61d1ff;
-				margin-top: 14px;
+				.ok {
+					color: white;
+					background-color: #61d1ff;
+					margin-top: 14px;
+				}
 			}
 		}
 	}

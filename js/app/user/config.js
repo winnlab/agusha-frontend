@@ -36,6 +36,7 @@ System.config({
 		'ratings': 'js/app/user/lib/commentaries/ratings.js',
 
 		'lodash': 'js/plugins/lodash/dist/lodash.js',
+		'cropper': 'js/plugins/cropper/dist/cropper.js',
 
 		'controller': 'js/app/user/lib/controller/controller.js',
 

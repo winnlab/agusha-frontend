@@ -1,0 +1,127 @@
+<div class="box {{#if productAge._id}}box-warning{{/if}}">
+    <div class="box-header">
+        <h3 class="box-title">
+            {{#if productAge._id}}Редактирование{{else}}Добавление{{/if}}
+        </h3>
+        <div class="box-tools pull-right">
+            <div class="btn btn-primary toList">
+                Назад
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <form class="form-horizontal setProductAge">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="title">Название:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="productAge.title" placeholder="Наименование" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label class="col-md-4">
+                        <input type="checkbox" can-value="productAge.active" /> Активна?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="level">Уровень:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="productAge.level" placeholder="Уровень возраста (в месяцах)" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Описание возраста
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="desc_title">Название описания:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" can-value="productAge.desc_title" placeholder="Наименование описания" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="desc_subtitle">Под-название описания:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" can-value="productAge.desc_subtitle" placeholder="Поднаименование описания" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="desc_subsubtitle">Под-под-название описания:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" can-value="productAge.desc_subsubtitle" placeholder="Подподнаименование описания" />
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="text">Текст описания:</label>
+                        <div class="col-md-10">
+                            <textarea {{wysiwyg}} name="desc_text">{{{productAge.desc_text}}}</textarea>
+                            <div class="help help-block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{#if productAge._id}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Изоборажения
+                    </div>
+                    <div class="panel-body">
+                        <upload
+                            class="col-md-12"
+                            name="icon"
+                            url="/admin/productAge/img"
+                            delete-url="/admin/productAge/img"
+                            entity="{productAge}"
+                            uploaded="{productAge.icon}"
+                            accept="image/*"
+                        >
+                            Загрузить изображение
+                        </upload>
+                        <upload
+                            class="col-md-12"
+                            name="hoverImage"
+                            url="/admin/productAge/img"
+                            delete-url="/admin/productAge/img"
+                            entity="{productAge}"
+                            uploaded="{productAge.hoverImage}"
+                            accept="image/*"
+                        >
+                            Загрузить изображение при наведении
+                        </upload>
+                        <upload
+                            class="col-md-12"
+                            name="desc_image"
+                            url="/admin/productAge/img"
+                            delete-url="/admin/productAge/img"
+                            entity="{productAge}"
+                            uploaded="{productAge.desc_image}"
+                            accept="image/*"
+                        >
+                            Загрузить изображение описания
+                        </upload>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <button class="btn btn-primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class='panel panel-default {{#is display 'set'}}hidden{{/is}}'>
+    <div class='panel-heading'>
+        <div class='panel-title'>
+            Категории для продуктов
+        </div>
+        <div class='row'>
+            <div class='col-md-4'>
+                <button class='btn btn-primary addProductCategory'>
+                    <i class="fa fa-plus"></i>
+                    &nbsp;
+                    <span>Добавить</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class='panel-body' id='productCategoriesList'>
+        {{#if productCategories.isResolved}}
+            {{#if productCategories.length}}
+                {{#each productCategories}}
+                    <div class='row productCategories' {{data "productCategories"}}>
+                        <div class='input-group'>
+                            <span class="input-group-addon">
+                                <input class="activateProductCategory" type="checkbox" can-value='active'>
+                            </span>
+                            <input type='text' class='form-control' disabled can-value='name' />
+                            <div class='input-group-btn'>
+                                <div class="btn btn-default editProductCategory" title="Редактировать">
+                                    <i class="fa fa-edit"></i>
+                                </div>
+                                <div class="btn btn-danger removeProductCategory" title="Удалить">
+                                    <i class="fa fa-trash-o"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
+
+<div class="productCategoryForm {{#is display 'list'}}hidden{{/is}}"></div>

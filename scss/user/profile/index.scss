@@ -449,6 +449,10 @@ span.deleteicon {
 					margin-top: 43px;
 					padding: 0px;
 
+					.originalFileInput {
+						display: none;
+					}
+
 					.button {
 						width: 100%;
 						margin: 0;
@@ -657,6 +661,20 @@ span.deleteicon {
 						margin-top: 42px;
 					}
 				}
+				
+				.button {
+					&:before {
+						content: '';
+					}
+
+					.upload {
+						&:before {
+							background-image: url(/img/user/profile/download_button.png);
+							background-repeat: no-repeat;
+							background-position: center center;
+						}
+					}
+				}
 			}
 
 			.childMetaInfo {
@@ -725,10 +743,6 @@ span.deleteicon {
 					&:checked + label[for="child_female"]:after {
 						background: url(/img/user/profile/child_female_active.png);
 					}
-
-					// &:checked + label[for="child_male"]:after {
-					// 	background: url(/img/user/profile/checkbox.png);
-					// }
 				}
 
 				.childBirthDate {

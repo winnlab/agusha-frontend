@@ -36,12 +36,20 @@ var config = {
 				path: 'js/app/admin/modules/productAges/'
 			},
 			{
+				name: 'productCategories',
+				path: 'js/app/admin/modules/productCategories/'
+			},
+			{
 				name: 'products',
 				path: 'js/app/admin/modules/products/'
 			},
 			{
 				name: 'ranks',
 				path: 'js/app/admin/modules/ranks/'
+			},
+			{
+				name: 'certificates',
+				path: 'js/app/admin/modules/certificates/'
 			},
 			{
 				name: 'tmpRemoveUser',

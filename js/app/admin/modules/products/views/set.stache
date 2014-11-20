@@ -1,0 +1,172 @@
+<div class="box {{#if product._id}}box-warning{{/if}}">
+    <div class="box-header">
+        <h3 class="box-title">
+            {{#if product._id}}Редактирование{{else}}Добавление{{/if}}
+        </h3>
+        <div class="box-tools pull-right">
+            <div class="btn btn-primary toList">
+                Назад
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <form class="form-horizontal setProduct">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="title">Название:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="product.title" placeholder="Наименование" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label class="col-md-4">
+                        <input type="checkbox" can-value="product.active" /> Активен?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 checkbox">
+                    <label class="col-md-4">
+                        <input type="checkbox" can-value="product.recommended" /> Рекомендован?
+                    </label>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="text">Текст описания:</label>
+                <div class="col-md-10">
+                    <textarea {{wysiwyg}} name="text">{{{product.text}}}</textarea>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="storage_life">Срок хранения (в месяцах):</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="number" can-value="product.storage_life" placeholder="Срок хранения" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="storage_conditions">Условия хранения:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="product.storage_conditions" placeholder="Краткое описание условия хранения" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="composition">Состав:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="product.composition" placeholder="Состав продукта" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="volume">Объем продукта (в милиграммах или милилитрах):</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="number" can-value="product.volume" placeholder="Объем продукта" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="volumeType">Единица измерения объема продукта:</label>
+                <div class="col-md-10">
+                    <select can-value="product.volumeType">
+                        <option value="0">л (литры)</option>
+                        <option value="1">г (граммы)</option>
+                    </select>
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            {{#if ages}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="volumeType">Возраст продукта:</label>
+                    <div class="col-md-10">
+                        <select class="col-md-6 age-select" name="age">
+                            {{#sortedBy ages 'title'}}
+                                <option value="{{_id}}" {{#is _id product.age._id}}selected{{/is}}>{{title}}</option>
+                            {{/sortedBy}}
+                        </select>
+                        <div class="help help-block"></div>
+                    </div>
+                    <input class="age-level" type="hidden" name="age_level" value="{{product.age_level}}" />
+                </div>
+            {{/if}}
+
+            {{#if cats}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="category[]">Категории продукта:</label>
+                    <div class="col-md-10">
+                        <select class="col-md-6" name="category[]" multiple="true">
+                            {{#each cats}}
+                                <option value="{{_id}}" {{#arrOfObjectsContains product.category '_id' _id false}}selected{{/arrOfObjectsContains}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                        <div class="help help-block"></div>
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if certs}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="certificate[]">Сертификаты продукта:</label>
+                    <div class="col-md-10">
+                        <select class="col-md-6" name="certificate[]" multiple="true">
+                            {{#each certs}}
+                                <option value="{{_id}}" {{#arrContains product.certificate _id true false}}selected{{/arrContains}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                        <div class="help help-block"></div>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="alias">"Человеческая" ссылка для продукта (латинскими символами):</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="product.alias" placeholder="Ссылка продукта" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            {{#if product._id}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Изоборажения
+                    </div>
+                    <div class="panel-body">
+                        <upload
+                            class="col-md-12"
+                            name="image"
+                            url="/admin/product/img"
+                            delete-url="/admin/product/img"
+                            entity="{product}"
+                            uploaded="{product.image}"
+                            accept="image/*"
+                        >
+                            Загрузить изображение
+                        </upload>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <button class="btn btn-primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

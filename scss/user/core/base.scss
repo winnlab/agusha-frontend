@@ -440,7 +440,6 @@ table tr {
 }
 
 .left_menu {
-	@include backface_visibility_hidden;
 	@include transition(width 0.3s ease-in-out);
 	display: table-cell;
 	width: 230px;
@@ -746,7 +745,7 @@ table tr {
 
 			.label {
 				&:before {
-					content: 'Про Агушу';
+					content: 'Об Агуше';
 				}
 			}
 		}
@@ -1275,3 +1274,50 @@ table tr {
 .hidden {
 	display: none;
 }
+
+.cropper-container {
+	border-radius: 20px;
+}
+
+.cropper-viewer {
+	display: block !important;
+	width: 100% !important;
+	height: 100% !important;
+	overflow: hidden !important;
+	outline: none !important;
+	border-radius: 1000px !important;
+}
+
+.cropper-canvas {
+	border-radius: 20px !important;
+}
+
+.cropper-dashed {
+	display: none !important;
+}
+
+.cropper-face {
+	opacity: 1 !important;
+}
+
+.cropper-face {
+	top: -1px !important;
+	left: -1px !important;
+	cursor: move;
+	background-color: #fff !important;
+	background: none !important;
+	border: 1px dashed #797670;
+	border-radius: 1000px;
+}
+
+.cropper-line {
+	display: none !important;
+}
+
+.cropper-point {
+	display: none !important;
+}
+
+
+
+

@@ -128,6 +128,13 @@ var config = {
 					client: 'js/app/user/modules/subscriptions/',
 					server: ':name'
 				}
+			},
+			{
+				name: 'contacts',
+				path: {
+					client: 'js/app/user/modules/contacts/',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'

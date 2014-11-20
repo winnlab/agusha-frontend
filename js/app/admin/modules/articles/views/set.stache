@@ -31,21 +31,32 @@
             {{/if}}
 
             <div class="form-group">
-                <label class="col-md-2 control-label" for="position">Позиция на главной (чем больше, тем раньше):</label>
-                <div class="col-md-10">
-                    <input class="form-control" type="number" can-value="article.position" placeholder="Позиция" />
-                    <div class="help help-block"></div>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 checkbox">
                     <label>
-                        <input type="checkbox" can-value="article.hasBigView" /> Большой вид на главной?
+                        <input type="checkbox" can-value="article.hideOnMain" /> Не отображать на главной
                     </label>
                     <div class="help help-block"></div>
                 </div>
             </div>
+
+            {{#unless article.hideOnMain}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="position">Позиция на главной (чем больше, тем раньше):</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="number" can-value="article.position" placeholder="Позиция" />
+                        <div class="help help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 checkbox">
+                        <label>
+                            <input type="checkbox" can-value="article.hasBigView" /> Большой вид на главной?
+                        </label>
+                        <div class="help help-block"></div>
+                    </div>
+                </div>
+            {{/unless}}
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 checkbox">

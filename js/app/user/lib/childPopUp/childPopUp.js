@@ -48,7 +48,7 @@ export default PopUp.extend({
             }
         }));
 	},
-    '.button.ok click': function() {
+    '.addChildPopUp .button.ok click': function() {
         this.child.attr('isSaved', true)
     },
 	show: function (options) {
