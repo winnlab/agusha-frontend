@@ -120,7 +120,7 @@ export default {
                 if (byMain) {
                     elementWidth = result[i].hasBigView ? 2 : 1;
                 } else {
-                    elementWidth = result[i].theme[0].hasBigView ? 2 : 1;
+                    elementWidth = result[i].theme[0] && result[i].theme[0].hasBigView ? 2 : 1;
                 }
                 lineWidth += elementWidth;
             }
