@@ -1,5 +1,5 @@
 include helpers
-.filter
+.filter.show
 	.age_filter
 		.topper
 			.adorable_table
@@ -39,11 +39,10 @@ include helpers
 					- each t, key in themes
 						mixin theme(t)
 
-if params.age || params.theme
-	.center
-		.content
-			include ../helpers/breadcrumbs
-			
+.center
+	.content
+		include ../helpers/breadcrumbs
+		if params.age || params.theme
 			.topper_title
 				if params.theme
 					- each t, key in themes
@@ -83,12 +82,13 @@ if params.age || params.theme
 					.adorable_table
 						.adorable_cell
 							button(class="subscribeIt" style=(subscription ? 'display: none;' : '') )
-								img(src="/img/user/encyclopedia/pencil.png")
 								span Подписаться на тему
 							button(class="unSubscribeIt"  style=(subscription ? '' : 'display: none;') )
-								img(src="/img/user/encyclopedia/pencil.png")
 								span Отписаться от темы
-			
-			.items_container
-				- each a, i in articles
-					mixin article(a, i)
+		
+		.items_container
+			- each a, i in articles.documents
+				mixin article(a, i)
+		if (articles.nextAnchorId)
+			.loadMore
+				img(src="/img/user/main/icon_book.gif")

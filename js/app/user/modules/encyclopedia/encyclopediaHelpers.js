@@ -13,7 +13,11 @@ export default {
     articleType: function (entity) {
         var type = entity.attr('type.name'),
             result = '';
-
+		
+		if(!type) {
+			return '';
+		}
+		
         if (type === 'Статья от редакции') {
             result = 'redaction'
         } else if (type === 'Тема недели') {
@@ -62,7 +66,7 @@ export default {
             if (byMain) {
                 position = item.position ? (order == 'desc' ? -1 : 1) * item.position : 0;
             } else {
-                position = item.theme[0].position ? (order == 'desc' ? -1 : 1) * item.theme[0].position : 0;
+                position = item.theme[0] && item.theme[0].position ? (order == 'desc' ? -1 : 1) * item.theme[0].position : 0;
             }
             return position;
         });
@@ -89,8 +93,8 @@ export default {
             result[0].XL = true;
         }
 
-        if (result[0].type.name == 'Статья от специалиста' 
-            || result[0].type.name == 'Статья от пользователя') {
+        if (result[0].type && (result[0].type.name == 'Статья от специалиста' 
+            || result[0].type.name == 'Статья от пользователя')) {
             result[0].XL = false;
             isXL = false;
         }
@@ -100,7 +104,7 @@ export default {
                 if (byMain) {
                     elementWidth = element.hasBigView || isXL ? 2 : 1;
                 } else {
-                    elementWidth = element.theme[0].hasBigView || isXL ? 2 : 1;
+                    elementWidth = element.theme[0] && element.theme[0].hasBigView || isXL ? 2 : 1;
                 }
                 lineWidth += elementWidth;
             } else {
@@ -116,7 +120,7 @@ export default {
                 if (byMain) {
                     elementWidth = result[i].hasBigView ? 2 : 1;
                 } else {
-                    elementWidth = result[i].theme[0].hasBigView ? 2 : 1;
+                    elementWidth = result[i].theme[0] && result[i].theme[0].hasBigView ? 2 : 1;
                 }
                 lineWidth += elementWidth;
             }
@@ -133,7 +137,7 @@ export default {
                     return false;
                 if (delta == 0 || delta > 1)
                     return true;
-                if (delta == 1 && (byMain ? el.hasBigView : el.theme[0].hasBigView) == false)
+                if (delta == 1 && (byMain ? el.hasBigView : (el.theme[0] && el.theme[0].hasBigView ? el.theme[0].hasBigView : false )) == false)
                     return true;
             });
 

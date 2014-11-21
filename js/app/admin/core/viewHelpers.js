@@ -275,7 +275,7 @@ can.mustache.registerHelper('arrOfObjectsContains', function (array, property, v
 	} else {
 		var props = {};
 		props[property] = value;
-		result = _.where(array, props);
+		result = _.where(array, props).length;
 	}
 
 	return Boolean(result) ^ reverse ? options.fn() : false;

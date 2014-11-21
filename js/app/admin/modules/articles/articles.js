@@ -65,16 +65,19 @@ export default List.extend({
                 self.module.attr('types').push(doc);
             });
         });
-    },
 
-    '{window} scroll': function () {
-        if (!this.element.hasClass('hidden')) {
-            var atBottom = $(window).scrollTop() == ($(document).height() - $(window).height());
+        self.pagesScrolled = 0;
 
-            if (atBottom) {
-                this.options.Model.findAll(false, this.processFindAll.bind(this));
+        $(window).add('body > .wrapper').scroll(function () {
+            if (!self.element.hasClass('hidden')) {
+                var atBottom = $(this).scrollTop() >= $(this).height() * (self.pagesScrolled + 1);
+
+                if (atBottom) {
+                    self.pagesScrolled++;
+                    self.options.Model.findAll(false, self.processFindAll.bind(self));
+                }
             }
-        }
+        });
     },
 
     populateModel: function () {

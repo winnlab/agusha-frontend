@@ -11,6 +11,7 @@ block append scripts
 	script.
 		var app = {
 			articles: !{JSON.stringify(articles)},
+			ages: !{JSON.stringify(ages)},
 			themes: !{JSON.stringify(themes)}
 		};
 	script#bookshelf_mustache(type="text/mustache")

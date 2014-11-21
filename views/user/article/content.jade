@@ -3,6 +3,7 @@
 
 if article.image
 	.articleBackground.bg(style=(article.image && article.image.B ? 'background-image: url("/img/uploads/#{article.image.B}");' : 'background-image: url("/img/uploads/#{article.image.background}");'))
+		.darkenBg
 
 .content
 	include ../helpers/breadcrumbs
@@ -114,8 +115,8 @@ if article.image
 						.adorable_cell
 							.warning Добавлять комментарии могут только авторизированные пользователи
 							.explanation
-								| Есть что сказать? Авторизируйся и используй
-								span.italic  все приимущества
+								| Есть что сказать? Авторизуйтесь и используйте 
+								span.italic все приимущества
 								|  своего профиля!
 								.links
 								a.login(href="/login", class="new_module") Вход
@@ -143,7 +144,7 @@ if article.image
 					.question
 						.question_info
 							.adorable_table
-								.adorable_cell Вводный текст небольшой (почему это так важно, зачем мы спрашиваем)
+								.adorable_cell Воспитание и уход за малышом — ответственный и сложный процесс. Вот почему нам необходимо знать ваше мнение по этому вопросу.
 					
 					div Результаты опроса:
 				

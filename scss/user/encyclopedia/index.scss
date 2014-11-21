@@ -19,9 +19,15 @@ $ageFilterWidth: 160px;
 
 	.filter {
 		@include position(fixed, 0 null null null);
+		@include transition(margin-left 0.3s ease-in-out);
 		width: $ageFilterWidth;
 		z-index: 12;
 		background-color: #2384b1;
+		margin-left: -160px;
+
+		&.show {
+			margin-left: 0;
+		}
 	}
 
 	.age_filter {
@@ -517,16 +523,59 @@ $ageFilterWidth: 160px;
 			@include box_shadow(0 0 0 1px #38c9f2);
 			font-size: 14px;
 			color: #38c9f2;
-			padding: 8px 15px;
-
-			img {
-				vertical-align: middle;
-				margin-right: 11px;
-			}
+			padding: 9px 22px 9px 15px;
 
 			span {
 				vertical-align: middle;
 			}
+
+			&:hover {
+				opacity: 1;
+				background: #38c9f2;
+				color: #fff;
+
+				span:before {
+					background: url('/img/user/encyclopedia/pencil-w.png');
+				}
+			}
+
+			&:hover:active {
+				box-shadow: 0 0 0 1px #38c9f2, inset 0px 1px 0px #29a9cc;
+			}
+
+			&.unSubscribeIt {
+				@include box_shadow(0 0 0 1px #b2b2b2);
+				color: #b2b2b2;
+
+				span:before {
+					background: url('/img/user/encyclopedia/pencil-g.png');
+				}
+
+				&:hover {
+					@include box_shadow(0 0 0 1px #f06565);
+					background: #f06565;
+					color: #fff;
+					span:before {
+						background: url('/img/user/encyclopedia/pencil-w.png');
+					}
+				}
+
+				&:hover:active {
+					-webkit-box-shadow: 0 0 0 1px #f06565, inset 0px 1px 0px #cb5555;
+					-moz-box-shadow: 0 0 0 1px #f06565, inset 0px 1px 0px #cb5555;
+					box-shadow: 0 0 0 1px #f06565, inset 0px 1px 0px #cb5555;
+				}
+			}
+		}
+
+		span:before {
+			content: '';
+			display: inline-block;
+			vertical-align: top;
+			margin: 2px 11px 0 0;
+			width: 17px;
+			height: 16px;
+			background: url('/img/user/encyclopedia/pencil.png');
 		}
 	}
 
@@ -547,6 +596,20 @@ $ageFilterWidth: 160px;
 	.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
 		width: 3px;
 		background: #989795;
+	}
+
+	.items_container {
+		@include clearfix;
+	}
+
+	.loadMore {
+		padding: 50px;
+
+		img {
+			display: block;
+			margin: 0 auto;
+			cursor: pointer;
+		}
 	}
 
 }

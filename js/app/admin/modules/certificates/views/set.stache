@@ -1,0 +1,52 @@
+<div class="box {{#if certificate._id}}box-warning{{/if}}">
+    <div class="box-header">
+        <h3 class="box-title">
+            {{#if certificate._id}}Редактирование{{else}}Добавление{{/if}} сертификата
+        </h3>
+        <div class="box-tools pull-right">
+            <div class="btn btn-primary toList">
+                Назад
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <form class="form-horizontal setCertificate">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="name">Название:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="certificate.name" placeholder="Наименование" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
+
+            {{#if certificate._id}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Изоборажения
+                    </div>
+                    <div class="panel-body">
+                        <upload
+                            class="col-md-12"
+                            name="image"
+                            url="/admin/certificate/img"
+                            delete-url="/admin/certificate/img"
+                            entity="{certificate}"
+                            uploaded="{certificate.image}"
+                            accept="image/*"
+                        >
+                            Загрузить изображение
+                        </upload>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <button class="btn btn-primary" type="submit">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

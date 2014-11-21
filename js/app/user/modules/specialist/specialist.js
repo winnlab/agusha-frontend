@@ -147,9 +147,16 @@ export default Controller.extend(
 				appState.attr('popUp').show({
 					text: 'Ваш вопрос успешно отправлен консультанту.'
 				});
+				el[0].reset();
 			}).fail(function (data) {
+				var text = data.responseJSON.err.message || data.responseJSON.err.err;
+
+				if (text.indexOf('AgushaHuge.consultation.$transliterated_1') !== -1) {
+					text = 'Такой вопрос уже был задан!';
+				}
+
 				appState.attr('popUp').show({
-					text: data.responseJSON.err.message
+					text: text
 				});
 			});
 

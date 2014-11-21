@@ -281,7 +281,7 @@
 	}
 
 	.comment_box {
-		margin: 10px 20px;
+		margin: 10px 0;
 		background-color: $white;
 		
 		.comment_table {
@@ -293,20 +293,21 @@
 			width: 90px;
 			display: table-cell;
 			text-align: center;
-			padding-top: 40px;
+			padding-top: 20px;
+			vertical-align: top;
 		}
 		
 		.avatar {
 			width: 50px;
 			height: 50px;
 			
-			&:before {
-				background: url('/img/user/article/small_crown.png') no-repeat;
-				width: 24px;
-				height: 24px;
-				top: -14px;
-				left: -5px;
-			}
+//			&:before {
+//				background: url('/img/user/article/small_crown.png') no-repeat;
+//				width: 24px;
+//				height: 24px;
+//				top: -14px;
+//				left: -5px;
+//			}
 		}
 		
 		.form_container {

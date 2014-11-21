@@ -5,7 +5,7 @@ export default {
 
     subscribe: function (theme_id, cb) {
         this.processingSubscribe('POST', theme_id, {
-            text: 'Вы успешно подписались на тему.'
+            text: 'Вы успешно подписались на тему. <br /> Теперь статьи темы будут попадать в Вашу ленту.'
         }, cb);
     },
 
