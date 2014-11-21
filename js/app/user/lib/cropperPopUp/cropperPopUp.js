@@ -82,11 +82,13 @@ Cropper = PopUp.extend({
     },
     '.addPhotoCropper .button.ok click': function() {
         var img = this.module.attr('file'),
-            imgDom = this.element.find('.popUpWrap.cropper .innerImage img.cropImageNode'),
+            imgDom = this.element.find(
+                '.popUpWrap.cropper .innerImage img.cropImageNode'
+            ),
             imgData = imgDom.cropper('getData'),
             data = new FormData(), module = this.module,
-            type = module.attr('type'),
-            form = $('<form></form>'), lvar;
+            type = module.attr('type'), lvar,
+            that = this;
 
         lvar = can.param(
             _.extend(imgData, uploadOptions[type]['uploads'])
@@ -95,72 +97,88 @@ Cropper = PopUp.extend({
         data.append(type, img);
 
         can.ajax({
-            url: '/profile/upload?'+lvar,
+            url: '/profile/upload/?'+lvar,
             data: data,
             cache: false,
             contentType: false,
             processData: false,
             type: 'POST'
-        }).success(function () {
+        }).success(function (resp) {
+            var owner = module.owner;
 
+            owner.setImages(resp.data.images);
+            that.closePopup();
         }).fail(function () {
-
+            alert('fail');
         });
     },
-    setClasses: function(selector, input) {
-        this.on(selector, 'click', function() {
-            input.click();
-        });
+    '.ok click': function() {
     },
     show: function (options) {
         var that = this;
 
-        this.def = options.def;
         this.parent = options.parent;
 
         this.module.attr({
             visible: true,
             file: options.file,
+            owner: options.owner,
             cb: options.cb
         });
 
         this.module.attr('image.url', options.url);
+    },
+    closePopup: function() {
+        this.module.attr({
+            'visible': false
+        });
+
     }
 });
 
 cropper = new Cropper('body');
 
-can.mustache.registerHelper('uploader', function (type, classes) {
-    var input, button, btnString, selector;
+can.mustache.registerHelper('uploader', function (type, options) {
+    var input, button, btnString, selector, owner,
+        div, clojureBind;
+
+    owner = options.context.child || options.context;
 
     input = $('<input type="file" />').addClass('uploader uploader'+type);
 
-    selector = "."+classes.replace(' ', '.');
+    clojureBind = function(ow, tp, inp) {
+        inp.change(function(ev) {
+            var target = $(ev.target).data('target'),
+                input = this;
 
-    cropper.setClasses(selector, input)
+            cropper.module.attr('type', tp);
 
-    input.change(function(ev) {
-        var target = $(ev.target).data('target'),
-            input = this;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-        cropper.module.attr('type', type);
+                reader.onload = function (e) {
+                    cropper.show({
+                        type: tp || 'default',
+                        url: e.target.result,
+                        file: input.files[0],
+                        owner: ow
+                    });
+                };
 
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+    }
 
-            reader.onload = function (e) {
-                cropper.show({
-                    type: type || 'default',
-                    url: e.target.result,
-                    file: input.files[0]
-                });
-            };
+    clojureBind(owner, type, input);
 
-            reader.readAsDataURL(input.files[0]);
-        }
-    });
+    return function(el) {
+        $(el).on('click', function() {
+            input.click();
+        });
 
-    return true;
+        return el;
+    };
 });
 
 export default cropper;

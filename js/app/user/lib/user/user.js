@@ -1,9 +1,17 @@
 import 'can/';
 import weights from 'lib/user/profileWeight'
 import _ from 'lodash';
+import ChildrenMap from 'lib/user/children';
 
 var getCurrentUser, User, logout, UserMap,
-	childrenList;
+	ChildrenList, defImages;
+
+defImages = {
+	orig: '/img/user/helpers/stub/orig.png',
+	large: '/img/user/helpers/stub/large.png',
+	medium: '/img/user/helpers/stub/medium.png',
+	small: '/img/user/helpers/stub/small.png'
+}
 
 logout = function () {
 	var that = this;
@@ -16,7 +24,6 @@ logout = function () {
 			localStorage.removeItem('isAuth');
 			user.attr({});
 			that.auth.attr('isAuth', false);
-			console.log(that.auth.attr());
 
 			can.route.attr({module: ''});
 		}
@@ -33,12 +40,16 @@ getCurrentUser = function() {
 	}
 };
 
-childrenList = can.List.extend({})
+ChildrenList = can.List.extend({
+	Map: ChildrenMap
+},{
+
+})
 
 UserMap = can.Map.extend({
 	define: {
 		children: {
-			value: new childrenList
+			value: new ChildrenList
 		},
 		profile: {
 			value: {
@@ -60,13 +71,39 @@ UserMap = can.Map.extend({
 			}
 		},
 		image: {
-			value: {
-				orig: '/img/user/helpers/stub/orig.png',
-				large: '/img/user/helpers/stub/large.png',
-				medium: '/img/user/helpers/stub/medium.png',
-				small: '/img/user/helpers/stub/small.png'
-			}
+			value: defImages
 		}
+	},
+	removeImage: function() {
+		var options, that = this, name = this.attr('image.large')
+			.match(/[a-zA-Z\d]{0,}.[a-zA-Z\d]{1,4}$/i);
+
+		if(!name) {
+			return false;
+		}
+
+		options = {
+			name: name[0],
+			type: 'profile'
+		};
+
+		can.ajax({
+			url: '/profile/upload?'+can.param(options),
+			type: 'DELETE'
+		}).success(function() {
+			that.attr('image', defImages);
+
+			callback();
+		}).fail(function( ) {
+			alert('fail');
+		});
+	},
+	setImages: function(images) {
+		var that = this;
+
+		_.each(images, function (image, key, list) {
+			that.attr('image.'+key, image);
+		});
 	}
 });
 

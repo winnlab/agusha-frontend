@@ -6,11 +6,12 @@
             <div class="text">
             	<div class="childUserPic">
             		<div class="photoArea">
-            			<div class="photoCircle"></div>
-
-            		</div>
-                    <div class="button upload">Загрузить</div>
-                    
+                        <img class="photoCircle" src="{{child.image.large}}" />
+                    </div>
+                    <div class="buttons">
+                        <div class="button upload" {{uploader 'child'}}>Загрузить</div>
+                        <div class="button remove">Удалить</div>
+                    </div>   
             	</div>
             	<div class="childMetaInfo">
             		<input type="Ванечка" can-value="child.name" placeholder="Имя детеныша" class="deletable">
