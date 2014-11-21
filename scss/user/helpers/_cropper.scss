@@ -23,10 +23,16 @@
 			}
 
 			.button {
-				.ok {
+				&.ok {
+					top: -17px;
+					position: relative;
 					color: white;
 					background-color: #61d1ff;
-					margin-top: 14px;
+					margin-top: 0px;
+
+					&:hover {
+						opacity: 1;
+					}
 				}
 			}
 		}
