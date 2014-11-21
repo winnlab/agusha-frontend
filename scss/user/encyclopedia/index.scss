@@ -24,7 +24,7 @@ $ageFilterWidth: 160px;
 		z-index: 12;
 		background-color: #2384b1;
 		margin-left: -160px;
-		
+
 		&.show {
 			margin-left: 0;
 		}
@@ -596,6 +596,20 @@ $ageFilterWidth: 160px;
 	.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
 		width: 3px;
 		background: #989795;
+	}
+
+	.items_container {
+		@include clearfix;
+	}
+
+	.loadMore {
+		padding: 50px;
+
+		img {
+			display: block;
+			margin: 0 auto;
+			cursor: pointer;
+		}
 	}
 
 }

@@ -87,7 +87,11 @@ export default Controller.extend(
 		},
 
 		after_init: function(data) {
-			this.articlesSource = data ? data.articles : app.articles;
+			this.articlesSource = data ? data.articles.documents : app.articles.documents;
+			this.articlesNextId = data ? data.articles.nextAnchorId : app.articles.nextAnchorId;
+			if (this.articlesNextId == 1 || !this.articlesNextId) {
+				this.element.find('.loadMore').hide()
+			}
 			this.isXL(data ? data.themes : app.themes);
 			var that = this,
 				encyclopediaHtml,
@@ -123,6 +127,7 @@ export default Controller.extend(
 						}
 					}
 				},
+				ages: data ? data.ages : app.ages,
 				articles: articles,
 				sort: 'desc',
 				filter: 0,
@@ -223,6 +228,56 @@ export default Controller.extend(
 			Sub.unsubscribe(this.data.attr('theme'), function () {
 				self.element.find('.unSubscribeIt').hide();
 				self.element.find('.subscribeIt').show();
+			});
+		},
+
+		'.loadMore img click': function (el) {
+			var self = this,
+				articles = self.data.attr('articles'),
+				data = {
+					lastId: self.articlesNextId
+				};
+
+			// if (self.articlesNextId == 1 || !self.articlesNextId) {
+			// 	return;
+			// }
+
+			if (self.data.attr('theme') && self.data.attr('age')) {
+				data['age'] = {
+					_id: _.find(self.data.attr('ages').attr(), {value: +self.data.attr('age')})._id
+				};
+				data['theme'] = {
+					_id: self.data.attr('theme')
+				}
+				data.nestedAnchor = {
+					wrap: 'theme',
+					field: '_id',
+					value: self.data.attr('theme'),
+					anchorField: 'position'
+				}
+				data.sort = {
+					'theme.position': -1
+				}
+			}
+
+			can.ajax({
+				url: '/articles',
+				method: 'get',
+				dataType: 'json',
+				data: data
+			}).done(function (data) {
+				var sorted = encyclopediaHelpers.sortArticles(data.documents, self.data.attr('sort'), can.proxy(self.isXL, self));
+				self.articlesNextId = data.nextAnchorId;
+
+				can.batch.start();
+				_.each(sorted, function (article) {
+					articles.push(article);
+				});
+				can.batch.stop();
+
+				if (self.articlesNextId == 1 || !self.articlesNextId) {
+					el.parent().hide();
+				}
 			});
 		}
 	}

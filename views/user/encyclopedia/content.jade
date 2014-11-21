@@ -42,50 +42,53 @@ include helpers
 .center
 	.content
 		include ../helpers/breadcrumbs
-		
-		.topper_title
-			if params.theme
-				- each t, key in themes
-					if t._id == params.theme
-						| #{t.name}
-			else
-				- each a, key in ages
-					if a.value == params.age
-						| #{a.title}
-		
-		.items_filter
-			select.author_select
-				- var countIt = function (type) {
-					- if (type == 0) {
-						- return articles.length;
-					- }
-					- var count = 0;
-					- for (var i = 0, ln = articles.length; i < ln; i += 1) {
-						- var a = articles[i];
-						- if (a.type.name == type) {									
-							- count += 1
+		if params.age || params.theme
+			.topper_title
+				if params.theme
+					- each t, key in themes
+						if t._id == params.theme
+							| #{t.name}
+				else
+					- each a, key in ages
+						if a.value == params.age
+							| #{a.title}
+			
+			.items_filter
+				select.author_select
+					- var countIt = function (type) {
+						- if (type == 0) {
+							- return articles.length;
 						- }
-					- } 
-					- return count;
-				- }
+						- var count = 0;
+						- for (var i = 0, ln = articles.length; i < ln; i += 1) {
+							- var a = articles[i];
+							- if (a.type.name == type) {									
+								- count += 1
+							- }
+						- } 
+						- return count;
+					- }
+					
+					option(data-count = countIt(0), value = 0) Все авторы
+					option(data-count = countIt("Статья от редакции"), value = "Статья от редакции") От редакции
+					option(data-count = countIt("Статья от специалиста"), value = "Статья от специалиста") Мнение специалиста
+					option(data-count = countIt("Тема недели"), value = "Тема недели") Тема недели
 				
-				option(data-count = countIt(0), value = 0) Все авторы
-				option(data-count = countIt("Статья от редакции"), value = "Статья от редакции") От редакции
-				option(data-count = countIt("Статья от специалиста"), value = "Статья от специалиста") Мнение специалиста
-				option(data-count = countIt("Тема недели"), value = "Тема недели") Тема недели
-			
-			select.order_select
-				option(value = 'date') Сначала новые
-				option(value = '-date') Сначала старые
-			
-			.subscribe
-				.adorable_table
-					.adorable_cell
-						button(class="subscribeIt" style=(subscription ? 'display: none;' : '') )
-							span Подписаться на тему
-						button(class="unSubscribeIt"  style=(subscription ? '' : 'display: none;') )
-							span Отписаться от темы
+				select.order_select
+					option(value = 'date') Сначала новые
+					option(value = '-date') Сначала старые
+				
+				.subscribe
+					.adorable_table
+						.adorable_cell
+							button(class="subscribeIt" style=(subscription ? 'display: none;' : '') )
+								span Подписаться на тему
+							button(class="unSubscribeIt"  style=(subscription ? '' : 'display: none;') )
+								span Отписаться от темы
 		
 		.items_container
-			- each a, i in articles
+			- each a, i in articles.documents
 				mixin article(a, i)
+		if (articles.nextAnchorId)
+			.loadMore
+				img(src="/img/user/main/icon_book.gif")
