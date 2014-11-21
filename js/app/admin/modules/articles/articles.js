@@ -66,11 +66,9 @@ export default List.extend({
             });
         });
 
-        self.pagesScrolled = 0;
-
-        $(window).add('body > .wrapper').scroll(function () {
+        $(window).scroll(function () {
             if (!self.element.hasClass('hidden')) {
-                var atBottom = $(this).scrollTop() >= $(this).height() * (self.pagesScrolled + 1);
+                var atBottom = $(window).scrollTop() >= ($(document).height() - $(window).height());
 
                 if (atBottom) {
                     self.pagesScrolled++;
