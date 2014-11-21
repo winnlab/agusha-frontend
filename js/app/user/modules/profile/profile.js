@@ -4,6 +4,8 @@ import tooltip from 'tooltipster';
 import _ from 'lodash';
 import view from 'js/app/user/modules/profile/views/index.mustache!';
 import childPopUp from 'lib/childPopUp/';
+import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.min';
+
 
 import Profile from 'js/app/user/modules/profile/profileModel';
 
@@ -40,6 +42,8 @@ export default Controller.extend(
                 theme: 'tooltipster-agusha',
                 trigger: 'click'
             });
+
+            $('.phoneInput').inputmask("+3 8(999) 999 - 99 - 99");
         },
         createChildPopUp: function(child) {
             var elem = $('<span class="childPopupWrap"></span>');
