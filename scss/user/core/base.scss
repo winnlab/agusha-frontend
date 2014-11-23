@@ -449,11 +449,36 @@ table tr {
 		font-size: 12px;
 		color: $darkbluefont;
 		
+		&:hover {
+			background-color: #2ba2da;
+			color: $white;
+			
+			.lock {
+				background-position: -13px 0;
+			}
+		}
+		
+		&:active {
+			background-color: #2998cd;
+			color: $white;
+			
+			.lock {
+				background-position: -13px 0;
+			}
+		}
+		
 		.adorable_cell {
 			text-align: left;
 		}
 		
-		.lock, .logout {
+		.lock {
+			@include my_inline_block;
+			width: 12px;
+			height: 14px;
+			background: url('/img/user/core/right_menu_lock.png');
+		}
+		
+		.lock, span {
 			margin-left: 30px;
 			vertical-align: middle;
 		}
