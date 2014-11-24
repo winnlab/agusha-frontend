@@ -507,7 +507,15 @@ table tr {
 
 	&.small {
 		.close {
-			background: url('/img/user/core/menu.png') no-repeat;
+			background-position: 0 0;
+			
+			&:hover {
+				background-position: -13px 0;
+			}
+			
+			&:active {
+				background-position: -26px 0;
+			}
 		}
 		
 		.small_logo {
@@ -588,10 +596,12 @@ table tr {
 
 		.social_block  {
 			width: 22px;
+			cursor: pointer;
 		}
 
 		.small_social_block {
 			opacity: 1;
+			z-index: 3;
 		}
 
 		.copyright {
@@ -611,15 +621,24 @@ table tr {
 		position: absolute;
 		top: 30px;
 		left: 30px;
-		width: 13px;
+		width: 12px;
 		height: 12px;
-		background: url('/img/user/core/close.png') no-repeat;
+		background: url('/img/user/core/left_menu_close.png') no-repeat;
+		background-position: 0 -13px;
 		cursor: pointer;
-		z-index: 10;
+		z-index: 11;
+		
+		&:hover {
+			background-position: -13px -13px;
+		}
+		
+		&:active {
+			background-position: -26px -13px;
+		}
 	}
 
 	.top {
-		height: 140px;
+		height: 225px;
 		display: table-row;
 
 		&.active {
@@ -652,11 +671,11 @@ table tr {
 
 	.logo {
 		@include transition(opacity 0.3s ease-in-out 0.3s);
-		width: 157px;
-		height: 77px;
+		width: 175px;
+		height: 180px;
 		position: absolute;
-		top: 45px;
-		left: 43px;
+		top: 29px;
+		left: 38px;
 		opacity: 1;
 	}
 
@@ -670,7 +689,6 @@ table tr {
 	.counter {
 		@include transition(opacity 0.3s ease-in-out);
 		display: table-row;
-		height: 74px;
 		white-space: nowrap;
 		opacity: 1;
 	}
@@ -726,13 +744,15 @@ table tr {
 
 	.counter_label {
 		@include transition(letter-spacing 0.3s ease-in-out, opacity 0.3s ease-in-out);
-		margin-top: 8px;
+		margin-top: 1px;
 		text-align: center;
 		color: $lightbluefont;
-		font-size: 16px;
-		font-family: 'PT_Sans_Italic';
+		font-size: 20px;
+		line-height: 20px;
+		font-family: 'PT_Sans_Narrow_Bold';
 		position: relative;
 		letter-spacing: 0;
+		text-transform: uppercase;
 		opacity: 1;
 	}
 
@@ -911,15 +931,27 @@ table tr {
 		white-space: nowrap;
 		position: relative;
 	}
-
+	
+	.social_block, .small_social_block {
+		cursor: pointer;
+		
+		&:hover {
+			background-color: #2ba2d9;
+		}
+		
+		&:active {
+			background-color: $darkblue;
+		}
+	}
+	
 	.social_block {
 		@include my_inline_block;
 		@include transition(width 0.3s ease-in-out);
 		width: 76px;
 		height: 100%;
 		position: relative;
-		cursor: pointer;
-
+		z-index: 2;
+		
 		&:not(:first-child) {
 			border-left: 1px solid $blackblue;
 		}
@@ -942,7 +974,8 @@ table tr {
 		top: 0;
 		left: 0;
 		opacity: 0;
-
+		z-index: 1;
+		
 		&:after {
 			@include pseudo;
 			@include absolute_centered;
@@ -951,17 +984,47 @@ table tr {
 			background: url('/img/user/core/social.png') no-repeat;
 			background-position: -69px 0px;
 		}
+		
+		&:hover, &:active {
+			&:after {
+				background-position: -69px -22px;
+			}
+		}
 	}
-
+	
+	.facebook {
+		&:after {
+			background-position: 0 0px;
+		}
+		
+		&:hover, &:active {
+			&:after {
+				background-position: 0 -22px;
+			}
+		}
+	}
+	
 	.vkontakte {
 		&:after {
 			background-position: -23px 0px;
+		}
+		
+		&:hover, &:active {
+			&:after {
+				background-position: -23px -22px;
+			}
 		}
 	}
 
 	.odnoklassniki {
 		&:after {
 			background-position: -46px 0px;
+		}
+		
+		&:hover, &:active {
+			&:after {
+				background-position: -46px -22px;
+			}
 		}
 	}
 
@@ -1002,6 +1065,18 @@ table tr {
 	padding: 0 10px 0 35px;
 	position: relative;
 	opacity: 1;
+	
+	&:hover {
+		@include box_shadow(0 0 0 2px #5ebce7);
+	}
+	
+	&:active {
+		@include box_shadow(0 0 0 2px transparent);
+		
+		+ .search_icon {
+			background-image: url("/img/user/core/search_small.png");
+		}
+	}
 }
 
 .left_inner_menu {

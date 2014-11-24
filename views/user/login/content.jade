@@ -1,6 +1,32 @@
 .content.adorable_table
 	.adorable_cell
-		include ../helpers/auth_box
+		.reg_box.column
+			.adorable_table
+				.adorable_cell
+					.reg_top
+						a.login.active(href="/login") Войти
+						span   /  
+						a.register(href="/registration") Зарегистрироваться
+					
+					.login_label
+						div Введите свой e-mail и пароль для доступа ко всем 
+						div полезностям и интересностям «Агуша»!
+					
+					form.login_form
+						
+						input.email(type="email", name="email", can-value="email" placeholder="E-Mail")
+						input.password(type="password", name="password", can-value="password" placeholder="Пароль")
+						
+						button.done Войти
+						
+						button.forgot_btn Забыли пароль?
+						
+						.or_social Или быстро и просто войдите через аккаунт в соцсети!
+					
+					.social
+						.social_block.social_inline.facebook
+						.social_block.social_inline.vkontakte
+						.social_block.social_inline.odnoklasniki
 		
 		.child
 			img(src="/img/user/registration/child.png")
