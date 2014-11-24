@@ -46,6 +46,8 @@
 	.forgot_btn {
 		width: 173px;
 		margin-left: 10px;
+		background-color: transparent;
+		border: 1px solid #83cbed;
 	}
 	
 	.child {
@@ -63,5 +65,7 @@
 	button {
 		padding: 8px 0;
 		margin-top: 20px;
+		font-size: 14px;
+		color: white;
 	}
 }
