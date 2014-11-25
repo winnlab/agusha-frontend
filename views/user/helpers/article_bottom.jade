@@ -10,7 +10,14 @@
 				.adorable_cell
 					span.slideLeft
 						img.left_arrow(src="/img/user/article/left_arrow.png")
-					span 3 / 5
+
+					- var similarArticlesAmount = 3
+					if similarArticles && similarArticles.length
+						- similarArticlesAmount = similarArticles.length
+					- var displayedAmount = 3
+						if similarArticlesAmount < 3
+							- displayedAmount = similarArticlesAmount
+					span #{displayedAmount} / #{similarArticlesAmount}
 					span.slideRight
 						img.right_arrow(src="/img/user/article/right_arrow.png")
 
