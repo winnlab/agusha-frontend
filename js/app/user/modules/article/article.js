@@ -107,19 +107,22 @@ export default Controller.extend(
 
 			if ($bg.css('background-image').length > 0) {
 				img.src = $bg.css('background-image').replace(/url\(|\)$/ig, "");
-				var bgImgHeight = img.height;
 
-				var limit = $('.article_bottom', this.element).offset().top - bgImgHeight;
+				if (img.src && img.src.length > 0) {
+					var bgImgHeight = img.height;
 
-				if ( yPos <= limit ) {
-					coords = '50% '+ yPos + 'px';
-				} else {
-					coords = '50% '+ limit + 'px';
+					var limit = $('.article_bottom', this.element).offset().top - bgImgHeight;
+
+					if ( yPos <= limit ) {
+						coords = '50% '+ yPos + 'px';
+					} else {
+						coords = '50% '+ limit + 'px';
+					}
+
+					$bg.css({
+						backgroundPosition: coords
+					});
 				}
-
-				$bg.css({
-					backgroundPosition: coords
-				});
 			}
 		}
 	}
