@@ -78,10 +78,10 @@ export default List.extend({
             if (collection && collection.attr('length')) {
 
                 if (filterTheme) {
-                    var id = filterTheme.attr('_id').toString();
+                    var id = filterTheme.toString();
 
                     collection.sort(function (a, b) {
-                        var aVal, bVal;
+                        var aVal, bVal, aPos, bPos;
 
                         aVal = _.find(a.attr('theme'), function (item) {
                             return item.attr('_id').toString() == id;
@@ -90,8 +90,11 @@ export default List.extend({
                         bVal = _.find(b.attr('theme'), function (item) {
                             return item.attr('_id').toString() == id;
                         });
-                        // console.log(aVal.attr('position'), bVal.attr('position'));
-                        return aVal.attr('position') < bVal.attr('position');
+
+                        aPos = aVal && aVal.attr('position') || -1;
+                        bPos = bVal && bVal.attr('position') || -1;
+
+                        return aPos < bPos;
                     });
                 } else {
                     collection.sort(function (a, b) {
@@ -150,8 +153,7 @@ export default List.extend({
     },
 
     doFilter: function (data) {
-        var moduleList = this.module.attr(this.options.moduleName),
-            filter = {};
+        var filter = {};
 
         filter.queryOptions = {};
         filter.queryOptions.sort = {}
@@ -176,7 +178,7 @@ export default List.extend({
             filter.queryOptions.nestedAnchor.field = '_id';
             filter.queryOptions.nestedAnchor.value = filter['theme._id'];
             filter.queryOptions.nestedAnchor.anchorField = 'position';
-            
+
             filter.queryOptions.sort['theme.position'] = -1;
 
             this.module.attr('filterTheme', data.attr('theme'));
