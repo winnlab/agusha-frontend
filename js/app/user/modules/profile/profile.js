@@ -2,12 +2,67 @@ import Controller from 'controller';
 import appState from 'core/appState';
 import tooltip from 'tooltipster';
 import _ from 'lodash';
-import view from 'js/app/user/modules/profile/views/index.mustache!';
 import childPopUp from 'lib/childPopUp/';
+import view from 'js/app/user/modules/profile/views/index.mustache!';
 import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.min';
+import select2 from 'select2';
+import s2Options from 'js/app/user/modules/profile/select2Options';
+import s3Options from 'js/app/user/modules/profile/select3Options';
 
+System.import('./js/plugins/select2/select2.css!');
 
 import Profile from 'js/app/user/modules/profile/profileModel';
+
+can.mustache.registerHelper('tooltip', function(errors, property, position, options) {
+    var errors = options.context.user.attr('errors');
+
+    return function(el) {
+        // errors.bind('change', function() {
+        //     console.log('change', arguments);
+        //     console.log('error', errors);
+        // });
+
+        // errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
+        //     console.log('remove', arguments);
+        //     if(prop != property) {
+        //         return;
+        //     }
+
+        //     if(!errors.attr(property)) {
+        //         return;
+        //     }
+
+        //     $(el).tooltipster('destroy');
+        // });
+
+        errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
+            if(newVal == null) {
+                $(el).tooltipster('destroy');
+                return;
+            }
+
+            if(prop != property) {
+                return;
+            }
+
+            var errProp;
+
+            if(!errors.attr(property)) {
+                return;
+            }
+
+            errProp = errors.attr(property);
+
+            $(el).tooltipster({
+                content: errProp,
+                position: position || 'right',
+                theme: 'tooltipster-error'
+            });
+
+            $(el).tooltipster('show');
+        });
+    };
+});
 
 export default Controller.extend(
 	{
@@ -21,10 +76,13 @@ export default Controller.extend(
 		after_init: function(data) {
             System.import('./js/plugins/tooltipster/css/tooltipster.css!');
             System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
+            System.import('./js/plugins/tooltipster/css/themes/tooltipster-error.css!');
 
+            System.import('./css/user/profile/select2Profile.css!');
 
             this.data = appState.attr('user');
             this.user = this.data.options.user;
+            this.errs = new can.Map();
 
 
             if(!this.data.auth.isAuth) {
@@ -37,12 +95,16 @@ export default Controller.extend(
             this.bindTpl();
             this.bindImages();
 
-            $('.tooltip').tooltipster({
+            $('.tooltip.agushaTooltip').tooltipster({
                 position: 'right',
                 theme: 'tooltipster-agusha',
-                trigger: 'click'
+                trigger: 'hover'
             });
 
+            $('#country').select2(s3Options);
+            $('#city').select2(s2Options);
+            $('#city').select2('val', this.user.attr('contacts.city'));
+            
             $('.phoneInput').inputmask("+3 8(999) 999 - 99 - 99");
         },
         createChildPopUp: function(child) {
@@ -93,7 +155,7 @@ export default Controller.extend(
                 return 'password'
             });
         },
-        saveModel: function () {
+        saveModel: function (callback) {
             var user = this.data.options.user;
 
             this.options.model._data = user.attr();
@@ -143,9 +205,14 @@ export default Controller.extend(
                 );
         },
         bindTpl: function() {
-            var html, that = this;
+            var html, that = this, viewModel;
 
-            $('#profile').html(can.view(view, this.data.options.user, {
+            viewModel = new can.Map({
+                user: this.data.options.user, 
+                errs: this.errs
+            });
+
+            $('#profile').html(can.view(view, viewModel, {
                 genderChecked: function(sex) {
                     var user = that.data.user(), gender;
 

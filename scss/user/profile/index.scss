@@ -125,25 +125,33 @@ span.deleteicon {
 .userInputs {
 	@include gridle(6);
 	margin-top: 30px;
+	float: none;
+	padding: 0px;
 
 	.column {
 		@include gridle(3);
 		margin: 0px;
 		// display: inline-block;
 		// width: 360px;
+		float: none;
+		padding: 0px;
+		display: inline-block;
+		width: 290px;
 		
 		&.middle {
 			margin: 0 auto;
 			@include gridle(6);
+			padding: 0px;
+			width: 100%;
 
 			// input {
 			// 	width: 100%;
 			// }
 
 			.inner {
-				@include gridle(5);
+				@include gridle(6);
 				padding: 0px;
-				margin: 0 74px;
+				float: none;
 			}			
 		}
 
@@ -152,8 +160,7 @@ span.deleteicon {
 
 			.inner {
 				// float: left;
-				margin-right: 74px;
-				margin-right: 74px;
+				// margin-right: 74px;
 				display: block;
 				float: right;
 			}
@@ -162,18 +169,22 @@ span.deleteicon {
 		&.left {
 			.inner {
 				// float: right;
-				margin-left: 74px;
+				// margin-left: 74px;
 			}
 			// float: right;
 		}
 
 		.inner {
-			width: 315px;
+			width: 280px;
 			
 			.input_row {
 				margin-bottom: 20px;
-				width: 100%;
-				float: left;
+				// width: 100%;
+				// float: left;
+
+				input {
+					width: 280px
+				}
 			}
 
 			
@@ -488,7 +499,15 @@ span.deleteicon {
 		}
 
 		.profileInfo {
-			@include gridle(6);
+			@include gridle(4);
+			margin: 0 auto;
+			float: none;
+
+			&.passwords {
+				.input_row {
+					display: inline-block;
+				}
+			}
 
 			&.passwordInfo {
 				margin-top: 15px;
@@ -496,8 +515,8 @@ span.deleteicon {
 
 			.birth_date {
 				input {
-					width: 95px;
-					margin-right: 11px;
+					width: 75px;
+					margin-right: 23px;
 
 					&:last-child {
 						margin-right: 0px;
@@ -507,7 +526,7 @@ span.deleteicon {
 
 			.address {
 				input {
-					width: 150px;
+					width: 130px;
 
 					&:first-child {
 						float: left;
@@ -604,14 +623,14 @@ span.deleteicon {
 			}
 
 			.password, .newPassword {
-				width: 260px;
+				width: 225px;
 				border-radius: 5px 0px 0px 5px;
 				float: left;
 			}
 
 			.middle input {
 				@include gridle(6);
-				width: 661px;
+				width: 538px;
 				margin: 0 auto;
 				float: none;
 			}

@@ -1,4 +1,5 @@
 import 'can/';
+import 'can/map/validations/validations';
 import weights from 'lib/user/profileWeight'
 import _ from 'lodash';
 import ChildrenMap from 'lib/user/children';
@@ -47,9 +48,22 @@ ChildrenList = can.List.extend({
 })
 
 UserMap = can.Map.extend({
+	attributes: {
+		email: 'string'
+	},
+	init: function() {
+	}
+}, {
 	define: {
 		children: {
 			value: new ChildrenList
+		},
+		errors: {
+			value: new can.Map({
+				email: null,
+				spareEmail: null,
+				firstName: null
+			})
 		},
 		profile: {
 			value: {
@@ -72,6 +86,37 @@ UserMap = can.Map.extend({
 		},
 		image: {
 			value: defImages
+		},
+		email: {
+			set: function(value) {
+				var regexp;
+				regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+
+				if(value.match(regexp)) {
+					this.attr('errors.email', null);
+
+					return value;
+				}
+
+
+				this.attr('errors.email', "Введите корректный E-mail");
+				return value;
+			}
+		},
+		spareEmail: {
+			set: function(value) {
+				var regexp;
+				regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+
+				if(value.match(regexp)) {
+					this.attr('errors.spareEmail', null);
+
+					return value;
+				}
+
+				this.attr('errors.spareEmail', "Введите корректный E-mail");
+				return value;
+			}
 		}
 	},
 	removeImage: function() {
@@ -109,7 +154,7 @@ UserMap = can.Map.extend({
 
 User = can.Control.extend({
 	defaults: {
-		user: new UserMap
+		user: new UserMap({})
 	}
 },{
 	init: function () {
