@@ -1,20 +1,20 @@
-html, body, .wrapper, aside, .moduleWrap {
-    height: 100%;
-}
+// html, body, .wrapper, aside, .moduleWrap {
+//     height: 100%;
+// }
 
-html, body {
-	overflow: hidden;
-}
+// html, body {
+// 	overflow: hidden;
+// }
 
-body > .wrapper {
-	overflow-y: auto;
-}
+// body > .wrapper {
+// 	overflow-y: auto;
+// }
 
-aside {
-	margin-bottom: -50px;
-	height: 80%;
-	height: calc(-50px + 100%);
-}
+// aside {
+// 	margin-bottom: -50px;
+// 	height: 80%;
+// 	height: calc(-50px + 100%);
+// }
 
 .moduleWrap {
     position: relative;
@@ -24,6 +24,6 @@ aside {
 	background: white;
 }
 
-body > .header {
-	width: 100%;
-}
+// body > .header {
+// 	width: 100%;
+// }

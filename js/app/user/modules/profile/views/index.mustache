@@ -1,0 +1,221 @@
+<div class="content adorable_table">
+	<div class="adorable_cell">
+		<div class="header">
+			<div class="breadcrumbs">
+				<a href="/">
+					Главная
+				</a>
+				<span>
+					&nbsp; / &nbsp;
+					<a href="/profile">
+						{{profile.first_name}}
+					</a>
+				</span>
+				<span>
+					&nbsp; / &nbsp;
+					<a href="/profile">
+						Настройки
+					</a>
+				</span>
+			</div>
+			<h1 class="titlePage">
+				Настройки профиля
+			</h1>
+		</div>
+		<div class="user_profile">
+			<div class="profileFilling">
+				<div class="title">
+					Профиль заполнен на {{profile.filling}}%
+				</div>
+				<div class="bar">
+					<div class="progress progress-{{profile.filling}}" style="width: {{profile.filling}}%">
+					</div>
+				</div>
+			</div>
+			<div class="userMeta">
+				<div class="userPic">
+					<div class="pic">
+						<img src="{{image.large}}" alt="">
+					</div>
+					<div class="buttons horizontal">
+						<div class="upload button" {{uploader 'profile'}}> Загрузить</div>
+						<div class="remove button">Удалить</div>
+					</div>
+				</div>
+			</div>
+			<div class="profileHead">
+				<div class="headWrap">
+					<h3 class="inner_title">Информация о Ваших детках</h3>
+					<div class="question_bubble tooltip" title="Сколько у вас деток, как их зовут, сколько им лет? Расскажите нам больше о своих малышах, а мы подберем для вас по-настоящему полезную и интересную информацию!">?</div>
+				</div>
+			</div>
+			<div class="childBlock">
+				{{#each children}}
+					<div class="childItem">
+						<div class="childPic" data-id="{{_id}}" "{{data 'children'}}">
+							<img src="{{image.large}}" alt="">
+						</div>
+						<div class="childInfo">
+							<div class="childName">
+								{{name}}
+							</div>
+						</div>
+					</div>
+				{{/each}}
+				<div class="addChild">
+					<div class="button rounded"></div>
+					<div class="text">
+						<div>Добавить</div>
+						<div>Детеныша</div>
+					</div>
+				</div>
+			</div>
+			<div class="profileHead">
+				<div class="headWrap">
+					<h3 class="inner_title">Личные данные</h3>
+					<div class="question_bubble tooltip" title="Давайте знакомиться! Расскажите нам о себе подробнее и станьте частью нашего сообщества для современных мам и пап «Агуша».">?</div>
+				</div>
+			</div>
+			<div class="profileInfo">
+				<div class="userInputs">
+					<div class="column left">
+						<div class="inner">
+							<div class="input_row">
+								<input type="text" placeholder="Имя" can-value="profile.first_name" value="{{profile.first_name}}" >
+							</div>
+						</div>
+					</div>
+					<div class="column right">
+						<div class="inner">
+							<div class="input_row">
+								<input type="text" placeholder="Фамилия" value="{{profile.last_name}}" >
+							</div>
+						</div>
+					</div>
+					<div class="column left">
+
+						<div class="inner">
+							<div class="input_row">
+								<input type="text" placeholder="Отчество" value="{{profile.middle_name}}" >
+							</div>
+						</div>
+						<div class="inner">
+							<div class="input_row birth_date">
+								<input type="text" placeholder="День" value="{{birth_date.day}}" can-value="birth_date.day" class="birth_day editableInput" >
+								<input type="text" placeholder="Мес." value="{{birth_date.month}}" can-value="birth_date.month" class="birth_month editableInput" >
+								<input type="text" placeholder="Год" value="{{birth_date.year}}" can-value="birth_date.year" class="birth_year editableInput" >
+							</div>
+						</div>
+					</div>
+					<div class="column right">
+						<div class="inner">
+							<div class="input_row">
+								<input class="editableInput" can-value="profile.gender" value="1" id="female" name="gender" {{genderChecked 'female'}} type="radio" >
+								<label for="female">
+									Женщина
+								</label>
+								<input class="editableInput" can-value="profile.gender" value="2" id="male" name="gender"{{genderChecked 'male'}} type="radio" >
+								<label for="male">
+									Мужчина
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="socialInfo">
+					<div class="socialText">Синхронизировать с профилем в соцсети</div>
+					<div class="social_buttons buttons horizontal">
+						<div class="button fb {{#if social.fb.id}}active{{/if}}"></div>
+						<div class="button vk {{#if social.vk.id}}active{{/if}}"></div>
+						<div class="button ok {{#if social.ok.id}}active{{/if}}"></div>
+					</div>
+					<div class="question_bubble tooltip" title="Пожалуйста, укажите свои контактные данные максимально точно. Когда вы выиграете в каком-то из наших розыгрышей, мы сможем без проблем связаться с вами по телефону и отправить подарок на указанный адрес.">?</div>
+				</div>
+			</div>
+			<div class="profileHead">
+				<div class="headWrap">
+					<h3 class="inner_title">
+						Контактные данные
+					</h3>
+					<div class="question_bubble tooltip" title="Пожалуйста, укажите свои контактные данные максимально точно. Когда вы выиграете в каком-то из наших розыгрышей, мы сможем без проблем связаться с вами по телефону и отправить подарок на указанный адрес.">?</div>
+				</div>
+			</div>
+			<div class="profileInfo passwordInfo">
+				<div class="userInputs" style="margin-top: 0px;">
+					<div class="column left">
+						<div class="inner">
+							<div class="input_row">
+								<input class="editableInput" placeholder="Город" value="{{contacts.city}}" can-value="contacts.city" type="text" >
+							</div>
+							<div class="input_row">
+								<input class="editableInput" placeholder="Страна" value="{{contacts.country}}" can-value="contacts.country" type="text">
+							</div>
+							<div class="input_row">
+								<input class="editableInput" placeholder="Улица" value="{{contacts.street}}" can-value="contacts.street" type="text" >
+							</div>
+							<div class="input_row address">
+								<input class="editableInput" placeholder="Дом" value="{{contacts.houseNum}}" can-value="contacts.houseNum" type="text" >
+
+								<input class="editableInput" placeholder="Квартира" value="{{contacts.apartament}}" can-value="contacts.apartament" type="text" >
+							</div>
+							
+						</div>
+					</div>
+					<div class="column right">
+						<div class="inner">
+							<div class="input_row">
+								<input class="editableInput" placeholder="Почтовый индекс" value="{{contacts.postIndex}}" can-value="contacts.postIndex" type="text" >
+							</div>
+							<div class="input_row">
+								<input class="editableInput phoneInput" placeholder="Телефон" value="{{contacts.phone}}" can-value="contacts.phone" type="text" >
+							</div>
+							<div class="input_row">
+								<input class="editableInput" placeholder="E-mail" value="{{contacts.email}}" can-value="contacts.email" type="text" >
+							</div>
+							<div class="input_row">
+								<input class="editableInput" placeholder="Запасной E-mail" value="{{contacts.spareEmail}}" can-value="contacts.spareEmail" type="text" >
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="profileHead">
+				<div class="headWrap">
+					<h3 class="inner_title">
+						Изменить пароль
+					</h3>
+					<div class="question_bubble tooltip" title="Выберите для себя уникальный пароль и будьте уверены в том, что никто, кроме вас, не сможет воспользоваться вашим замечательным профилем.">?</div>
+				</div>
+			</div>
+			<div class="profileInfo passwordInfo">
+				<div class="userInputs" style="margin-top: 0px;">
+					<div class="column middle">
+						<div class="inner">
+							<div class="input_row">
+								<input class="password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
+								<span class="switcher" data-passid="oldPass"></span>
+							</div>
+						</div>
+					</div>
+					<div class="column left">
+						<div class="inner">
+							<div class="input_row">
+								<input data-passid="pass" placeholder="Новый пароль" type="password" class="password" >
+								<span class="switcher" data-passid="pass"></span>
+							</div>
+						</div>
+					</div>
+					<div class="column right">
+						<div class="inner">
+							<div class="input_row">
+								<input data-passid="newPass" class="password" placeholder="Новый пароль еще раз" type="password" >
+								<span class="switcher" data-passid="newPass"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

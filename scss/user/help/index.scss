@@ -2,6 +2,8 @@
 @import '../helpers/breadcrumbs';
 @import '../helpers/topper_title';
 @import '../helpers/tabs';
+@import 'CSS:../../../js/plugins/select2/select2';
+@import '../helpers/select2';
 
 #help {
 	width: 920px;
@@ -253,12 +255,95 @@
 			z-index: 10;
 		}
 	}
+	
+	.feedback_form {
+		width: 580px;
+		
+		input {
+			margin-top: 6px;
+			padding: 0 22px;
+		}
+		
+		textarea {
+			margin-top: 20px;
+			height: 230px;
+			background-color: white;
+			color: #999999;
+			font-size: 14px;
+		}
+	}
+	
+	.select2-container, .select2-choice, .select2-chosen {
+		height: 58px !important;
+	}
+	
+	.feedback_select2 {
+		width: 100%;
+		
+		&.select2-dropdown-open {
+			.select2-choice .select2-arrow b {
+				background-position: -8px 0 !important;
+			}
+		}
+		
+		.select2-chosen {
+			.adorable_cell {
+				text-align: left;
+				padding: 0 22px;
+				color: #4c4c4c;
+			}
+		}
+	}
+	
+	.select2-arrow {
+		right: 20px !important;
+		background-image: none !important;
+	}
+	
+	.select2-container .select2-choice .select2-arrow b {
+		background: url("/img/user/help/select2_arrow.png") no-repeat !important;
+	}
+	
+	.feedback_topper {
+		.half {
+			width: 280px;
+		}
+		
+		.right {
+			margin-left: 20px;
+		}
+	}
+	
+	.feedback_label {
+		font-family: 'PT_Sans_Italic';
+		color: #a69c95;
+		padding-top: 19px;
+		clear: both;
+		margin-bottom: 6px;
+	}
+	
+	.send_feedback {
+		margin-top: 30px;
+		background-color: $blue;
+		color: $white;
+	}
 }
 
 #faq_search {
 	@include border_radius(0);
 	font-size: 14px;
 	height: 70px;
-    line-height: 70px !important;
 	padding: 0 10px 0 70px;
+}
+
+.select2-drop .help_feedback_select {
+	&:hover {
+		font-family: 'PT_Sans_Bold';
+	}
+	
+	.adorable_cell {
+		text-align: left;
+		padding: 0 22px;
+		color: #4c4c4c;
+	}
 }

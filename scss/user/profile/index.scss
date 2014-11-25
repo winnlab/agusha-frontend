@@ -18,86 +18,89 @@ $backColor: #f2efed;
 
 /* Base for label styling for radio button */
 
-[type="radio"] {
-  &:not(:checked), &:checked {
-    position: absolute;
-    left: -9999px;
-  }
-  &:not(:checked) + label, &:checked + label {
-    position: relative;
-    padding-top: 10px;
-    padding-left: 47px;
-    top: 14px;
-    margin-right: 50px;
-    cursor: pointer;
-    @include x-user-select();
-  }
-  &:not(:checked) + label:before, &:checked + label:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 2px;
-    width: 37px;
-    height: 37px;
-    // border: 1px solid #aaa;
-    background: #fff;
-    border-radius: 14px;
-    // box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-  }
+.profile {
+	[type="radio"] {
+		&:not(:checked), &:checked {
+			position: absolute;
+			left: -9999px;
+		}
+		&:not(:checked) + label, &:checked + label {
+			position: relative;
+			padding-top: 10px;
+			padding-left: 47px;
+			top: 14px;
+			margin-right: 50px;
+			cursor: pointer;
+			@include x-user-select();
+		}
+		&:not(:checked) + label:before, &:checked + label:before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 2px;
+			width: 37px;
+			height: 37px;
+			// border: 1px solid #aaa;
+			background: #fff;
+			border-radius: 14px;
+			// box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+		}
 
-  &:checked + label:after {
-	background: url(/img/user/profile/checkbox.png);
-  }
+		&:checked + label:after {
+			background: url(/img/user/profile/checkbox.png);
+		}
 
-  &:not(:checked) + label:after, &:checked + label:after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 14px;
-    top: 13px;
-	left: 10px;
-    color: #ccc6bd;
-    transition: all .2s;
-    @include x-user-select();
-  }
-  &:not(:checked) + label:after {
-    opacity: 0;
-    transform: scale(0);
-  }
-  &:checked + label:after {
-    opacity: 1;
-    transform: scale(1);
-  }
-  &:disabled {
-    &:not(:checked) + label:before {
-      box-shadow: none;
-      border-color: #bbb;
-      background-color: #ddd;
-    }
-    &:checked + label {
-      &:before {
-        box-shadow: none;
-        border-color: #bbb;
-        background-color: #ddd;
-      }
-      &:after {
-        color: #999;
-      }
-    }
-    + label {
-      color: #aaa;
-    }
-  }
-}
+		&:not(:checked) + label:after, &:checked + label:after {
+			content: '';
+			position: absolute;
+			width: 16px;
+			height: 14px;
+			top: 13px;
+			left: 10px;
+			color: #ccc6bd;
+			transition: all .2s;
+			@include x-user-select();
+		}
+		&:not(:checked) + label:after {
+			opacity: 0;
+			transform: scale(0);
+		}
+		&:checked + label:after {
+			opacity: 1;
+			transform: scale(1);
+		}
+		&:disabled {
+			&:not(:checked) + label:before {
+				box-shadow: none;
+				border-color: #bbb;
+				background-color: #ddd;
+			}
+			&:checked + label {
+				&:before {
+					box-shadow: none;
+					border-color: #bbb;
+					background-color: #ddd;
+				}
+				&:after {
+					color: #999;
+				}
+			}
+			+ label {
+				color: #aaa;
+			}
+		}
+	}
 
-input {
-	line-height: normal !important;
-	// @include transition (box-shadow .2s linear);
+	input {
+		line-height: normal !important;
+		// @include transition (box-shadow .2s linear);
 
-	&:focus, &:hover {
-		box-shadow: black 0px 4px 11px -5px;
+		&:focus, &:hover {
+			box-shadow: black 0px 4px 11px -5px;
+		}
 	}
 }
+
 
 span.deleteicon {
 	position: relative;
@@ -173,6 +176,7 @@ span.deleteicon {
 			.input_row {
 				margin-bottom: 20px;
 				width: 100%;
+				float: left;
 			}
 
 			
@@ -187,6 +191,28 @@ span.deleteicon {
 	padding: 0px;
 	width: 100%;
 	@include gridle_container();
+
+	.question_bubble {
+		display: inline-block;
+		font-size: 15px;
+		color: #898274;
+		margin-left: 15px;
+		position: relative;
+		top: -3px;
+		font-weight: bold;
+		cursor: pointer;
+
+		&:before {
+			content: '';
+			border: 2px solid #898274;
+			border-radius: 100%;
+			display: block;
+			height: 19px;
+			width: 20px;
+			position: relative;
+			top: 21px;
+		}
+	}
 
 	.header {
 		height: 170px;
@@ -218,38 +244,13 @@ span.deleteicon {
 			@include gridle(4);
 			@include gridle_push ( 1 ); 
 			margin: 0 auto;
+			margin-top: 45px;
 
 			h3 {
 				display: inline-block;
 				text-transform: uppercase;
 				font-size: 24px;
 				color: #666666;
-			}
-
-			&.passwordHead {
-				margin-top: 30px;
-			}
-
-			.question_bubble {
-				display: inline-block;
-				font-size: 15px;
-				color: #898274;
-				margin-left: 15px;
-				position: relative;
-				top: -3px;
-				font-weight: bold;
-				cursor: pointer;
-
-				&:before {
-					content: '';
-					border: 2px solid #898274;
-					border-radius: 100%;
-					display: block;
-					height: 19px;
-					width: 19px;
-					position: relative;  
-				    top: 21px;
-				}
 			}
 		}
 
@@ -280,6 +281,9 @@ span.deleteicon {
 
 					img {
 						float: left;
+						width: 80px;
+						height: 80px;
+						border-radius: 100px;
 					}
 
 					&:hover {
@@ -488,18 +492,15 @@ span.deleteicon {
 
 		.profileInfo {
 			@include gridle(6);
-			margin-top: 30px;
 
 			&.passwordInfo {
 				margin-top: 15px;
 			}
 
-
-
 			.birth_date {
 				input {
 					width: 95px;
-					margin-right: 13px;
+					margin-right: 11px;
 
 					&:last-child {
 						margin-right: 0px;
@@ -521,9 +522,26 @@ span.deleteicon {
 				}
 			}
 
+			.socialInfo {
+				@include gridle(2);
+				@include gridle_push(2);
+
+				.question_bubble {
+					top: -5px;
+					float: left;
+					margin-left: 0px;
+				}
+
+				.socialText {
+					width: 100%;
+					text-align: center;
+				}
+			}
+
 			.social_buttons {
-				width: 100%;
-				margin-left: 0px;
+				@include gridle(4);
+				padding: 0px;
+				margin-left: 30px;
 				margin-top: 0px;
 
 				.button {
@@ -534,6 +552,10 @@ span.deleteicon {
 					display: inline-block;
 					background: #fff;
 					border-radius: 15px;
+
+					&:last-child {
+						margin-right: 0px;
+					}
 
 
 					&:before  {
@@ -587,11 +609,12 @@ span.deleteicon {
 			.password, .newPassword {
 				width: 260px;
 				border-radius: 5px 0px 0px 5px;
+				float: left;
 			}
 
 			.middle input {
 				@include gridle(6);
-				width: 660px;
+				width: 661px;
 				margin: 0 auto;
 				float: none;
 			}
@@ -601,12 +624,13 @@ span.deleteicon {
 				height: 50px;
 				border-radius: 0px 5px 5px 0px;
 				display: inline-block;
-				top: 20px;
+				// top: 20px;
 				position: relative;
 				background: url(/img/user/profile/password_close.png) #fff no-repeat center center;
 				@include x-user-select();
 				@include x-transition(background 0.3s ease-in);
 				cursor: pointer;
+				float: right;
 
 				&.active {
 					background: url(/img/user/profile/password_open.png) #fff no-repeat center center;
@@ -663,11 +687,20 @@ span.deleteicon {
 				}
 				
 				.button {
+					display: inline-block;
+					float: left;
+					cursor: pointer;
+
 					&:before {
+						width: 47px;
+						height: 27px;
+						display: inline-block;
+						position: relative;
+						top: 8px;
 						content: '';
 					}
 
-					.upload {
+					&.upload {
 						&:before {
 							background-image: url(/img/user/profile/download_button.png);
 							background-repeat: no-repeat;

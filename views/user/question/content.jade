@@ -1,5 +1,13 @@
 - var likesAmount = consultation.likes ? consultation.likes.length : 0;
 
+- var isLiked = ''
+if user
+	- var userId = user._id
+	if consultation.likes
+		- each like, likeKey in consultation.likes
+			if like.client.toString() == userId.toString()
+				- isLiked = 'isLiked'
+
 .bg
 
 .content
@@ -14,8 +22,8 @@
 				.social_button
 					.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
 				
-				.social_button
-					a(href="https://twitter.com/share" class="twitter-share-button") Tweet
+				//.social_button
+				//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
 				
 				.social_button
 					div(id="vk_top_question_" + params.alias)
@@ -121,8 +129,10 @@
 
 			.footer
 				.adorable_table
-					.adorable_cell
-						img.like(src="/img/user/article/heart.png", data-component_id="#{consultation._id}", data-component="Consultation")
+					div(class="adorable_cell toggleLike #{isLiked}")
+						img.like.liked(src="/img/user/article/heart.png", data-component_id="#{consultation._id}", data-component="Consultation")
+						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{consultation._id}", data-component="Consultation")
+
 						span.count.like(data-component_id="#{consultation._id}")
 							| #{likesAmount}
 						span.slash / 

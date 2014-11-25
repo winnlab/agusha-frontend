@@ -39,10 +39,9 @@ export default List.extend({
 
         List.prototype.init.call(self);
 
-        self.module.attr('doFilter', new can.Map({exec: self.doFilter.bind(self)})
-        );
+        self.module.attr('doFilter', new can.Map({exec: self.doFilter.bind(self)}));
 
-        this.module.attr('filterTheme', null);
+        self.module.attr('filterTheme', null);
 
         self.module.attr('ages', new can.List);
         self.module.attr('themes', new can.List);
@@ -66,11 +65,33 @@ export default List.extend({
             });
         });
 
-        self.pagesScrolled = 0;
+        ArticleModel.bind('created', function (ev, created) {
+            self.module.attr(self.options.moduleName).sort(function (a, b) {
+                if (! self.module.attr('filterTheme')) {
+                    return a.attr('position') < b.attr('position');
+                }
 
-        $(window).add('body > .wrapper').scroll(function () {
+                var id, aVal, bVal;
+
+                id = self.module.attr('filterTheme._id').toString();
+
+                aVal = _.find(a.attr('theme'), function (item) {
+                    return item.attr('_id').toString() == id;
+                });
+
+                bVal = _.find(b.attr('theme'), function (item) {
+                    return item.attr('_id').toString() == id;
+                });
+                // console.log(aVal.attr('position'), bVal.attr('position'));
+                return aVal.attr('position') < bVal.attr('position');
+            });
+
+            console.log(self.module.attr(self.options.moduleName));
+        });
+
+        $(window).scroll(function () {
             if (!self.element.hasClass('hidden')) {
-                var atBottom = $(this).scrollTop() >= $(this).height() * (self.pagesScrolled + 1);
+                var atBottom = $(window).scrollTop() >= ($(document).height() - $(window).height());
 
                 if (atBottom) {
                     self.pagesScrolled++;
@@ -78,6 +99,8 @@ export default List.extend({
                 }
             }
         });
+
+        console.log(self.module.attr('sorted')())
     },
 
     populateModel: function () {
@@ -146,8 +169,6 @@ export default List.extend({
         }
 
         this.module.attr(this.options.moduleName, new this.options.Model.List(filter));
-        // console.log(123)
-        // ArticleModel.findAll(filter, this.processFindAll.bind(this));
     },
 
     '.changePosArticle click': function (el) {

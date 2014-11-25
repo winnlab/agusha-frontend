@@ -2,16 +2,13 @@ import can from 'can/';
 import PopUp from 'lib/popUp/';
 import view from 'js/app/user/lib/childPopUp/views/index.mustache!';
 import appState from 'core/appState';
-
-var childMap;
-
-childMap = can.Map.extend({});
+import childMap from 'lib/user/children'
 
 export default PopUp.extend({
-	init: function () {
+	init: function (el, options) {
 		var that = this;
 
-		this.child = new childMap({
+		this.child = options.child || new childMap({
             isSaved: false,
             birth: {
                 value: {
@@ -49,18 +46,29 @@ export default PopUp.extend({
         }));
 	},
     '.addChildPopUp .button.ok click': function() {
-        this.child.attr('isSaved', true)
+        this.child.attr('isSaved', true);
+        this.closePopup();
+    },
+    '.addChildPopUp .button.remove click': function() {
+        this.child.removeImages();
+    },
+    '.ok click': function() {
+
     },
 	show: function (options) {
 		var that = this;
 
-        this.def = options.def;
-
         this.module.attr({
             visible: true,
             title: '<h1>О вашем малыше</h1>',
-            child: (options.child || this.child),
             cb: options.cb
         });
-	}
+	},
+    closePopup: function() {
+        this.module.attr({
+            'visible': false
+        });
+
+        this.element.remove();
+    }
 });

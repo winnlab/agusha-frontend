@@ -7,7 +7,23 @@
 
 .module.question {
 	width: 100%;
-	
+
+	.isLiked {
+		.not-liked {
+			display: none;
+		}
+		.liked {
+			display: inline;
+		}
+	}
+
+	.not-liked {
+		display: inline;
+	}
+	.liked {
+		display: none;
+	}
+
 	.bg {
 		position: absolute;
 		width: 100%;

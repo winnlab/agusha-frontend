@@ -1,5 +1,7 @@
 import Controller from 'controller'
 
+import select2 from 'select2'
+
 export default Controller.extend(
 	{
 		defaults: {
@@ -15,6 +17,34 @@ export default Controller.extend(
 			
 			this.tab_blocks = this.element.find('.tab_block');
 			this.faq_blocks = this.tab_blocks.filter('.faq_block');
+		},
+		
+		plugins: function() {	
+			this.select2();
+		},
+		
+		select2: function() {
+			var	selector = this.element.find('.feedback_select2');
+			
+			selector.select2({
+				width: 'off',
+				formatSelection: this.format,
+				formatResult: this.format,
+				minimumResultsForSearch: -1
+			});
+		},
+		
+		format: function(state) {
+			var	el = $(state.element),
+				normal = el.data('icon.normal'),
+				hover = el.data('icon.hover'),
+				html = 	'<div class="help_feedback_select adorable_table">' +
+							'<div class="adorable_cell">' +
+								state.text +
+							'</div>' +
+						'</div>';
+			
+			return html;
 		},
 		
 		after_init: function(data) {
@@ -131,6 +161,12 @@ export default Controller.extend(
 			
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
+		},
+		
+		'.feedback_form submit': function(el, ev) {
+			ev.preventDefault();
+			
+			
 		}
 	}
 );

@@ -3,8 +3,6 @@
 	.settings
 	.subToppper
 		.percentage {{profile.filling}} %
-		//- canvas#profile_circle(width="128", height="128")
-		//- orbicular(total="80" progression="70")
 		input.knob(
 			type="text"
 			data-readOnly=true
@@ -37,10 +35,10 @@
 		.icon
 		.label
 
-.right_footer.adorable_table
+a.right_footer.adorable_table.logout
 	.adorable_cell
-		img.lock(src="/img/user/core/right_menu_lock.png")
-		a.logout Выход
+		.lock
+		span Выход
 
 //- span #{JSON.stringify(user.fillingProfile)}
 //- .percentage= '{{user.fillingProfile}}%'

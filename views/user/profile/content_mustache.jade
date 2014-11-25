@@ -34,7 +34,7 @@ mixin childrenItem()
 						img(src="{{image.large}}")
 					.buttons.horizontal
 						input(type="file").originalFileInput
-						.upload.button(data-uploader="{{uploader 'profile' 'upload button'}}") Загрузить фото
+						.upload.button("{{data 'object'}}" data-uploader="{{uploader 'profile' 'upload button'}}") Загрузить фото
 						.remove.button Удалить
 
 			.profileHead

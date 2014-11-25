@@ -10,6 +10,22 @@
 	width: 100%;
 	background: url('/img/user/core/pat.png') repeat;
 	position: relative;
+
+	.isLiked {
+		.not-liked {
+			display: none;
+		}
+		.liked {
+			display: inline;
+		}
+	}
+
+	.not-liked {
+		display: inline;
+	}
+	.liked {
+		display: none;
+	}
 	
 	.card {
 		&.redaction, &.poll {
@@ -448,6 +464,7 @@
 				height: 28px;
 				margin: 0 auto;
 				position: relative;
+				overflow: hidden;
 
 				input {
 					top: 0;
