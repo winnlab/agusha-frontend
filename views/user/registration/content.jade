@@ -5,32 +5,40 @@
 				.reg_box_inside.not_registered.adorable_table.active
 					.adorable_cell
 						.reg_top
-							a.login(href="/login") Вход
-							span /
-							a.register.active(href="/registration") Регистрация
+							a.login(href="/login") Войти
+							span   /  
+							a.register.active(href="/registration") Зарегистрироваться
+						
+						.login_label
+							div Введите свой e-mail и пароль для доступа ко всем 
+							div полезностям и интересностям «Агуша»!
 						
 						form.registration_form
+							input.name(type="text", name="name", can-value='name' placeholder="Ваше имя")
+							
 							input.email(type="email", name="email", can-value='email' placeholder="E-Mail")
 							input.password(type="password", name="password", can-value='password' placeholder="Пароль")
 							
-							button.done Готово
+							button.done Регистрация
 						
 						.social
-							.social_text
+							.half.text
 								.adorable_table
 									.adorable_cell
-										| Быстрая регистрация через соцсети
-							a(href="/registration/fb")
-								.social_block.social_inline.facebook
-							a(href="/registration/vk")
-								.social_block.social_inline.vkontakte
-							a(href="/registration/ok")
-								.social_block.social_inline.odnoklasniki
+										| Или быстро и просто зарегистрируйтесь через соцсети!
+							
+							.half
+								.adorable_table
+									.adorable_cell
+										a(href="/registration/fb")
+											.social_block.social_inline.facebook
+										a(href="/registration/vk")
+											.social_block.social_inline.vkontakte
+										a(href="/registration/ok")
+											.social_block.social_inline.odnoklasniki
 						
-						.get_text
-							div Регистрируйтесь
-							div и получайте
-					
+						.get_text Регистрируйтесь и получайте
+				
 				.reg_box_inside.registered.adorable_table
 					.adorable_cell
 						.title Регистрация прошла успешно!
@@ -41,10 +49,12 @@
 						
 						.button_container
 							button К настройкам
-						
-							
 			
-			img.coin(src="/img/user/registration/coin.png")
+			.pinball.left
+						
+			.pinball.right
+			
+			img.coin(src="/img/user/registration/25_points.png")
 			
 			.moneybox
 				img(src="/img/user/registration/moneybox.png")

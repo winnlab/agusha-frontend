@@ -37,6 +37,8 @@
 		@include box_shadow(inset 0 0 0 1px $white);
 		margin: 0 20px;
 		height: 70px;
+		white-space: nowrap;
+		word-wrap: break-word;
 	}
 	
 	.category_container {

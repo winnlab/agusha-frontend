@@ -33,7 +33,7 @@ export default Edit.extend({
 
 		var self = this,
 			options = this.options,
-			gallery = new can.Map;
+			gallery = new can.List;
 
 		self.module = new can.Map({
 			langs: appState.attr('langs')

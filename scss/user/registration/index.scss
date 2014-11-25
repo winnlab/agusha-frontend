@@ -9,7 +9,7 @@
 	.registration_inline {
 		height: 644px;
 		position: relative;
-		width: 300px;
+		width: 550px;
 		margin: 0 auto;
 		
 		&.drop {
@@ -22,6 +22,28 @@
 				
 				bottom: 45px;
 				opacity: 0;
+			}
+			
+			.pinball {
+				bottom: 172px;
+				
+				&.left {
+					left: 177px;
+					-webkit-transform: rotate(45deg);
+					-moz-transform: rotate(45deg);
+					-o-transform: rotate(45deg);
+					-ms-transform: rotate(45deg);
+					transform: rotate(45deg);
+				}
+				
+				&.right {
+					right: 177px;
+					-webkit-transform: rotate(-45deg);
+					-moz-transform: rotate(-45deg);
+					-o-transform: rotate(-45deg);
+					-ms-transform: rotate(-45deg);
+					transform: rotate(-45deg);
+				}
 			}
 		}
 		
@@ -37,32 +59,39 @@
 	}
 	
 	.reg_box {
-		background: url('/img/user/registration/reg_moneybox_bg.png') no-repeat;
-		height: 442px;
+		background: url('/img/user/registration/reg_box_bg_3.png') no-repeat;
+		height: 423px;
 		overflow: hidden;
+		width: 530px;
 		
 		> .adorable_table {
 			> .adorable_cell {
-				padding: 37px 39px;
+				padding: 0 39px;
 			}
 		}
 		
-		.reg_top {
-			padding-bottom: 14px;
-		}
-		
 		input {
+			margin-top: 15px;
 			height: 39px;
-			margin-top: 10px;
+			
+			&.password, &.email {
+				margin-top: 10px;
+			}
 		}
+	}
+	
+	.reg_top {
+		font-family: 'PT_Sans_Narrow_Bold';
+		font-size: 24px;
+		line-height: 24px;
 	}
 	
 	.reg_box_inside {
 		@include transition(opacity 0.3s ease-in-out);
 		position: absolute;
 		top: 0;
-		left: 280px;
-		width: 280px;
+		left: 530px;
+		width: 530px;
 		height: 100%;
 		opacity: 0;
 		
@@ -107,10 +136,10 @@
 		transition: transform 0.9s ease-in-out, bottom 0.9s ease-in-out, opacity 0.1s ease-in-out 0.9s;
 		
 		@include box_shadow(0 0 0 transparent);
-		height: 73px;
-		width: 77px;
+		height: 68px;
+		width: 70px;
 		position: absolute;
-		bottom: 193px;
+		bottom: 176px;
 		left: 0;
 		right: 0;
 		margin: 0 auto;
@@ -118,15 +147,58 @@
 		opacity: 1;
 	}
 	
+	.pinball {
+		-webkit-transition: -webkit-transform 0.3s ease-in-out;
+		-moz-transition: -moz-transform 0.3s ease-in-out;
+		-o-transition: -o-transform 0.3s ease-in-out;
+		-ms-transition: -ms-transform 0.3s ease-in-out;
+		transition: transform 0.3s ease-in-out;
+		position: absolute;
+		width: 58px;
+		height: 41px;
+		bottom: 183px;
+		z-index: 1;
+		
+		&.left {
+			background: url('/img/user/registration/pinball_left.png') no-repeat;
+			left: 190px;
+		}
+		
+		&.right {
+			background: url('/img/user/registration/pinball_right.png') no-repeat;
+			right: 190px;
+		}
+	}
+	
+	.login_label {
+		margin-top: 20px;
+	}
+	
+	.name {
+		width: 414px;
+	}
+	
+	.password {
+		margin-left: 10px;
+	}
+	
 	.done {
 		background-color: #61D1FF;
 		color: #FFFFFF;
+		padding: 0 30px;
+		width: 153px;
+		height: 40px;
 		margin-top: 20px;
-		padding: 7px 30px;
 	}
 	
 	.social {
 		padding-top: 19px;
+		
+		.text {
+			.adorable_cell {
+				text-align: right;
+			}
+		}
 	}
 	
 	.social_text {
@@ -134,10 +206,13 @@
 	}
 	
 	.get_text {
-		margin: 10px 0 43px;
+		padding: 17px 0 0;
 		font-size: 16px;
+		line-height: 16px;
 		text-transform: uppercase;
-		font-family: 'PT_Sans_Bold';
+		font-family: 'PT_Sans_Narrow_Bold';
+		color: $lightblue;
+		clear: both;
 	}
 	
 	.moneybox {
@@ -147,7 +222,7 @@
 		-ms-transition: -ms-transform 0.2s ease-in-out;
 		transition: transform 0.2s ease-in-out;
 					
-		margin-top: 30px;
+		margin-top: 37px;
 		position: relative;
 		height: 147px;
 		

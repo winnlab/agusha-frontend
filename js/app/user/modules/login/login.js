@@ -18,6 +18,10 @@ export default Controller.extend(
 			
         }
     }, {
+		variables: function() {
+			this.reminder = 'reminder';
+		},
+		
 		after_init: function(data) {
 			var registration = $('#login'), html;
 
@@ -77,6 +81,20 @@ export default Controller.extend(
 					alert('Произошла ошибка. Пожалуйста, обратитесь к администратору');
 				}
 			});
+		},
+		
+		'.reminder_form .done click': function(el, ev) {
+			ev.preventDefault();
+		},
+		
+		'.forgot_btn click': function(el, ev) {
+			ev.preventDefault();
+			
+			this.element.find('.reg_box').addClass(this.reminder);
+		},
+		
+		'.close click': function(el, ev) {
+			this.element.find('.reg_box').removeClass(this.reminder);
 		}
 	}
 );
