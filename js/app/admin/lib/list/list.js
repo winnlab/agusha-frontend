@@ -264,7 +264,7 @@ export default can.Control.extend({
         }
 
         if(!msg) {
-            msg = err.message || err;
+            msg = err.message || err.err || err;
         }
 
         this.setNotification('error', msg);
