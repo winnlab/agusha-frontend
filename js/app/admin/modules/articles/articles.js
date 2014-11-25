@@ -237,7 +237,7 @@ export default List.extend({
         
         this.posModule.backup();
 
-        if (index) {
+        if (_.isNumber(index)) {
             this.posModule.attr(`article.theme.${index}.position`, newPos);
             this.posModule.attr(`article.theme.${index}.hasBigView`, hasBigView);
         } else {
@@ -248,7 +248,7 @@ export default List.extend({
         this.posModule.attr('article').save()
             .fail(function (response) {
                 self.posModule.restore();
-                self.processError(response.responseJSON || response.responseText)
+                self.processError(response);
             });
 
         wrap.remove();
