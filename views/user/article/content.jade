@@ -1,6 +1,14 @@
 - var likesAmount = article.likes ? article.likes.length : 0;
 - var commentariesAmount = article.commentaries ? article.commentaries.length : 0;
 
+- var isLiked = ''
+if user
+	- var userId = user._id
+	if article.likes
+		- each like, likeKey in article.likes
+			if like.client.toString() == userId.toString()
+				- isLiked = 'isLiked'
+
 if article.image
 	.articleBackground.bg(style=(article.image && article.image.B ? 'background-image: url("/img/uploads/#{article.image.B}");' : 'background-image: url("/img/uploads/#{article.image.background}");'))
 		.darkenBg
@@ -19,8 +27,10 @@ if article.image
 		.middle
 			.column.feedback
 				.adorable_table
-					.adorable_cell
-						img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+					div(class="adorable_cell toggleLike #{isLiked}")
+						img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component="Article")
+
 						span.count.like(data-component_id="#{article._id}")
 							| #{likesAmount}
 						span.approve
@@ -125,8 +135,9 @@ if article.image
 
 			.footer
 				.adorable_table
-					.adorable_cell
-						img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+					div(class="adorable_cell toggleLike #{isLiked}")
+						img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component="Article")
 						span.count.like(data-component_id="#{article._id}")
 							| #{likesAmount}
 						span.approve
@@ -238,8 +249,9 @@ if article.image
 								
 					.half.right
 						.adorable_table
-							.adorable_cell
-								img.like(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+							div(class="adorable_cell toggleLike #{isLiked}")
+								img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
+								img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component="Article")
 								span.count.like(data-component_id="#{article._id}")
 									| #{likesAmount}
 								span.slash / 

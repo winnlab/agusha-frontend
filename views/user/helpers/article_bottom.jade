@@ -84,15 +84,27 @@
 							.name Ирина Матвиенко
 
 
-					.footer
+					- var isLiked = ''
+					if user
+						- var userId = user._id
+
+						if similarArticle.likes
+							- each like, likeKey in similarArticle.likes
+								if like.client.toString() == userId.toString()
+									- isLiked = 'isLiked'
+					div(class="footer #{isLiked}")
 						.heart
-							img(src="/img/user/article/heart.png")
+							img.liked(src="/img/user/article/heart.png")
+							img.not-liked(src="/img/user/article/heart-.png")
+
 							if similarArticle.recommended
 								img(src="/img/user/helpers/cards/lamp.png")
 
 						.counters.adorable_table
 							.adorable_cell
-								img.like(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
+								img.like.liked(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
+								img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{similarArticle._id}", data-component="Article")
+
 								span.count.like(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
 								span.approve
 									| мамочек
