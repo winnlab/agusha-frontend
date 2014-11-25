@@ -42,15 +42,15 @@
                         <div class="article-cellar">
                             <div>
                                 <i class="fa fa-eye"></i>
-                                <span>0</span>
+                                <span>{{counter.view}}</span>
                             </div>
                             <div>
                                 <i class="fa fa-cloud"></i>
-                                <span>0</span>
+                                <span>{{counter.comment}}</span>
                             </div>
                             <div>
                                 <i class="fa fa-heart-o"></i>
-                                <span>0</span>
+                                <span>{{counter.like}}</span>
                             </div>
                         </div>
     				</div>
