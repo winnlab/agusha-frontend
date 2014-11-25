@@ -208,16 +208,6 @@ if article.image
 					
 					.text
 						| !{article.desc.text}
-
-						p.Body(style='text-align: justify; line-height: 1.5;')
-							span(style='color: rgb(156, 156, 148);')
-								span(style='font-family: "PT Sans", sans-serif; font-size: 16px; line-height: 1.5;')
-									br
-								span(style='font-family: "PT Sans", sans-serif; font-size: 10pt; line-height: 115%; text-indent: 42.55pt;')
-									| Вся информация на этом сайте представлена
-									| только для ознакомления и не может быть использована для диагностики и лечения.
-									| Пожалуйста, обязательно консультируйтесь с врачом по всем вопросам, связанным
-									| со здоровьем и самочувствием взрослых и детей.
 					
 					.social
 						.social_button
@@ -234,8 +224,17 @@ if article.image
 						
 						.social_button
 							.g-plusone(data-size="medium")
-					
-					.copyright © 2014 Копипаст редакции
+
+					.copyright
+						p.Body(style='text-align: justify; line-height: 1.5;')
+							span(style='color: rgb(156, 156, 148);')
+								span(style='font-family: "PT Sans", sans-serif; font-size: 16px; line-height: 1.5;')
+									br
+								span(style='font-family: "PT Sans", sans-serif; font-size: 10pt; line-height: 115%; text-indent: 42.55pt;')
+									| Вся информация на этом сайте представлена
+									| только для ознакомления и не может быть использована для диагностики и лечения.
+									| Пожалуйста, обязательно консультируйтесь с врачом по всем вопросам, связанным
+									| со здоровьем и самочувствием взрослых и детей.
 				
 				.footer
 					.half.left
