@@ -30,6 +30,7 @@ export default can.Control.extend({
 
                 $counters.html(likesAmount);
                 $counters.parents('.footer').toggleClass('isLiked');
+                $counters.parents('.toggleLike').toggleClass('isLiked');
             }
 
         }
