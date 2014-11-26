@@ -18,87 +18,8 @@ $backColor: #f2efed;
 
 /* Base for label styling for radio button */
 
-.profile {
-	[type="radio"] {
-		&:not(:checked), &:checked {
-			position: absolute;
-			left: -9999px;
-		}
-		&:not(:checked) + label, &:checked + label {
-			position: relative;
-			padding-top: 10px;
-			padding-left: 47px;
-			top: 14px;
-			margin-right: 50px;
-			cursor: pointer;
-			@include x-user-select();
-		}
-		&:not(:checked) + label:before, &:checked + label:before {
-			content: '';
-			position: absolute;
-			left: 0;
-			top: 2px;
-			width: 37px;
-			height: 37px;
-			// border: 1px solid #aaa;
-			background: #fff;
-			border-radius: 14px;
-			// box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-		}
-
-		&:checked + label:after {
-			background: url(/img/user/profile/checkbox.png);
-		}
-
-		&:not(:checked) + label:after, &:checked + label:after {
-			content: '';
-			position: absolute;
-			width: 16px;
-			height: 14px;
-			top: 13px;
-			left: 10px;
-			color: #ccc6bd;
-			transition: all .2s;
-			@include x-user-select();
-		}
-		&:not(:checked) + label:after {
-			opacity: 0;
-			transform: scale(0);
-		}
-		&:checked + label:after {
-			opacity: 1;
-			transform: scale(1);
-		}
-		&:disabled {
-			&:not(:checked) + label:before {
-				box-shadow: none;
-				border-color: #bbb;
-				background-color: #ddd;
-			}
-			&:checked + label {
-				&:before {
-					box-shadow: none;
-					border-color: #bbb;
-					background-color: #ddd;
-				}
-				&:after {
-					color: #999;
-				}
-			}
-			+ label {
-				color: #aaa;
-			}
-		}
-	}
-
-	input {
-		line-height: normal !important;
-		// @include transition (box-shadow .2s linear);
-
-		&:focus, &:hover {
-			box-shadow: black 0px 4px 11px -5px;
-		}
-	}
+#profile {
+	
 }
 
 
@@ -195,6 +116,89 @@ span.deleteicon {
 	}
 }
 
+.childMetaInfo {
+	[type="radio"] {
+		&:not(:checked), &:checked {
+			position: absolute;
+			left: -9999px;
+		}
+		&:not(:checked) + label, &:checked + label {
+			position: relative;
+			padding-top: 10px;
+			padding-left: 47px;
+			top: 14px;
+			margin-right: 50px;
+			cursor: pointer;
+			@include x-user-select();
+		}
+		&:not(:checked) + label:before, &:checked + label:before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 2px;
+			width: 37px;
+			height: 37px;
+			// border: 1px solid #aaa;
+			background: #fff;
+			border-radius: 14px;
+			// box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+		}
+
+		&:checked + label:after {
+			background: url(/img/user/profile/checkbox.png);
+		}
+
+		&:not(:checked) + label:after, &:checked + label:after {
+			content: '';
+			position: absolute;
+			width: 16px;
+			height: 14px;
+			top: 13px;
+			left: 10px;
+			color: #ccc6bd;
+			transition: all .2s;
+			@include x-user-select();
+		}
+		&:not(:checked) + label:after {
+			opacity: 0;
+			transform: scale(0);
+		}
+		&:checked + label:after {
+			opacity: 1;
+			transform: scale(1);
+		}
+		&:disabled {
+			&:not(:checked) + label:before {
+				box-shadow: none;
+				border-color: #bbb;
+				background-color: #ddd;
+			}
+			&:checked + label {
+				&:before {
+					box-shadow: none;
+					border-color: #bbb;
+					background-color: #ddd;
+				}
+				&:after {
+					color: #999;
+				}
+			}
+			+ label {
+				color: #aaa;
+			}
+		}
+	}
+
+	input {
+		line-height: normal !important;
+		// @include transition (box-shadow .2s linear);
+
+		&:focus, &:hover {
+			box-shadow: black 0px 4px 11px -5px;
+		}
+	}
+}
+
 #profile {
 	height: auto !important;
 	
@@ -202,6 +206,87 @@ span.deleteicon {
 	padding: 0px;
 	width: 100%;
 	@include gridle_container();
+
+	[type="radio"] {
+		&:not(:checked), &:checked {
+			position: absolute;
+			left: -9999px;
+		}
+		&:not(:checked) + label, &:checked + label {
+			position: relative;
+			padding-top: 10px;
+			padding-left: 47px;
+			top: 14px;
+			margin-right: 50px;
+			cursor: pointer;
+			@include x-user-select();
+		}
+		&:not(:checked) + label:before, &:checked + label:before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 2px;
+			width: 37px;
+			height: 37px;
+			// border: 1px solid #aaa;
+			background: #fff;
+			border-radius: 14px;
+			// box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+		}
+
+		&:checked + label:after {
+			background: url(/img/user/profile/checkbox.png);
+		}
+
+		&:not(:checked) + label:after, &:checked + label:after {
+			content: '';
+			position: absolute;
+			width: 16px;
+			height: 14px;
+			top: 13px;
+			left: 10px;
+			color: #ccc6bd;
+			transition: all .2s;
+			@include x-user-select();
+		}
+		&:not(:checked) + label:after {
+			opacity: 0;
+			transform: scale(0);
+		}
+		&:checked + label:after {
+			opacity: 1;
+			transform: scale(1);
+		}
+		&:disabled {
+			&:not(:checked) + label:before {
+				box-shadow: none;
+				border-color: #bbb;
+				background-color: #ddd;
+			}
+			&:checked + label {
+				&:before {
+					box-shadow: none;
+					border-color: #bbb;
+					background-color: #ddd;
+				}
+				&:after {
+					color: #999;
+				}
+			}
+			+ label {
+				color: #aaa;
+			}
+		}
+	}
+
+	input {
+		line-height: normal !important;
+		// @include transition (box-shadow .2s linear);
+
+		&:focus, &:hover {
+			box-shadow: black 0px 4px 11px -5px;
+		}
+	}
 
 	.question_bubble {
 		display: inline-block;
@@ -876,9 +961,19 @@ span.deleteicon {
 				}
 
 				.childGender[type="radio"] {
+					display: none;
+
 					+label {
 						text-transform: uppercase;
 						margin-right: 20px;
+
+						&:before {
+							content: '';
+						}
+
+						&:after {
+							content: '';
+						}
 					}
 
 					&:checked + label {
