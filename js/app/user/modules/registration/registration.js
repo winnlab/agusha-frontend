@@ -1,18 +1,91 @@
-import Controller from 'controller'
+import Controller from 'controller';
+import _ from 'lodash';
+import tooltip from 'tooltipster';
+
+System.import('./js/plugins/tooltipster/css/tooltipster.css!');
+System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
+System.import('./js/plugins/tooltipster/css/themes/tooltipster-error.css!');
+
+
+var isError = function(map) {
+	var errors = map.attr('errors');
+
+	return _.every(errors.attr(), function(item, key, list) {
+		if(item == null) {
+			return false;
+		}
+
+		return true;
+	});
+}
 
 var ViewModel = can.Map.extend({
 	define: {
+		errors: {
+			value: new can.Map({
+				email: null,
+				firstname: null,
+				password: null
+			})
+		},
 		email: {
-			value: null
+			value: null,
+			set: function(value) {
+				var regexp;
+				regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+
+				if(!value) {
+					return;
+				}
+
+				if(value.match(regexp)) {
+					this.attr('errors.email', null);
+
+					return value;
+				}
+
+
+				this.attr('errors.email', "Введите корректный E-mail");
+				return value;
+			}
 		},
-		firstname: {
-			value: null
-		},
-		lastname: {
-			value: null
+		firstName: {
+			value: null,
+			set: function(value) {
+				var length = 3;
+
+				if(!value) {
+					return;
+				}
+
+				if(value.length >= 3) {
+					this.attr('errors.firstname', null);
+
+					return value;
+				}
+
+				this.attr('errors.firstName', "Имя должно быть человеческое");
+				return value;
+			}
 		},
 		password: {
-			value: null
+			value: null,
+			set: function(value) {
+				var length = 6;
+
+				if(!value) {
+					return;
+				}
+
+				if(value.length >= length) {
+					this.attr('errors.password', null);
+
+					return value;
+				}
+
+				this.attr('errors.password', "Пароль должен быть не менее 6 символов");
+				return value;
+			}
 		}
 	}
 });
@@ -73,6 +146,10 @@ export default Controller.extend(
 			this.data = new ViewModel();
 
 			$('#registration').html(can.view('reg', this.data));
+
+			this.tooltip = this.element.find('.reg_box');
+
+			// this.bindError();
 		},
 
 		'.social .facebook click': function(el, ev) {
@@ -89,13 +166,19 @@ export default Controller.extend(
 		},
 		
 		'.registration_form .done click': function(el, ev) {
-			var user,
-				that = this;
+			var user, that = this, isErr;
 
 			ev.preventDefault();
 			hideError.call(that);
 
 			user = this.data;
+
+			// isErr = isError(user);
+
+			// if(isErr) {
+			// 	showError.call(that);
+			// 	return;
+			// }
 
 			can.ajax({
 				url: '/registration?ajax=true',
@@ -112,10 +195,30 @@ export default Controller.extend(
 					showSuccessmessgae.call(that);
 				},
 				error: function () {
-					showError.call(that);
-					// alert('Произошла ошибка. Пожалуйста, обратитесь к администратору');
+					// showError.call(that);
 				}
 			});
+		},
+		bindError: function() {
+			var errors = this.data.attr('errors'), el,
+				that = this;
+
+			// errors.delegate('*', 'set', function(options, val, oldVal, prop) {
+			// 	if(val == null) {
+			// 		$(that.tooltip).tooltipster('destroy');
+			// 		return;
+			// 	}
+				
+			// 	that.tooltip.tooltipster({
+			// 		position: 'right',
+	  //               theme: 'tooltipster-error',
+	  //               trigger: 'hover'
+			// 	});
+
+			// 	that.tooltip.tooltipster('content', val);
+			// 	that.tooltip.tooltipster('show');
+
+			// });
 		}
     }
 );
