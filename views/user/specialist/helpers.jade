@@ -84,24 +84,27 @@ mixin article(a, i)
                     if a.author && a.author.name
                         .user
                             .avatar
-                                img.rounded(src='/img/avatar_100x100.jpg')
+                                - var img = 'user/helpers/stub/medium.png'
+                                if a.author.author_id && a.author.author_id.image
+                                    - img = 'uploads/' + a.author.author_id.image.medium
+                                img.rounded(src='/img/#{img}')
                             .name a.autor.name
                 else
                     | {{#if author.name}}
                     .user
                         .avatar
-                            img.rounded(src='/img/avatar_100x100.jpg')
+                            img.rounded(src='/img/{{getUserImg .}}')
                         .name '{{autor.name}}'
                     | {{/if}}
                 .user.doctor
                     .avatar.medical_cap
-                        img.rounded(src='/img/avatar_100x100.jpg')
+                        img.rounded(src='/img/user/specialist/doc_mini.jpg')
                     .name врач-педиатр
                     .name Ирина Матвиенко
-            div(class="footer " + (a ? '' : '{{isLiked .}}'))
+            div(class="footer toggleWatch " + (a ? '' : '{{isWatched .}}'))
                 .heart
-                    img.liked(src="/img/user/article/heart.png")
-                    img.not-liked(src="/img/user/article/heart-.png")
+                    img.watched(src="/img/user/helpers/cards/red_eye.png")
+                    img.not-watched(src="/img/user/helpers/cards/eye.png")
                     if a 
                         if a.recommended
                             img(src="/img/user/helpers/cards/lamp.png")
@@ -122,13 +125,13 @@ mixin article(a, i)
                 .counters.adorable_table
                     .adorable_cell
                         - var component_id = a ? a._id : '{{_id}}'
-                        img.like.liked(src="/img/user/article/heart.png", data-component_id=component_id, data-component="Article")
-                        img.like.not-liked(src="/img/user/article/heart-.png", data-component_id=component_id, data-component="Article")
-                        span.count.like(data-component_id=component_id)= (a ? a.likes ? a.likes.length : 0 : '{{likes.length}}')
+                        img.watch.watched(src="/img/user/helpers/cards/red_eye.png", data-component_id=component_id)
+                        img.watch.not-watched(src="/img/user/helpers/cards/eye.png", data-component_id=component_id)
+                        span.count.watch(data-component_id=component_id)= (a ? a.likes ? a.likes.length : 0 : '{{watchers.length}}')
                         span.approve
                             | мамочек
                             br
-                            | одобряют
+                            | наблюдают
                         
                         img.comment(src="/img/user/article/comment.png")
                         span.count= (a ? a.counter && a.counter.comment ? a.counter.comment : 0 : '{{#if counter.comment}}{{counter.comment}}{{else}}0{{/if}}')

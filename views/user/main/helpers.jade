@@ -67,10 +67,15 @@ mixin feed()
                         .name врач-педиатр
                         .name Ирина Матвиенко
                 | {{/is}}
-                div(class="footer {{isLiked .}}")
+                div(class="footer toggleWatch {{isLiked .}} {{isWatched .}}")
                     .heart
+                        | {{#is type.name "Статья от пользователя"}}
+                        img.watched(src="/img/user/helpers/cards/red_eye.png")
+                        img.not-watched(src="/img/user/helpers/cards/eye.png")
+                        | {{else}}
                         img.liked(src="/img/user/article/heart.png")
                         img.not-liked(src="/img/user/article/heart-.png")
+                        | {{/is}}
                         | {{#isSpecAns .}}
                         img(src="/img/user/helpers/cards/check.png")
                         | {{/isSpecAns}}
@@ -80,6 +85,15 @@ mixin feed()
                         
                     .counters.adorable_table
                         .adorable_cell
+                            | {{#is type.name "Статья от пользователя"}}
+                            img.watch.watched(src="/img/user/helpers/cards/red_eye.png", data-component_id='{{_id}}')
+                            img.watch.not-watched(src="/img/user/helpers/cards/eye.png", data-component_id='{{_id}}')
+                            span.count.watch(data-component_id='{{_id}}')= '{{watchers.length}}'
+                            span.approve
+                                | мамочек
+                                br
+                                | наблюдают
+                            | {{else}}
                             img.like.liked(src="/img/user/article/heart.png", data-component_id='{{_id}}', data-component="Article")
                             img.like.not-liked(src="/img/user/article/heart-.png", data-component_id='{{_id}}', data-component="Article")
                             span.count.like(data-component_id='{{_id}}')= '{{likes.length}}'
@@ -87,6 +101,7 @@ mixin feed()
                                 | мамочек
                                 br
                                 | одобряют
+                            | {{/is}}
                             img.comment(src="/img/user/article/comment.png")
                             span.count.commentariesCount= '{{commentaries.length}}'
                                 |{{#is type.name "Статья от специалиста"}}{{answer.length}}{{/is}}

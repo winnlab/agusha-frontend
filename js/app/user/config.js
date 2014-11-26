@@ -33,6 +33,7 @@ System.config({
 		'baseModel': 'js/app/admin/lib/model/baseModel.js',
 		'like': 'js/app/user/lib/like/like.js',
 		'commentaries': 'js/app/user/lib/commentaries/commentaries.js',
+		'watch': 'js/app/user/lib/watcher/watcher.js',
 		'ratings': 'js/app/user/lib/commentaries/ratings.js',
 
 		'lodash': 'js/plugins/lodash/dist/lodash.js',
