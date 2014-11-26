@@ -1,0 +1,80 @@
+mixin moneybox() 
+	.column.level
+		.left
+			div Ваш
+			div уровень:
+
+		.right= '{{lvl points lvls}}'
+
+	.big_image_container
+		.column.left
+			.adorable_table
+				.adorable_cell= 'Как получить следующее звание?'
+
+		.column.center
+			.adorable_table
+				.adorable_cell
+					.text У вас
+					.count
+						| {{{myPoints points}}}
+					.text баллов
+
+		.column.right
+			.adorable_table
+				.adorable_cell Как заработать больше баллов?
+	.rating_container
+		.icons
+			| {{#each lvls}}
+			| {{#isLast @index lvls.length}}
+			| {{else}}
+			.icon
+				img(src="/img/user/moneybox/{{name}}{{isAchived ../points points}}.png")
+			| {{/isLast}}
+			| {{/each}}
+		.bar
+			| {{#each lvls}}
+			| {{#isLast @index lvls.length}}
+			| {{else}}
+			div(class='icon {{#gt ../points points}}filled{{/gt}}')
+				.adorable_table
+					.adorable_cell
+						.partial(style='{{getLvlWidth ../points points}}')
+						.label= '{{label}}'
+			| {{/isLast}}
+			| {{/each}}
+	.labels_container
+		| {{#each lvls}}
+		div(class='{{name}} {{#isLast @index lvls.length}}circle{{else}}star{{/isLast}}{{#gt ../points points}} filled{{/gt}}')
+		| {{/each}}
+		| {{#each lvls}}
+		div(class="label {{name}}")= '{{minus points 200}}'
+		| {{/each}}	
+
+	.table_container
+		| {{#each actions}}
+		table(class='{{#isnt _id.year year}}hidden {{/isnt}}yearWrap{{_id.year}}')
+			thead
+				tr
+					th.date= '{{monthName _id.month}}'
+					th.time
+					th.label
+					th.total
+						span Всего
+						img(src="/img/user/moneybox/coin.png")
+					th.number= '{{allPoints}}'
+			tbody(class=( i !== 0 ? 'hidden' : ''))
+			| {{#each data}}
+			tr
+				td.date= '{{getDate time}}'
+				td.time= '{{getTime time}}'
+				td.label= '{{label}}'
+				td.total
+					td.number= '+{{points}}'
+			| {{/each}}
+		| {{/each}}
+		table
+			tbody
+				tr.bottom
+					th.date= 'Вы на сайте: {{onWebsite activatedAt}}'
+					th.total У вас уже:
+					th.number= '{{points}}'

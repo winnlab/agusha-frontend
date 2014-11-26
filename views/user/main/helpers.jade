@@ -71,6 +71,9 @@ mixin feed()
                     .heart
                         img.liked(src="/img/user/article/heart.png")
                         img.not-liked(src="/img/user/article/heart-.png")
+                        | {{#isSpecAns .}}
+                        img(src="/img/user/helpers/cards/check.png")
+                        | {{/isSpecAns}}
                         | {{#if recommended}}
                         img(src="/img/user/helpers/cards/lamp.png")
                         | {{/if}}
