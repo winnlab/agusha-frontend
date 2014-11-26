@@ -672,7 +672,7 @@ table tr {
 	.logo {
 		@include transition(opacity 0.3s ease-in-out 0.3s);
 		width: 175px;
-		height: 180px;
+		height: 170px;
 		position: absolute;
 		top: 29px;
 		left: 38px;
@@ -691,6 +691,12 @@ table tr {
 		display: table-row;
 		white-space: nowrap;
 		opacity: 1;
+	}
+	
+	.left_menu_line {
+		height: 2px;
+		background: url('/img/user/core/left_menu_line.png') repeat-x;
+		margin: 40px 0 12px;
 	}
 
 	.count {

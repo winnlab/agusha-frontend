@@ -23,8 +23,11 @@ var Core = can.Control.extend(
 		init: function() {
 			this.window = $(window);
 			this.left_resizable = $('.left_resizable');
+			
+			this.left_menu_line = this.left_resizable.find('.left_menu_line');
+			
 			this.left_inner_menu = this.left_resizable.filter('.left_inner_menu');
-
+			
 			this.right_menu = this.element.find('.right_menu');
 
 			this.start = null;
@@ -174,6 +177,17 @@ var Core = can.Control.extend(
 					$(document).find('.login_box').css('display', 'block');
 				}
 			});
+		},
+		
+		'{window} resize': function() {
+			var	height = this.window.height(),
+				func = 'show';
+			
+			if(height < 690) {
+				func = 'hide';
+			}
+			
+			this.left_menu_line[func]();
 		}
 	}
 );
