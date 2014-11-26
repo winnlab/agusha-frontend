@@ -8,6 +8,7 @@ import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.
 import select2 from 'select2';
 import s2Options from 'js/app/user/modules/profile/select2Options';
 import s3Options from 'js/app/user/modules/profile/select3Options';
+import 'vk-openapi'
 
 System.import('./js/plugins/select2/select2.css!');
 
@@ -263,6 +264,10 @@ export default Controller.extend(
             $('#city').select2('val', this.user.attr('contacts.city'));
             
             $('.phoneInput').inputmask("+3 8(999) 999 - 99 - 99");
+
+            VK.init({
+              apiId: 4581691
+            });
         },
         createChildPopUp: function(child) {
             var elem = $('<span class="childPopupWrap"></span>');
@@ -401,6 +406,29 @@ export default Controller.extend(
             this.user.delegate('image', 'set', function() {
                 that.saveModel();
             });
+        },
+        '.block.vk click': function () {
+            VK.Auth.login(this.handleVkAuth.bind(this), 2);
+        },
+        handleVkAuth: function () {
+            if (response.session) {
+                return this.getVkFriends();
+            }
+        },
+        getVkFriends: function () {
+            // should check `secret` before this func?
+
+            VK.Api.call('friends.get', {
+                fields: 'uid,first_name,last_name,photo',
+                order: 'hints'
+            }, this.showVkFriends.bind(this));
+        },
+        showVkFriends: function (response) {
+            var friends = response.response;
+
+            if (friends instanceof Array && friends.length) {
+                
+            }
         }
     }
 );

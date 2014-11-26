@@ -42,7 +42,9 @@ System.config({
 
 		'controller': 'js/app/user/lib/controller/controller.js',
 
-		'custom-scrollbar': 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
+		'custom-scrollbar': 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
+
+		'vk-openapi': 'http://vk.com/js/api/openapi.js'
 
 	},
 	map: {
