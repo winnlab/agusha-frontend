@@ -259,12 +259,14 @@ export default can.Control.extend({
     processError: function (err) {
         var msg;
 
-        if(err.errors && err.errors.title) {
+    	err = err.responseJSON || err.responseText || err;
+
+        if (err.errors && err.errors.title) {
             msg = err.errors.title.message;
         }
 
         if(!msg) {
-            msg = err.message || err;
+            msg = err.message || err.err || err;
         }
 
         this.setNotification('error', msg);

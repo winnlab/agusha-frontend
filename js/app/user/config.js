@@ -27,6 +27,7 @@ System.config({
 		'helpers': 'js/app/user/helpers.js',
 
 		'bx-slider': 'js/plugins/bx-slider/jquery.bxslider.min.js',
+		'validate': 'js/plugins/validate/jquery.validate.js',
 
 		'controller': 'js/app/user/lib/controller/controller.js',
 		'module/*': 'js/app/user/modules/*.js',
