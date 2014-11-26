@@ -1,5 +1,6 @@
 import 'can/'
 import 'can/map/backup/'
+import _ from 'lodash'
 import List from 'list'
 
 import Article from 'js/app/admin/modules/articles/article'
@@ -65,28 +66,49 @@ export default List.extend({
             });
         });
 
-        ArticleModel.bind('created', function (ev, created) {
-            self.module.attr(self.options.moduleName).sort(function (a, b) {
-                if (! self.module.attr('filterTheme')) {
-                    return a.attr('position') < b.attr('position');
+        can.mustache.registerHelper('sortArticles', function (collection, filterTheme, options) {
+            if (typeof collection === 'function') {
+                collection = collection();
+            }
+
+            if (typeof filterTheme === 'function') {
+                filterTheme = filterTheme();
+            }
+
+            if (collection && collection.attr('length')) {
+
+                if (filterTheme) {
+                    var id = filterTheme.toString();
+
+                    collection.sort(function (a, b) {
+                        var aVal, bVal, aPos, bPos;
+
+                        aVal = _.find(a.attr('theme'), function (item) {
+                            return item.attr('_id').toString() == id;
+                        });
+
+                        bVal = _.find(b.attr('theme'), function (item) {
+                            return item.attr('_id').toString() == id;
+                        });
+
+                        aPos = aVal && aVal.attr('position') || -1;
+                        bPos = bVal && bVal.attr('position') || -1;
+
+                        return aPos < bPos;
+                    });
+                } else {
+                    collection.sort(function (a, b) {
+                        return a.attr('position') < b.attr('position');
+                    });
                 }
 
-                var id, aVal, bVal;
-
-                id = self.module.attr('filterTheme._id').toString();
-
-                aVal = _.find(a.attr('theme'), function (item) {
-                    return item.attr('_id').toString() == id;
-                });
-
-                bVal = _.find(b.attr('theme'), function (item) {
-                    return item.attr('_id').toString() == id;
-                });
-                // console.log(aVal.attr('position'), bVal.attr('position'));
-                return aVal.attr('position') < bVal.attr('position');
-            });
-
-            console.log(self.module.attr(self.options.moduleName));
+                return _.map(collection, function (member, index) {
+                    return options.fn(options.scope
+                        .add({'@index': index})
+                        .add(member)
+                    );
+                }).join('');
+            }
         });
 
         $(window).scroll(function () {
@@ -99,8 +121,6 @@ export default List.extend({
                 }
             }
         });
-
-        console.log(self.module.attr('sorted')())
     },
 
     populateModel: function () {
@@ -133,8 +153,7 @@ export default List.extend({
     },
 
     doFilter: function (data) {
-        var moduleList = this.module.attr(this.options.moduleName),
-            filter = {};
+        var filter = {};
 
         filter.queryOptions = {};
         filter.queryOptions.sort = {}
@@ -159,7 +178,7 @@ export default List.extend({
             filter.queryOptions.nestedAnchor.field = '_id';
             filter.queryOptions.nestedAnchor.value = filter['theme._id'];
             filter.queryOptions.nestedAnchor.anchorField = 'position';
-            
+
             filter.queryOptions.sort['theme.position'] = -1;
 
             this.module.attr('filterTheme', data.attr('theme'));
@@ -218,7 +237,7 @@ export default List.extend({
         
         this.posModule.backup();
 
-        if (index) {
+        if (_.isNumber(index)) {
             this.posModule.attr(`article.theme.${index}.position`, newPos);
             this.posModule.attr(`article.theme.${index}.hasBigView`, hasBigView);
         } else {
@@ -229,7 +248,7 @@ export default List.extend({
         this.posModule.attr('article').save()
             .fail(function (response) {
                 self.posModule.restore();
-                self.processError(response.responseJSON || response.responseText)
+                self.processError(response);
             });
 
         wrap.remove();

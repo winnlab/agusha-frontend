@@ -17,7 +17,7 @@
     <div class='panel-body' id='articleList'>
     	{{#if encyclopedia-article.isResolved}}
     		{{#if encyclopedia-article.length}}
-                {{#each encyclopedia-article}}
+                {{#sortArticles encyclopedia-article filterTheme}}
     				<div class='article article-box' {{data "encyclopedia-article"}}>
                         <div class="btn btn-success editArticle"><i class="fa fa-edit"></i></div>
                         <div class="btn btn-danger removeArticle"><i class="fa fa-trash-o"></i></div>
@@ -42,19 +42,19 @@
                         <div class="article-cellar">
                             <div>
                                 <i class="fa fa-eye"></i>
-                                <span>0</span>
+                                <span>{{counter.view}}</span>
                             </div>
                             <div>
                                 <i class="fa fa-cloud"></i>
-                                <span>0</span>
+                                <span>{{counter.comment}}</span>
                             </div>
                             <div>
                                 <i class="fa fa-heart-o"></i>
-                                <span>0</span>
+                                <span>{{counter.like}}</span>
                             </div>
                         </div>
     				</div>
-    			{{/each}}
+    			{{/sortArticles}}
             {{else}}
                 <div class="alert alert-info">
                     <i class="fa fa-info"></i>

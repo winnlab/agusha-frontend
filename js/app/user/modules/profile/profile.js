@@ -2,12 +2,222 @@ import Controller from 'controller';
 import appState from 'core/appState';
 import tooltip from 'tooltipster';
 import _ from 'lodash';
-import view from 'js/app/user/modules/profile/views/index.mustache!';
 import childPopUp from 'lib/childPopUp/';
+import view from 'js/app/user/modules/profile/views/index.mustache!';
 import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.min';
+import select2 from 'select2';
+import s2Options from 'js/app/user/modules/profile/select2Options';
+import s3Options from 'js/app/user/modules/profile/select3Options';
 
+System.import('./js/plugins/select2/select2.css!');
 
 import Profile from 'js/app/user/modules/profile/profileModel';
+
+var levels = [
+    {
+        name: 'novice',
+        label: 'Новичок',
+        points: 200
+    },
+    {
+        name: 'disciple',
+        label: 'Ученик',
+        points: 400
+    },
+    {
+        name: 'adept',
+        label: 'Знаток',
+        points: 600
+    },
+    {
+        name: 'expert',
+        label: 'Эксперт',
+        points: 800
+    },
+    {
+        name: 'pro',
+        label: 'Профи',
+        points: 1000
+    }];
+ 
+can.mustache.registerHelper('tooltip', function(errors, property, position, options) {
+    var errors = options.context.user.attr('errors');
+
+    return function(el) {
+        errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
+            if(newVal == null) {
+                $(el).tooltipster('destroy');
+                return;
+            }
+
+            if(prop != property) {
+                return;
+            }
+
+            var errProp;
+
+            if(!errors.attr(property)) {
+                return;
+            }
+
+            errProp = errors.attr(property);
+
+            $(el).tooltipster({
+                content: errProp,
+                position: position || 'right',
+                theme: 'tooltipster-error'
+            });
+
+            $(el).tooltipster('show');
+        });
+    };
+});
+
+can.mustache.registerHelper('userLevelNum', function(points, options) {
+    var diff, level;
+
+    points = points();
+
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            level = Number(i)+1;
+        }
+    }
+
+    if(level == undefined) {
+        level = 0;
+    }
+
+    return level+1;
+});
+
+can.mustache.registerHelper('userLevelText', function(points) {
+    var diff, level;
+
+    points = points();
+
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            level = levels[i].label;
+        }
+    }
+
+    if(level == undefined) {
+        level = levels[0].label;
+    }
+
+    return level;
+});
+
+can.mustache.registerHelper('isFilled', function(level, points, options) {
+    var diff;
+
+    points = points();
+
+    diff = 200 - (Number(level.points) - Number(points));
+
+    if (Number(points) > level.points) {
+        return 'filled';
+    }
+
+    return '';
+});
+
+can.mustache.registerHelper('diff', function(k, points, options) {
+    var diff, level, relVal, nextLevelVal, getLevel, relItemVal;
+
+    points = points();
+
+    level = _.filter(levels, function(item, i, list) {
+        var ps = item.points, next = list[i+1], prev = list[i-1];
+
+        if(points > ps && !next && prev) {
+            return true;
+        }
+
+        if(points > ps && !prev && next && points < next.points) {
+            return true;
+        }
+
+        if(points < ps && prev && prev.points && points > prev.points) {
+            return true;
+        }
+    }).pop()
+
+    if(level == undefined) {
+        level = levels[0];
+    }
+
+    relVal = (level.points / k)/100;
+    relItemVal = level.points/7;
+
+    if(relVal > 1) {
+        return 100
+    }
+
+    var left =(level.points-((k-1)*100))+(points-((k-1)*100));
+
+    if(left > 0) {
+        return left/relItemVal*100;
+    }
+    return 0;
+});
+
+can.mustache.registerHelper('leftNext', function(points) {
+    var diff, level, left;
+
+    points = points();
+
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            level = Number(i)+1;
+        }
+    }
+
+    if(level == undefined) {
+        level = 0;
+    }
+
+    left = levels[level].points - points;
+
+    return "До "+(level+1)+"го осталось "+left+" баллов";
+});
+
+can.mustache.registerHelper('isChekedAgree', function(agree) {
+    if(agree()) {
+        return 'checked';
+    }
+
+    return ''
+});
+
+can.mustache.registerHelper('levelPrefix', function(points) {
+    var lavel;
+
+    points = points();
+
+    lavel = _.filter(levels, function(item, i, list) {
+        var ps = item.points, next = list[i+1], prev = list[i-1];
+
+        if(points > ps && !next && prev) {
+            return true;
+        }
+
+        if(points > ps && !prev && next && points < next.points) {
+            return true;
+        }
+
+        if(points < ps && prev && prev.points && points > prev.points) {
+            return true;
+        }
+    }).pop();
+
+    if(lavel == undefined) {
+        lavel = levels[0];
+    }
+
+    return lavel.name;
+})
 
 export default Controller.extend(
 	{
@@ -21,10 +231,15 @@ export default Controller.extend(
 		after_init: function(data) {
             System.import('./js/plugins/tooltipster/css/tooltipster.css!');
             System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
+            System.import('./js/plugins/tooltipster/css/themes/tooltipster-error.css!');
 
+            System.import('./css/user/profile/select2Profile.css!');
 
             this.data = appState.attr('user');
             this.user = this.data.options.user;
+            this.errs = new can.Map();
+
+            console.log(this.user);
 
 
             if(!this.data.auth.isAuth) {
@@ -37,12 +252,16 @@ export default Controller.extend(
             this.bindTpl();
             this.bindImages();
 
-            $('.tooltip').tooltipster({
+            $('.tooltip.agushaTooltip').tooltipster({
                 position: 'right',
                 theme: 'tooltipster-agusha',
-                trigger: 'click'
+                trigger: 'hover'
             });
 
+            $('#country').select2(s3Options);
+            $('#city').select2(s2Options);
+            $('#city').select2('val', this.user.attr('contacts.city'));
+            
             $('.phoneInput').inputmask("+3 8(999) 999 - 99 - 99");
         },
         createChildPopUp: function(child) {
@@ -93,7 +312,7 @@ export default Controller.extend(
                 return 'password'
             });
         },
-        saveModel: function () {
+        saveModel: function (callback) {
             var user = this.data.options.user;
 
             this.options.model._data = user.attr();
@@ -143,9 +362,16 @@ export default Controller.extend(
                 );
         },
         bindTpl: function() {
-            var html, that = this;
+            var html, that = this, viewModel;
 
-            $('#profile').html(can.view(view, this.data.options.user, {
+            viewModel = new can.Map({
+                user: this.data.options.user, 
+                errs: this.errs,
+                levels: levels,
+                levelKeys: [1,2,3,4,5,6,7]
+            });
+
+            $('#profile').html(can.view(view, viewModel, {
                 genderChecked: function(sex) {
                     var user = that.data.user(), gender;
 
