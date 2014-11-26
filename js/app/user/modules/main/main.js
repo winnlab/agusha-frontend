@@ -29,6 +29,7 @@ export default Controller.extend(
 			this.userTitle = this.element.find('.userTitle');
 			this.items_container = this.element.find('.items_container');
 			this.feed_container = this.element.find('.feed_container');
+			this.icons = this.element.find('.icon');
 		},
 
 		initPlugins: function() {
@@ -84,6 +85,7 @@ export default Controller.extend(
 				feed: feed,
 				sort: 'desc',
 				filter: 0,
+				iconFilter: null,
 				feedFilter: 0,
 				module: 'main',
 				themeSubs: data ? data.themeSubs.length : app.themeSubs.length,
@@ -227,6 +229,41 @@ export default Controller.extend(
 			var val = el.val();
 			this.data.attr('sort', val === 'date' ? 'asc' : 'desc');
 			this.reRenderFeed();
+		},
+
+		'.icon click': function (el) {
+			var oldFilter = this.data.attr('iconFilter'),
+				newFilter = el.data('filter'),
+				dataOrigin = this.getFilteredData(),
+				filterIt = newFilter == oldFilter ? false : newFilter,
+				data,
+				feed;
+
+			this.icons.removeClass('active');
+			el.addClass('active');
+
+			data = _.filter(dataOrigin, function (item) {
+				if (!filterIt){
+					return true;
+				}
+				switch (filterIt) {
+					case 'watchers':
+						return !!(item.watchers && item.watchers.length);
+						break;
+					case 'recommended':
+						return !!item.recommended;
+						break;
+					case 'spec':
+						return !!_.find(item.answer, function (answer) {
+							return !!answer.specialist;
+						});
+						break;
+				}
+				return false;
+			});
+			this.data.attr('iconFilter', newFilter);
+			feed = encyclopediaHelpers.sortArticles(data, this.data.attr('sort'), true, true);
+			this.data.attr('feed', feed);
 		},
 
 		'.feed_select change': function (el) {
