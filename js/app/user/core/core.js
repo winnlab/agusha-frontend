@@ -10,6 +10,7 @@ import RightMenu from 'lib/right_menu/'
 // console.log(RightMenu.init())
 
 import Like from 'like'
+import Watch from 'watch'
 import Commentaries from 'commentaries'
 
 var Core = can.Control.extend(
@@ -47,18 +48,18 @@ var Core = can.Control.extend(
 
 			can.route.attr({module: 'registration'})
 		},
-		
+
 		step: function(timestamp) {
 			var that = this;
 
 			if(this.start === null) {
 				this.start = timestamp;
 			}
-			
+
 			var progress = timestamp - this.start;
-			
+
 			this.window.trigger('custom_resize');
-			
+
 			if(progress <= 300) {
 				return this.requestAnimFrame();
 			}
@@ -84,34 +85,34 @@ var Core = can.Control.extend(
 				that.step(timestamp);
 			});
 		},
-		
+
 		'#left_menu .close click': function(el) {
 			this.right_menu.removeClass('active');
 			this.left_resizable.toggleClass('small');
 
 			this.requestAnimFrame();
 		},
-		
+
 		'#left_menu .about click': function(el) {
 			this.animate_left_inner_menu(true);
-			
+
 			this.requestAnimFrame();
 		},
-		
-		'#right_menu_small click': function(el) {			
+
+		'#right_menu_small click': function(el) {
 			var user = appState.attr('user'),
 				isAuth = user.auth.attr('isAuth');
-			
+
 			if (!isAuth) {
 				return;
 			}
-			
+
 			this.left_resizable.addClass('small');
 			this.right_menu.toggleClass('active');
 			this.animate_left_inner_menu();
 			this.requestAnimFrame();
 		},
-		
+
 		'#right_menu .close click' : function(el) {
 			var user = appState.attr('user'),
 				isAuth = user.auth.isAuth;
@@ -120,26 +121,26 @@ var Core = can.Control.extend(
 			this.right_menu.toggleClass('active');
 			this.requestAnimFrame();
 		},
-		
+
 		animate_left_inner_menu: function(toggle) {
 			toggle = toggle || false;
-			
+
 			var func = 'removeClass',
 				filter_func = 'removeClass',
 				classname = 'show';
-			
+
 			if(toggle) {
 				func = 'toggleClass';
 			}
-			
+
 			this.left_inner_menu[func](classname);
-			
+
 			if(!this.left_inner_menu.hasClass(classname)) {
 				filter_func = 'addClass'
 			}
-			
+
 			this.element.find('.module.encyclopedia .filter')[filter_func](classname);
-			
+
 			this.requestAnimFrame();
 		},
 
@@ -157,7 +158,7 @@ var Core = can.Control.extend(
 				router.new_module('search/' + phrase);
 			}
 		},
-		
+
 		'#left_menu.small .search_icon click': function(el) {
 			this.left_resizable.toggleClass('small');
 			this.right_menu.removeClass('active');
@@ -198,3 +199,4 @@ window.router = new Router(document.body, config.router);
 
 new Like(document.body);
 new Commentaries(document.body);
+new Watch(document.body);

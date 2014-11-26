@@ -570,6 +570,19 @@
 			display: none;
 		}
 
+		&.isWatched {
+			.not-watched {
+				display: none;
+			}
+			.watched {
+				display: inline;
+			}
+		}
+
+		.watched {
+			display: none;
+		}
+
 		&.silver {
 			.counters {
 				background: url('/img/user/helpers/cards/silver_footer.png') repeat-x;
@@ -619,7 +632,8 @@
 		margin-top: 30px;
 	}
 
-	.like {
+	.like,
+	.watch {
 		vertical-align: middle;
 		margin-right: 6px;
 		cursor: pointer;

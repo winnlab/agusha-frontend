@@ -116,7 +116,7 @@
 			}
 
 			.icon {
-				@include my_inline_block;
+				float: left;
 				width: 168px;
 				position: relative;
 				height: 100%;

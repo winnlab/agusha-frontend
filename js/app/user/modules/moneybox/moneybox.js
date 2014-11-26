@@ -1,6 +1,6 @@
+import can from 'can/';
 import Controller from 'controller'
-import moment from 'moment';
-import 'js/plugins/moment/locale/ru';
+import moneyboxHelpers from 'modules/moneybox/moneyboxHelpers';
 
 export default Controller.extend(
 	{
@@ -21,33 +21,46 @@ export default Controller.extend(
 
 		},
 
-		successRequest: function (data) {
-			moment.locale('ru');
-
-			window['moment'] = moment;
-
-			if (data && data.data && data.data.user) {
-				data.data.user.lvl = function () {
-					var self = data.data.user;
-					switch (false) {
-						case !(self.points < 200):
-							return 'Новичек';
-						case !(self.points < 400):
-							return 'Ученик';
-						case !(self.points < 600):
-							return 'Знаток';
-						case !(self.points < 800):
-							return 'Эксперт';
-						default:
-							return 'Профи';
-					}
-				}
-			}
-			Controller.prototype.successRequest.call(this, data);
-		},
-
 		after_init: function(data) {
 			this.tab_blocks.filter(':not(.active)').find('.text').hide();
+			this.module = new can.Map({
+				lvls: data ? data.lvls : app.lvls,
+				actions: data ? data.actions : app.actions,
+				points: data ? data.user.points : app.user.points,
+				year: new Date().getFullYear(),
+				activatedAt: data ? data.user.activated_at : app.user.activated_at,
+			});
+
+			var moneybox_mustache = $('#moneybox_mustache'),
+				html;
+
+			if(!moneybox_mustache.length) {
+				html = jadeTemplate.get('user/moneybox/moneybox_mustache');
+			} else {
+				html = moneybox_mustache.html();
+			}
+
+			can.view.mustache('moneybox_mustache', html);
+
+			this.element.find('.moneyBoxWrap').html(can.view('moneybox_mustache', this.module, moneyboxHelpers));
+
+			appState.delegate('moneybox', set, can.proxy(this.moneyboxed, this))
+		},
+
+		moneyboxed: function (ev, newVal) {
+			if (!newVal) {
+				return;
+			}
+			var self = this;
+			can.ajax({
+				url: '/moneybox-points',
+				dataType: 'json',
+				method: 'get'
+			}).done(function (data) {
+				self.attr('actions').replace(data.data.actions)
+				self.attr('points', data.data.points);
+				appState.attr('moneybox', false)
+			});
 		},
 
 		'.tab_block .title click': function(el) {
