@@ -1,6 +1,7 @@
 'use strict';
 
 import can from 'can/';
+import appState from 'core/appState';
 
 export default can.Control.extend({
     defaults: {
@@ -46,6 +47,7 @@ export default can.Control.extend({
                 type: 'POST',
                 data: {model: model, _id: docId},
                 success: function (data) {
+                    appState.attr('moneybox', true);
                     callback(el, data);
                 }
             });
