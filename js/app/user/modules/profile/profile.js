@@ -13,28 +13,37 @@ System.import('./js/plugins/select2/select2.css!');
 
 import Profile from 'js/app/user/modules/profile/profileModel';
 
+var levels = [
+    {
+        name: 'novice',
+        label: 'Новичок',
+        points: 200
+    },
+    {
+        name: 'disciple',
+        label: 'Ученик',
+        points: 400
+    },
+    {
+        name: 'adept',
+        label: 'Знаток',
+        points: 600
+    },
+    {
+        name: 'expert',
+        label: 'Эксперт',
+        points: 800
+    },
+    {
+        name: 'pro',
+        label: 'Профи',
+        points: 1000
+    }];
+ 
 can.mustache.registerHelper('tooltip', function(errors, property, position, options) {
     var errors = options.context.user.attr('errors');
 
     return function(el) {
-        // errors.bind('change', function() {
-        //     console.log('change', arguments);
-        //     console.log('error', errors);
-        // });
-
-        // errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
-        //     console.log('remove', arguments);
-        //     if(prop != property) {
-        //         return;
-        //     }
-
-        //     if(!errors.attr(property)) {
-        //         return;
-        //     }
-
-        //     $(el).tooltipster('destroy');
-        // });
-
         errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
             if(newVal == null) {
                 $(el).tooltipster('destroy');
@@ -63,6 +72,129 @@ can.mustache.registerHelper('tooltip', function(errors, property, position, opti
         });
     };
 });
+
+can.mustache.registerHelper('userLevelNum', function(points, options) {
+    var diff, level;
+
+    points = points();
+
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            level = Number(i)+1;
+        }
+    }
+
+    return level+1;
+});
+
+can.mustache.registerHelper('userLevelText', function(points) {
+    var diff, level;
+
+    points = points();
+
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            level = levels[i].label;
+        }
+    }
+
+    return level;
+});
+
+can.mustache.registerHelper('isFilled', function(level, points, options) {
+    var diff;
+
+    points = points();
+
+    diff = 200 - (Number(level.points) - Number(points));
+
+    if (Number(points) > level.points) {
+        return 'filled';
+    }
+
+    return '';
+});
+
+can.mustache.registerHelper('diff', function(k, points, options) {
+    var diff, level, relVal, nextLevelVal, getLevel, relItemVal;
+
+    points = points();
+
+    getLevel = function(l, points) {
+        return ;
+    };
+
+   level = _.filter(levels, function(item, i, list) {
+        var ps = item.points, next = list[i+1], prev = list[i-1];
+
+        if(points > ps && !next) {
+            return true;
+        }
+
+        if(points < item.points && points > prev.points) {
+            return true;
+        }
+    }).pop()
+
+    relVal = (level.points / k)/100;
+    relItemVal = level.points/7;
+
+    if(relVal > 1) {
+        return 100
+    }
+
+    var left =(level.points-((k-1)*100))+(points-((k-1)*100));
+
+    if(left > 0) {
+        return left/relItemVal*100;
+    }
+});
+
+can.mustache.registerHelper('leftNext', function(points) {
+    var diff, level, left;
+
+    points = points();
+
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            level = Number(i)+1;
+        }
+    }
+
+    left = levels[level].points - points;
+
+    return "До "+(level+1)+"го осталось "+left+" баллов";
+});
+
+can.mustache.registerHelper('isChekedAgree', function(agree) {
+    if(agree()) {
+        return 'checked';
+    }
+
+    return ''
+});
+
+can.mustache.registerHelper('levelPrefix', function(points) {
+    var lavel;
+
+    points = points();
+
+    lavel = _.filter(levels, function(item, i, list) {
+        var ps = item.points, next = list[i+1], prev = list[i-1];
+
+        if(points > ps && !next) {
+            return true;
+        }
+
+        if(points < item.points && points > prev.points) {
+            return true;
+        }
+    }).pop()
+
+    console.log(lavel);
+
+    return lavel.name;
+})
 
 export default Controller.extend(
 	{
@@ -209,7 +341,9 @@ export default Controller.extend(
 
             viewModel = new can.Map({
                 user: this.data.options.user, 
-                errs: this.errs
+                errs: this.errs,
+                levels: levels,
+                levelKeys: [1,2,3,4,5,6,7]
             });
 
             $('#profile').html(can.view(view, viewModel, {

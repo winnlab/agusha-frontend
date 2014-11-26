@@ -42,6 +42,40 @@
 						<div class="remove button">Удалить</div>
 					</div>
 				</div>
+				<div class="moneybox">
+					<div class="userLevel">
+						<div class="textLevel">
+							<div class="text">
+								<div class="level">{{userLevelNum user.points}}й Уровень</div>
+								<div class="mamaLevel">Мама {{userLevelText user.points}}</div>
+							</div>
+							
+							<div class="stars">
+								{{#each levels}}
+									<div class="star {{name}} {{isFilled . user.points}}"></div>
+								{{/each}}
+							</div>
+						</div>
+						<div class="pointsLeft">
+							{{leftNext user.points}}
+						</div>
+
+					</div>
+					<div class="bar">
+						{{#each levelKeys}}
+							<div class="icon {{isFilled . user.points}}">
+								<div class="adorable_table">
+									<div class="adorable_cell">
+										<div class="partial" style='width: {{diff . user.points}}%;'></div>
+									</div>
+								</div>
+							</div>
+						{{/each}}
+					</div>
+					<div class="levelIcon" style="background: url(/img/user/moneybox/{{levelPrefix user.points}}_achieve.png)">
+						
+					</div>
+				</div>
 			</div>
 			<div class="profileHead">
 				<div class="headWrap">
@@ -129,7 +163,6 @@
 						<div class="button vk {{#if user.social.vk.id}}active{{/if}}"></div>
 						<div class="button ok {{#if user.social.ok.id}}active{{/if}}"></div>
 					</div>
-					<div class="question_bubble tooltip agushaTooltip" title="Пожалуйста, укажите свои контактные данные максимально точно. Когда вы выиграете в каком-то из наших розыгрышей, мы сможем без проблем связаться с вами по телефону и отправить подарок на указанный адрес.">?</div>
 				</div>
 			</div>
 			<div class="profileHead">
@@ -176,6 +209,17 @@
 								<input class="editableInput" {{tooltip user.errors 'spareEmail' 'right'}} placeholder="Запасной E-mail" value="{{user.contacts.spareEmail}}" can-value="user.contacts.spareEmail" type="text" >
 							</div>
 						</div>
+					</div>
+				</div>
+				<div class="iAgreeBlock">
+					<div class="checkbox">
+						<input type="checkbox" id="user.agree" can-value="user.agree" {{isChekedAgree user.agree}} />
+						<label for="user.agree"></label>
+					</div>
+					<div class="text">
+						Я покупаю качественное детское питание «Агуша» и рекомендую его 
+						<br />
+						другим мамам. Присоединяюсь к «Агуша – одобрено мамами»!
 					</div>
 				</div>
 			</div>
