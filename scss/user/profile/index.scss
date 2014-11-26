@@ -380,6 +380,7 @@ span.deleteicon {
 				@include gridle(2);
 				@include gridle_push(2);
 				margin: 0 auto;
+				font-style: italic;
 			}
 
 			.bar {
@@ -388,7 +389,7 @@ span.deleteicon {
 
 				display: block;
 				overflow: hidden;
-				height: 8px;
+				height: 2px;
 				margin: 13px 0;
 				background: #e3ddd2;
 
@@ -778,6 +779,20 @@ span.deleteicon {
 				color: #666666;
 				margin-left: 53px;
 			}
+		}
+
+		.buttonSave {
+			width: 210px;
+			margin: 0 auto;
+			padding: 15px 0px;
+			background: #e4ddd3;
+			border-radius: 50px;
+			font-size: 18px;
+			text-transform: uppercase;
+			font-weight: bold;
+			margin-top: 20px;
+			margin-bottom: 40px;
+			cursor: pointer;
 		}
 	}
 }

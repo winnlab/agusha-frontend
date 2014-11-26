@@ -84,6 +84,10 @@ can.mustache.registerHelper('userLevelNum', function(points, options) {
         }
     }
 
+    if(level == undefined) {
+        level = 0;
+    }
+
     return level+1;
 });
 
@@ -96,6 +100,10 @@ can.mustache.registerHelper('userLevelText', function(points) {
         if(points > levels[i].points) {
             level = levels[i].label;
         }
+    }
+
+    if(level == undefined) {
+        level = levels[0].label;
     }
 
     return level;
@@ -120,21 +128,25 @@ can.mustache.registerHelper('diff', function(k, points, options) {
 
     points = points();
 
-    getLevel = function(l, points) {
-        return ;
-    };
-
-   level = _.filter(levels, function(item, i, list) {
+    level = _.filter(levels, function(item, i, list) {
         var ps = item.points, next = list[i+1], prev = list[i-1];
 
-        if(points > ps && !next) {
+        if(points > ps && !next && prev) {
             return true;
         }
 
-        if(points < item.points && points > prev.points) {
+        if(points > ps && !prev && next && points < next.points) {
+            return true;
+        }
+
+        if(points < ps && prev && prev.points && points > prev.points) {
             return true;
         }
     }).pop()
+
+    if(level == undefined) {
+        level = levels[0];
+    }
 
     relVal = (level.points / k)/100;
     relItemVal = level.points/7;
@@ -148,6 +160,7 @@ can.mustache.registerHelper('diff', function(k, points, options) {
     if(left > 0) {
         return left/relItemVal*100;
     }
+    return 0;
 });
 
 can.mustache.registerHelper('leftNext', function(points) {
@@ -159,6 +172,10 @@ can.mustache.registerHelper('leftNext', function(points) {
         if(points > levels[i].points) {
             level = Number(i)+1;
         }
+    }
+
+    if(level == undefined) {
+        level = 0;
     }
 
     left = levels[level].points - points;
@@ -182,16 +199,22 @@ can.mustache.registerHelper('levelPrefix', function(points) {
     lavel = _.filter(levels, function(item, i, list) {
         var ps = item.points, next = list[i+1], prev = list[i-1];
 
-        if(points > ps && !next) {
+        if(points > ps && !next && prev) {
             return true;
         }
 
-        if(points < item.points && points > prev.points) {
+        if(points > ps && !prev && next && points < next.points) {
             return true;
         }
-    }).pop()
 
-    console.log(lavel);
+        if(points < ps && prev && prev.points && points > prev.points) {
+            return true;
+        }
+    }).pop();
+
+    if(lavel == undefined) {
+        lavel = levels[0];
+    }
 
     return lavel.name;
 })
@@ -215,6 +238,8 @@ export default Controller.extend(
             this.data = appState.attr('user');
             this.user = this.data.options.user;
             this.errs = new can.Map();
+
+            console.log(this.user);
 
 
             if(!this.data.auth.isAuth) {
