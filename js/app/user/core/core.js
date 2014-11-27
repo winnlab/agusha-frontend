@@ -33,6 +33,7 @@ var Core = can.Control.extend(
 
 			this.start = null;
 			this.initBindings();
+			this.resize();
 		},
 		'.logout click': function() {
 			this.hide_right_menu()
@@ -178,9 +179,16 @@ var Core = can.Control.extend(
 					$(document).find('.login_box').css('display', 'block');
 				}
 			});
+
+			appState.bind('unreadConversationsAmount', function (varName, newValue, oldValue) {
+				$('.unreadConversationsAmount').html(newValue);
+				$('#right_menu_small .message .adorable_cell').html(newValue);
+			});
 		},
 		
-		'{window} resize': function() {
+		'{window} resize': 'resize',
+		
+		resize: function() {
 			var	height = this.window.height(),
 				func = 'show';
 			

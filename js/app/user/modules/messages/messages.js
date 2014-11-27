@@ -37,7 +37,6 @@ export default Controller.extend(
 
         renderConversations: function (data) {
             var self = this;
-
             var $container = $('.left.items_container');
 
             $container.html('');
@@ -54,6 +53,23 @@ export default Controller.extend(
                     })
                 );
             });
+
+            self.findUnreadConversations();
+        },
+
+        findUnreadConversations: function () {
+            var self = this;
+            var userId = appState.attr('user').user()._id;
+
+            var unreadConversations = _.filter(self.conversations, function(conversation) {
+                return _.find(conversation.interlocutors, function(interlocutor) {
+                    if (interlocutor.client._id == userId) {
+                        return interlocutor.read === false
+                    }
+                });
+            });
+
+            appState.attr('unreadConversationsAmount', unreadConversations.length);
         },
 
         getLastMessage: function (conversation) {
@@ -129,6 +145,36 @@ export default Controller.extend(
                     $messagesContainer.fadeIn(150);
                 });
             }
+
+            self.markConversationAsRead(conversationId);
+        },
+
+        markConversationAsRead: function(conversationId) {
+            var self = this;
+
+            can.ajax({
+                url: '/conversations/markConversationAsRead',
+                type: 'POST',
+                data: {
+                    conversationId: conversationId
+                },
+                success: function (data) {
+                    if (data && data.data) {
+                        self.updateConversationsArray(data.data);
+                    }
+                }
+            });
+        },
+
+        updateConversationsArray: function (conversation) {
+            var self = this;
+
+            var conversationIndex = _.findIndex(self.conversations, function (element) {
+                return element._id === conversation._id;
+            });
+
+            self.conversations[conversationIndex] = conversation;
+            self.findUnreadConversations();
         },
 
         getMessageAuthor: function (conversation, message) {
@@ -140,8 +186,6 @@ export default Controller.extend(
                     return interlocutor.client._id === message.author;
                 }
             });
-
-            console.log(interlocutor);
 
             if (!interlocutor) {
                 if (conversation.type === 'consultation') {

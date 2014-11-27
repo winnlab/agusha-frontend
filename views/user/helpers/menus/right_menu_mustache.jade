@@ -18,6 +18,20 @@
 			img.rounded(src="{{image.large}}")
 			| {{/if}}
 		.name {{fullName}}
+
+		.children
+			{{#each children}}
+			{{log}}
+			.child
+				.image
+					img.rounded(src="{{image.small}}")
+				
+				.desc
+					.adorable_table
+						.adorable_cell
+							.child_name {{name}}
+							//- .child_age 6 мес.
+			{{/each}}
 	
 .buttons
 	a.item.adorable_table.messages.module_tab.module_tab_messages.new_module(href="/messages")

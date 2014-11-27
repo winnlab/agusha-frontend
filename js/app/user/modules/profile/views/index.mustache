@@ -7,7 +7,7 @@
 				</a>
 				<span>
 					&nbsp; / &nbsp;
-					<a href="/profile">
+					<a href="/profile" class="bradName">
 						{{user.profile.first_name}}
 					</a>
 				</span>
@@ -238,7 +238,7 @@
 					<div class="column middle">
 						<div class="inner">
 							<div class="input_row">
-								<input class="password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
+								<input class="password" can-value="old_password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
 								<span class="switcher" data-passid="oldPass"></span>
 							</div>
 						</div>
@@ -246,7 +246,7 @@
 					<div class="column left">
 						<div class="inner">
 							<div class="input_row">
-								<input data-passid="pass" placeholder="Новый пароль" type="password" class="password" >
+								<input data-passid="pass" can-value="new_password" placeholder="Новый пароль" type="password" class="password" >
 								<span class="switcher" data-passid="pass"></span>
 							</div>
 						</div>
@@ -254,16 +254,15 @@
 					<div class="column right">
 						<div class="inner">
 							<div class="input_row">
-								<input data-passid="newPass" class="password" placeholder="Новый пароль еще раз" type="password" >
+								<input data-passid="newPass" can-value="renew_password" class="password" placeholder="Новый пароль еще раз" type="password" >
 								<span class="switcher" data-passid="newPass"></span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="buttonSave">
+			<button type="button" class="buttonSave">
 				Сохранить
-			</div>
 		</div>
 	</div>
 </div>

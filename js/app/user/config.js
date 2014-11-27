@@ -14,6 +14,7 @@ System.config({
 		'googlemaps_main': 'js/plugins/google/googlemaps_main.js',
 		'moment': 'js/plugins/moment/moment.js',
 		'tooltipster': 'js/plugins/tooltipster/js/jquery.tooltipster.min.js',
+		'jquery-validation': 'js/plugins/jquery-validation/dist/jquery.validate.min.js',
 
 		'router': 'js/app/user/router/router.js',
 		'placeholder': 'js/app/user/router/placeholder.js',
@@ -27,6 +28,7 @@ System.config({
 		'helpers': 'js/app/user/helpers.js',
 
 		'bx-slider': 'js/plugins/bx-slider/jquery.bxslider.min.js',
+		'carousel': 'js/plugins/bootstrap/js/carousel.js',
 		'validate': 'js/plugins/validate/jquery.validate.js',
 
 		'controller': 'js/app/user/lib/controller/controller.js',

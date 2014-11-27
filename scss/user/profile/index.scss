@@ -1,4 +1,6 @@
 @import '../../settings';
+@import '../helpers/socialSprite';
+
 
 $barColor: #e3ddd2;
 // $overlayColor: #f2efed;
@@ -281,7 +283,6 @@ span.deleteicon {
 
 	input {
 		line-height: normal !important;
-		// @include transition (box-shadow .2s linear);
 
 		&:focus, &:hover {
 			box-shadow: black 0px 4px 11px -5px;
@@ -324,6 +325,10 @@ span.deleteicon {
 			font-size: 55px;
 			color: #2da7e0;
 			margin: 0px;
+		}
+
+		.bradName {
+			text-transform: capitalize;
 		}
 	}
 
@@ -582,6 +587,14 @@ span.deleteicon {
 								background-position: center center;
 							}
 						}
+
+						&.remove {
+							&:before {
+								background-image: url(/img/user/profile/remove_button.png);
+								background-repeat: no-repeat;
+								background-position: center center;
+							}
+						}
 					}
 				}
 			}
@@ -715,11 +728,13 @@ span.deleteicon {
 				.button {
 					margin-right: 22px;
 					margin-top: 10px;
-					width: 35px;
 					float: left;
+					width: 35px;
+					height: 35px;
 					display: inline-block;
 					background: #fff;
 					border-radius: 15px;
+					background-repeat: no-repeat;
 
 					&:last-child {
 						margin-right: 0px;
@@ -734,29 +749,102 @@ span.deleteicon {
 						border-radius: 14px;
 					}
 
+					&:after {
+						content: '';
+
+						background-color: #fff;
+						display: inline-block;
+						top: -24px;
+						position: relative;
+					}
+
 					&.fb {
-						background: url(/img/user/profile/social/fb-inactive.png) #fff no-repeat center center;
+						background-color: #fff;
+
+						&:after {
+							@include sprite($fb-inactive);
+						}
 
 						&.active {
-							background: url(/img/user/profile/social/fb-active.png) #3c599b no-repeat center center;
+							&:before {
+								background-color: #3c599b;
+							}
+
+							&:after {
+								@include sprite($fb-active);
+								background-color: #3c599b;
+							}
+						}
+
+						&:hover {
+							background-color: #3c599b;
+
+
+							&:after{
+								@include sprite($fb-active);
+								background-color: #3c599b;
+							}
 						}
 					}
 
 					&.vk {
-						background: url(/img/user/profile/social/vk-inactive.png) #fff no-repeat center center;
+						background-color: #fff;	
+
+						&:after {
+							@include sprite($vk-inactive);
+						}
 
 						&.active {
-							background: url(/img/user/profile/social/vk-active.png) #45668e no-repeat center center;
+							&:before {
+								background-color: #45668e;
+							}
+
+							&:after {
+								@include sprite($vk-active);
+								background-color: #45668e;
+							}
+						}
+
+						&:hover {
+							background-color: #45668e;
+
+							&:after {
+								@include sprite($vk-active);
+								background-color: #45668e;
+							}
 						}
 					}
 
 					&.ok {
-						background: url(/img/user/profile/social/ok-inactive.png) #fff no-repeat center center;
+						background-color: #fff;
+
+						&:after {
+							@include sprite($ok-inactive);
+						}
 
 						&.active {
-							background: url(/img/user/profile/social/ok-active.png) #ed812b no-repeat center center;
+							&:before {
+								background-color: #ed812b;
+							}
+
+							&:after {
+								@include sprite($ok-active);
+								background-color: #ed812b;
+							}
+						}
+
+						&:hover {
+							background-color: #ed812b;
+
+							&:after {
+								@include sprite($ok-active);
+								background-color: #ed812b;
+
+							}
 						}
 					}
+
+					
 				}
 			}
 
@@ -871,6 +959,9 @@ span.deleteicon {
 			margin: 0 auto;
 			padding: 15px 0px;
 			background: #e4ddd3;
+			border: 1px solid #e4ddd3;
+
+			color: #a6a095;
 			border-radius: 50px;
 			font-size: 18px;
 			text-transform: uppercase;
@@ -878,6 +969,20 @@ span.deleteicon {
 			margin-top: 20px;
 			margin-bottom: 40px;
 			cursor: pointer;
+			display: block;
+
+			&:hover {
+				background: #f2eee6;
+				border: 1px solid #e3ddd2;
+				box-shadow: black 0px 4px 11px -5px;
+			}
+
+			&:active {
+				background: #f2eee6;
+				border: 1px solid #e3ddd2 !important;
+
+				box-shadow: none !important;
+			}
 		}
 	}
 }
@@ -945,6 +1050,14 @@ span.deleteicon {
 					&.upload {
 						&:before {
 							background-image: url(/img/user/profile/download_button.png);
+							background-repeat: no-repeat;
+							background-position: center center;
+						}
+					}
+
+					&.remove {
+						&:before {
+							background-image: url(/img/user/profile/remove_button.png);
 							background-repeat: no-repeat;
 							background-position: center center;
 						}

@@ -3,6 +3,7 @@
 	"version": "1.2.1",
 	"devDependencies": {
 		"gulp": "~3.8.8",
-		"gulp-sass": "~1.2.0"
+		"gulp-sass": "~1.2.0",
+		"gulp.spritesmith": "1.4.0"
 	}
 }

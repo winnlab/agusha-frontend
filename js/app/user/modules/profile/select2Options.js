@@ -3,7 +3,7 @@ export default {
 	width: '280px',
 	minimumInputLength: 3,
 	matcher: function() {
-		console.log('123');
+
 	},
 	val: function() {
 		console.log(arguments);
@@ -22,11 +22,10 @@ export default {
 		quietMillis: 300,
 		data: function (term, page) {
 			return {
-				term: term
+				term: term.trim()
 			};
 		},
 		results: function (data, page) {
-			console.log(data);
 			return {results: data};
 		}
 	},
