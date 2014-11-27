@@ -73,13 +73,13 @@
 		.content {
 			@include absolute_horizontal_centered;
 			top: 0;
-			z-index: 0;
 		}
 		
 		.item {
 			.content {
 				padding: 68px 0 0;
 				text-align: left;
+				z-index: 20;
 			}
 		}
 		
