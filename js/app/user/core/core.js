@@ -174,6 +174,11 @@ var Core = can.Control.extend(
 					$(document).find('.login_box').css('display', 'block');
 				}
 			});
+
+			appState.bind('unreadConversationsAmount', function (varName, newValue, oldValue) {
+				$('.unreadConversationsAmount').html(newValue);
+				$('#right_menu_small .message .adorable_cell').html(newValue);
+			});
 		}
 	}
 );

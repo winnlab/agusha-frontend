@@ -13,7 +13,8 @@ var AppState = can.Map.extend({
         image: 'agushaAvatar.png',
         first_name: 'Агуша',
         last_name: ''
-    }
+    },
+    unreadConversationsAmount: 0
 });
 
 export default new AppState();
