@@ -66,39 +66,32 @@ export default List.extend({
             });
         });
 
-        can.mustache.registerHelper('sortArticles', function (collection, filterTheme, options) {
-            if (typeof collection === 'function') {
-                collection = collection();
+        can.mustache.registerHelper('sortArticles', function (list, filterTheme, options) {
+            if (typeof list === 'function') {
+                list = list();
             }
 
             if (typeof filterTheme === 'function') {
                 filterTheme = filterTheme();
             }
 
-            if (collection && collection.attr('length')) {
+            if (list && list.attr('length')) {
+                var collection = list.slice(0);
 
                 if (filterTheme) {
                     var id = filterTheme.toString();
 
-                    collection.sort(function (a, b) {
-                        var aVal, bVal, aPos, bPos;
-
-                        aVal = _.find(a.attr('theme'), function (item) {
-                            return item.attr('_id').toString() == id;
+                    _.sortBy(collection, function (a) {
+                        var val, pos;
+                        val = _.find(a.attr('theme'), function (item) {
+                            pos = item.attr('_id').toString() == id;
                         });
 
-                        bVal = _.find(b.attr('theme'), function (item) {
-                            return item.attr('_id').toString() == id;
-                        });
-
-                        aPos = aVal && aVal.attr('position') || -1;
-                        bPos = bVal && bVal.attr('position') || -1;
-
-                        return aPos < bPos;
+                        return pos ? pos.attr('position') * -1 : 0;
                     });
                 } else {
-                    collection.sort(function (a, b) {
-                        return a.attr('position') < b.attr('position');
+                    _.sortBy(collection, function (a) {
+                        return -1 * a.attr('position');
                     });
                 }
 
