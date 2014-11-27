@@ -104,16 +104,22 @@ export default List.extend({
             }
         });
 
-        $(window).scroll(function () {
-            if (!self.element.hasClass('hidden')) {
-                var atBottom = $(window).scrollTop() >= ($(document).height() - $(window).height());
+        // $(window).scroll(function () {
+        //     if (!self.element.hasClass('hidden')) {
+        //         var atBottom = $(window).scrollTop() >= ($(document).height() - $(window).height());
 
-                if (atBottom) {
-                    self.pagesScrolled++;
-                    self.options.Model.findAll(false, self.processFindAll.bind(self));
-                }
-            }
-        });
+        //         if (atBottom) {
+        //             self.options.Model.findAll(false, self.processFindAll.bind(self));
+        //         }
+        //     }
+        // });
+    },
+
+    '.getMore click': function (el) {
+        if (! el.hasClass('disabled')) {
+            el.button('loading');
+            this.options.Model.findAll(false, this.processFindAll.bind(this));
+        }
     },
 
     populateModel: function () {
@@ -121,6 +127,7 @@ export default List.extend({
     },
 
     processFindAll: function (docs) {
+        this.element.find('.getMore').button('reset');
         var module = this.module.attr(this.options.moduleName);
         docs.each(function (doc) {
             module.push(doc);

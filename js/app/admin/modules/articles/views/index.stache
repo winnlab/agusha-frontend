@@ -55,6 +55,11 @@
                         </div>
     				</div>
     			{{/sortArticles}}
+                <div>
+                    <button class="btn-lg btn-success getMore" type="button" data-loading-text="Загрузка...">
+                        Еще...
+                    </button>
+                </div>
             {{else}}
                 <div class="alert alert-info">
                     <i class="fa fa-info"></i>
