@@ -1,0 +1,16 @@
+<div class="pf-wrap">
+    <div class="pf-container">
+        <div class="pf-items">
+            {{#each friends}}
+                <div class="pf-friend" can-click="toggleSelected" {{data 'friend'}}>
+                    <div class="pf-img" style="/img/uploads/{{photo}}"></div>
+                </div>
+            {{/each}}
+        </div>
+        <div class="pf-buttons">
+            <button type="button" can-click="sendVKMessage">
+                Отправить
+            </button>
+        </div>
+    </div>
+</div>
