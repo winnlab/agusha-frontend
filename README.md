@@ -10,10 +10,14 @@ PATH=$PATH:/var/lib/gems/1.8/bin
 
 
 Watcher:
-  sass --watch public/scss:public/css -t compressed -r sass-css-importer --sourcemap=none
+```
+sass --watch public/scss:public/css -t compressed -r sass-css-importer --sourcemap=none
+```
 
 Single time scss compilation:
-  sass --update public/scss:public/css -t compressed -r sass-css-importer --sourcemap=none
+```
+sass --update public/scss:public/css -t compressed -r sass-css-importer --sourcemap=none
+```
 
 
 
