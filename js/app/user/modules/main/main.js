@@ -3,6 +3,7 @@ import select2 from 'select2';
 import appState from 'core/appState';
 import LoginForm from 'js/app/user/modules/login/login'
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
+import 'carousel'
 
 var ViewModel = can.Map.extend({
 	define: {
@@ -30,8 +31,18 @@ export default Controller.extend(
 			this.items_container = this.element.find('.items_container');
 			this.feed_container = this.element.find('.feed_container');
 			this.icons = this.element.find('.icon');
+			
+			this.carousel = this.element.find('#main_carousel');
 		},
-
+		
+		plugins: function() {
+			this.init_carousel();
+		},
+		
+		init_carousel: function() {
+			this.carousel.carousel();
+		},
+		
 		initPlugins: function() {
 			this.select2();
 		},
@@ -317,6 +328,10 @@ export default Controller.extend(
 					el.parent().hide();
 				}
 			});
+		},
+		
+		'a.carousel-control click': function(el, ev) {
+			ev.preventDefault();
 		}
     }
 );
