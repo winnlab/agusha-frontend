@@ -184,20 +184,27 @@ User = can.Control.extend({
 	bindFilling: function() {
 		var user = this.options.user;
 
-		user.bind('change', this.reCheckFilling);
+		user.delegate(
+			'**',
+			'set', 
+			can.proxy(this.reCheckFilling, user)
+		);
+
+		user.delegate(
+			'**',
+			'add', 
+			can.proxy(this.reCheckFilling, user)
+		);
 	},
-	reCheckFilling: function(ev, attr, how, newVal, oldVal) {
+	reCheckFilling: function(ev, newVal, oldVal, prop) {
 		var def = 0,
 		that = this;
-
-		if(how != 'set') {
-			return false;
-		}
 
 		_.forEach(weights, function(item, key, list) {
 			var isField;
 
 			isField = _.every(item.fields, function (field) {
+				console.log(field, that.attr(field));
 				return that.attr(field);
 			});
 

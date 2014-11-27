@@ -1,23 +1,13 @@
 import Controller from 'controller';
 import _ from 'lodash';
+import appState from 'core/appState';
+
 import tooltip from 'tooltipster';
+import validator from 'jquery-validation';
 
 System.import('./js/plugins/tooltipster/css/tooltipster.css!');
 System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
 System.import('./js/plugins/tooltipster/css/themes/tooltipster-error.css!');
-
-
-var isError = function(map) {
-	var errors = map.attr('errors');
-
-	return _.every(errors.attr(), function(item, key, list) {
-		if(item == null) {
-			return false;
-		}
-
-		return true;
-	});
-}
 
 var ViewModel = can.Map.extend({
 	define: {
@@ -30,77 +20,15 @@ var ViewModel = can.Map.extend({
 		},
 		email: {
 			value: null,
-			set: function(value) {
-				var regexp;
-				regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-
-				if(!value) {
-					return;
-				}
-
-				if(value.match(regexp)) {
-					this.attr('errors.email', null);
-
-					return value;
-				}
-
-
-				this.attr('errors.email', "Введите корректный E-mail");
-				return value;
-			}
 		},
 		firstName: {
 			value: null,
-			set: function(value) {
-				var length = 3;
-
-				if(!value) {
-					return;
-				}
-
-				if(value.length >= 3) {
-					this.attr('errors.firstname', null);
-
-					return value;
-				}
-
-				this.attr('errors.firstName', "Имя должно быть человеческое");
-				return value;
-			}
 		},
 		password: {
-			value: null,
-			set: function(value) {
-				var length = 6;
-
-				if(!value) {
-					return;
-				}
-
-				if(value.length >= length) {
-					this.attr('errors.password', null);
-
-					return value;
-				}
-
-				this.attr('errors.password', "Пароль должен быть не менее 6 символов");
-				return value;
-			}
+			value: null
 		}
 	}
 });
-
-var showError = function () {
-	var message = this.element.find('.message');
-
-	message.css('display', 'block');
-}
-
-var hideError = function () {
-	var message = this.element.find('.message');
-
-	message.css('display', 'none');
-}
 
 var showSuccessmessgae = function () {
 	var registration_inline = this.element.find('.registration_inline'),
@@ -133,7 +61,8 @@ export default Controller.extend(
 		}
 	}, {
 		after_init: function(data) {
-			var registration = $('#registration'), html;
+			var registration = $('#registration'), html,
+				that = this, isOpenedError = false;
 
 			if(!registration.length) {
 				html = jadeTemplate.get('user/registration/content');
@@ -148,8 +77,76 @@ export default Controller.extend(
 			$('#registration').html(can.view('reg', this.data));
 
 			this.tooltip = this.element.find('.reg_box');
+			this.tooltip.tooltipster({
+				position: 'right',
+                theme: 'tooltipster-error',
+                trigger: 'custom'
+			});
 
-			// this.bindError();
+			jQuery.validator.setDefaults({
+				errorPlacement: function() {},
+				showErrors: function(errors, errorsArr) {
+					var tooltiperror;
+
+					if(errorsArr.length) {
+						that.tooltip
+							.tooltipster('content', errorsArr[0].message);
+
+						if(!isOpenedError) {
+							that.tooltip
+								.tooltipster('show', function() {
+									isOpenedError = true;
+								});
+						}
+					} else {
+						if(isOpenedError) {
+							that.tooltip
+								.tooltipster('hide', function() {
+									isOpenedError = false;
+								});
+						}
+					}
+
+					this.defaultShowErrors();
+				},
+				highlight: function(element, errorClass, validClass) {
+					$(element).addClass(errorClass).removeClass(validClass);
+			    },
+			    unhighlight: function(element, errorClass, validClass) {
+			        $(element).removeClass(errorClass).addClass(validClass);
+			    }
+			});
+			
+			this.element.find('.registration_form').validate({
+				rules: {
+					firstName: {
+						minlength: 3,
+						required: true
+					},
+					email: {
+						email: true,
+						required: true
+					},
+					password: {
+						minlength: 6,
+						required: true
+					}
+				},
+				messages: {
+					firstName: {
+						minlength: "Имя должно быть человеческим",
+						required: "Имя должно быть"
+					},
+					email: {
+						email: "Почта введена неверно",
+						required: "Почта должна быть"
+					},
+					password: {
+						minlength: "Пароль должен быть не менее 6 символо",
+						required: "Пароль должен быть"
+					}
+				}
+			});
 		},
 
 		'.social .facebook click': function(el, ev) {
@@ -166,19 +163,20 @@ export default Controller.extend(
 		},
 		
 		'.registration_form .done click': function(el, ev) {
-			var user, that = this, isErr;
-
+			var user, that = this, isErr, form = el.parents('form');
 			ev.preventDefault();
-			hideError.call(that);
+
+			if (!form.valid()) {
+				this.tooltip
+					.tooltipster('content', "Форма заполнена не верно");
+
+				this.tooltip.tooltipster('show');
+				return;
+			} else {
+				this.tooltip.tooltipster('hide');
+			}
 
 			user = this.data;
-
-			// isErr = isError(user);
-
-			// if(isErr) {
-			// 	showError.call(that);
-			// 	return;
-			// }
 
 			can.ajax({
 				url: '/registration?ajax=true',
@@ -187,38 +185,17 @@ export default Controller.extend(
 				success: function(data) {
 					user.attr({
 						email: null,
-						firstname: null,
-						lastname: null,
+						firstName: null,
 						password: null
 					});
 
 					showSuccessmessgae.call(that);
 				},
-				error: function () {
-					// showError.call(that);
+				error: function (resp) {
+					that.tooltip.tooltipster('content', resp.responseJSON.err);
+					that.tooltip.tooltipster('show');
 				}
 			});
-		},
-		bindError: function() {
-			var errors = this.data.attr('errors'), el,
-				that = this;
-
-			// errors.delegate('*', 'set', function(options, val, oldVal, prop) {
-			// 	if(val == null) {
-			// 		$(that.tooltip).tooltipster('destroy');
-			// 		return;
-			// 	}
-				
-			// 	that.tooltip.tooltipster({
-			// 		position: 'right',
-	  //               theme: 'tooltipster-error',
-	  //               trigger: 'hover'
-			// 	});
-
-			// 	that.tooltip.tooltipster('content', val);
-			// 	that.tooltip.tooltipster('show');
-
-			// });
 		}
     }
 );

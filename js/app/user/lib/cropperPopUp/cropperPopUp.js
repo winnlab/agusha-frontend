@@ -144,7 +144,7 @@ can.mustache.registerHelper('uploader', function (type, options) {
 
     owner = options.context.child || options.context.user;
 
-    input = $('<input type="file" />').addClass('uploader uploader'+type);
+    input = $('<input type="file" accept="image/x-png, image/gif, image/jpeg" />').addClass('uploader uploader'+type);
 
     clojureBind = function(ow, tp, inp) {
         inp.change(function(ev) {

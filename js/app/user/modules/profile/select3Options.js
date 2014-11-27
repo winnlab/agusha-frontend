@@ -4,7 +4,7 @@ export default {
 	minimumInputLength: 3,
 	data: [{id: 'Россия', text: "Россия"},{id: 'США', text: "США"},{id: 'Украина', text: "Украина"}],
 	createSearchChoice:function(term, data) {
-		console.log(data);
+		term = term.trim();
 
 		if ( $(data).filter( function() {
 			return this.text.localeCompare(term)===0;

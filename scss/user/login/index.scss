@@ -21,6 +21,10 @@
 		input {
 			margin-top: 25px;
 			height: 39px;
+
+			&.error {
+				border-color: #e57373;
+			}
 		}
 		
 		.close {
