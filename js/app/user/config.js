@@ -27,6 +27,7 @@ System.config({
 		'helpers': 'js/app/user/helpers.js',
 
 		'bx-slider': 'js/plugins/bx-slider/jquery.bxslider.min.js',
+		'carousel': 'js/plugins/bootstrap/js/carousel.js',
 		'validate': 'js/plugins/validate/jquery.validate.js',
 
 		'controller': 'js/app/user/lib/controller/controller.js',
@@ -34,6 +35,7 @@ System.config({
 		'baseModel': 'js/app/admin/lib/model/baseModel.js',
 		'like': 'js/app/user/lib/like/like.js',
 		'commentaries': 'js/app/user/lib/commentaries/commentaries.js',
+		'watch': 'js/app/user/lib/watcher/watcher.js',
 		'ratings': 'js/app/user/lib/commentaries/ratings.js',
 
 		'lodash': 'js/plugins/lodash/dist/lodash.js',

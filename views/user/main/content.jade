@@ -1,6 +1,60 @@
+.carousel_container
+	#main_carousel.carousel.slide(data-ride="carousel")
+		.carousel-inner(role="listbox")
+			.item.active
+				.banner_image.banner_image_1
+				.content
+					.top_label
+						div Большая
+						div энциклопедия
+						div для мам
+					
+					button.carousel_button Узнать больше
+			
+			.item
+				.banner_image.banner_image_2
+				.content
+					.top_label.green
+						div На вопросы
+						div отвечает
+						div специалист
+					
+					button.carousel_button.green Задать вопрос
+			
+			.item
+				.banner_image.banner_image_3
+				.content
+					.top_label
+						div Самое
+						div натуральное
+						div для вашего
+						div малыша!
+					
+					button.carousel_button.blue Подробнее
+			
+			.item
+				.banner_image.banner_image_4
+				.content
+					.top_label.purple
+						div Акция!
+						div Мой малыш
+						div меня удивляет
+					
+					button.carousel_button.purple Принять участие
+		
+		ol.carousel-indicators
+			li.active(data-target="#main_carousel" data-slide-to="0")
+			li(data-target="#main_carousel" data-slide-to="1")
+			li(data-target="#main_carousel" data-slide-to="2")
+			li(data-target="#main_carousel" data-slide-to="3")
+		
+		.content
+			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
+			a.right.carousel-control(href="#main_carousel" role="button" data-slide="next")
+
 .mainModuleWrap
-	img.apsBg(src="/img/user/main/topper_background.jpg")
-	.content.bannerWrap(style = (user ? 'display: none' : ''))
+	// img.apsBg(src="/img/user/main/topper_background.jpg")
+	// .content.bannerWrap(style = (user ? 'display: none' : ''))
 		.whats_up
 		
 		.topper

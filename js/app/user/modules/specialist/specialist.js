@@ -86,8 +86,17 @@ export default Controller.extend(
 					return (index - 6) % 5 == 0 ? 'double' : '';
 				},
 				filterIt: function (entity, filter) {
-					if (filter() == 'recommended') {
-						return  !entity.attr('recommended') ? 'display: none' : '';
+					filter = filter();
+					if (filter == 'recommended') {
+						return !entity.attr('recommended') ? 'display: none' : '';
+					}
+					if (filter == 'watchers') {
+						return !entity.attr('watchers').length ? 'display: none' : '';
+					}
+					if (filter == 'spec') {
+						return !!_.find(entity.attr('answer'), function (answer) {
+							return !!answer.attr('specialist');
+						}) ? '' : 'display: none';
 					}
 					return '';
 				}
@@ -104,11 +113,12 @@ export default Controller.extend(
 			});
 		},
 
-		'.icon.lamp click': function (el) {
+		'.icon click': function (el) {
 			this.icons.removeClass('active');
 			el.addClass('active');
-			var recommended = this.data.attr('filter');
-			this.data.attr('filter', recommended == 'recommended' ? '' : 'recommended');
+			var oldFilter = this.data.attr('filter'),
+				newFilter = el.data('filter');
+			this.data.attr('filter', oldFilter == newFilter ? '' : newFilter);
 		},
 
 		'.specialist_sort_select change': function (el)  {

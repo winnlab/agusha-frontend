@@ -6,15 +6,28 @@
 @import '../helpers/cards';
 @import 'CSS:../../../js/plugins/select2/select2';
 @import '../helpers/select2';
+@import '../helpers/carousel';
 @import '../../bourbon/bourbon';
 
 @media all and (min-width: $min-width) and (max-width: $extend) {
+	.module.main {
+		.content {
+			width: 920px;
+		}
+	}
+	
 	.module .mainModuleWrap {
 		width: 920px;
 	}
 }
 
 @media all and (min-width: $extend_plus_one) {
+	.module.main {
+		.content {
+			width: 1220px;
+		}
+	}
+	
 	.module .mainModuleWrap {
 		width: 1220px;
 	}
@@ -32,6 +45,115 @@
 
 .module.main {
 	width: 100%;
+	position: relative;
+	
+	.content {
+		display: block;
+
+		&.itemsWrap {
+			@include respond-to(small) {
+				width: 620px;
+			}
+
+			@include respond-to(medium) {
+				width: 920px;
+			}
+
+			@include respond-to(large) {
+				width: 1220px;
+			}
+		}
+	}
+	
+	.carousel_container {
+		width: 100%;
+		height: 768px;
+		position: relative;
+		
+		.content {
+			@include absolute_horizontal_centered;
+			top: 0;
+		}
+		
+		.item {
+			.content {
+				padding: 68px 0 0;
+				text-align: left;
+				z-index: 20;
+			}
+		}
+		
+		.top_label {
+			font-size: 60px;
+			line-height: 60px;
+			font-family: 'PT_Sans_Narrow_Bold';
+			color: $blue;
+			
+			&.green {
+				color: $green;
+			}
+			
+			&.purple {
+				color: #9574cd;
+			}
+			
+			&.lightblue {
+				color: #13abea;
+			}
+		}
+		
+		.carousel_button {
+			background-color: $white;
+			color: #2998cd;
+			font-size: 18px;
+			padding: 15px 0;
+			margin-top: 47px;
+			width: 203px;
+			
+			&.green {
+				background-color: $green;
+				color: $white;
+			}
+			
+			&.purple {
+				background-color: #9574cd;
+				color: $white;
+			}
+			
+			&.lightblue {
+				background-color: #13abea;
+				color: $white;
+			}
+			
+			&.blue {
+				background-color: $blue;
+				color: $white;
+			}
+		}
+	}
+	
+	.banner_image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		
+		&.banner_image_1 {
+			background: url('/img/user/main/banner_1.jpg') no-repeat center;
+		}
+		
+		&.banner_image_2 {
+			background: url('/img/user/main/banner_2.jpg') no-repeat center;
+		}
+		
+		&.banner_image_3 {
+			background: url('/img/user/main/banner_3.jpg') no-repeat center;
+		}
+		&.banner_image_4 {
+			background: url('/img/user/main/banner_4.jpg') no-repeat center;
+		}
+	}
 }
 
 .module .mainModuleWrap {
@@ -50,24 +172,6 @@
 	.bannerWrap {
 		min-height: 624px;
 		margin: 0 20px;
-	}
-
-	.content {
-		display: block;
-
-		&.itemsWrap {
-			@include respond-to(small) {
-				width: 620px;
-			}
-
-			@include respond-to(medium) {
-				width: 920px;
-			}
-
-			@include respond-to(large) {
-				width: 1220px;
-			}
-		}
 	}
 
 	.whats_up {
