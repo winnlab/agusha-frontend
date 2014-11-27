@@ -18,6 +18,21 @@ can.mustache.registerHelper('filterBy', function (entity, filter) {
     }
 });
 
+can.mustache.registerHelper('getUserImg', function (article) {
+    var result = 'user/helpers/stub/medium.png';
+
+    if (article.author && article.author.author_id && article.author.author_id.image) {
+        result = 'uploads/' + a.author.author_id.image.medium
+    }
+
+    return result;
+});
+
+can.mustache.registerHelper('isnt', function (a, b, options) {
+    var result = computedVal(a) !== computedVal(b);
+    return result ? options.fn() : options.inverse();
+});
+
 can.mustache.registerHelper('is', function () {
     var options = arguments[arguments.length - 1],
         comparator = computedVal(arguments[0]),
@@ -95,6 +110,24 @@ can.mustache.registerHelper('isLiked', function (article) {
         result = _.find(article.likes, { client: user._id });
     }
     return !!result ? 'isLiked' : '';
+});
+
+can.mustache.registerHelper('isWatched', function (article) {
+    var result = false,
+        user = appState.attr('user').user();
+    if (appState.attr('user').auth.attr('isAuth')) {
+        result = _.findIndex(article.watchers, function (watch) {
+            return user._id == watch;
+        });
+    }
+    return result !== -1 ? 'isWatched' : '';
+});
+
+can.mustache.registerHelper('isSpecAns', function (article, options) {
+    var result = _.find(article.answer, function (answer) {
+            return !!answer.specialist;
+        });
+    return !!result ? options.fn() : options.inverse();
 });
 
 can.mustache.registerHelper('checkAnswer', function (article) {

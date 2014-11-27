@@ -5,6 +5,7 @@ import cropperPopUp from 'lib/cropperPopUp/';
 import User from 'lib/user/';
 
 var AppState = can.Map.extend({
+    moneybox: false,
     viewport: new Viewport('body'),
     popUp: new PopUp('body'),
     imageCropper: cropperPopUp,
@@ -13,7 +14,8 @@ var AppState = can.Map.extend({
         image: 'agushaAvatar.png',
         first_name: 'Агуша',
         last_name: ''
-    }
+    },
+    unreadConversationsAmount: 0
 });
 
 export default new AppState();

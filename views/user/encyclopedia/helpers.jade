@@ -108,7 +108,16 @@ mixin article(a, i)
 					if a 
 						if a.recommended
 							img(src="/img/user/helpers/cards/lamp.png")
+						- var answer = false;
+						each ans, i in a.answer
+							if ans.specialist
+								- answer = true;
+						if answer
+							img(src="/img/user/helpers/cards/check.png")
 					else
+						| {{#isSpecAns .}}
+						img(src="/img/user/helpers/cards/check.png")
+						| {{/isSpecAns}}
 						| {{#if recommended}}
 						img(src="/img/user/helpers/cards/lamp.png")
 						| {{/if}}
