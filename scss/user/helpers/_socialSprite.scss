@@ -1,0 +1,107 @@
+/*
+SCSS variables are information about icon's compiled state, stored under its original file name
+
+.icon-home {
+  width: $icon-home-width;
+}
+
+The large array-like variables contain all information about a single icon
+$icon-home: x y offset_x offset_y width height total_width total_height image_path;
+*/
+$fb-active-x: 0px;
+$fb-active-y: 26px;
+$fb-active-offset-x: 0px;
+$fb-active-offset-y: -26px;
+$fb-active-width: 8px;
+$fb-active-height: 15px;
+$fb-active-total-width: 11px;
+$fb-active-total-height: 86px;
+$fb-active-image: '/img/user/profile/socialSprite.png';
+$fb-active: 0px 26px 0px -26px 8px 15px 11px 86px '/img/user/profile/socialSprite.png';
+$fb-inactive-x: 0px;
+$fb-inactive-y: 41px;
+$fb-inactive-offset-x: 0px;
+$fb-inactive-offset-y: -41px;
+$fb-inactive-width: 8px;
+$fb-inactive-height: 15px;
+$fb-inactive-total-width: 11px;
+$fb-inactive-total-height: 86px;
+$fb-inactive-image: '/img/user/profile/socialSprite.png';
+$fb-inactive: 0px 41px 0px -41px 8px 15px 11px 86px '/img/user/profile/socialSprite.png';
+$ok-active-x: 0px;
+$ok-active-y: 56px;
+$ok-active-offset-x: 0px;
+$ok-active-offset-y: -56px;
+$ok-active-width: 10px;
+$ok-active-height: 15px;
+$ok-active-total-width: 11px;
+$ok-active-total-height: 86px;
+$ok-active-image: '/img/user/profile/socialSprite.png';
+$ok-active: 0px 56px 0px -56px 10px 15px 11px 86px '/img/user/profile/socialSprite.png';
+$ok-inactive-x: 0px;
+$ok-inactive-y: 71px;
+$ok-inactive-offset-x: 0px;
+$ok-inactive-offset-y: -71px;
+$ok-inactive-width: 10px;
+$ok-inactive-height: 15px;
+$ok-inactive-total-width: 11px;
+$ok-inactive-total-height: 86px;
+$ok-inactive-image: '/img/user/profile/socialSprite.png';
+$ok-inactive: 0px 71px 0px -71px 10px 15px 11px 86px '/img/user/profile/socialSprite.png';
+$vk-active-x: 0px;
+$vk-active-y: 0px;
+$vk-active-offset-x: 0px;
+$vk-active-offset-y: 0px;
+$vk-active-width: 11px;
+$vk-active-height: 13px;
+$vk-active-total-width: 11px;
+$vk-active-total-height: 86px;
+$vk-active-image: '/img/user/profile/socialSprite.png';
+$vk-active: 0px 0px 0px 0px 11px 13px 11px 86px '/img/user/profile/socialSprite.png';
+$vk-inactive-x: 0px;
+$vk-inactive-y: 13px;
+$vk-inactive-offset-x: 0px;
+$vk-inactive-offset-y: -13px;
+$vk-inactive-width: 11px;
+$vk-inactive-height: 13px;
+$vk-inactive-total-width: 11px;
+$vk-inactive-total-height: 86px;
+$vk-inactive-image: '/img/user/profile/socialSprite.png';
+$vk-inactive: 0px 13px 0px -13px 11px 13px 11px 86px '/img/user/profile/socialSprite.png';
+
+/*
+The provided mixins are intended to be used with the array-like variables
+
+.icon-home {
+  @include sprite-width($icon-home);
+}
+
+.icon-email {
+  @include sprite($icon-email);
+}
+*/
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
