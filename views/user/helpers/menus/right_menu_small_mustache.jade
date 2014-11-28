@@ -1,5 +1,19 @@
-
-
+mixin points()
+	.points
+		.you_have
+			div У ВАС
+			| {{#if auth.isAuth}}
+			div {{points}} б.
+			| {{else}}
+			div 0 б.
+			| {{/if}}
+		
+		.moneybox
+			img(src="/img/user/core/moneybox.png")
+		
+		.for_gifts
+			div на
+			div подарки
 
 .topper
 	.subTopper
@@ -7,30 +21,17 @@
 			| {{#if auth.isAuth}}
 			img(src="{{image.small}}")
 			| {{/if}}
-
+		
 		| {{#if auth.isAuth}}
-		.message
-			.circle.rounded.adorable_table
-				.adorable_cell 0
-		| {{/if}}
-.points
-	.you_have
-		div У ВАС
-		| {{#if auth.isAuth}}
-		div {{points}} б.
-		| {{else}}
-		div 0 б.
+		a.new_module(href="/messages")
+			.message
+				.circle.rounded.adorable_table
+					.adorable_cell 0
 		| {{/if}}
 
-	
-	.moneybox
-		img(src="/img/user/core/moneybox.png")
-	
-	.for_gifts
-		div на
-		div подарки
-	
-
-
-
-
+| {{#if auth.isAuth}}
+a.new_module(href="/moneybox")
+	mixin points()
+| {{else}}
+mixin points()
+| {{/if}}

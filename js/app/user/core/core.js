@@ -42,11 +42,16 @@ var Core = can.Control.extend(
 		'#right_menu_small .subTopper .top click': function() {
 			var user = appState.attr('user'),
 				isAuth = user.auth.attr('isAuth');
-
-			if (isAuth) {
+			
+			if(isAuth) {
+				this.left_resizable.addClass('small');
+				this.right_menu.toggleClass('active');
+				this.animate_left_inner_menu();
+				this.requestAnimFrame();
+				
 				return;
 			}
-
+			
 			can.route.attr({module: 'registration'})
 		},
 
@@ -97,20 +102,6 @@ var Core = can.Control.extend(
 		'#left_menu .about click': function(el) {
 			this.animate_left_inner_menu(true);
 
-			this.requestAnimFrame();
-		},
-
-		'#right_menu_small click': function(el) {
-			var user = appState.attr('user'),
-				isAuth = user.auth.attr('isAuth');
-
-			if (!isAuth) {
-				return;
-			}
-
-			this.left_resizable.addClass('small');
-			this.right_menu.toggleClass('active');
-			this.animate_left_inner_menu();
 			this.requestAnimFrame();
 		},
 
