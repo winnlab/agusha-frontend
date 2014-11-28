@@ -8,6 +8,8 @@ import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.
 import select2 from 'select2';
 import s2Options from 'js/app/user/modules/profile/select2Options';
 import s3Options from 'js/app/user/modules/profile/select3Options';
+import friendsView from 'js/app/user/modules/profile/views/friends.mustache!';
+import 'vk-openapi'
 
 System.import('./js/plugins/select2/select2.css!');
 
@@ -263,6 +265,10 @@ export default Controller.extend(
             $('#city').select2('val', this.user.attr('contacts.city'));
             
             $('.phoneInput').inputmask("+3 8(999) 999 - 99 - 99");
+
+            VK.init({
+              apiId: 4581691
+            });
         },
         createChildPopUp: function(child) {
             var elem = $('<span class="childPopupWrap"></span>');
@@ -401,6 +407,94 @@ export default Controller.extend(
             this.user.delegate('image', 'set', function() {
                 that.saveModel();
             });
+        },
+        /* VK friends invitation */
+        '.block.vk click': function () {
+            VK.Auth.login(_.bind(this.handleVkAuth, this), 2);
+        },
+        handleVkAuth: function () {
+            if (response.session) {
+                return this.getVkFriends();
+            }
+        },
+        getVkFriends: function () {
+            // should check `secret` before this func?
+
+            VK.Api.call('friends.get', {
+                fields: 'uid,first_name,last_name,photo',
+                order: 'hints'
+            }, _.bind(this.showVkFriends, this));
+        },
+        showVkFriends: function (response) {
+            var friends = response.response;
+
+            if (friends instanceof Array && friends.length) {
+                this.createFriendsPopup(friends);
+            }
+        },
+        createFriendsPopup: function (friends) {
+            var self = this;
+
+            var renderer = can.view(view, {
+                friends
+            });
+
+            this.$friends = renderer();
+
+            $(body).append(this.$friends);
+        },
+        toggleSelected: function (el) {
+            (el.hasClass('selected') ? el.addClass : el.removeClass)('selected');
+        },
+        sendVKMessage: function () {
+            this.friends = _.map(this.$friends.find('.pf-friend.selected'), function (item) {
+                return $(item).data('friend');
+            });
+
+            if (friends.length) {
+                VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWall, this));
+            }
+        },
+        uploadImageToWall: function (res) {
+            can.ajax({
+                url: '/vk/upload',
+                type: 'POST',
+                data: {
+                    uploadUrl: res.response.upload_url
+                },
+                success: _.bind(this.savePhotoToWall, this),
+                    function (photoRes) {
+                        cb(photoRes.response[0].id);
+                    });
+                },
+                error: function (shr, status, data) {
+                    console.log('error', data);
+                }
+            });
+        },
+        savePhotoToWall: function (data) {
+            data = JSON.parse(data);
+            VK.Api('photos.saveWallPhoto', {
+                server: data.server,
+                photo: data.photo,
+                hash: data.hash
+            }, _.bind(this.sendFriendsMessage, this));
+        },
+        sendFriendsMessage: function (imageId) {
+            var self = this;
+
+            _(this.friends).each(function (friend) {
+                _.defer(_.bind(self.postToFriendWall, self, friend));
+            });
+        },
+        postToFriendWall: function(friend) {
+            VK.Api.call('wall.post', {
+                owner_id: friend.uid,
+                message: 'some random message',
+                attachments: imageId
+            }, function (response) {
+                // should be posted
+            })
         }
     }
 );
