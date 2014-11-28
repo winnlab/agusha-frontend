@@ -3,14 +3,14 @@
         <div class="pf-title">
             ВАШИ ДРУЗЬЯ В {{socialNetwork}}
         </div>
-        <div class="pf-close" can-click="close">&times;</div>
+        <div class="pf-close" {{close}}>&times;</div>
         <div class="pf-items">
             {{#each friends}}
                 <div class="pf-friend">
                     <img src="{{photo}}" class="pf-img" />
                     <div class="pf-name">{{first_name}}&nbsp;{{last_name}}</div>
                     <div>
-                        <button class="pf-send" can-click="sendMessage" data-id="{{uid}}">
+                        <button class="pf-send" {{sendMessage}} data-id="{{uid}}">
                             ПРИГЛАСИТЬ
                         </button>
                     </div>

@@ -16,6 +16,10 @@ import 'js/plugins/select2/select2.css!'
 
 import Profile from 'js/app/user/modules/profile/profileModel';
 
+var invMessages = {
+    vk: 'Привет, хало, слалют.'
+};
+
 var levels = [
     {
         name: 'novice',
@@ -408,14 +412,14 @@ export default Controller.extend(
         },
         /* VK friends invitation */
         '.block.vk click': function () {
-            VK.Auth.login(_.bind(this.handleVkAuth, this), 8198);
+            VK.Auth.login(_.bind(this.handleAuthVK, this), 8198);
         },
-        handleVkAuth: function (response) {
+        handleAuthVK: function (response) {
             if (response.session) {
-                return this.checkAuth(response.session);
+                return this.checkAuthVK(response.session);
             }
         },
-        checkAuth: function (session) {
+        checkAuthVK: function (session) {
             can.ajax({
                 url: '/profile/checkAuth',
                 method: 'GET',
@@ -426,76 +430,88 @@ export default Controller.extend(
                     sig: session.sig,
                     secret: session.secret
                 }
-            }).done(_.bind(this.getVkFriends, this));
+            }).done(_.bind(this.getFriendsVK, this));
         },
-        getVkFriends: function (response) {
+        getFriendsVK: function (response) {
             if (response) {
                 VK.Api.call('friends.get', {
                     fields: 'uid,first_name,last_name,photo',
                     order: 'hints'
-                }, _.bind(this.showVkFriends, this));
+                }, _.bind(this.showFriendsVK, this));
             }
         },
-        showVkFriends: function (response) {
+        showFriendsVK: function (response) {
             var friends = response.response;
 
             if (friends instanceof Array && friends.length) {
-                this.createFriendsPopup(friends);
+                this.createFriendsPopup(friends, 'VKONTAKTE');
             }
         },
-        createFriendsPopup: function (friends) {
-           var renderer = can.view(friendsView, {
-                friends,
-                socialNetwork: 'VKONTAKTE'
-            }, {
-                sendMessage: function (el) {
-                    console.log('sending message to ' + el.data('id'));
-                },
-                close: function (el) {
-                    el.closest('pf-wrap').remove();
-                }
-            });
+        createFriendsPopup: function (friends, network) {
+            var self = this,
+                renderer = can.view(friendsView, {
+                    friends,
+                    socialNetwork: network
+                }, {
+                    sendMessage: function () {
+                        return function (el) {
+                            $(el).on('click', function () {
+                                var btn = $(this);
 
-            this.$friends = renderer;
+                                self.sendMessageVK(btn.data('id'), btn);
+                            });
+                        }
+                    },
+                    close: function () {
+                        return function (el) {
+                            $(el).on('click', function () {
+                                $(this).closest('.pf-wrap').remove();
+                            });
+                        };
+                    }
+                });
 
-            $('body').append(this.$friends);
+            $('body').append(renderer);
         },
-        sendVKMessage: function (uid) {
-            VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWall, this, uid));
+        sendMessageVK: function (uid, btn) {
+            VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWallVK, this, uid, btn));
         },
-        uploadImageToWall: function (uid, response) {
+        uploadImageToWallVK: function (uid, btn, response) {
             can.ajax({
-                url: '/vk/upload',
+                url: '/profile/uploadVK',
                 type: 'POST',
                 data: {
                     uploadUrl: response.response.upload_url
                 },
-                photo: document.URL
-                success: _.bind(this.savePhotoToWall, this, uid),
-                error: function (shr, status, data) {
-                    console.log('error', data);
-                }
+                success: _.bind(this.savePhotoToWallVK, this, uid, btn)
             });
         },
-        savePhotoToWall: function (uid, data) {
+        savePhotoToWallVK: function (uid, btn, data) {
             data = JSON.parse(data);
-            VK.Api('photos.saveWallPhoto', {
+
+            VK.Api.call('photos.saveWallPhoto', {
                 server: data.server,
                 photo: data.photo,
                 hash: data.hash
-            }, _.bind(this.sendFriendsMessage, this, uid));
+            }, _.bind(this.sendFriendsMessageVK, this, uid, btn));
         },
-        sendFriendsMessage: function (uid, imageId) {
+        sendFriendsMessageVK: function (uid, btn, response) {
+            var images = response.response;
+
             VK.Api.call('wall.post', {
                 owner_id: uid,
-                message: 'some random message',
-                attachments: imageId
+                message: invMessages.vk,
+                attachments: images && images[0] && images[0].id || ''
             }, function (response) {
                 if (response) {
-                    return console.log('+');
+                    return btn
+                        .addClass('sended')
+                        .prop('disabled', true)
+                        .html('ОТПРАВЛЕНО')
+                        .off('click');
                 }
 
-                console.log(console.log('-'));
+                alert('Произошла ошибка при отправке сообщения, пожалуйста, попробуйте позже.')
             })
         }
     }
