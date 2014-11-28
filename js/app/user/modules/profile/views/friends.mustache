@@ -1,16 +1,21 @@
 <div class="pf-wrap">
     <div class="pf-container">
+        <div class="pf-title">
+            ВАШИ ДРУЗЬЯ В {{socialNetwork}}
+        </div>
+        <div class="pf-close" {{close}}>&times;</div>
         <div class="pf-items">
             {{#each friends}}
-                <div class="pf-friend" can-click="toggleSelected" {{data 'friend'}}>
-                    <div class="pf-img" style="/img/uploads/{{photo}}"></div>
+                <div class="pf-friend">
+                    <img src="{{photo}}" class="pf-img" />
+                    <div class="pf-name">{{first_name}}&nbsp;{{last_name}}</div>
+                    <div>
+                        <button class="pf-send" {{sendMessage}} data-id="{{uid}}">
+                            ПРИГЛАСИТЬ
+                        </button>
+                    </div>
                 </div>
             {{/each}}
-        </div>
-        <div class="pf-buttons">
-            <button type="button" can-click="sendVKMessage">
-                Отправить
-            </button>
         </div>
     </div>
 </div>

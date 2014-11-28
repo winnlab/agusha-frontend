@@ -4,6 +4,7 @@ import tooltip from 'tooltipster';
 import _ from 'lodash';
 import childPopUp from 'lib/childPopUp/';
 import view from 'js/app/user/modules/profile/views/index.mustache!';
+import friendsМiew from 'js/app/user/modules/profile/views/friends.mustache!';
 import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.min';
 import select2 from 'select2';
 import s2Options from 'js/app/user/modules/profile/select2Options';
@@ -11,9 +12,13 @@ import s3Options from 'js/app/user/modules/profile/select3Options';
 import friendsView from 'js/app/user/modules/profile/views/friends.mustache!';
 import 'vk-openapi'
 
-System.import('./js/plugins/select2/select2.css!');
+import 'js/plugins/select2/select2.css!'
 
 import Profile from 'js/app/user/modules/profile/profileModel';
+
+var invMessages = {
+    vk: 'Привет, хало, слалют.'
+};
 
 var levels = [
     {
@@ -78,7 +83,7 @@ can.mustache.registerHelper('tooltip', function(errors, property, position, opti
 can.mustache.registerHelper('userLevelNum', function(points, options) {
     var diff, level;
 
-    points = points();
+    points = typeof points === 'function' ? points() : points;
 
     for(var i in levels) {
         if(points > levels[i].points) {
@@ -96,7 +101,7 @@ can.mustache.registerHelper('userLevelNum', function(points, options) {
 can.mustache.registerHelper('userLevelText', function(points) {
     var diff, level;
 
-    points = points();
+    points = typeof points === 'function' ? points() : points;
 
     for(var i in levels) {
         if(points > levels[i].points) {
@@ -114,7 +119,7 @@ can.mustache.registerHelper('userLevelText', function(points) {
 can.mustache.registerHelper('isFilled', function(level, points, options) {
     var diff;
 
-    points = points();
+    points = typeof points === 'function' ? points() : points;
 
     diff = 200 - (Number(level.points) - Number(points));
 
@@ -128,7 +133,7 @@ can.mustache.registerHelper('isFilled', function(level, points, options) {
 can.mustache.registerHelper('diff', function(k, points, options) {
     var diff, level, relVal, nextLevelVal, getLevel, relItemVal;
 
-    points = points();
+    points = typeof points === 'function' ? points() : points;
 
     level = _.filter(levels, function(item, i, list) {
         var ps = item.points, next = list[i+1], prev = list[i-1];
@@ -168,7 +173,7 @@ can.mustache.registerHelper('diff', function(k, points, options) {
 can.mustache.registerHelper('leftNext', function(points) {
     var diff, level, left;
 
-    points = points();
+    points = typeof points === 'function' ? points() : points;
 
     for(var i in levels) {
         if(points > levels[i].points) {
@@ -196,7 +201,7 @@ can.mustache.registerHelper('isChekedAgree', function(agree) {
 can.mustache.registerHelper('levelPrefix', function(points) {
     var lavel;
 
-    points = points();
+    points = typeof points === 'function' ? points() : points;
 
     lavel = _.filter(levels, function(item, i, list) {
         var ps = item.points, next = list[i+1], prev = list[i-1];
@@ -240,9 +245,6 @@ export default Controller.extend(
             this.data = appState.attr('user');
             this.user = this.data.options.user;
             this.errs = new can.Map();
-
-            console.log(this.user);
-
 
             if(!this.data.auth.isAuth) {
                 can.route.attr({module: 'login'});
@@ -410,90 +412,106 @@ export default Controller.extend(
         },
         /* VK friends invitation */
         '.block.vk click': function () {
-            VK.Auth.login(_.bind(this.handleVkAuth, this), 2);
+            VK.Auth.login(_.bind(this.handleAuthVK, this), 8198);
         },
-        handleVkAuth: function () {
+        handleAuthVK: function (response) {
             if (response.session) {
-                return this.getVkFriends();
+                return this.checkAuthVK(response.session);
             }
         },
-        getVkFriends: function () {
-            // should check `secret` before this func?
-
-            VK.Api.call('friends.get', {
-                fields: 'uid,first_name,last_name,photo',
-                order: 'hints'
-            }, _.bind(this.showVkFriends, this));
+        checkAuthVK: function (session) {
+            can.ajax({
+                url: '/profile/checkAuth',
+                method: 'GET',
+                data: {
+                    expire: session.expire,
+                    mid: session.mid,
+                    sid: session.sid,
+                    sig: session.sig,
+                    secret: session.secret
+                }
+            }).done(_.bind(this.getFriendsVK, this));
         },
-        showVkFriends: function (response) {
+        getFriendsVK: function (response) {
+            if (response) {
+                VK.Api.call('friends.get', {
+                    fields: 'uid,first_name,last_name,photo',
+                    order: 'hints'
+                }, _.bind(this.showFriendsVK, this));
+            }
+        },
+        showFriendsVK: function (response) {
             var friends = response.response;
 
             if (friends instanceof Array && friends.length) {
-                this.createFriendsPopup(friends);
+                this.createFriendsPopup(friends, 'VKONTAKTE');
             }
         },
-        createFriendsPopup: function (friends) {
-            var self = this;
+        createFriendsPopup: function (friends, network) {
+            var self = this,
+                renderer = can.view(friendsView, {
+                    friends,
+                    socialNetwork: network
+                }, {
+                    sendMessage: function () {
+                        return function (el) {
+                            $(el).on('click', function () {
+                                var btn = $(this);
 
-            var renderer = can.view(view, {
-                friends
-            });
+                                self.sendMessageVK(btn.data('id'), btn);
+                            });
+                        }
+                    },
+                    close: function () {
+                        return function (el) {
+                            $(el).on('click', function () {
+                                $(this).closest('.pf-wrap').remove();
+                            });
+                        };
+                    }
+                });
 
-            this.$friends = renderer();
-
-            $(body).append(this.$friends);
+            $('body').append(renderer);
         },
-        toggleSelected: function (el) {
-            (el.hasClass('selected') ? el.addClass : el.removeClass)('selected');
+        sendMessageVK: function (uid, btn) {
+            VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWallVK, this, uid, btn));
         },
-        sendVKMessage: function () {
-            this.friends = _.map(this.$friends.find('.pf-friend.selected'), function (item) {
-                return $(item).data('friend');
-            });
-
-            if (friends.length) {
-                VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWall, this));
-            }
-        },
-        uploadImageToWall: function (res) {
+        uploadImageToWallVK: function (uid, btn, response) {
             can.ajax({
-                url: '/vk/upload',
+                url: '/profile/uploadVK',
                 type: 'POST',
                 data: {
-                    uploadUrl: res.response.upload_url
+                    uploadUrl: response.response.upload_url
                 },
-                success: _.bind(this.savePhotoToWall, this),
-                    function (photoRes) {
-                        cb(photoRes.response[0].id);
-                    });
-                },
-                error: function (shr, status, data) {
-                    console.log('error', data);
-                }
+                success: _.bind(this.savePhotoToWallVK, this, uid, btn)
             });
         },
-        savePhotoToWall: function (data) {
+        savePhotoToWallVK: function (uid, btn, data) {
             data = JSON.parse(data);
-            VK.Api('photos.saveWallPhoto', {
+
+            VK.Api.call('photos.saveWallPhoto', {
                 server: data.server,
                 photo: data.photo,
                 hash: data.hash
-            }, _.bind(this.sendFriendsMessage, this));
+            }, _.bind(this.sendFriendsMessageVK, this, uid, btn));
         },
-        sendFriendsMessage: function (imageId) {
-            var self = this;
+        sendFriendsMessageVK: function (uid, btn, response) {
+            var images = response.response;
 
-            _(this.friends).each(function (friend) {
-                _.defer(_.bind(self.postToFriendWall, self, friend));
-            });
-        },
-        postToFriendWall: function(friend) {
             VK.Api.call('wall.post', {
-                owner_id: friend.uid,
-                message: 'some random message',
-                attachments: imageId
+                owner_id: uid,
+                message: invMessages.vk,
+                attachments: images && images[0] && images[0].id || ''
             }, function (response) {
-                // should be posted
+                if (response) {
+                    return btn
+                        .addClass('sended')
+                        .prop('disabled', true)
+                        .html('ОТПРАВЛЕНО')
+                        .off('click');
+                }
+
+                alert('Произошла ошибка при отправке сообщения, пожалуйста, попробуйте позже.')
             })
         }
     }
