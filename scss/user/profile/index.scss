@@ -1295,6 +1295,9 @@ span.deleteicon {
 	padding: 4px 0;
 	font-size: 80%;
 	width: 90%;
+	&.sended {
+		background-color: #D0D0D0 !important;
+	}
 }
 /* "Invite friends" ending */
 
