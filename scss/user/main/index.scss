@@ -34,8 +34,10 @@
 }
 
 #modules .main .content.itemsWrap {
+	@include border_boxed;
 	height: auto;
-	padding-bottom: 10px;
+	padding: 0 10px 10px;
+	
 	&:after {
 		content: '';
 		display: table;
@@ -81,13 +83,15 @@
 		}
 		
 		.content {
+			@include border_boxed;
 			@include absolute_horizontal_centered;
+			padding: 0 20px;
 			top: 0;
 		}
 		
 		.item {
 			.content {
-				padding: 68px 0 0;
+				padding: 68px 20px 0;
 				text-align: left;
 				z-index: 20;
 			}

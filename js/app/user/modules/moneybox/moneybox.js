@@ -82,6 +82,10 @@ export default Controller.extend(
 
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
+		},
+		
+		'.up_button click': function() {
+			$('html, body').scrollTop(0);
 		}
 	}
 );
