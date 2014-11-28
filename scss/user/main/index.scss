@@ -6,15 +6,28 @@
 @import '../helpers/cards';
 @import 'CSS:../../../js/plugins/select2/select2';
 @import '../helpers/select2';
+@import '../helpers/carousel';
 @import '../../bourbon/bourbon';
 
 @media all and (min-width: $min-width) and (max-width: $extend) {
+	.module.main {
+		.content {
+			width: 920px;
+		}
+	}
+	
 	.module .mainModuleWrap {
 		width: 920px;
 	}
 }
 
 @media all and (min-width: $extend_plus_one) {
+	.module.main {
+		.content {
+			width: 1220px;
+		}
+	}
+	
 	.module .mainModuleWrap {
 		width: 1220px;
 	}
@@ -32,6 +45,177 @@
 
 .module.main {
 	width: 100%;
+	position: relative;
+	
+	.content {
+		display: block;
+
+		&.itemsWrap {
+			@include respond-to(small) {
+				width: 620px;
+			}
+
+			@include respond-to(medium) {
+				width: 920px;
+			}
+
+			@include respond-to(large) {
+				width: 1220px;
+			}
+		}
+	}
+	
+	.carousel_container {
+		width: 100%;
+		height: 768px;
+		position: relative;
+		
+		&:before {
+			@include pseudo;
+			width: 69px;
+			height: 126px;
+			left: 0;
+			bottom: 132px;
+			background: url('/img/user/main/protruding.png') no-repeat;
+			z-index: 30;
+		}
+		
+		.content {
+			@include absolute_horizontal_centered;
+			top: 0;
+		}
+		
+		.item {
+			.content {
+				padding: 68px 0 0;
+				text-align: left;
+				z-index: 20;
+			}
+		}
+		
+		.top_label {
+			font-size: 60px;
+			line-height: 60px;
+			font-family: 'PT_Sans_Narrow_Bold';
+			color: $blue;
+			
+			&.green {
+				color: $green;
+			}
+			
+			&.purple {
+				color: #9574cd;
+			}
+			
+			&.lightblue {
+				color: #13abea;
+			}
+		}
+		
+		.carousel_button {
+			background-color: $white;
+			color: #2998cd;
+			font-size: 18px;
+			padding: 15px 0;
+			margin-top: 47px;
+			width: 203px;
+			
+			&.green {
+				background-color: $green;
+				color: $white;
+			}
+			
+			&.purple {
+				background-color: #9574cd;
+				color: $white;
+			}
+			
+			&.lightblue {
+				background-color: #13abea;
+				color: $white;
+			}
+			
+			&.blue {
+				background-color: $blue;
+				color: $white;
+			}
+		}
+	}
+	
+	.banner_image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		
+		&.banner_image_1 {
+			background: url('/img/user/main/banner_1.jpg') no-repeat center;
+		}
+		
+		&.banner_image_2 {
+			background: url('/img/user/main/banner_2.jpg') no-repeat center;
+		}
+		
+		&.banner_image_3 {
+			background: url('/img/user/main/banner_3.jpg') no-repeat center;
+		}
+		&.banner_image_4 {
+			background: url('/img/user/main/banner_4.jpg') no-repeat center;
+		}
+	}
+	
+	.registration_content {
+		height: 217px !important;
+		top: auto !important;
+		bottom: 114px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin: auto;
+		z-index: 25;
+	}
+	
+	.registration_block {
+		@include border_radius(23px);
+		height: 100%;
+		width: 280px;
+		background-color: rgba(255, 255, 255, 0.8);
+		color: $titlegrey;
+		
+		&:before {
+			@include pseudo;
+			width: 13px;
+			height: 13px;
+			left: -13px;
+			top: 64px;
+			background: url('/img/user/main/registration_box_pointer.png') no-repeat;
+		}
+		
+		.adorable_cell {
+			padding: 20px;
+		}
+		
+		.topper_label {
+			font-size: 18px;
+			line-height: 18px;
+			font-family: 'PT_Sans_Bold';
+			letter-spacing: -0.5px;
+		}
+		
+		.bottom_label {
+			margin-top: 15px;
+		}
+		
+		.registration_button {
+			height: 40px;
+			width: 209px;
+			color: $white;
+			background-color: #faab8c;
+			margin-top: 25px;
+			padding: 0;
+		}
+	}
 }
 
 .module .mainModuleWrap {
@@ -50,24 +234,6 @@
 	.bannerWrap {
 		min-height: 624px;
 		margin: 0 20px;
-	}
-
-	.content {
-		display: block;
-
-		&.itemsWrap {
-			@include respond-to(small) {
-				width: 620px;
-			}
-
-			@include respond-to(medium) {
-				width: 920px;
-			}
-
-			@include respond-to(large) {
-				width: 1220px;
-			}
-		}
 	}
 
 	.whats_up {

@@ -1,4 +1,6 @@
 @import '../../settings';
+@import '../helpers/socialSprite';
+
 
 $barColor: #e3ddd2;
 // $overlayColor: #f2efed;
@@ -18,7 +20,105 @@ $backColor: #f2efed;
 
 /* Base for label styling for radio button */
 
-.profile {
+#profile {
+	
+}
+
+
+span.deleteicon {
+	position: relative;
+
+	input:focus+span, span:hover {
+		display: block;
+	}
+
+	span {
+		position: absolute;
+		display: none;
+		top: 3px;
+		right: 20px;
+		width: 18px;
+		height: 18px;
+		background: url(/img/user/helpers/input/clearButton.png) center center no-repeat;
+		cursor: pointer;
+	}
+
+	input {
+		padding-right: 20px;
+	}
+}
+
+.userInputs {
+	@include gridle(6);
+	margin-top: 30px;
+	float: none;
+	padding: 0px;
+
+	.column {
+		@include gridle(3);
+		margin: 0px;
+		// display: inline-block;
+		// width: 360px;
+		float: none;
+		padding: 0px;
+		display: inline-block;
+		width: 290px;
+		
+		&.middle {
+			margin: 0 auto;
+			@include gridle(6);
+			padding: 0px;
+			width: 100%;
+
+			// input {
+			// 	width: 100%;
+			// }
+
+			.inner {
+				@include gridle(6);
+				padding: 0px;
+				float: none;
+			}			
+		}
+
+		&.right {
+		// 	// float: left;
+
+			.inner {
+				// float: left;
+				// margin-right: 74px;
+				display: block;
+				float: right;
+			}
+		}
+
+		&.left {
+			.inner {
+				// float: right;
+				// margin-left: 74px;
+			}
+			// float: right;
+		}
+
+		.inner {
+			width: 280px;
+			
+			.input_row {
+				margin-bottom: 20px;
+				// width: 100%;
+				// float: left;
+
+				input {
+					width: 280px
+				}
+			}
+
+			
+		}
+	}
+}
+
+.childMetaInfo {
 	[type="radio"] {
 		&:not(:checked), &:checked {
 			position: absolute;
@@ -101,89 +201,6 @@ $backColor: #f2efed;
 	}
 }
 
-
-span.deleteicon {
-	position: relative;
-
-	input:focus+span, span:hover {
-		display: block;
-	}
-
-	span {
-		position: absolute;
-		display: none;
-		top: 3px;
-		right: 20px;
-		width: 18px;
-		height: 18px;
-		background: url(/img/user/helpers/input/clearButton.png) center center no-repeat;
-		cursor: pointer;
-	}
-
-	input {
-		padding-right: 20px;
-	}
-}
-
-.userInputs {
-	@include gridle(6);
-	margin-top: 30px;
-
-	.column {
-		@include gridle(3);
-		margin: 0px;
-		// display: inline-block;
-		// width: 360px;
-		
-		&.middle {
-			margin: 0 auto;
-			@include gridle(6);
-
-			// input {
-			// 	width: 100%;
-			// }
-
-			.inner {
-				@include gridle(5);
-				padding: 0px;
-				margin: 0 74px;
-			}			
-		}
-
-		&.right {
-		// 	// float: left;
-
-			.inner {
-				// float: left;
-				margin-right: 74px;
-				margin-right: 74px;
-				display: block;
-				float: right;
-			}
-		}
-
-		&.left {
-			.inner {
-				// float: right;
-				margin-left: 74px;
-			}
-			// float: right;
-		}
-
-		.inner {
-			width: 315px;
-			
-			.input_row {
-				margin-bottom: 20px;
-				width: 100%;
-				float: left;
-			}
-
-			
-		}
-	}
-}
-
 #profile {
 	height: auto !important;
 	
@@ -191,6 +208,86 @@ span.deleteicon {
 	padding: 0px;
 	width: 100%;
 	@include gridle_container();
+
+	[type="radio"] {
+		&:not(:checked), &:checked {
+			position: absolute;
+			left: -9999px;
+		}
+		&:not(:checked) + label, &:checked + label {
+			position: relative;
+			padding-top: 10px;
+			padding-left: 47px;
+			top: 14px;
+			margin-right: 50px;
+			cursor: pointer;
+			@include x-user-select();
+		}
+		&:not(:checked) + label:before, &:checked + label:before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 2px;
+			width: 37px;
+			height: 37px;
+			// border: 1px solid #aaa;
+			background: #fff;
+			border-radius: 14px;
+			// box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+		}
+
+		&:checked + label:after {
+			background: url(/img/user/profile/checkbox.png);
+		}
+
+		&:not(:checked) + label:after, &:checked + label:after {
+			content: '';
+			position: absolute;
+			width: 16px;
+			height: 14px;
+			top: 13px;
+			left: 10px;
+			color: #ccc6bd;
+			transition: all .2s;
+			@include x-user-select();
+		}
+		&:not(:checked) + label:after {
+			opacity: 0;
+			transform: scale(0);
+		}
+		&:checked + label:after {
+			opacity: 1;
+			transform: scale(1);
+		}
+		&:disabled {
+			&:not(:checked) + label:before {
+				box-shadow: none;
+				border-color: #bbb;
+				background-color: #ddd;
+			}
+			&:checked + label {
+				&:before {
+					box-shadow: none;
+					border-color: #bbb;
+					background-color: #ddd;
+				}
+				&:after {
+					color: #999;
+				}
+			}
+			+ label {
+				color: #aaa;
+			}
+		}
+	}
+
+	input {
+		line-height: normal !important;
+
+		&:focus, &:hover {
+			box-shadow: black 0px 4px 11px -5px;
+		}
+	}
 
 	.question_bubble {
 		display: inline-block;
@@ -228,6 +325,10 @@ span.deleteicon {
 			font-size: 55px;
 			color: #2da7e0;
 			margin: 0px;
+		}
+
+		.bradName {
+			text-transform: capitalize;
 		}
 	}
 
@@ -369,6 +470,7 @@ span.deleteicon {
 				@include gridle(2);
 				@include gridle_push(2);
 				margin: 0 auto;
+				font-style: italic;
 			}
 
 			.bar {
@@ -377,7 +479,7 @@ span.deleteicon {
 
 				display: block;
 				overflow: hidden;
-				height: 8px;
+				height: 2px;
 				margin: 13px 0;
 				background: #e3ddd2;
 
@@ -485,13 +587,92 @@ span.deleteicon {
 								background-position: center center;
 							}
 						}
+
+						&.remove {
+							&:before {
+								background-image: url(/img/user/profile/remove_button.png);
+								background-repeat: no-repeat;
+								background-position: center center;
+							}
+						}
 					}
+				}
+			}
+
+			.moneybox {
+				@include gridle(2);
+				float: none;
+				display: inline-block;
+				margin-left: 0px;
+
+				.textLevel {
+					float: left;
+
+					.text {
+						line-height: 23px;
+						display: inline-block;
+						text-align: left;
+						float: left;
+
+						font-weight: bold;
+						color: black;
+					}
+				}
+
+				.stars {
+					position: relative;
+					float: left;
+					margin-left: 20px;
+					margin-top: 5px;
+				}
+
+				.star {
+					position: relative;
+					width: 10px;
+					height: 10px;
+					background: url('/img/user/moneybox/star_icon.png') no-repeat;
+					background-position: -10px 0;
+					margin-top: 23px;
+					margin-right: 5px;
+					float: left;
+
+					&.filled {
+						background-position: 0 0;
+					}
+				}
+
+				.levelIcon {
+					display: inline-block;
+					width: 100px;
+					height: 100px;
+					background-size: cover !important;
+					right: -40px;
+					top: -10px;
+					position: relative;
+				}
+
+				.pointsLeft {
+					float: left;
+					position: relative;
+					text-align: left;
+					display: inline-block;
+					margin-top: 18px;
+					margin-bottom: 18px;
+					font-size: 12px;
 				}
 			}
 		}
 
 		.profileInfo {
-			@include gridle(6);
+			@include gridle(4);
+			margin: 0 auto;
+			float: none;
+
+			&.passwords {
+				.input_row {
+					display: inline-block;
+				}
+			}
 
 			&.passwordInfo {
 				margin-top: 15px;
@@ -499,8 +680,8 @@ span.deleteicon {
 
 			.birth_date {
 				input {
-					width: 95px;
-					margin-right: 11px;
+					width: 75px;
+					margin-right: 23px;
 
 					&:last-child {
 						margin-right: 0px;
@@ -510,7 +691,7 @@ span.deleteicon {
 
 			.address {
 				input {
-					width: 150px;
+					width: 130px;
 
 					&:first-child {
 						float: left;
@@ -523,8 +704,8 @@ span.deleteicon {
 			}
 
 			.socialInfo {
-				@include gridle(2);
-				@include gridle_push(2);
+				@include gridle(3);
+				@include gridle_push(1.7);
 
 				.question_bubble {
 					top: -5px;
@@ -541,17 +722,19 @@ span.deleteicon {
 			.social_buttons {
 				@include gridle(4);
 				padding: 0px;
-				margin-left: 30px;
+				margin-left: 62px;
 				margin-top: 0px;
 
 				.button {
 					margin-right: 22px;
 					margin-top: 10px;
-					width: 35px;
 					float: left;
+					width: 35px;
+					height: 35px;
 					display: inline-block;
 					background: #fff;
 					border-radius: 15px;
+					background-repeat: no-repeat;
 
 					&:last-child {
 						margin-right: 0px;
@@ -566,29 +749,102 @@ span.deleteicon {
 						border-radius: 14px;
 					}
 
+					&:after {
+						content: '';
+
+						background-color: #fff;
+						display: inline-block;
+						top: -24px;
+						position: relative;
+					}
+
 					&.fb {
-						background: url(/img/user/profile/social/fb-inactive.png) #fff no-repeat center center;
+						background-color: #fff;
+
+						&:after {
+							@include sprite($fb-inactive);
+						}
 
 						&.active {
-							background: url(/img/user/profile/social/fb-active.png) #3c599b no-repeat center center;
+							&:before {
+								background-color: #3c599b;
+							}
+
+							&:after {
+								@include sprite($fb-active);
+								background-color: #3c599b;
+							}
+						}
+
+						&:hover {
+							background-color: #3c599b;
+
+
+							&:after{
+								@include sprite($fb-active);
+								background-color: #3c599b;
+							}
 						}
 					}
 
 					&.vk {
-						background: url(/img/user/profile/social/vk-inactive.png) #fff no-repeat center center;
+						background-color: #fff;	
+
+						&:after {
+							@include sprite($vk-inactive);
+						}
 
 						&.active {
-							background: url(/img/user/profile/social/vk-active.png) #45668e no-repeat center center;
+							&:before {
+								background-color: #45668e;
+							}
+
+							&:after {
+								@include sprite($vk-active);
+								background-color: #45668e;
+							}
+						}
+
+						&:hover {
+							background-color: #45668e;
+
+							&:after {
+								@include sprite($vk-active);
+								background-color: #45668e;
+							}
 						}
 					}
 
 					&.ok {
-						background: url(/img/user/profile/social/ok-inactive.png) #fff no-repeat center center;
+						background-color: #fff;
+
+						&:after {
+							@include sprite($ok-inactive);
+						}
 
 						&.active {
-							background: url(/img/user/profile/social/ok-active.png) #ed812b no-repeat center center;
+							&:before {
+								background-color: #ed812b;
+							}
+
+							&:after {
+								@include sprite($ok-active);
+								background-color: #ed812b;
+							}
+						}
+
+						&:hover {
+							background-color: #ed812b;
+
+							&:after {
+								@include sprite($ok-active);
+								background-color: #ed812b;
+
+							}
 						}
 					}
+
+					
 				}
 			}
 
@@ -607,14 +863,14 @@ span.deleteicon {
 			}
 
 			.password, .newPassword {
-				width: 260px;
+				width: 225px;
 				border-radius: 5px 0px 0px 5px;
 				float: left;
 			}
 
 			.middle input {
 				@include gridle(6);
-				width: 661px;
+				width: 529px;
 				margin: 0 auto;
 				float: none;
 			}
@@ -635,6 +891,97 @@ span.deleteicon {
 				&.active {
 					background: url(/img/user/profile/password_open.png) #fff no-repeat center center;
 				}
+			}
+		}
+
+		.iAgreeBlock {
+			height: 40px;
+			padding: 30px 26px;
+			border: 1px solid #e3ddd2;
+			border-radius: 5px;
+			padding-top: 21px;
+
+			.checkbox {
+				float: left;
+				height: 100%;
+				margin-right: 20px;
+				position: relative;
+
+				input {
+					display: none;
+
+					+label {
+						width: 25px;
+						height: 25px;
+						margin-top: 14px;
+
+						cursor: pointer;
+						position: absolute; /*otherwise ,,left: x px;" isn't working*/
+						display: block;
+						border-radius: 8px;
+						background: white;
+
+
+						-webkit-transition: all .5s ease;
+						-moz-transition: all .5s ease;
+						-o-transition: all .5s ease;
+						-ms-transition: all .5s ease;
+						transition: all .5s ease;
+					}
+
+					&:checked+label {
+						background-color: #2da7e0;
+					}
+
+					&:checked+label:before {
+						content: '';
+						background: url(/img/user/profile/agree.png);
+						width: 26px;
+						height: 24px;
+						display: inline-block;
+						top: -5px;
+						left: 4px;
+						position: relative;
+					}
+				}
+			}
+
+			.text {
+				text-align: left;
+				line-height: 24px;
+				color: #666666;
+				margin-left: 53px;
+			}
+		}
+
+		.buttonSave {
+			width: 210px;
+			margin: 0 auto;
+			padding: 15px 0px;
+			background: #e4ddd3;
+			border: 1px solid #e4ddd3;
+
+			color: #a6a095;
+			border-radius: 50px;
+			font-size: 18px;
+			text-transform: uppercase;
+			font-weight: bold;
+			margin-top: 20px;
+			margin-bottom: 40px;
+			cursor: pointer;
+			display: block;
+
+			&:hover {
+				background: #f2eee6;
+				border: 1px solid #e3ddd2;
+				box-shadow: black 0px 4px 11px -5px;
+			}
+
+			&:active {
+				background: #f2eee6;
+				border: 1px solid #e3ddd2 !important;
+
+				box-shadow: none !important;
 			}
 		}
 	}
@@ -707,6 +1054,14 @@ span.deleteicon {
 							background-position: center center;
 						}
 					}
+
+					&.remove {
+						&:before {
+							background-image: url(/img/user/profile/remove_button.png);
+							background-repeat: no-repeat;
+							background-position: center center;
+						}
+					}
 				}
 			}
 
@@ -719,9 +1074,19 @@ span.deleteicon {
 				}
 
 				.childGender[type="radio"] {
+					display: none;
+
 					+label {
 						text-transform: uppercase;
 						margin-right: 20px;
+
+						&:before {
+							content: '';
+						}
+
+						&:after {
+							content: '';
+						}
 					}
 
 					&:checked + label {
@@ -849,5 +1214,60 @@ span.deleteicon {
 	}
 	&.vk {
 		background-color: #4c75a3;
+	}
+}
+
+.bar {
+	height: 37px;
+	color: white;
+	text-transform: uppercase;
+	font-family: 'PT_Sans_Bold';
+	@include gridle(6);
+	float: right;
+	padding: 0px;	
+
+	.icon {
+		// background: url('/img/user/moneybox/grey_bar.png') repeat-x;
+		background: #e3ddd2;
+		width: 29px;
+		height: 8px;
+		display: inline-block;
+		float: left;
+
+		&:first-child {
+			border-top-left-radius: 9999em;
+			border-bottom-left-radius: 9999em;
+			overflow: hidden;
+		}
+
+		&:last-child {
+			border-top-right-radius: 9999em;
+			border-bottom-right-radius: 9999em;
+			overflow: hidden;
+		}
+
+		&:not(:last-child) {
+			border-right: 1px solid #f1eee9;
+		}
+
+		&.filled {
+			background: url('/img/user/moneybox/blue_bar.png') repeat-x;
+
+			&:not(:last-child) {
+				border-right: 1px solid #96d3f0;
+			}
+		}
+	}
+
+	.partial {
+		position: absolute;
+		height: 100%;
+		background: url('/img/user/moneybox/blue_bar.png') repeat-x;
+		top: 0;
+		left: 0;
+	}
+
+	.label {
+		position: relative;
 	}
 }

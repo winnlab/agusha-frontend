@@ -23,6 +23,7 @@ export default can.Control.extend({
             type: 'POST',
             data: can.deparam(el.serialize()),
             success: function (data) {
+                appState.attr('moneybox', true);
                 self.displayResponse(el, data)
             }
         });

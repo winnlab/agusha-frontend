@@ -7,8 +7,7 @@ export default {
 			'birth_date.year',
 			'birth_date.month',
 			'birth_date.day',
-			'profile.gender',
-			'profile.about'
+			'profile.gender'
 		],
 		weight: 30
 	},

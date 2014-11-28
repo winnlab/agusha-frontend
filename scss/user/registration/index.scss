@@ -77,6 +77,11 @@
 			&.password, &.email {
 				margin-top: 10px;
 			}
+
+			&.error {
+				border-color: #e57373;
+				// border: 0px solid #e57373;
+			}
 		}
 	}
 	

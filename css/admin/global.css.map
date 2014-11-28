@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAkBA,WAAY,CACR,QAAQ,CAAE,QAAQ,CAGtB,YAAa,CACZ,UAAU,CAAE,KAAK",
-"sources": ["../../scss/admin/global.scss"],
-"names": [],
-"file": "global.css"
-}

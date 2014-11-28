@@ -7,5 +7,13 @@ block content
 	.module.server.moneybox
 		include content
 
+include helpers
 block append scripts
-	
+	script.
+		var app = {
+			actions: !{JSON.stringify(actions)},
+			user: !{JSON.stringify(user)},
+			lvls: !{JSON.stringify(lvls)}
+		};
+	script#moneybox_mustache(type="text/mustache")
+		mixin moneybox()

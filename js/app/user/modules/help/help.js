@@ -1,6 +1,7 @@
 import Controller from 'controller'
 
 import select2 from 'select2'
+import 'validate'
 
 export default Controller.extend(
 	{
@@ -17,6 +18,10 @@ export default Controller.extend(
 			
 			this.tab_blocks = this.element.find('.tab_block');
 			this.faq_blocks = this.tab_blocks.filter('.faq_block');
+			
+			this.feedback_form = this.element.find('.feedback_form');
+			
+			this.form_processing = 0;
 		},
 		
 		plugins: function() {	
@@ -166,7 +171,88 @@ export default Controller.extend(
 		'.feedback_form submit': function(el, ev) {
 			ev.preventDefault();
 			
+			if(this.form_processing) {
+				return false;
+			}
 			
-		}
+			this.feedback_validate(el);
+			
+			if(!el.valid()) {
+				return false;
+			}
+			
+			this.form_processing = 1;
+			
+			var	that = this,
+				data = el.serialize();
+			
+			can.ajax({
+				url: '/send_feedback',
+				data: data,
+				type: 'POST',
+				success: function(data) {
+					that.form_processing = 0;
+					
+					if(data.err) {
+						return console.error(data.err);
+					}
+					
+					that.feedback_form.find('input[type=text], input[type=email], textarea').val('');
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					that.form_processing = 0;
+					console.error(errorThrown);
+				}
+			});
+		},
+		
+		feedback_validate: function(element){
+			var required = 'Это обязательное поле';
+			
+			element.validate({
+				rules: {
+					name: {
+						required: true,
+						maxlength: 128,
+						minlength: 2
+					},
+					email: {
+						required: true,
+						maxlength: 64,
+						minlength: 6,
+						email: true
+					},
+					text: {
+						required: true,
+						maxlength: 8000,
+						minlength: 3
+					}
+				},
+				messages: {
+					name: {
+						required: required,
+						maxlength: 'Максимальное количество символов - 128',
+						minlength: 'Минимальное количество символов - 3'
+					},
+					email: {
+						required: required,
+						maxlength: 'Максимальное количество символов - 64',
+						minlength: 'Минимальное количество символов - 6',
+						email: 'Введите корректный e-mail'
+					},
+					text: {
+						required: required,
+						maxlength: 'Максимальное количество символов - 13',
+						minlength: 'Минимальное количество символов - 7'
+					}
+				},
+				
+				errorPlacement: function(error, el){
+					el.next().append(error).animate({
+						opacity: "1"
+					}, 1000);
+				}
+			});
+		},
 	}
 );

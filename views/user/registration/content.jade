@@ -1,7 +1,7 @@
 .content.adorable_table
 	.adorable_cell
 		.registration_inline
-			.reg_box.column
+			.reg_box.column(title="")
 				.reg_box_inside.not_registered.adorable_table.active
 					.adorable_cell
 						.reg_top
@@ -14,7 +14,7 @@
 							div полезностям и интересностям «Агуша»!
 						
 						form.registration_form
-							input.name(type="text", name="name", can-value='name' placeholder="Ваше имя")
+							input.name.firstName(type="text", name="firstName", can-value='firstName' placeholder="Ваше имя")
 							
 							input.email(type="email", name="email", can-value='email' placeholder="E-Mail")
 							input.password(type="password", name="password", can-value='password' placeholder="Пароль")
@@ -46,9 +46,6 @@
 						.center_text Наш чудесный сайт может помочь вам получать ту информацию которая наиболее актуальна для вашего малыша! Отбирая для вас статьи в соответствии с возрастом вашей крохи.
 						
 						.bottom_text Для этого в настройках профиля укажите пол и возраст ребенка.
-						
-						.button_container
-							button К настройкам
 			
 			.pinball.left
 						

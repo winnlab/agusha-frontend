@@ -1,9 +1,5 @@
 .bg
 
-- var lvl = (user ? user.lvl() : 'Новичек')
-- var points = (user && user.points ? user.points : 0)
-- var monthNames = moment.months();
-
 .content
 	include ../helpers/breadcrumbs
 	
@@ -24,256 +20,12 @@
 					.title Моя копилка
 	
 	.tab_contents
-		.tab_content.tab_selector.my_moneybox.active
-			.column.level
-				.left
-					div Ваш
-					div уровень:
-				
-				.right= lvl
-			
-			.big_image_container
-				.column.left
-					.adorable_table
-						.adorable_cell Как получить следующее звание?
-				
-				.column.center
-					.adorable_table
-						.adorable_cell
-							.text У вас
-							.count
-								- var points = user && user.points ? user.points.toString() : [0]
-								- each p, key in points
-									.number
-										.symbol #{p}
-							.text баллов
-				
-				.column.right
-					.adorable_table
-						.adorable_cell Как заработать больше баллов?
-			
-			.rating_container
-				.icons
-					- each l, i in lvls
-						- if (i < lvls.length - 1)
-							.icon
-								img(src="/img/user/moneybox/" + l.name + ( Number(points) + 200 > l.points ? '_achieve' : '' ) + ".png")
-				.bar
-					- each l, i in lvls
-						- if (i < lvls.length - 1)
-							div(class='icon ' + (Number(points) > l.points ? 'filled' : '' ))
-								.adorable_table
-									.adorable_cell
-										- var diff = 200 - (Number(l.points) - Number(points))
-										- if ( diff > 0 && diff < 200 )
-											.partial(style='width: ' + (diff / 200 * 100) + '%;')
-										.label= l.label
-
-			.labels_container
-				- each l, i in lvls
-					div(class=l.name + ' ' + (i == lvls.length - 1 ? 'circle' : 'star') + ' ' + (Number(points) + 200 > l.points ? 'filled' : '' ))
-				- each l, i in lvls
-					div(class="label " + l.name)= (l.points - 200)
-			
-			.prizes_topper
-				.calendar
-					.topper.adorable_table
-						.adorable_cell Дек
-					
-					.number.adorable_table
-						.adorable_cell 23
-				
-				.title Призы в декабре
-				
-				.closest
-					div Ближайший
-					div розыгрыш!
-				
-				.you_participate
-					.half.left
-						.adorable_table
-							.adorable_cell Вы участвуете в розыгрыше для Учеников
-					
-					.half.right
-						.adorable_table
-							.adorable_cell
-								img.left_arrow(src="/img/user/article/left_arrow.png")
-								span 1 / 3
-								img.right_arrow(src="/img/user/article/right_arrow.png")
-			
-			.cards_container
-				.column.level_card
-					.adorable_table
-						.adorable_cell
-							.your_level Ваш уровень:
-							
-							.level_title Ученик
-							
-							.level_img
-								img(src="/img/user/moneybox/novice_logo.png")
-							
-							.level_prize Приз для уровня:
-							
-							.prize_name
-								div Полотенце с капюшоном
-								div 5 наборов
-				
-				.column.moneybox_card
-					.card_images
-						.img_container
-							img.active(src="/img/user/moneybox/moneybox_card_image.jpg")
-						
-						.bottom
-							.arrow.left
-							
-							.circles
-								.circle.active
-								.circle
-								.circle
-							
-							.arrow.right
-				
-				.column.moneybox_card
-					.card_images
-						.img_container
-							img.active(src="/img/user/moneybox/moneybox_card_image.jpg")
-						
-						.bottom
-							.arrow.left
-							
-							.circles
-								.circle.active
-								.circle
-								.circle
-							
-							.arrow.right
-			
-			.prizes_topper
-				.you_participate
-					.half.left
-						.adorable_table
-							.adorable_cell Розыгрыш для знатоков
-					
-					.half.right
-						.adorable_table
-							.adorable_cell
-								img.left_arrow(src="/img/user/article/left_arrow.png")
-								span 1 / 3
-								img.right_arrow(src="/img/user/article/right_arrow.png")
-			
-			.cards_container
-				.column.level_card
-					.adorable_table
-						.adorable_cell
-							.your_level Ваш следующий уровень:
-							
-							.level_title Знаток
-							
-							.level_img
-								img(src="/img/user/moneybox/novice_logo.png")
-							
-							.level_prize Приз для уровня:
-							
-							.prize_name
-								div Полотенце с капюшоном
-								div 5 наборов
-				
-				.column.moneybox_card
-					.card_images
-						.img_container
-							img.active(src="/img/user/moneybox/moneybox_card_image.jpg")
-						
-						.bottom
-							.arrow.left
-							
-							.circles
-								.circle.active
-								.circle
-								.circle
-							
-							.arrow.right
-				
-				.column.moneybox_card
-					.card_images
-						.img_container
-							img.active(src="/img/user/moneybox/moneybox_card_image.jpg")
-						
-						.bottom
-							.arrow.left
-							
-							.circles
-								.circle.active
-								.circle
-								.circle
-							
-							.arrow.right
-			
-			.all_prizes
-				button Все призы декабря
-			
-			.prizes_topper
-				.you_participate
-					.half.left
-						.adorable_table
-							.adorable_cell Ваша активность
-					
-					.half.right
-						.adorable_table
-							.adorable_cell
-								span.left_arrow
-									img(src="/img/user/article/left_arrow.png")
-								- each action, i in actions
-									span(class=( i != 0 ? 'hidden ' : '') + 'yearLabel', data-year='#{action._id.year}')= action._id.year
-								span.right_arrow
-									img.hidden(src="/img/user/article/right_arrow.png")
-			
-			.table_container
-				- var now = moment();
-				- each action, i in actions
-					table(class=( action._id.year != now.format('YYYY') ? 'hidden' : '') + ' yearWrap' + action._id.year)
-						thead
-							tr
-								th.date= monthNames[action._id.month - 1]
-								th.time
-								th.label
-								th.total
-									span Всего
-									img(src="/img/user/moneybox/coin.png")
-								th.number= action.allPoints
-						
-						tbody(class=( i !== 0 ? 'hidden' : ''))
-							- each a, j in action.data
-								tr
-									td.date= moment(a.time).format('DD.MM.YYYY')
-									td.time= moment(a.time).format('hh:mm')
-									td.label= a.label
-									td.total
-									td.number= '+' + a.points
-				table
-					tbody
-						tr.bottom
-							- var onWebsite = function () {
-								- if (!user)
-									- return '0 дней'
-								- var diffYears = now.diff(moment(user.activated_at), 'years');
-								- var diffMonths = now.diff(moment(user.activated_at), 'months') % 12;
-								- var diffDays = now.diff(moment().startOf('month'), 'days');
-								- var localeData = moment.localeData();
-								- var result = '';
-								- result += diffYears ? localeData.relativeTime(diffYears, true, 'yy') + ' ' : '';
-								- result += diffMonths ? localeData.relativeTime(diffMonths, true, 'MM') + ' ' : '';
-								- result += diffDays ? localeData.relativeTime(diffDays, true, 'dd') : '';
-								- return result;
-							- }
-							th.date Вы на сайте: #{onWebsite()}
-							th.total У вас уже:
-							th.number= (user && user.points ? user.points : 0)
+		.tab_content.tab_selector.my_moneybox.moneyBoxWrap.active
 		
 		.tab_content.tab_selector.how_it_works
 			.simple Все очень просто!
 			.desc
-				div Тут оставлено место для более полного и развернутого описания этого шага,
-				div приблизительно на две строки.
+				div Следуйте нашим инструкциям, собирайте баллы и обменивайте их на чудесные подарки для вашего малыша! 
 			
 			.steps
 				.step.step_1
@@ -281,10 +33,9 @@
 						.step_title Шаг 1
 						
 						.step_subtitle
-							div Регистрируемся или
-							div авторизируемся на сайте
+							div Зарегистрируйтесь или авторизуйтесь на сайте
 						
-						.step_desc Тут оставлено место для более полного и развернутого описания этого шага, приблизительно на три строки.
+						.step_desc Для этого вам необходимо заполнить форму регистрации либо ввести свой e-mail и пароль.
 						
 						button.step_button Вход / регистрация
 					
@@ -298,19 +49,19 @@
 					.column.right
 						.step_title Шаг 2
 						
-						.step_subtitle Накапливаем много, много, много баллов в копилку
+						.step_subtitle Копите баллы
 						
-						.step_desc Тут оставлено место для более полного и развернутого описания этого шага, приблизительно на три строки.
+						.step_desc Выполняя простые действия на нашем сайте, вы получите баллы в вашу Копилочку.
 						
-						button.step_button Как накопить?
+						button.step_button Как накопить баллы?
 				
 				.step.step_3
 					.column.left
 						.step_title Шаг 3
 						
-						.step_subtitle Развиваемся, закаляемся, матереем и ростем в званиях
+						.step_subtitle Развивайтесь и получайте новые звания
 						
-						.step_desc Тут оставлено место для более полного и развернутого описания этого шага, приблизительно на три строки.
+						.step_desc Читайте интересные статьи, оставляйте комментарии и повышайте свой рейтинг на сайте.
 						
 						button.step_button Как развиваться?
 					
@@ -324,13 +75,13 @@
 					.column.right
 						.step_title Шаг 4
 						
-						.step_subtitle Участвуем в розыгрышах, выигрываем горы призов
+						.step_subtitle Участвуйте в розыгрышах и выигрывайте горы призов!
 						
-						.step_desc Тут оставлено место для более полного и развернутого описания этого шага, приблизительно на три строки.
+						.step_desc На нашем сайте вы можете выиграть замечательные призы для ваших деток.
 						
 						button.step_button Какие призы?
 						
-						button.step_button.rules_button Правила розыгрыша
+						button.step_button.rules_button Правила розыгрышей
 				
 				.up
 					button.up_button Наверх

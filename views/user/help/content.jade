@@ -277,22 +277,25 @@
 					.half.left
 						.feedback_label Как к вам обращатся?
 						input(type="text", placeholder="Ваше имя", name="name")
+						.error
 					
 					.half.right
 						.feedback_label Куда отправить ответ?
 						input(type="email", placeholder="E-mail", name="email")
+						.error
 				
 				.feedback_label Какую информацию вы хотите нам сообщить?
 				select.feedback_select2(name="type")
-					option(value="0") Мне нужна помощь
-					option(value="1") У меня идея
-					option(value="2") Я нашел(ла) ошибку
-					option(value="3") У меня предложение для вас
-					option(value="4") Ябидничать буду
-					option(value="5") Мне все нравится, я просто так сказать...
-					option(value="6") Другое
+					option(value="Мне нужна помощь") Мне нужна помощь
+					option(value="У меня идея") У меня идея
+					option(value="Я нашел(ла) ошибку") Я нашел(ла) ошибку
+					option(value="У меня предложение для вас") У меня предложение для вас
+					option(value="Ябидничать буду") Ябидничать буду
+					option(value="Мне все нравится, я просто так сказать...") Мне все нравится, я просто так сказать...
+					option(value="Другое") Другое
 				
 				textarea(name="text", placeholder="ОПИШИТЕ, В ЧЕМ СЛОЖНОСТЬ")
+				.error
 				
 				button.send_feedback Отправить
 				

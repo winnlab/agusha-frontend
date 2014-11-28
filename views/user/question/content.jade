@@ -50,7 +50,7 @@ if user
 						.item_table
 							.avatar_column
 								.avatar
-									if consultation.author.author_id.image.small
+									if consultation.author.author_id.image && consultation.author.author_id.image.small
 										img.rounded(src="#{consultation.author.author_id.image.small}")
 									else
 										img.rounded(src="/img/user/helpers/stub/small.png")
@@ -90,7 +90,7 @@ if user
 							.avatar_column
 								if answerItem.author && answerItem.author.author_id
 									.avatar
-										if answerItem.author.author_id.image.small
+										if answerItem.author.author_id.image && answerItem.author.author_id.image.small
 											img.rounded(src="#{answerItem.author.author_id.image.small}")
 										else
 											img.rounded(src="/img/user/helpers/stub/small.png")
@@ -120,7 +120,10 @@ if user
 					input(type="hidden" name="answer[author][name]" value="#{user.profile.first_name} #{user.profile.last_name}")
 
 					.authorImage
-						img(src=(user.image.small ? '/img/uploads/x160/' + user.image.small : '/img/user/helpers/stub/small.png'))
+						if user.image
+							img(src=(user.image.small ? '/img/uploads/x160/' + user.image.small : '/img/user/helpers/stub/small.png'))
+						else
+							img(src=('/img/user/helpers/stub/small.png'))
 					.responseBody
 						textarea(name="answer[text]")
 						.responseBottom

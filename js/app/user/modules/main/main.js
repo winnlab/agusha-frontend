@@ -3,6 +3,7 @@ import select2 from 'select2';
 import appState from 'core/appState';
 import LoginForm from 'js/app/user/modules/login/login'
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
+import 'carousel'
 
 var ViewModel = can.Map.extend({
 	define: {
@@ -29,8 +30,19 @@ export default Controller.extend(
 			this.userTitle = this.element.find('.userTitle');
 			this.items_container = this.element.find('.items_container');
 			this.feed_container = this.element.find('.feed_container');
+			this.icons = this.element.find('.icon');
+			
+			this.carousel = this.element.find('#main_carousel');
 		},
-
+		
+		plugins: function() {
+			this.init_carousel();
+		},
+		
+		init_carousel: function() {
+			this.carousel.carousel();
+		},
+		
 		initPlugins: function() {
 			this.select2();
 		},
@@ -84,6 +96,7 @@ export default Controller.extend(
 				feed: feed,
 				sort: 'desc',
 				filter: 0,
+				iconFilter: null,
 				feedFilter: 0,
 				module: 'main',
 				themeSubs: data ? data.themeSubs.length : app.themeSubs.length,
@@ -229,6 +242,41 @@ export default Controller.extend(
 			this.reRenderFeed();
 		},
 
+		'.icon click': function (el) {
+			var oldFilter = this.data.attr('iconFilter'),
+				newFilter = el.data('filter'),
+				dataOrigin = this.getFilteredData(),
+				filterIt = newFilter == oldFilter ? false : newFilter,
+				data,
+				feed;
+
+			this.icons.removeClass('active');
+			el.addClass('active');
+
+			data = _.filter(dataOrigin, function (item) {
+				if (!filterIt){
+					return true;
+				}
+				switch (filterIt) {
+					case 'watchers':
+						return !!(item.watchers && item.watchers.length);
+						break;
+					case 'recommended':
+						return !!item.recommended;
+						break;
+					case 'spec':
+						return !!_.find(item.answer, function (answer) {
+							return !!answer.specialist;
+						});
+						break;
+				}
+				return false;
+			});
+			this.data.attr('iconFilter', newFilter);
+			feed = encyclopediaHelpers.sortArticles(data, this.data.attr('sort'), true, true);
+			this.data.attr('feed', feed);
+		},
+
 		'.feed_select change': function (el) {
 			var val = +el.val();
 			this.data.attr('feedFilter', val);
@@ -280,6 +328,10 @@ export default Controller.extend(
 					el.parent().hide();
 				}
 			});
+		},
+		
+		'a.carousel-control click': function(el, ev) {
+			ev.preventDefault();
 		}
     }
 );

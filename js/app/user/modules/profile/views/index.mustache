@@ -7,8 +7,8 @@
 				</a>
 				<span>
 					&nbsp; / &nbsp;
-					<a href="/profile">
-						{{profile.first_name}}
+					<a href="/profile" class="bradName">
+						{{user.profile.first_name}}
 					</a>
 				</span>
 				<span>
@@ -25,32 +25,68 @@
 		<div class="user_profile">
 			<div class="profileFilling">
 				<div class="title">
-					Профиль заполнен на {{profile.filling}}%
+					Профиль заполнен на {{user.profile.filling}}%
 				</div>
 				<div class="bar">
-					<div class="progress progress-{{profile.filling}}" style="width: {{profile.filling}}%">
+					<div class="progress progress-{{user.profile.filling}}" style="width: {{user.profile.filling}}%">
 					</div>
 				</div>
 			</div>
 			<div class="userMeta">
 				<div class="userPic">
 					<div class="pic">
-						<img src="{{image.large}}" alt="">
+						<img src="{{user.image.large}}" alt="">
 					</div>
 					<div class="buttons horizontal">
 						<div class="upload button" {{uploader 'profile'}}> Загрузить</div>
 						<div class="remove button">Удалить</div>
 					</div>
 				</div>
+				<div class="moneybox">
+					<div class="userLevel">
+						<div class="textLevel">
+							<div class="text">
+								<div class="level">{{userLevelNum user.points}}й Уровень</div>
+								<div class="mamaLevel">Мама {{userLevelText user.points}}</div>
+							</div>
+							
+							<div class="stars">
+
+								{{#each levels}}
+									<div class="star {{name}} {{isFilled . user.points}}"></div>
+								{{/each}}
+							</div>
+						</div>
+						<div class="pointsLeft">
+							{{leftNext user.points}}
+						</div>
+						<div class="bar">
+							{{#each levelKeys}}
+								<div class="icon {{isFilled . user.points}}">
+									<div class="adorable_table">
+										<div class="adorable_cell">
+											<div class="partial" style='width: {{diff . user.points}}%;'></div>
+										</div>
+									</div>
+								</div>
+							{{/each}}
+						</div>
+
+						<div class="levelIcon" style="background: url(/img/user/moneybox/{{levelPrefix user.points}}_achieve.png)">
+							
+						</div>
+					</div>
+
+				</div>
 			</div>
 			<div class="profileHead">
 				<div class="headWrap">
 					<h3 class="inner_title">Информация о Ваших детках</h3>
-					<div class="question_bubble tooltip" title="Сколько у вас деток, как их зовут, сколько им лет? Расскажите нам больше о своих малышах, а мы подберем для вас по-настоящему полезную и интересную информацию!">?</div>
+					<div class="question_bubble tooltip agushaTooltip" title="Сколько у вас деток, как их зовут, сколько им лет? Расскажите нам больше о своих малышах, а мы подберем для вас по-настоящему полезную и интересную информацию!">?</div>
 				</div>
 			</div>
 			<div class="childBlock">
-				{{#each children}}
+				{{#each user.children}}
 					<div class="childItem">
 						<div class="childPic" data-id="{{_id}}" "{{data 'children'}}">
 							<img src="{{image.large}}" alt="">
@@ -73,7 +109,7 @@
 			<div class="profileHead">
 				<div class="headWrap">
 					<h3 class="inner_title">Личные данные</h3>
-					<div class="question_bubble tooltip" title="Давайте знакомиться! Расскажите нам о себе подробнее и станьте частью нашего сообщества для современных мам и пап «Агуша».">?</div>
+					<div class="question_bubble tooltip agushaTooltip" title="Давайте знакомиться! Расскажите нам о себе подробнее и станьте частью нашего сообщества для современных мам и пап «Агуша».">?</div>
 				</div>
 			</div>
 			<div class="profileInfo">
@@ -81,14 +117,14 @@
 					<div class="column left">
 						<div class="inner">
 							<div class="input_row">
-								<input type="text" placeholder="Имя" can-value="profile.first_name" value="{{profile.first_name}}" >
+								<input type="text" placeholder="Имя" can-value="user.profile.first_name" value="{{user.profile.first_name}}" >
 							</div>
 						</div>
 					</div>
 					<div class="column right">
 						<div class="inner">
 							<div class="input_row">
-								<input type="text" placeholder="Фамилия" value="{{profile.last_name}}" >
+								<input type="text" placeholder="Фамилия" can-value="user.profile.last_name" value="{{user.profile.last_name}}" >
 							</div>
 						</div>
 					</div>
@@ -96,25 +132,25 @@
 
 						<div class="inner">
 							<div class="input_row">
-								<input type="text" placeholder="Отчество" value="{{profile.middle_name}}" >
+								<input type="text" placeholder="Отчество" can-value="user.profile.middle_name" value="{{user.profile.middle_name}}" >
 							</div>
 						</div>
 						<div class="inner">
 							<div class="input_row birth_date">
-								<input type="text" placeholder="День" value="{{birth_date.day}}" can-value="birth_date.day" class="birth_day editableInput" >
-								<input type="text" placeholder="Мес." value="{{birth_date.month}}" can-value="birth_date.month" class="birth_month editableInput" >
-								<input type="text" placeholder="Год" value="{{birth_date.year}}" can-value="birth_date.year" class="birth_year editableInput" >
+								<input type="text" placeholder="День" value="{{user.birth_date.day}}" can-value="user.birth_date.day" class="birth_day editableInput" >
+								<input type="text" placeholder="Мес." value="{{user.birth_date.month}}" can-value="user.birth_date.month" class="birth_month editableInput" >
+								<input type="text" placeholder="Год" value="{{user.birth_date.year}}" can-value="user.birth_date.year" class="birth_year editableInput" >
 							</div>
 						</div>
 					</div>
 					<div class="column right">
 						<div class="inner">
 							<div class="input_row">
-								<input class="editableInput" can-value="profile.gender" value="1" id="female" name="gender" {{genderChecked 'female'}} type="radio" >
+								<input class="editableInput" can-value="user.profile.gender" value="1" id="female" name="gender" {{genderChecked 'female'}} type="radio" >
 								<label for="female">
 									Женщина
 								</label>
-								<input class="editableInput" can-value="profile.gender" value="2" id="male" name="gender"{{genderChecked 'male'}} type="radio" >
+								<input class="editableInput" can-value="user.profile.gender" value="2" id="male" name="gender"{{genderChecked 'male'}} type="radio" >
 								<label for="male">
 									Мужчина
 								</label>
@@ -125,11 +161,10 @@
 				<div class="socialInfo">
 					<div class="socialText">Синхронизировать с профилем в соцсети</div>
 					<div class="social_buttons buttons horizontal">
-						<div class="button fb {{#if social.fb.id}}active{{/if}}"></div>
-						<div class="button vk {{#if social.vk.id}}active{{/if}}"></div>
-						<div class="button ok {{#if social.ok.id}}active{{/if}}"></div>
+						<div class="button fb {{#if user.social.fb.id}}active{{/if}}"></div>
+						<div class="button vk {{#if user.social.vk.id}}active{{/if}}"></div>
+						<div class="button ok {{#if user.social.ok.id}}active{{/if}}"></div>
 					</div>
-					<div class="question_bubble tooltip" title="Пожалуйста, укажите свои контактные данные максимально точно. Когда вы выиграете в каком-то из наших розыгрышей, мы сможем без проблем связаться с вами по телефону и отправить подарок на указанный адрес.">?</div>
 				</div>
 			</div>
 			<div class="profileHead">
@@ -137,7 +172,7 @@
 					<h3 class="inner_title">
 						Контактные данные
 					</h3>
-					<div class="question_bubble tooltip" title="Пожалуйста, укажите свои контактные данные максимально точно. Когда вы выиграете в каком-то из наших розыгрышей, мы сможем без проблем связаться с вами по телефону и отправить подарок на указанный адрес.">?</div>
+					<div class="question_bubble tooltip agushaTooltip" title="Пожалуйста, укажите свои контактные данные максимально точно. Когда вы выиграете в каком-то из наших розыгрышей, мы сможем без проблем связаться с вами по телефону и отправить подарок на указанный адрес.">?</div>
 				</div>
 			</div>
 			<div class="profileInfo passwordInfo">
@@ -145,18 +180,18 @@
 					<div class="column left">
 						<div class="inner">
 							<div class="input_row">
-								<input class="editableInput" placeholder="Город" value="{{contacts.city}}" can-value="contacts.city" type="text" >
+								<input class="editableInput" placeholder="Город" value="{{user.contacts.city}}" id="city" can-value="user.contacts.city" type="text" >
 							</div>
 							<div class="input_row">
-								<input class="editableInput" placeholder="Страна" value="{{contacts.country}}" can-value="contacts.country" type="text">
+								<input class="editableInput" placeholder="Страна" value="{{user.contacts.country}}" id="country" can-value="user.contacts.country" type="text">
 							</div>
 							<div class="input_row">
-								<input class="editableInput" placeholder="Улица" value="{{contacts.street}}" can-value="contacts.street" type="text" >
+								<input class="editableInput" placeholder="Улица" value="{{user.contacts.street}}" can-value="user.contacts.street" type="text" >
 							</div>
 							<div class="input_row address">
-								<input class="editableInput" placeholder="Дом" value="{{contacts.houseNum}}" can-value="contacts.houseNum" type="text" >
+								<input class="editableInput" placeholder="Дом" value="{{user.contacts.houseNum}}" can-value="user.contacts.houseNum" type="text" >
 
-								<input class="editableInput" placeholder="Квартира" value="{{contacts.apartament}}" can-value="contacts.apartament" type="text" >
+								<input class="editableInput" placeholder="Квартира" value="{{user.contacts.apartament}}" can-value="user.contacts.apartament" type="text" >
 							</div>
 							
 						</div>
@@ -164,19 +199,29 @@
 					<div class="column right">
 						<div class="inner">
 							<div class="input_row">
-								<input class="editableInput" placeholder="Почтовый индекс" value="{{contacts.postIndex}}" can-value="contacts.postIndex" type="text" >
+								<input class="editableInput" placeholder="Почтовый индекс" value="{{user.contacts.postIndex}}" can-value="user.contacts.postIndex" type="text" >
 							</div>
 							<div class="input_row">
-								<input class="editableInput phoneInput" placeholder="Телефон" value="{{contacts.phone}}" can-value="contacts.phone" type="text" >
+								<input class="editableInput phoneInput" placeholder="Телефон" value="{{user.contacts.phone}}" can-value="user.contacts.phone" type="text" >
 							</div>
 							<div class="input_row">
-								<input class="editableInput" placeholder="E-mail" value="{{contacts.email}}" can-value="contacts.email" type="text" >
+								<input class="editableInput" {{tooltip user.errors 'email' 'right'}} placeholder="E-mail" value="{{user.email}}" can-value="user.email" type="text">
 							</div>
 							<div class="input_row">
-								<input class="editableInput" placeholder="Запасной E-mail" value="{{contacts.spareEmail}}" can-value="contacts.spareEmail" type="text" >
+								<input class="editableInput" {{tooltip user.errors 'spareEmail' 'right'}} placeholder="Запасной E-mail" value="{{user.contacts.spareEmail}}" can-value="user.contacts.spareEmail" type="text" >
 							</div>
-
 						</div>
+					</div>
+				</div>
+				<div class="iAgreeBlock">
+					<div class="checkbox">
+						<input type="checkbox" id="user.agree" can-value="user.agree" {{isChekedAgree user.agree}} />
+						<label for="user.agree"></label>
+					</div>
+					<div class="text">
+						Я покупаю качественное детское питание «Агуша» и рекомендую его 
+						<br />
+						другим мамам. Присоединяюсь к «Агуша – одобрено мамами»!
 					</div>
 				</div>
 			</div>
@@ -185,15 +230,15 @@
 					<h3 class="inner_title">
 						Изменить пароль
 					</h3>
-					<div class="question_bubble tooltip" title="Выберите для себя уникальный пароль и будьте уверены в том, что никто, кроме вас, не сможет воспользоваться вашим замечательным профилем.">?</div>
+					<div class="question_bubble tooltip agushaTooltip" title="Выберите для себя уникальный пароль и будьте уверены в том, что никто, кроме вас, не сможет воспользоваться вашим замечательным профилем.">?</div>
 				</div>
 			</div>
-			<div class="profileInfo passwordInfo">
+			<div class="profileInfo passwordInfo passwords">
 				<div class="userInputs" style="margin-top: 0px;">
 					<div class="column middle">
 						<div class="inner">
 							<div class="input_row">
-								<input class="password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
+								<input class="password" can-value="old_password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
 								<span class="switcher" data-passid="oldPass"></span>
 							</div>
 						</div>
@@ -201,7 +246,7 @@
 					<div class="column left">
 						<div class="inner">
 							<div class="input_row">
-								<input data-passid="pass" placeholder="Новый пароль" type="password" class="password" >
+								<input data-passid="pass" can-value="new_password" placeholder="Новый пароль" type="password" class="password" >
 								<span class="switcher" data-passid="pass"></span>
 							</div>
 						</div>
@@ -209,13 +254,14 @@
 					<div class="column right">
 						<div class="inner">
 							<div class="input_row">
-								<input data-passid="newPass" class="password" placeholder="Новый пароль еще раз" type="password" >
+								<input data-passid="newPass" can-value="renew_password" class="password" placeholder="Новый пароль еще раз" type="password" >
 								<span class="switcher" data-passid="newPass"></span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
 			<div class="profileHead">
 				<div class="headWrap">
 					<h3 class="inner_title">
@@ -241,6 +287,10 @@
 					</div>
 				</div>
 			</div>
+
+			<button type="button" class="buttonSave">
+				Сохранить
+			</button>
 		</div>
 	</div>
 </div>
