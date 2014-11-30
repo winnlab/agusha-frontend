@@ -11,26 +11,32 @@ export default {
 		],
 		weight: 30
 	},
-	contactInfo: {
+	contactInfoRight: {
 		fields: [
 			'contacts.country',
 			'contacts.city',
 			'contacts.street',
 			'contacts.houseNum',
 			'contacts.apartament',
+		],
+		weight: 25
+	},
+	contactInfoLeft: {
+		fields: [
 			'contacts.phone',
 			'email',
-			'contacts.spareEmail'
+			'contacts.spareEmail',
+			'contacts.phone',
+			'contacts.postIndex'
 		],
-		weight: 30
+		weight: 25
 	},
-	social: {
+	photos: {
 		fields: [
-			'social.fb.id',
-			'social.vk.id',
-			'social.ok.id'
+			'image.large',
+			'image.medium',
+			'image.small'
 		],
-		weight: 40
-
+		weight: 20
 	}
 }

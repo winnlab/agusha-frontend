@@ -33,7 +33,7 @@ export default {
 		if ( $(data).filter( function() {
 			return this.text.localeCompare(term)===0;
 		}).length===0) {
-			return {id:term, text:term};
+			return {id:term, text:term.trim()};
 		}
 	},
 	placeholder: 'Город проживания',
