@@ -1,4 +1,5 @@
 import can from 'can/';
+import appState from 'core/appState';
 import Controller from 'controller'
 import moneyboxHelpers from 'modules/moneybox/moneyboxHelpers';
 
@@ -77,13 +78,17 @@ export default Controller.extend(
 			tab_block.toggleClass(this.classname);
 		},
 
-		'.tab click': function(el) {
+		'.tab click': 'changeTab',
+
+		'.link-tab click': 'changeTab',
+
+		changeTab: function(el) {
 			var tab = el.data('tab');
 
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
 		},
-		
+
 		'.up_button click': function() {
 			$('html, body').scrollTop(0);
 		}

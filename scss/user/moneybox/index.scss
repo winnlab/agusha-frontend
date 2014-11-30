@@ -9,6 +9,10 @@
 	text-align: left;
 	color: $grey;
 
+	.link-tab {
+		cursor: pointer;
+	}
+
 	.bg {
 		@include absolute_horizontal_centered;
 		width: 100%;
@@ -109,6 +113,12 @@
 			.rating_container {
 				margin-top: 30px;
 				padding: 0 14px;
+
+				&:after {
+					content: '';
+					display: table;
+					clear: both;
+				}
 			}
 
 			.icons {

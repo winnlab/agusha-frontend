@@ -9,7 +9,7 @@ mixin moneybox()
 	.big_image_container
 		.column.left
 			.adorable_table
-				.adorable_cell= 'Как получить следующее звание?'
+				.adorable_cell.link-tab(data-tab="how_it_works")= 'Как получить следующее звание?'
 
 		.column.center
 			.adorable_table
@@ -21,7 +21,7 @@ mixin moneybox()
 
 		.column.right
 			.adorable_table
-				.adorable_cell Как заработать больше баллов?
+				.adorable_cell.link-tab(data-tab="how_it_works") Как заработать больше баллов?
 	.rating_container
 		.icons
 			| {{#each lvls}}
