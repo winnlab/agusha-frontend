@@ -31,18 +31,18 @@ export default Controller.extend(
 			this.items_container = this.element.find('.items_container');
 			this.feed_container = this.element.find('.feed_container');
 			this.icons = this.element.find('.icon');
-			
+
 			this.carousel = this.element.find('#main_carousel');
 		},
-		
+
 		plugins: function() {
 			this.init_carousel();
 		},
-		
+
 		init_carousel: function() {
 			this.carousel.carousel();
 		},
-		
+
 		initPlugins: function() {
 			this.select2();
 		},
@@ -84,6 +84,11 @@ export default Controller.extend(
 			this.themeSubs = data ? data.themeSubs : app.themeSubs
 			this.consultations = data ? data.consultations : app.consultations;
 			this.feedSource = ([]).concat(this.themeSubs, this.consultations);
+
+			if (this.articlesSource.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+				this.noMoreArts = true;
+				this.element.find('.loadMore').hide();
+			}
 
 			var encyclopediaHtml,
 				feedHtml,
@@ -303,7 +308,7 @@ export default Controller.extend(
 			var self = this,
 				articles = self.data.attr('articles');
 
-			if (self.articlesNextId == 1 || !self.articlesNextId) {
+			if (self.noMoreArts) {
 				return;
 			}
 
@@ -324,12 +329,13 @@ export default Controller.extend(
 				});
 				can.batch.stop();
 
-				if (self.articlesNextId == 1 || !self.articlesNextId) {
+				if (data.documents.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+					self.noMoreArts = true;
 					el.parent().hide();
 				}
 			});
 		},
-		
+
 		'a.carousel-control click': function(el, ev) {
 			ev.preventDefault();
 		}
