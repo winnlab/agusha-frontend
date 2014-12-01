@@ -1,4 +1,5 @@
 import Controller from 'controller'
+import 'carousel'
 
 export default Controller.extend(
 	{
@@ -7,7 +8,11 @@ export default Controller.extend(
 		}
 	}, {
 		variables: function() {
-			
+			this.carousel = this.element.find('#production_carousel');
+		},
+		
+		plugins: function() {
+			this.init_carousel();
 		},
 		
 		sizes: function() {
@@ -20,6 +25,10 @@ export default Controller.extend(
 			}
 			
 			this.element[func](classname);
+		},
+		
+		init_carousel: function() {
+			this.carousel.carousel();
 		},
 		
 		after_init: function(data) {
