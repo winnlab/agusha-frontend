@@ -1,3 +1,6 @@
+<div class="well">
+    <button type="button" class="btn-lg btn-danger tmpUserRemove">Удалить ВСЕХ пользователей БЕЗВОЗВРАТНО</button>
+</div>
 <form class="panel panel-primary">
     <div class="panel-body">
         <div class="col-md-2">
