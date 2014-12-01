@@ -650,6 +650,27 @@ span.deleteicon {
 					right: -40px;
 					top: -10px;
 					position: relative;
+
+					&.novice {
+						width: 85px;
+					}
+
+					&.adept {
+						top: -40px;
+						width: 100px;
+						height: 124px;
+					}
+
+					&.expert {
+						top: -40px;
+						height: 115px;
+					}
+
+					&.pro {
+						top: -60px;
+						height: 141px;
+					}
+
 				}
 
 				.pointsLeft {
