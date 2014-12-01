@@ -179,6 +179,20 @@
                     </div>
                     {{#if article.image.background}}
                         <div class="panel-body">
+                            <upload
+                                class="col-md-12"
+                                name="image.backgroundAlt"
+                                url="/admin/article/img"
+                                delete-url="/admin/article/img"
+                                entity="{article}"
+                                uploaded="{article.image.backgroundAlt}"
+                                accept="image/*"
+                            >
+                                Загрузить альтернативное изображение фона
+                            </upload>
+                        </div>
+
+                        <div class="panel-body">
                             <button type="button" class="btn btn-primary croppers">
                                 <span>Вырезать изображения&nbsp;</span>
                                 <i class="fa fa-level-down"></i>
@@ -188,11 +202,22 @@
                             {{#each cropSizes}}
                                 <div class="panel-body cropper-wrap" data-prefix="{{size}}" data-w="{{w}}" data-h="{{h}}"> 
                                     <h4>{{name}}</h4>
-                                    <div class="col-md-6">
-                                        <img class="croppedImage" {{cropper article.image size ratio}} src="/img/uploads/{{article.image.background}}" />
-                                    </div>
+                                    {{#if article.image.backgroundAlt}}
+                                        <div>
+                                            <input type="checkbox" can-value="alt" /> Использовать альтернативное изображение?
+                                        </div>
+                                    {{/if}}
+                                    {{#if alt}}
+                                        <div class="col-md-6">
+                                            <img class="croppedImage" src="/img/uploads/{{article.image.backgroundAlt}}" {{cropper article.image size ratio}} />
+                                        </div>
+                                    {{else}}
+                                        <div class="col-md-6">
+                                            <img class="croppedImage" src="/img/uploads/{{article.image.background}}" {{cropper article.image size ratio}} />
+                                        </div>
+                                    {{/if}}
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-primary cropImage">
+                                        <button type="button" class="btn btn-primary cropImage" {{data 'cropper'}}>
                                             <i class="fa fa-crop"></i>
                                             <span>Вырезать</span>
                                         </button>
