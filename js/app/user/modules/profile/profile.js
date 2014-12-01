@@ -474,7 +474,23 @@ export default Controller.extend(
             $('body').append(renderer);
         },
         sendMessageVK: function (uid, btn) {
-            VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWallVK, this, uid, btn));
+            can.ajax({
+                url: '/profile/invitedVK',
+                method: 'GET',
+                data: {
+                    uid
+                }
+            }).done(function (response) {
+                if (response === true) {
+                    if (confirm('Этому пользователю уже было выслано приглашение, выслать все равно?')) {
+                        return VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWallVK, this, uid, btn));
+                    }
+                }
+
+                alert(_.isString(response) ? response : 'Произошла неизвестная ошибка.');
+            }).fail(function (response) {
+                alert(_.isString(response) ? response : 'Произошла неизвестная ошибка.');
+            });
         },
         uploadImageToWallVK: function (uid, btn, response) {
             can.ajax({
@@ -504,6 +520,14 @@ export default Controller.extend(
                 attachments: images && images[0] && images[0].id || ''
             }, function (response) {
                 if (response) {
+                    can.ajax({
+                        url: '/profile/invitedVK',
+                        method: 'POST',
+                        data: {
+                            uid
+                        }
+                    });
+
                     return btn
                         .addClass('sended')
                         .prop('disabled', true)
