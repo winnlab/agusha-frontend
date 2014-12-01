@@ -92,7 +92,7 @@ export default Controller.extend(
 			this.consultations = data ? data.consultations : app.consultations;
 			this.feedSource = ([]).concat(this.themeSubs, this.consultations);
 
-			if (this.articlesSource.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+			if (this.articlesSource.length < 24 || this.articlesNextId == 1 || !this.articlesNextId) {
 				this.noMoreArts = true;
 				this.element.find('.loadMore').hide();
 			}
