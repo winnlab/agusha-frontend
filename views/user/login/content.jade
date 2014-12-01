@@ -5,12 +5,12 @@
 				.adorable_cell
 					.close
 					
-					.reg_top
-						a.login.active(href="/login") Войти
-						span   /  
-						a.register(href="/registration") Зарегистрироваться
-					
 					.login_content
+						.reg_top
+							a.login.active(href="/login") Войти
+							span   /  
+							a.register(href="/registration") Зарегистрироваться
+					
 						// .login_label
 							div Введите свой e-mail и пароль для доступа ко всем 
 							div полезностям и интересностям «Агуша»!
@@ -21,19 +21,27 @@
 							
 							button.done Войти
 							
-							button.forgot_btn Забыли пароль?
+							.line_block
+								.forgot_btn
+									span Забыли пароль?
 							
 							.or_social Или быстро и просто войдите через аккаунт в соцсети!
 					
 					.reminder_content
+						.reg_top
+							span Восстановить пароль
+						
 						.login_label
 							div Чтобы востановить пароль, укажите свой e-mail.
 						
 						form.reminder_form
 							input.email(type="email", name="email", can-value="email" placeholder="E-Mail")
 							
-							div
-								button.done Напомнить
+							button.done Напомнить
+							
+							.line_block
+								.forgot_btn
+									span Зарегистрироваться?
 							
 							.or_social Или быстро и просто войдите через аккаунт в соцсети!
 					
