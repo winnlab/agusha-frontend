@@ -329,12 +329,18 @@ export default Controller.extend(
 					lastId: self.articlesNextId
 				}
 			}).done(function (data) {
-				var sorted = encyclopediaHelpers.sortArticles(data.documents, null, false, true);
+				_.each(data.documents, function (article) {
+					self.articlesSource.push(article)
+				});
+
+				var sorted = encyclopediaHelpers.sortArticles(self.articlesSource, null, true, true);
 				self.articlesNextId = data.nextAnchorId;
 
 				can.batch.start();
-				_.each(sorted, function (article) {
-					articles.push(article);
+				_.each(sorted, function (article, i) {
+					if (!articles.attr(i)) {
+						articles.push(article);
+					}
 				});
 				can.batch.stop();
 
