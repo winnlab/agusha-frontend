@@ -44,7 +44,14 @@ export default Controller.extend(
 		},
 
 		initPlugins: function() {
+			var self = this;
 			this.select2();
+
+			appState.delegate('subsChanged', 'set', function (el, newVal) {
+				if (newVal) {
+					self.updateSubscribe();
+				}
+			});
 		},
 
 		select2: function() {
@@ -136,8 +143,9 @@ export default Controller.extend(
 			this.initPlugins();
 		},
 
-		'/ route': function () {
+		updateSubscribe: function () {
 			var self = this;
+
 			can.ajax({
 				url: '/feed',
 				method: 'GET'
@@ -148,6 +156,7 @@ export default Controller.extend(
 				var data = self.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, self.data.attr('sort'), true, true);
 				self.data.attr('feed', feed);
+				appState.attr('subsChanged', false);
 			}).fail(function () {
 				console.error(arguments);
 			});
