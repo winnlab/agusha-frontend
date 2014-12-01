@@ -9,7 +9,7 @@
 							span   /  
 							a.register.active(href="/registration") Зарегистрироваться
 						
-						.login_label
+						// .login_label
 							div Введите свой e-mail и пароль для доступа ко всем 
 							div полезностям и интересностям «Агуша»!
 						
@@ -19,33 +19,29 @@
 							input.email(type="email", name="email", can-value='email' placeholder="E-Mail")
 							input.password(type="password", name="password", can-value='password' placeholder="Пароль")
 							
-							button.done Регистрация
+							button.done Зарегистрироваться
+							
+							.or_social Или быстро и просто войдите через аккаунт в соцсети!
 						
 						.social
-							.half.text
-								.adorable_table
-									.adorable_cell
-										| Или быстро и просто зарегистрируйтесь через соцсети!
-							
-							.half
-								.adorable_table
-									.adorable_cell
-										a(href="/registration/fb")
-											.social_block.social_inline.facebook
-										a(href="/registration/vk")
-											.social_block.social_inline.vkontakte
-										a(href="/registration/ok")
-											.social_block.social_inline.odnoklasniki
+							.adorable_table
+								.adorable_cell
+									a(href="/registration/fb")
+										.social_block.social_inline.facebook
+									a(href="/registration/vk")
+										.social_block.social_inline.vkontakte
+									a(href="/registration/ok")
+										.social_block.social_inline.odnoklasniki
 						
-						.get_text Регистрируйтесь и получайте
+						// .get_text Регистрируйтесь и получайте
 				
 				.reg_box_inside.registered.adorable_table
 					.adorable_cell
-						.title Регистрация прошла успешно!
+						.title
+							div Поздравляем!
+							div Вы успешно зарегистрировались
 						
-						.center_text Наш чудесный сайт может помочь вам получать ту информацию которая наиболее актуальна для вашего малыша! Отбирая для вас статьи в соответствии с возрастом вашей крохи.
-						
-						.bottom_text Для этого в настройках профиля укажите пол и возраст ребенка.
+						.bottom_text Мы отправили письмо-подтверждение на ваш e-mail
 			
 			.pinball.left
 						

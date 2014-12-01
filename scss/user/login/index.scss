@@ -5,21 +5,30 @@
 	height: 100%;
     width: 100%;
 	background-color: #2385b2;
+	overflow: hidden;
 	
 	.reg_box {
-		width: 530px;
-		margin: 0 0 46px;
+		width: 580px;
 		height: 389px;
-		background: url('/img/user/registration/reg_box_bg_2.png') no-repeat;
+		margin-bottom: 136px;
+		
+		&:after {
+			@include pseudo;
+			@include absolute_horizontal_centered;
+			width: 125px;
+			height: 164px;
+			bottom: -136px;
+			background: url('/img/user/registration/child_2.png') no-repeat;
+		}
 		
 		.adorable_table {
 			> .adorable_cell {
-				padding: 0 58px;
+				padding: 0 20px;
 			}
 		}
 		
 		input {
-			margin-top: 25px;
+			margin-top: 45px;
 			height: 39px;
 
 			&.error {
@@ -50,6 +59,10 @@
 			.close {
 				display: block;
 			}
+			
+			.done {
+				width: 132px;
+			}
 		}
 	}
 	
@@ -68,8 +81,9 @@
 	}
 	
 	.done {
-		width: 153px;
-		margin-left: 20px;
+		@include border_radius(5px);
+		width: 80px;
+		margin-left: 10px;
 	}
 	
 	.forgot_btn {
@@ -84,7 +98,7 @@
 	}
 	
 	.or_social {
-		margin-top: 27px;
+		margin-top: 20px;
 	}
 	
 	.social {
