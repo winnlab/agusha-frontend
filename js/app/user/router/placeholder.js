@@ -66,7 +66,7 @@ export default can.Map.extend({
 			window.core.hide_right_menu();
 		}
 		
-		if(id == 'login' || 'registration') {
+		if(id == 'login' || id == 'registration') {
 			this.footer.hide();
 		} else {
 			this.footer.show();

@@ -12,6 +12,12 @@ export default {
 			return {id:term, text:term};
 		}
 	},
+	matcher: function(term, text) {
+		term = term.trim();
+		text = text.trim();
+
+		return text.toUpperCase().indexOf(term.toUpperCase()) >= 0;
+	},
 	placeholder: 'Город проживания',
 	formatSearching: 'Поиск...',
 	formatNoMatches: 'За вашим запросом ничего не найдено',

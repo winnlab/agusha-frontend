@@ -1,9 +1,10 @@
 @import '../dynamic/dynamic';
 
 .reg_box {
-	height: 374px;
-	background: url('/img/user/main/reg_box_bg.png') no-repeat center;
+	@include box_shadow(inset 0px 0px 0px 4px #57bbe8, inset 0px 7px 0px 0px rgba(55, 159, 210, 1));
+	@include border_radius(18px);
 	color: $white;
+	background-color: $blue;
 	
 	> .adorable_table {
 		> .adorable_cell {
@@ -13,14 +14,24 @@
 	
 	input {
 		width: 202px;
-		text-align: center;
 		margin-top: 20px;
+		padding: 0 15px;
+		color: $titlegrey;
+		
+		&:hover {
+			@include box_shadow(0px 2px 4px 0px rgba(0, 0, 0, 0.22));
+		}
 	}
 	
 	.done {
 		color: white;
 		background-color: $lightblue;
 		margin-top: 14px;
+		
+		&:hover {
+			opacity: 1;
+			@include box_shadow(0px 2px 4px 0px rgba(0, 0, 0, 0.22));
+		}
 	}
 	
 	.reg_top {
@@ -28,6 +39,12 @@
 		font-size: 15.25px;
 		color: $lightblue;
 		text-transform: uppercase;
+		
+		a {
+			&:hover {
+				color: white;
+			}
+		}
 		
 		span, a {
 			padding: 0 2px;
@@ -44,9 +61,14 @@
 		text-align: right;
 		padding-top: 5px;
 	}
+	
+	.or_social {
+		font-size: 16px;
+		font-family: 'PT_Sans_Italic';
+	}
 
 	.social {
-		padding-top: 29px;
+		padding-top: 25px;
 	}
 	
 	.social_text {
@@ -59,26 +81,77 @@
 	
 	.social_inline {
 		@include my_inline_block;
-		height: 40px;
+		height: 60px;
 	}
 	
 	.social_block {
 		@include rounded;
-		width: 40px;
+		@include box_shadow(0px 0px 0px 0px transparent);
+		width: 60px;
 		background-color: #a3d7f0;
-		margin: 0 5px;
+		margin: 0 10px;
 		cursor: pointer;
+		position: relative;
+		
+		&:hover {
+			@include box_shadow(0px 2px 4px 0px rgba(0, 0, 0, 0.22));
+		}
+		
+		&:active {
+			@include box_shadow(0px 0px 0px 0px transparent);
+		}
+		
+		&:after {
+			@include pseudo;
+			@include absolute_centered;
+		}
 		
 		&.facebook {
-			background: url('/img/user/registration/facebook.png') center no-repeat #A3D7F0;
+			&:after {
+				width: 9px;
+				height: 18px;
+				background: url('/img/user/registration/facebook.png') no-repeat;
+			}
+			
+			&:hover, &:active {
+				background-color: #5276b5;
+				
+				&:after {
+					background-position: -10px 0;
+				}
+			}
 		}
 		
 		&.vkontakte {
-			background: url('/img/user/registration/vk.png') center no-repeat #A3D7F0;
+			&:after {
+				width: 14px;
+				height: 17px;
+				background: url('/img/user/registration/vk.png') no-repeat;
+			}
+			
+			&:hover, &:active {
+				background-color: #4c75a3;
+				
+				&:after {
+					background-position: -15px 0;
+				}
+			}
 		}
 		
 		&.odnoklasniki {
-			background: url('/img/user/registration/odnoklasniki.png') center no-repeat #A3D7F0;
+			&:after {
+				width: 12px;
+				height: 21px;
+				background: url('/img/user/registration/odnoklasniki.png') no-repeat;
+			}
+			
+			&:hover, &:active {
+				background-color: #f7840f;
+				
+				&:after {
+					background-position: -13px 0;
+				}
+			}
 		}
 	}
 }

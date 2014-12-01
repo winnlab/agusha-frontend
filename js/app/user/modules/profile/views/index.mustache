@@ -53,7 +53,7 @@
 							<div class="stars">
 
 								{{#each levels}}
-									<div class="star {{name}} {{isFilled . user.points}}"></div>
+									<div class="star {{name}} {{isFilledStart . user.points}}"></div>
 								{{/each}}
 							</div>
 						</div>
@@ -65,14 +65,14 @@
 								<div class="icon {{isFilled . user.points}}">
 									<div class="adorable_table">
 										<div class="adorable_cell">
-											<div class="partial" style='width: {{diff . user.points}}%;'></div>
+											<div class="partial" style='width: {{diff @index user.points}}%;'></div>
 										</div>
 									</div>
 								</div>
 							{{/each}}
 						</div>
 
-						<div class="levelIcon" style="background: url(/img/user/moneybox/{{levelPrefix user.points}}_achieve.png)">
+						<div class="levelIcon {{levelPrefix user.points}}" style="background: url(/img/user/moneybox/{{levelPrefix user.points}}_achieve.png)">
 							
 						</div>
 					</div>
