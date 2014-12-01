@@ -4,6 +4,8 @@ import can from 'can/';
 import Ratings from 'ratings';
 import commentaryView from 'js/app/user/lib/commentaries/views/commentary.mustache!'
 import _ from 'lodash';
+import appState from 'core/appState';
+
 
 export default can.Control.extend({
     defaults: {
