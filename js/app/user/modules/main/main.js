@@ -150,8 +150,8 @@ export default Controller.extend(
 				url: '/feed',
 				method: 'GET'
 			}).done(function (data) {
-				self.themeSubs = data ? data.themeSubs : app.themeSubs
-				self.consultations = data ? data.consultations : app.consultations;
+				self.themeSubs = data ? data.themeSubs : []
+				self.consultations = data ? data.consultations : [];
 				self.feedSource = ([]).concat(self.themeSubs, self.consultations);
 				var data = self.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, self.data.attr('sort'), true, true);
