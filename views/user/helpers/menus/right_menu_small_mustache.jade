@@ -3,9 +3,13 @@ mixin points()
 		.you_have
 			div У ВАС
 			| {{#if auth.isAuth}}
-			div {{points}} б.
+			div
+				span.points_number {{points}}
+				span  б.
 			| {{else}}
-			div 0 б.
+			div
+				span.points_number 0
+				soan  б.
 			| {{/if}}
 		
 		.moneybox
