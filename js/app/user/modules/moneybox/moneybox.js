@@ -45,7 +45,7 @@ export default Controller.extend(
 
 			this.element.find('.moneyBoxWrap').html(can.view('moneybox_mustache', this.module, moneyboxHelpers));
 
-			appState.delegate('moneybox', set, can.proxy(this.moneyboxed, this))
+			appState.delegate('moneybox', 'set', can.proxy(this.moneyboxed, this))
 		},
 
 		moneyboxed: function (ev, newVal) {
