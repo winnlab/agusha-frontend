@@ -143,8 +143,6 @@ export default Controller.extend(
 					coords = limit + 'px';
 				}
 
-				console.log(coords);
-
 				$bg.css({
 					top: coords
 				});
