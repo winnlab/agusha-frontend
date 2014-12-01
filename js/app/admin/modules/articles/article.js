@@ -87,10 +87,10 @@ export default Edit.extend({
 		self.module.attr('addingGallery', false);
 		self.module.attr('showCroppers', false);
 		self.module.attr('cropSizes', [
-			{size: 'B', name: 'Фоновое изображение', ratio: 2.31, w: 1850, h: 800},
-			{size: 'S', name: 'Малое изображение (S)', ratio: 0.96, w: 290, h: 303},
-			{size: 'L', name: 'Большое изображение (L)', ratio: 1.91, w: 580, h: 303},
-			{size: 'XL', name: 'Экстра большое изображение (XL)', ratio: 0.96, w: 580, h: 606}
+			{size: 'B', name: 'Фоновое изображение', ratio: 2.31, w: 1850, h: 800, alt: options.doc.attr('image.dataB.alt') || false},
+			{size: 'S', name: 'Малое изображение (S)', ratio: 0.96, w: 290, h: 303, alt: options.doc.attr('image.dataS.alt') || false},
+			{size: 'L', name: 'Большое изображение (L)', ratio: 1.91, w: 580, h: 303, alt: options.doc.attr('image.dataL.alt') || false},
+			{size: 'XL', name: 'Экстра большое изображение (XL)', ratio: 0.96, w: 580, h: 606, alt: options.doc.attr('image.dataXL.alt') || false}
 		]);
 
 		self.loadView(options.viewpath + options.viewName, self.module);
@@ -270,6 +270,7 @@ export default Edit.extend({
 				id: self.module.attr(`${moduleName}._id`)
 			};
 
+			data.data.alt = el.data('cropper').attr('alt');
 			data.data.imgWidth = wrap.data('w');
 			data.data.imgHeight = wrap.data('h');
 
