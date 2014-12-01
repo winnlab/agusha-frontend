@@ -62,7 +62,7 @@ export default Controller.extend(
 	}, {
 		after_init: function(data) {
 			var registration = $('#registration'), html,
-				that = this, isOpenedError = false;
+				that = this, isOpenedError = false, auth, isAuth;
 
 			if(!registration.length) {
 				html = jadeTemplate.get('user/registration/content');
@@ -73,6 +73,13 @@ export default Controller.extend(
 			can.view.mustache('reg', html);
 
 			this.data = new ViewModel();
+
+			auth = appState.attr('user').auth;
+
+            if(auth && auth.isAuth) {
+                can.route.attr({module: 'profile'});
+                return;
+            }
 
 			$('#registration').html(can.view('reg', this.data));
 

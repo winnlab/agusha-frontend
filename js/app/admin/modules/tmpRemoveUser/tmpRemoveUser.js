@@ -14,12 +14,36 @@ export default can.Control({}, {
             url: '/admin/tmpUserRemove',
             method: 'POST',
             data: data
-        }).done(function(response) {
+        }).done(function (response) {
             if (response === true) {
-                saSuccess('Удалено!');
-            } else {
-                saError(response);
+                return saSuccess('Удалено!');
             }
+
+            saError(response);
         })
+    },
+
+    '.tmpUserRemove click': function (el, ev) {
+        saConfirm(
+            'УДАЛЕНИЕ',
+            "Все пользователи в БД будут удалены БЕЗ ВОЗМОЖНОСТИ ВОССТАНОВЛЕНИЯ. Продолжить?",
+            {},
+            function (isConfirm) {
+                if (! isConfirm) {
+                    return;
+                }
+
+                can.ajax({
+                    url: '/admin/tmpUserRemove',
+                    method: 'DELETE'
+                }).done(function (response) {
+                    if (response === true) {
+                        return saSuccess('Все пользователи удалены');
+                    }
+
+                    saError(response);
+                });
+            }
+        );
     }
 });
