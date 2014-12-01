@@ -60,7 +60,6 @@ export default Controller.extend(
 			}).done(function (data) {
 				self.attr('actions').replace(data.data.actions)
 				self.attr('points', data.data.points);
-				appState.attr('moneybox', false)
 			});
 		},
 
