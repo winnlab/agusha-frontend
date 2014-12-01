@@ -116,58 +116,70 @@ can.mustache.registerHelper('userLevelText', function(points) {
     return level;
 });
 
-can.mustache.registerHelper('isFilled', function(level, points, options) {
-    var diff;
+can.mustache.registerHelper('isFilledStart', function(level, points, options) {
+    var l;
 
     points = typeof points === 'function' ? points() : points;
 
-    diff = 200 - (Number(level.points) - Number(points));
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            l = levels[i];
+        }
+    }
 
-    if (Number(points) > level.points) {
+    if(l == undefined) {
+        l = levels[0];
+    }
+
+    if(l.points >= level.points) {
         return 'filled';
     }
-
-    return '';
 });
 
-can.mustache.registerHelper('diff', function(k, points, options) {
-    var diff, level, relVal, nextLevelVal, getLevel, relItemVal;
+can.mustache.registerHelper('isFilled', function(level, points, options) {
+    var l;
 
     points = typeof points === 'function' ? points() : points;
 
-    level = _.filter(levels, function(item, i, list) {
-        var ps = item.points, next = list[i+1], prev = list[i-1];
-
-        if(points > ps && !next && prev) {
-            return true;
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            l = levels[i];
         }
-
-        if(points > ps && !prev && next && points < next.points) {
-            return true;
-        }
-
-        if(points < ps && prev && prev.points && points > prev.points) {
-            return true;
-        }
-    }).pop()
-
-    if(level == undefined) {
-        level = levels[0];
     }
 
-    relVal = (level.points / k)/100;
-    relItemVal = level.points/7;
-
-    if(relVal > 1) {
-        return 100
+    if(l == undefined) {
+        return '';
     }
 
-    var left =(level.points-((k-1)*100))+(points-((k-1)*100));
-
-    if(left > 0) {
-        return left/relItemVal*100;
+    if(l.points >= level.points) {
+        return 'filled';
     }
-    return 0;
+});
+
+can.mustache.registerHelper('diff', function(index, points, options) {
+    var l, relItemVal, itemPoints;
+
+    index = typeof index === 'function' ? index() : index;
+    points = typeof points === 'function' ? points() : points;
+
+    for(var i in levels) {
+        if(points > levels[i].points) {
+            l = levels[i];
+        }
+    }
+
+    if(l == undefined) {
+        l = levels[0];
+    }
+
+    relItemVal = l.points/7;
+    itemPoints = points-(relItemVal*index);
+
+    if(itemPoints < 0) {
+        return 0;
+    }
+
+    return itemPoints/relItemVal*100;
 });
 
 can.mustache.registerHelper('leftNext', function(points) {

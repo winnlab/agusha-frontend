@@ -2,10 +2,13 @@ import can from 'can/'
 import _ from 'underscore'
 
 export default can.Map.extend({
+	footer: $('#footer'),
+	
 	modules: [],
 
 	initModule: function (module) {
 		var self = this;
+		
 		if (!self.checkModule(module.id)) {
 			System.import(module.path.client).then((Module) => {
 				if(Module) {
@@ -61,6 +64,12 @@ export default can.Map.extend({
 		if(id == 'encyclopedia') {
 			window.core.hide_left_menu();
 			window.core.hide_right_menu();
+		}
+		
+		if(id == 'login' || id == 'registration') {
+			this.footer.hide();
+		} else {
+			this.footer.show();
 		}
 	},
 	

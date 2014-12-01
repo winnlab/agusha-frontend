@@ -50,7 +50,7 @@ input {
 	font-family: 'PT_Sans_Bold' !important;
 	
 	&.error {
-		@include box_shadow(inset 0 0 0 3px #fd7b6a !important);
+		@include box_shadow(inset 0 0 0 2px #e57373 !important);
 		background: $white !important;
 	}
 }

@@ -31,20 +31,27 @@ export default Controller.extend(
 			this.items_container = this.element.find('.items_container');
 			this.feed_container = this.element.find('.feed_container');
 			this.icons = this.element.find('.icon');
-			
+
 			this.carousel = this.element.find('#main_carousel');
 		},
-		
+
 		plugins: function() {
 			this.init_carousel();
 		},
-		
+
 		init_carousel: function() {
 			this.carousel.carousel();
 		},
-		
+
 		initPlugins: function() {
+			var self = this;
 			this.select2();
+
+			appState.delegate('subsChanged', 'set', function (el, newVal) {
+				if (newVal) {
+					self.updateSubscribe();
+				}
+			});
 		},
 
 		select2: function() {
@@ -84,6 +91,11 @@ export default Controller.extend(
 			this.themeSubs = data ? data.themeSubs : app.themeSubs
 			this.consultations = data ? data.consultations : app.consultations;
 			this.feedSource = ([]).concat(this.themeSubs, this.consultations);
+
+			if (this.articlesSource.length < 24 || this.articlesNextId == 1 || !this.articlesNextId) {
+				this.noMoreArts = true;
+				this.element.find('.loadMore').hide();
+			}
 
 			var encyclopediaHtml,
 				feedHtml,
@@ -131,18 +143,20 @@ export default Controller.extend(
 			this.initPlugins();
 		},
 
-		'/ route': function () {
+		updateSubscribe: function () {
 			var self = this;
+
 			can.ajax({
 				url: '/feed',
 				method: 'GET'
 			}).done(function (data) {
-				self.themeSubs = data ? data.themeSubs : app.themeSubs
-				self.consultations = data ? data.consultations : app.consultations;
+				self.themeSubs = data ? data.themeSubs : []
+				self.consultations = data ? data.consultations : [];
 				self.feedSource = ([]).concat(self.themeSubs, self.consultations);
 				var data = self.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, self.data.attr('sort'), true, true);
 				self.data.attr('feed', feed);
+				appState.attr('subsChanged', false);
 			}).fail(function () {
 				console.error(arguments);
 			});
@@ -303,7 +317,7 @@ export default Controller.extend(
 			var self = this,
 				articles = self.data.attr('articles');
 
-			if (self.articlesNextId == 1 || !self.articlesNextId) {
+			if (self.noMoreArts) {
 				return;
 			}
 
@@ -315,21 +329,28 @@ export default Controller.extend(
 					lastId: self.articlesNextId
 				}
 			}).done(function (data) {
-				var sorted = encyclopediaHelpers.sortArticles(data.documents, null, false, true);
+				_.each(data.documents, function (article) {
+					self.articlesSource.push(article)
+				});
+
+				var sorted = encyclopediaHelpers.sortArticles(self.articlesSource, null, true, true);
 				self.articlesNextId = data.nextAnchorId;
 
 				can.batch.start();
-				_.each(sorted, function (article) {
-					articles.push(article);
+				_.each(sorted, function (article, i) {
+					if (!articles.attr(i)) {
+						articles.push(article);
+					}
 				});
 				can.batch.stop();
 
-				if (self.articlesNextId == 1 || !self.articlesNextId) {
+				if (data.documents.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+					self.noMoreArts = true;
 					el.parent().hide();
 				}
 			});
 		},
-		
+
 		'a.carousel-control click': function(el, ev) {
 			ev.preventDefault();
 		}

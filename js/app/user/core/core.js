@@ -34,31 +34,55 @@ var Core = can.Control.extend(
 			this.start = null;
 			this.initBindings();
 			this.resize();
+			
+			appState.delegate('moneybox', 'set', can.proxy(this.moneyboxed, this));
 		},
+		
+		moneyboxed: function (ev, newVal) {
+			if (!newVal) {
+				return;
+			}
+			
+			can.ajax({
+				url: '/moneybox-points-only',
+				dataType: 'json',
+				method: 'get'
+			}).done(function (data) {
+				$('#right_menu_small .points_number').html(data.data.points);
+				appState.attr('moneybox', false);
+			});
+		},
+		
 		'.logout click': function() {
 			this.hide_right_menu()
 			appState.attr('user').logout()
 		},
+		
 		'#right_menu_small .subTopper .top click': function() {
 			var user = appState.attr('user'),
 				isAuth = user.auth.attr('isAuth');
-
-			if (isAuth) {
+			
+			if(isAuth) {
+				this.left_resizable.addClass('small');
+				this.right_menu.toggleClass('active');
+				this.animate_left_inner_menu();
+				this.requestAnimFrame();
+				
 				return;
 			}
-
+			
 			can.route.attr({module: 'registration'})
 		},
 
 		step: function(timestamp) {
 			var that = this;
-
+			
 			if(this.start === null) {
 				this.start = timestamp;
 			}
-
+			
 			var progress = timestamp - this.start;
-
+			
 			this.window.trigger('custom_resize');
 
 			if(progress <= 300) {
@@ -97,20 +121,6 @@ var Core = can.Control.extend(
 		'#left_menu .about click': function(el) {
 			this.animate_left_inner_menu(true);
 
-			this.requestAnimFrame();
-		},
-
-		'#right_menu_small click': function(el) {
-			var user = appState.attr('user'),
-				isAuth = user.auth.attr('isAuth');
-
-			if (!isAuth) {
-				return;
-			}
-
-			this.left_resizable.addClass('small');
-			this.right_menu.toggleClass('active');
-			this.animate_left_inner_menu();
 			this.requestAnimFrame();
 		},
 

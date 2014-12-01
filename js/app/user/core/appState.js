@@ -6,6 +6,7 @@ import User from 'lib/user/';
 
 var AppState = can.Map.extend({
     moneybox: false,
+    subsChanged: false,
     viewport: new Viewport('body'),
     popUp: new PopUp('body'),
     imageCropper: cropperPopUp,

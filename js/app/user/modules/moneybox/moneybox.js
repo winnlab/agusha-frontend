@@ -1,4 +1,5 @@
 import can from 'can/';
+import appState from 'core/appState';
 import Controller from 'controller'
 import moneyboxHelpers from 'modules/moneybox/moneyboxHelpers';
 
@@ -44,7 +45,7 @@ export default Controller.extend(
 
 			this.element.find('.moneyBoxWrap').html(can.view('moneybox_mustache', this.module, moneyboxHelpers));
 
-			appState.delegate('moneybox', set, can.proxy(this.moneyboxed, this))
+			appState.delegate('moneybox', 'set', can.proxy(this.moneyboxed, this))
 		},
 
 		moneyboxed: function (ev, newVal) {
@@ -59,7 +60,6 @@ export default Controller.extend(
 			}).done(function (data) {
 				self.attr('actions').replace(data.data.actions)
 				self.attr('points', data.data.points);
-				appState.attr('moneybox', false)
 			});
 		},
 
@@ -77,11 +77,19 @@ export default Controller.extend(
 			tab_block.toggleClass(this.classname);
 		},
 
-		'.tab click': function(el) {
+		'.tab click': 'changeTab',
+
+		'.link-tab click': 'changeTab',
+
+		changeTab: function(el) {
 			var tab = el.data('tab');
 
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
+		},
+
+		'.up_button click': function() {
+			$('html, body').scrollTop(0);
 		}
 	}
 );

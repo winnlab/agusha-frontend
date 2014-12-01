@@ -89,7 +89,8 @@ export default Controller.extend(
 		after_init: function(data) {
 			this.articlesSource = data ? data.articles.documents : app.articles.documents;
 			this.articlesNextId = data ? data.articles.nextAnchorId : app.articles.nextAnchorId;
-			if (this.articlesNextId == 1 || !this.articlesNextId) {
+			if (this.articlesSource.length < 24 || this.articlesNextId == 1 || !this.articlesNextId) {
+				this.noMoreArts = true;
 				this.element.find('.loadMore').hide()
 			}
 			this.isXL(data ? data.themes : app.themes);
@@ -238,9 +239,9 @@ export default Controller.extend(
 					lastId: self.articlesNextId
 				};
 
-			// if (self.articlesNextId == 1 || !self.articlesNextId) {
-			// 	return;
-			// }
+			if (self.noMoreArts) {
+				return;
+			}
 
 			if (self.data.attr('theme') && self.data.attr('age')) {
 				data['age'] = {
@@ -275,7 +276,8 @@ export default Controller.extend(
 				});
 				can.batch.stop();
 
-				if (self.articlesNextId == 1 || !self.articlesNextId) {
+				if (data.documents < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+					self.noMoreArts = true;
 					el.parent().hide();
 				}
 			});

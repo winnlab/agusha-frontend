@@ -1,4 +1,17 @@
-
+mixin points()
+	.points
+		.you_have
+			div У ВАС
+			div
+				span.points_number #{user?user.points : 0}
+				span  б.
+		
+		.moneybox
+			img(src="/img/user/core/moneybox.png")
+		
+		.for_gifts
+			div на
+			div подарки
 
 .topper
 	.subTopper
@@ -6,21 +19,15 @@
 		- if (user && user.getImage('min'))
 			| #{JSON.stringify(user)}
 			img(src="/img/uploads/"+(user ? user.getImage('min') : ''))
-
+		
 		- if(user)
-			.message
-				.circle.rounded.adorable_table
-					.adorable_cell.unreadConversationsAmount= (user?user.points:0)
-.points
-	.you_have
-		div У ВАС
-		div #{user?user.points : 0} б.
-	
-	.moneybox
-		img(src="/img/user/core/moneybox.png")
-	
-	.for_gifts
-		div на
-		div подарки
-	
+			a.new_module(href="/messages")
+				.message
+					.circle.rounded.adorable_table
+						.adorable_cell.unreadConversationsAmount= (user?user.points:0)
 
+if user
+	a.new_module(href="/moneybox")
+		mixin points()
+else
+	mixin points()

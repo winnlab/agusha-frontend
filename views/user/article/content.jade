@@ -10,8 +10,12 @@ if user
 				- isLiked = 'isLiked'
 
 if article.image
-	.articleBackground.bg(style=(article.image && article.image.B ? 'background-image: url("/img/uploads/#{article.image.B}");' : 'background-image: url("/img/uploads/#{article.image.background}");'))
-		.darkenBg
+	.bg.articleBackground
+		div.bgImageWrapper
+			.darkenBg
+			img(src=(article.image && article.image.B ? "/img/uploads/#{article.image.B}" : "/img/uploads/#{article.image.background}"))
+	//.articleBackground.bg(style=(article.image && article.image.B ? 'background-image: url("/img/uploads/#{article.image.B}");' : 'background-image: url("/img/uploads/#{article.image.background}");'))
+	//	.darkenBg
 
 .content
 	include ../helpers/breadcrumbs
@@ -125,8 +129,9 @@ if article.image
 						.adorable_cell
 							.warning Добавлять комментарии могут только авторизированные пользователи
 							.explanation
-								| Есть что сказать? Авторизуйтесь и используйте 
-								span.italic все приимущества
+								| Есть что сказать? Авторизуйтесь и используйте
+								span.italic
+									|  все преимущества
 								|  своего профиля!
 								.links
 								a.login(href="/login", class="new_module") Вход

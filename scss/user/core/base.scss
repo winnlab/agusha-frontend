@@ -102,6 +102,7 @@ table tr {
 	.top {
 		height: 70px;
 		position: relative;
+		cursor: pointer;
 
 		&:before, img {
 			@include absolute_centered;
@@ -295,6 +296,7 @@ table tr {
 
 	.child_name {
 		font-family: 'PT_Sans_Bold';
+		text-transform: capitalize;
 	}
 
 	.item {
@@ -668,6 +670,12 @@ table tr {
 			display: block;
 			position: relative;
 			z-index: 1;
+		}
+		
+		img {
+			@include box_shadow(0 0 0 rgba(0, 0, 0, 0));
+			width: 57px;
+			height: 25px;
 		}
 	}
 
@@ -1247,14 +1255,16 @@ table tr {
 
 .module {
 	display: none;
-
+	margin: 0 auto;
+	
 	.content {
 		position: relative;
 		z-index: 10;
+		margin: 0 auto;
 	}
-
+	
 	&.active {
-		@include my_inline_block;
+		display: block;
 	}
 }
 

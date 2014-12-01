@@ -97,7 +97,7 @@ export default Controller.extend(
 			}
 		},
 
-		moveBackground: function () {
+/*		moveBackground: function () {
 			var $bg = $('.articleBackground', this.element);
 			var yPos = window.scrollY || $(window).scrollTop();
 			var coords = 'center';
@@ -123,6 +123,29 @@ export default Controller.extend(
 						backgroundPosition: coords
 					});
 				}
+			}
+		}*/
+
+		moveBackground: function () {
+			var $bg = $('.articleBackground', this.element);
+			var yPos = window.scrollY || $(window).scrollTop();
+			var coords = '0px';
+
+			if ($bg.find('img').length > 0) {
+
+				var bgHeight = $bg.height();
+
+				var limit = $('.article_bottom', this.element).offset().top - bgHeight - 8;
+
+				if ( yPos <= limit ) {
+					coords = yPos + 'px';
+				} else {
+					coords = limit + 'px';
+				}
+
+				$bg.css({
+					top: coords
+				});
 			}
 		}
 	}
