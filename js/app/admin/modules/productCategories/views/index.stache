@@ -16,7 +16,7 @@
     <div class='panel-body' id='productCategoriesList'>
         {{#if productCategories.isResolved}}
             {{#if productCategories.length}}
-                {{#each productCategories}}
+                {{#sortedBy productCategories 'position' 'desc'}}
                     <div class='row productCategories' {{data "productCategories"}}>
                         <div class='input-group'>
                             <span class="input-group-addon">
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                {{/each}}
+                {{/sortedBy}}
             {{/if}}
         {{/if}}
     </div>
