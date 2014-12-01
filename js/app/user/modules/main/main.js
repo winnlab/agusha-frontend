@@ -92,7 +92,7 @@ export default Controller.extend(
 			this.consultations = data ? data.consultations : app.consultations;
 			this.feedSource = ([]).concat(this.themeSubs, this.consultations);
 
-			if (this.articlesSource.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+			if (this.articlesSource.length < 24 || this.articlesNextId == 1 || !this.articlesNextId) {
 				this.noMoreArts = true;
 				this.element.find('.loadMore').hide();
 			}
@@ -150,8 +150,8 @@ export default Controller.extend(
 				url: '/feed',
 				method: 'GET'
 			}).done(function (data) {
-				self.themeSubs = data ? data.themeSubs : app.themeSubs
-				self.consultations = data ? data.consultations : app.consultations;
+				self.themeSubs = data ? data.themeSubs : []
+				self.consultations = data ? data.consultations : [];
 				self.feedSource = ([]).concat(self.themeSubs, self.consultations);
 				var data = self.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, self.data.attr('sort'), true, true);
@@ -329,12 +329,18 @@ export default Controller.extend(
 					lastId: self.articlesNextId
 				}
 			}).done(function (data) {
-				var sorted = encyclopediaHelpers.sortArticles(data.documents, null, false, true);
+				_.each(data.documents, function (article) {
+					self.articlesSource.push(article)
+				});
+
+				var sorted = encyclopediaHelpers.sortArticles(self.articlesSource, null, true, true);
 				self.articlesNextId = data.nextAnchorId;
 
 				can.batch.start();
-				_.each(sorted, function (article) {
-					articles.push(article);
+				_.each(sorted, function (article, i) {
+					if (!articles.attr(i)) {
+						articles.push(article);
+					}
 				});
 				can.batch.stop();
 
