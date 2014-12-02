@@ -486,6 +486,8 @@ export default Controller.extend(
             $('body').append(renderer);
         },
         sendMessageVK: function (uid, btn) {
+            var self = this;
+
             can.ajax({
                 url: '/profile/invitedVK',
                 method: 'GET',
@@ -493,15 +495,25 @@ export default Controller.extend(
                     uid
                 }
             }).done(function (response) {
+                if (typeof response === 'string') {
+                    return appState.attr('popUp').show({
+                        title: 'Ошибка!',
+                        text: _.isString(response) ? response : 'Произошла неизвестная ошибка.'
+                    });
+                }
+
                 if (response === true) {
-                    if (confirm('Этому пользователю уже было выслано приглашение, выслать все равно?')) {
-                        return VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWallVK, this, uid, btn));
+                    if (!confirm('Этому пользователю уже было выслано приглашение, выслать все равно?')) {
+                        return self.checkSocialButton(btn);
                     }
                 }
 
-                alert(_.isString(response) ? response : 'Произошла неизвестная ошибка.');
+                VK.Api.call('photos.getWallUploadServer', {}, _.bind(self.uploadImageToWallVK, self, uid, btn));
             }).fail(function (response) {
-                alert(_.isString(response) ? response : 'Произошла неизвестная ошибка.');
+                appState.attr('popUp').show({
+                    title: 'Ошибка!',
+                    text: _.isString(response) ? response : 'Произошла неизвестная ошибка.'
+                });
             });
         },
         uploadImageToWallVK: function (uid, btn, response) {
@@ -524,7 +536,8 @@ export default Controller.extend(
             }, _.bind(this.sendFriendsMessageVK, this, uid, btn));
         },
         sendFriendsMessageVK: function (uid, btn, response) {
-            var images = response.response;
+            var images = response.response,
+                self = this;
 
             VK.Api.call('wall.post', {
                 owner_id: uid,
@@ -540,15 +553,23 @@ export default Controller.extend(
                         }
                     });
 
-                    return btn
-                        .addClass('sended')
-                        .prop('disabled', true)
-                        .html('ОТПРАВЛЕНО')
-                        .off('click');
+                    return self.checkSocialButton(btn);
                 }
 
-                alert('Произошла ошибка при отправке сообщения, пожалуйста, попробуйте позже.')
+                appState.attr('moneybox', true);
+
+                appState.attr('popUp').show({
+                    title: 'Ошибка!',
+                    text: 'Произошла ошибка при отправке сообщения, пожалуйста, попробуйте позже.'
+                });
             })
+        },
+        checkSocialButton: function (btn) {
+            btn
+                .addClass('sended')
+                .prop('disabled', true)
+                .html('ОТПРАВЛЕНО')
+                .off('click');
         }
     }
 );
