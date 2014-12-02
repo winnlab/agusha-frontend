@@ -1,91 +1,136 @@
-.content
-	include ../helpers/breadcrumbs
+.carousel_container
+	.content.breadcrumbs_content
+		include ../helpers/breadcrumbs
 	
-	.topper_title Про наш завод
+	#production_carousel.carousel.slide(data-ride="carousel")
+		.carousel-inner(role="listbox")
+			.item.active
+				.banner_image.banner_image_1
+				.content
+					.top_label
+						div «Завод Агуша» –
+						div питание только
+						div для деток
+					
+					.cloud_text.adorable_table
+						.adorable_cell
+							div На «Заводе Агуша» детское питание изготавливают по уникальной рецептуре исключительно
+							div для малышей
+		
+		.content.indicators_content
+			ol.carousel-indicators
+				li.active(data-target="#production_carousel" data-slide-to="0")
 
-.item_container
-	.item
-		.content
-			.info
-				.title
-					| Открылся 
-					br
-					| в апреле 2012 года
-				
-				.text
-					| «Заводу Агуша» всего 2 годика. Он открылся в апреле 2012 года, в живописном местечке со вкусным названием – в городе Вишневое Киевской области.
+.white_title.arrowed
+	.content
+		.label.adorable_table
+			.adorable_cell Как производят агушу
+
+.items_container
+	.content
+		.column.item.item_1
+			.title.adorable_table
+				.adorable_cell Молоко экстра-класса
 			
-			.image
-				img(src = '/img/user/production/opened_2012.png')
-	
-	.item
-		.content
-			.info
-				.title
-					| «Высокие
-					br
-					| технологии»
-				
-				.text
-					| «Агуша» - одно из самых современных и высокотехнологичных производств детского питания в Украине. Мощности нашего предприятия позволяют перерабатывать 50 тонн молока в сутки и быть уверенными в каждом грамме выпускаемой продукции.
+			.number.adorable_table
+				.adorable_cell 1
+			.text Получаем с молочных ферм, в подавляющем большинстве с «Агроэкологии» Полтавской области и «Песковского» Черниговской области
+		
+		.column.item.item_2
+			.title.adorable_table
+				.adorable_cell Контроль качества
 			
-			.image
-				img(src = '/img/user/production/high_tech.png')
-	
-	.item
-		.content
-			.info
-				.title
-					| Детское-предетское питание с
-					br
-					| витаминами и пребиотиками
-				
-				.text
-					| Мы производим исключительно детские продукты: питьевой йогурт, творожок, кефир и молочко. Производство полностью «автономное», и никак не связано с изготовлением «взрослых» продуктов.
-					br
-					| Продукты производятся по особой рецептуре, которая разработана для детей раннего возраста и предусматривает обогащение витаминами и пребиотиком.
+			.number.adorable_table
+				.adorable_cell 2
 			
-			.image
-				img(src = '/img/user/production/vitamin.png')
-	
-	.item
-		.content
-			.info
-				.title
-					| Наши поставщики
-				
-				.text
-					| Все наши поставщики прошли сертификацию МОЗ Украины как производители сырья и продуктов, разрешенных для детского питания.
-					br
-					| Один из наших поставщиков свежего молока - фермерское хозяйство «Агроэкология», на полях которого применяются только органические удобрения, а все коровки имеют ветеринарные удостоверения.
-					br
-					| Фруктовые наполнители поставляет украино-австрийское предприятие «Аграна Фрут Укарина». Они выращивают фрукты и ягоды в экологически чистой среде.
+			.text Тщательно проверяем молоко в собственной лаборатории, технически оснащенной и отвечающей современным требованиям
+		
+		.column.item.item_3
+			.title.adorable_table
+				.adorable_cell Охлаждение
 			
-			.image
-				img(src = '/img/user/production/suppliers.png')
-	
-	.item
-		.content
-			.info
-				.title
-					| Соответствует всем нормам
-				
-				.text
-					| «Завод Агуша» соответствует всем нормам украинского законодательства, включая Закон о детском питании от 6 января 2011 года, а также имеет сертификацию европейского и мирового образца ISO, HAССP. Даже не смотря на ультрафильтрацию и очистку молока суперсовременной бактофугой, каждая партия продукции подвергается тщательной проверке более 15 (!) раз.
+			.number.adorable_table
+				.adorable_cell 3
+		
+		.column.item.item_6
+			.title.adorable_table
+				.adorable_cell Пастеризация
 			
-			.image
-				img(src = '/img/user/production/norm.png')
-	
-	.item
-		.content
-			.info
-				.title
-					| Удобство
-					br
-					| и безопасность
-				
-				.text
-					| Главные требования к упаковке – удобство и безопасность. Каждая упаковка обрабатывается озонированной водой, а разлив осуществляется под избыточным давлением стерильного воздуха.
+			.number.adorable_table
+				.adorable_cell 6
 			
-			.image
-				img(src = '/img/user/production/safety.png')
+			.text + 98 С
+			
+		.column.item.item_5
+			.title.adorable_table
+				.adorable_cell Гомогенизация
+			
+			.number.adorable_table
+				.adorable_cell 5
+			
+			.text Придаем молоку однородности для предотвращения отделения сливок
+		
+		.column.item.item_4
+			.title.adorable_table
+				.adorable_cell Бактофуга
+			
+			.number.adorable_table
+				.adorable_cell 4
+			
+			.text С помощью новейшего оборудования механическим способом удаляем вредные бактерии и споры
+		
+		.column.item.item_7
+			.title.adorable_table
+				.adorable_cell Деаэрация
+			
+			.number.adorable_table
+				.adorable_cell 7
+			
+			.text Удаляем растворенный воздух и мелкие пузырьки из молока
+		
+		.column.item.item_8
+			.title.adorable_table
+				.adorable_cell Полезные бактерии
+			
+			.number.adorable_table
+				.adorable_cell 8
+			
+			.text Добавляем в молоко «живые» закваски, содержащие полезные бактерии
+		
+		.column.item.item_9
+			.title.adorable_table
+				.adorable_cell Ягоды и фрукты
+			
+			.number.adorable_table
+				.adorable_cell 9
+			
+			.text Используем только качественное фруктовое пюре компании «Аграна», г. Винница
+		
+		.column.item.item_12
+			.title.adorable_table
+				.adorable_cell Отправка
+			
+			.number.adorable_table
+				.adorable_cell 12
+			
+			.text Перед отправкой продукции в магазин тщательно проверяем ее качество в лаборатории
+		
+		.column.item.item_11
+			.title.adorable_table
+				.adorable_cell Расфасовка
+			
+			.number.adorable_table
+				.adorable_cell 11
+			
+			.text Всю продукцию фасуем уже охлажденной в продезинфици- рованные бутылочки и стаканчики и маркируем.
+		
+		.column.item.item_10
+			.title.adorable_table
+				.adorable_cell Упаковка
+			
+			.number.adorable_table
+				.adorable_cell 10
+			
+			.text Мы производим упаковку на современном оборудовании с высоким уровнем гигиены
+
+.child

@@ -27,11 +27,11 @@ export default Controller.extend(
 			this.module = new can.Map({
 				lvls: data ? data.lvls : app.lvls,
 				actions: data ? data.actions : app.actions,
-				points: data ? data.user.points : app.user.points,
+				points: data ? data.user.points : (app.user ? app.user.points : 0),
 				year: new Date().getFullYear(),
-				activatedAt: data ? data.user.activated_at : app.user.activated_at,
+				activatedAt: data ? data.user.activated_at : (app.user ? app.user.activated_at : 0),
 			});
-
+			
 			var moneybox_mustache = $('#moneybox_mustache'),
 				html;
 
