@@ -6,22 +6,22 @@ import moneyboxHelpers from 'modules/moneybox/moneyboxHelpers';
 export default Controller.extend(
 	{
 		defaults: {
-
+			
 		}
 	}, {
 		variables: function() {
 			this.classname = 'active';
 			this.base_url = window.location.protocol + '//' + window.location.host;
-
+			
 			this.tab_selectors = this.element.find('.tab_selector');
-
+			
 			this.tab_blocks = this.element.find('.tab_block');
 		},
-
+		
 		plugins: function() {
-
+			
 		},
-
+		
 		after_init: function(data) {
 			this.tab_blocks.filter(':not(.active)').find('.text').hide();
 			this.module = new can.Map({
@@ -86,9 +86,12 @@ export default Controller.extend(
 
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
+			this.scrollTop();
 		},
 
-		'.up_button click': function() {
+		'.up_button click': 'scrollTop',
+		
+		'scrollTop': function() {
 			$('html, body').scrollTop(0);
 		}
 	}

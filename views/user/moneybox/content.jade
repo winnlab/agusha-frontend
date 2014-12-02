@@ -39,7 +39,8 @@
 						
 						.step_desc Для этого вам необходимо заполнить форму регистрации либо ввести свой e-mail и пароль.
 						
-						button.step_button Вход / регистрация
+						a.new_module(href="/registration")
+							button.step_button Вход / регистрация
 					
 					.column.double.right
 						img.double_img(src="/img/user/moneybox/step_1.png")
@@ -55,7 +56,7 @@
 						
 						.step_desc Выполняя простые действия на нашем сайте, вы получите баллы в вашу Копилочку.
 						
-						button.step_button Как накопить баллы?
+						button.step_button.link-tab(data-tab="rules") Как накопить баллы?
 				
 				.step.step_3
 					.column.left
@@ -65,7 +66,7 @@
 						
 						.step_desc Читайте интересные статьи, оставляйте комментарии и повышайте свой рейтинг на сайте.
 						
-						button.step_button Как развиваться?
+						button.step_button.link-tab(data-tab="rules") Как развиваться?
 					
 					.column.double.right
 						img.double_img(src="/img/user/moneybox/step_3.png")
@@ -81,9 +82,9 @@
 						
 						.step_desc На нашем сайте вы можете выиграть замечательные призы для ваших деток.
 						
-						button.step_button Какие призы?
+						button.step_button.link-tab(data-tab="rules") Какие призы?
 						
-						button.step_button.rules_button Правила розыгрышей
+						button.step_button.rules_button.link-tab(data-tab="rules") Правила розыгрышей
 				
 				.up
 					button.up_button Наверх
