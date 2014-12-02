@@ -49,7 +49,7 @@ var config = {
 				name: 'help',
 				path: {
 					client: 'js/app/user/modules/help/',
-					server: ':name'
+					server: ':name/:entity_id'
 				}
 			},
 			{
