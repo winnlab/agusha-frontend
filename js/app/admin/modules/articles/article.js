@@ -90,7 +90,8 @@ export default Edit.extend({
 			{size: 'B', name: 'Фоновое изображение', ratio: 2.31, w: 1850, h: 800, alt: options.doc.attr('image.dataB.alt') || false},
 			{size: 'S', name: 'Малое изображение (S)', ratio: 0.96, w: 290, h: 303, alt: options.doc.attr('image.dataS.alt') || false},
 			{size: 'L', name: 'Большое изображение (L)', ratio: 1.91, w: 580, h: 303, alt: options.doc.attr('image.dataL.alt') || false},
-			{size: 'XL', name: 'Экстра большое изображение (XL)', ratio: 0.96, w: 580, h: 606, alt: options.doc.attr('image.dataXL.alt') || false}
+			{size: 'XL', name: 'Экстра большое изображение (XL)', ratio: 0.96, w: 580, h: 606, alt: options.doc.attr('image.dataXL.alt') || false},
+			{size: 'SOCIAL', name: 'Для шаринга в социальные сети', ratio: 1.91, w: 470, h: 246, alt: options.doc.attr('image.dataSOCIAL.alt') || false}
 		]);
 
 		self.loadView(options.viewpath + options.viewName, self.module);
