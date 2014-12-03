@@ -51,7 +51,6 @@
 							</div>
 							
 							<div class="stars">
-
 								{{#each levels}}
 									<div class="star {{name}} {{isFilledStart . user.points}}"></div>
 								{{/each}}
@@ -136,10 +135,25 @@
 							</div>
 						</div>
 						<div class="inner">
-							<div class="input_row birth_date">
-								<input type="text" placeholder="День" value="{{user.birth_date.day}}" can-value="user.birth_date.day" class="birth_day editableInput" >
-								<input type="text" placeholder="Мес." value="{{user.birth_date.month}}" can-value="user.birth_date.month" class="birth_month editableInput" >
-								<input type="text" placeholder="Год" value="{{user.birth_date.year}}" can-value="user.birth_date.year" class="birth_year editableInput" >
+							<div class="input_row user_birth_date birth_date">
+								<select class="birth_day" can-value="user.birth_date.day">
+									<option disabled="disabled" selected>День</option>
+									{{#each dates.days}}
+										<option value="{{.}}">{{.}}</option>
+									{{/each}}
+								</select>
+								<select can-value="user.birth_date.month" class="birth_month">
+									<option disabled="disabled" selected>Мес.</option>
+									{{#each dates.months}}
+										<option value={{@index}}>{{.}}</option>
+									{{/each}}
+								</select>
+								<select can-value="user.birth_date.year" class="birth_year">
+									<option disabled="disabled" selected>Год</option>
+									{{#each dates.years}}
+										<option value="{{.}}">{{.}}</option>
+									{{/each}}
+								</select>
 							</div>
 						</div>
 					</div>

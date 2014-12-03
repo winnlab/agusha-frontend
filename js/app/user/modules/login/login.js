@@ -16,6 +16,9 @@ var ViewModel = can.Map.extend({
 		},
 		password: {
 			value: null
+		},
+		restoreEmail: {
+			value: null
 		}
 	}
 });
@@ -73,6 +76,11 @@ export default Controller.extend(
 							that.tooltip
 								.tooltipster('show', function() {
 									isOpenedError = true;
+
+									setTimeout(function() {
+										that.tooltip
+											.tooltipster('hide');
+									}, 300);
 								});
 						}
 					} else {
@@ -173,11 +181,18 @@ export default Controller.extend(
 					});
 
 					if(!response.message || !response.message.user) {
-
 						that.tooltip
 							.tooltipster(
 								'content',
 								"Произошла ошибка. Обратитесь к администратору.");
+
+							that.tooltip
+								.tooltipster('show', function() {
+									setTimeout(function() {
+										that.tooltip
+											.tooltipster('hide');
+									}, 300);
+								});
 						
 						return;
 					}
@@ -200,13 +215,81 @@ export default Controller.extend(
 							.tooltipster(
 								'content',
 								err);
-					that.tooltip.tooltipster('show')
+
+					that.tooltip.tooltipster('show', function() {
+						setTimeout(function() {
+							that.tooltip
+								.tooltipster('hide');
+						}, 2000);
+					});
 				}
 			});
 		},
 		
 		'.reminder_form .done click': function(el, ev) {
 			ev.preventDefault();
+
+			var form = this.element.find('.reminder_form'), that = this;
+
+			if (!form.valid()) {
+				this.tooltip
+					.tooltipster('content', "Форма заполнена не верно");
+
+				this.tooltip.tooltipster('show');
+				return;
+			} else {
+				this.tooltip.tooltipster('hide');
+			}
+
+			can.ajax({
+				url: '/login/restore?ajax=true',
+				method: 'POST',
+				data: {
+					email: this.data.attr('restoreEmail')
+				},
+				success: function(response) {
+					if(!response.message) {
+						that.tooltip
+							.tooltipster(
+								'content',
+								"Произошла ошибка. Обратитесь к администратору.");
+
+						that.tooltip
+							.tooltipster('show');
+						
+						return;
+					}
+
+					that.tooltip
+						.tooltipster('hide');
+
+					that.tooltip
+						.tooltipster(
+							'content',
+							"Новый пароль отправлен Вам на почту");
+
+					that.tooltip
+						.tooltipster('show', function() {
+							setTimeout(function() {
+								that.tooltip
+									.tooltipster('hide');
+							}, 2000);
+						});
+				},
+				error: function() {
+					that.tooltip
+						.tooltipster(
+							'content',
+							"Произошла ошибка. Обратитесь к администратору.");
+
+					that.tooltip.tooltipster('show', function() {
+						setTimeout(function() {
+							that.tooltip
+								.tooltipster('hide');
+						}, 2000);
+					})
+				}
+			});
 		},
 		
 		'.forgot_btn click': function(el, ev) {

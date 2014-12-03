@@ -55,7 +55,7 @@
 
 			- classname += ' ' + articleType
 
-			a(class="new_module card #{classname}" href="/article/" + similarArticle._id)
+			a(class="new_module card #{classname}" href="/article/" + similarArticle.transliterated)
 				.inner(style=( similarArticle && similarArticle.image && similarArticle.image['S'] ? "background-image: url(/img/uploads/" + similarArticle.image['S'] + ");" : ''))
 					.topper.bg
 						.topper_label
