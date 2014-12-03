@@ -9,6 +9,7 @@ import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.
 import select2 from 'select2';
 import s2Options from 'js/app/user/modules/profile/select2Options';
 import s3Options from 'js/app/user/modules/profile/select3Options';
+import moment from 'moment';
 import friendsView from 'js/app/user/modules/profile/views/friends.mustache!';
 import 'vk-openapi'
 
@@ -236,7 +237,47 @@ can.mustache.registerHelper('levelPrefix', function(points) {
     }
 
     return lavel.name;
-})
+});
+
+
+function getMonths() {
+    return [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ];
+}
+
+function getDaysInMonth(month, year) {
+    var date = new Date(year, month, 1);
+    var days = [];
+
+    console.log('date', date.getMonth());
+    console.log(date.getMonth() === month);
+
+    while (date.getMonth() === month) {
+        days.push(date.getDate());
+        date.setDate(date.getDate() + 1);
+    }
+
+    console.log('days', days);
+
+    if(month == 2) {
+        if(days[length-1] == 28) {
+            days.push(29);
+        }
+    }
+
+    return days;
+}
+
+function startYear (startYear) {
+        var currentYear = new Date().getFullYear(), years = [];
+        startYear = startYear || 1980;
+
+        while ( startYear <= currentYear ) {
+                years.push(startYear++);
+        } 
+
+        return years;
+}
 
 export default Controller.extend(
 	{
@@ -257,6 +298,11 @@ export default Controller.extend(
             this.data = appState.attr('user');
             this.user = this.data.options.user;
             this.errs = new can.Map();
+            this.dates = new can.Map({
+                months: getMonths(),
+                days: getDaysInMonth(1, 2001),
+                years: startYear(1920)
+            });
 
             if(!this.data.auth.isAuth) {
                 can.route.attr({module: 'login'});
@@ -320,6 +366,20 @@ export default Controller.extend(
         '.buttons .remove.button click': function() {
             this.user.removeImage();
         },
+        '.user_birth_date select change': function(el, ev) {
+            var clss = $(el).attr('class'),
+                selectedValue = Number($(el, 'option:selected').val()),
+                defYear = $('.user_birth_date .birth_year option:selected').val() || 2000,
+                defMonth = $('.user_birth_month .birth_year option:selected').val() || 0;
+
+            if(clss == 'birth_month') {
+                this.dates.attr('days', getDaysInMonth(selectedValue, defYear));
+            }
+
+            if(clss == 'birth_year') {
+                this.dates.attr('days', getDaysInMonth(defMonth, selectedValue));
+            }
+        },
         '.switcher click': function(el, e) {
             var id = $(e.target).data('passid');
 
@@ -373,6 +433,7 @@ export default Controller.extend(
         },
         bindChild: function() {
             var that = this;
+
             this.childPopUp
                 .module
                 .child.delegate(
@@ -388,7 +449,8 @@ export default Controller.extend(
                 user: this.data.options.user, 
                 errs: this.errs,
                 levels: levels,
-                levelKeys: [1,2,3,4,5,6,7]
+                levelKeys: [1,2,3,4,5,6,7],
+                dates: this.dates
             });
 
             $('#profile').html(can.view(view, viewModel, {

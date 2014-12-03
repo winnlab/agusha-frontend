@@ -103,6 +103,10 @@ export default Controller.extend(
 							that.tooltip
 								.tooltipster('show', function() {
 									isOpenedError = true;
+
+									setTimeout(function() {
+										that.tooltip.tooltipster('hide');
+									}, 2000);
 								});
 						}
 					} else {
@@ -110,6 +114,10 @@ export default Controller.extend(
 							that.tooltip
 								.tooltipster('hide', function() {
 									isOpenedError = false;
+
+									setTimeout(function() {
+										that.tooltip.tooltipster('hide');
+									}, 2000);
 								});
 						}
 					}

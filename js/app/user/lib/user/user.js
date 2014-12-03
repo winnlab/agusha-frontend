@@ -190,11 +190,11 @@ User = can.Control.extend({
 			can.proxy(this.reCheckFilling, user)
 		);
 
-		user.delegate(
-			'**',
-			'add', 
-			can.proxy(this.reCheckFilling, user)
-		);
+		// user.delegate(
+		// 	'**',
+		// 	'add', 
+		// 	can.proxy(this.reCheckFilling, user)
+		// );
 	},
 	reCheckFilling: function(ev, newVal, oldVal, prop) {
 		var def = 0,
@@ -204,8 +204,13 @@ User = can.Control.extend({
 			var isField;
 
 			isField = _.every(item.fields, function (field) {
-				console.log(field, that.attr(field));
-				return that.attr(field);
+				var field;
+
+				try {
+					field = that.attr(field);
+				} catch(e) {
+
+				}
 			});
 
 			if(isField) {

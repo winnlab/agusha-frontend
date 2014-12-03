@@ -26,9 +26,24 @@
             			</label>
             		</div>
             		<div class="childBirthDate">
-            			<input type="text" name="birth_day" can-value="child.birth.day" placeholder="день" class="childBirthInput" />
-            			<input type="text" name="birth_month" can-value="child.birth.month" placeholder="мес." class="childBirthInput" />
-            			<input type="text" name="birth_year" can-value="child.birth.year" placeholder="год" class="childBirthInput" />
+                        <select can-value="child.birth.day">
+                            <option disabled="disabled" selected>День</option>
+                            {{#each dates.days}}
+                                <option value="{{.}}">{{.}}</option>
+                            {{/each}}
+                        </select>
+                        <select can-value="child.birth.month">
+                            <option disabled="disabled" selected>Мес.</option>
+                            {{#each dates.months}}
+                                <option value={{@index}}>{{.}}</option>
+                            {{/each}}
+                        </select>
+                        <select can-value="child.birth.year">
+                            <option disabled="disabled" selected>Год</option>
+                            {{#each dates.years}}
+                                <option value="{{.}}">{{.}}</option>
+                            {{/each}}
+                        </select>
             		</div>
             	</div>
             </div>
