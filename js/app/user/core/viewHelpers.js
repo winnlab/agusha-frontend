@@ -22,7 +22,7 @@ can.mustache.registerHelper('getUserImg', function (article) {
     var result = 'user/helpers/stub/medium.png';
 
     if (article.author && article.author.author_id && article.author.author_id.image) {
-        result = 'uploads/' + a.author.author_id.image.medium
+        result = 'uploads/' + article.author.author_id.image.medium
     }
 
     return result;

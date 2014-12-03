@@ -28,7 +28,7 @@ mixin feed()
     .feedWrap
         | {{#each feed}}
         - var classname = '{{getClassName . @index module}} {{articleType . @index}}'
-        a(class="new_module card #{classname}" href="/article/{{_id}}")
+        a(class="new_module card #{classname}" href="/article/{{transliterated}}")
             .inner(style='{{getBg . @index module}}')
                 .topper.bg
                     .topper_label
