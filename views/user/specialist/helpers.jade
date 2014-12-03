@@ -70,7 +70,7 @@ mixin article(a, i)
     
     - classname += ' ' + articleType
     
-    a(class="new_module card #{classname}" href='/question/' + (a ? a._id : '{{_id}}') style=(a ? '' : '{{filterIt . filter}}'))
+    a(class="new_module card #{classname}" href='/question/' + (a ? a.transliterated : '{{transliterated}}') style=(a ? '' : '{{filterIt . filter}}'))
         .inner
             .topper
                 .topper_label
