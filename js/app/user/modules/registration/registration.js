@@ -105,8 +105,8 @@ export default Controller.extend(
 									isOpenedError = true;
 
 									setTimeout(function() {
-										that.tooltip.tooltipster('hide');
-									}, 2000);
+										that.tooltip.tooltipster('disable');
+									}, 5000);
 								});
 						}
 					} else {
@@ -117,7 +117,7 @@ export default Controller.extend(
 
 									setTimeout(function() {
 										that.tooltip.tooltipster('hide');
-									}, 2000);
+									}, 5000);
 								});
 						}
 					}
@@ -208,7 +208,12 @@ export default Controller.extend(
 				},
 				error: function (resp) {
 					that.tooltip.tooltipster('content', resp.responseJSON.err);
-					that.tooltip.tooltipster('show');
+					that.tooltip.tooltipster('show', function() {
+						setTimeout(function() {
+							that.tooltip.tooltipster('hide');
+							
+						}, 3000);
+					});
 				}
 			});
 		}

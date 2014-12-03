@@ -76,6 +76,11 @@ export default Controller.extend(
 							that.tooltip
 								.tooltipster('show', function() {
 									isOpenedError = true;
+
+									setTimeout(function() {
+										that.tooltip
+											.tooltipster('hide');
+									}, 300);
 								});
 						}
 					} else {
@@ -180,6 +185,14 @@ export default Controller.extend(
 							.tooltipster(
 								'content',
 								"Произошла ошибка. Обратитесь к администратору.");
+
+							that.tooltip
+								.tooltipster('show', function() {
+									setTimeout(function() {
+										that.tooltip
+											.tooltipster('hide');
+									}, 300);
+								});
 						
 						return;
 					}
@@ -202,7 +215,13 @@ export default Controller.extend(
 							.tooltipster(
 								'content',
 								err);
-					that.tooltip.tooltipster('show')
+
+					that.tooltip.tooltipster('show', function() {
+						setTimeout(function() {
+							that.tooltip
+								.tooltipster('hide');
+						}, 300);
+					});
 				}
 			});
 		},
@@ -249,16 +268,26 @@ export default Controller.extend(
 							'content',
 							"Новый пароль отправлен Вам на почту");
 
-					setTimeout(function() {
-						that.tooltip
-							.tooltipster('hide');
-					}, 2000);
+					that.tooltip
+						.tooltipster('show', function() {
+							setTimeout(function() {
+								that.tooltip
+									.tooltipster('hide');
+							}, 2000);
+						});
 				},
 				error: function() {
 					that.tooltip
 						.tooltipster(
 							'content',
 							"Произошла ошибка. Обратитесь к администратору.");
+
+					that.tooltip.tooltipster('show', function() {
+						setTimeout(function() {
+							that.tooltip
+								.tooltipster('hide');
+						}, 2000);
+					})
 				}
 			});
 		},
