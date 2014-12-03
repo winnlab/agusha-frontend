@@ -82,10 +82,22 @@ export default Controller.extend(
 		'.link-tab click': 'changeTab',
 
 		changeTab: function(el) {
-			var tab = el.data('tab');
-
+			var tab = el.data('tab'),
+				block = el.data('block');
+			
 			this.tab_selectors.removeClass(this.classname);
 			this.tab_selectors.filter('.' + tab).addClass(this.classname);
+			
+			if(block) {
+				this.tab_blocks.removeClass(this.classname);
+				this.tab_blocks.find('.text').stop(true, false).slideUp(300);
+				
+				var tab_block = this.tab_blocks.filter('.' + block);
+				
+				tab_block.addClass(this.classname);
+				tab_block.find('.text').stop(true, false).slideDown(300);
+			}
+			
 			this.scrollTop();
 		},
 

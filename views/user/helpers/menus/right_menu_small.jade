@@ -26,8 +26,5 @@ mixin points()
 					.circle.rounded.adorable_table
 						.adorable_cell.unreadConversationsAmount= (user?user.points:0)
 
-if user
-	a.new_module(href="/moneybox")
-		mixin points()
-else
+a.new_module(href="/moneybox")
 	mixin points()

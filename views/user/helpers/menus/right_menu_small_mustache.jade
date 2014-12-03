@@ -33,9 +33,5 @@ mixin points()
 					.adorable_cell 0
 		| {{/if}}
 
-| {{#if auth.isAuth}}
 a.new_module(href="/moneybox")
 	mixin points()
-| {{else}}
-mixin points()
-| {{/if}}
