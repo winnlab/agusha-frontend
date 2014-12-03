@@ -220,7 +220,7 @@ export default Controller.extend(
 						setTimeout(function() {
 							that.tooltip
 								.tooltipster('hide');
-						}, 300);
+						}, 2000);
 					});
 				}
 			});

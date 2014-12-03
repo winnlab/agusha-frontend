@@ -211,8 +211,8 @@ export default Controller.extend(
 					that.tooltip.tooltipster('show', function() {
 						setTimeout(function() {
 							that.tooltip.tooltipster('hide');
-							
-						}, 3000);
+
+						}, 5000);
 					});
 				}
 			});
