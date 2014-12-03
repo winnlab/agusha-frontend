@@ -2,7 +2,9 @@ mixin points()
 	.points
 		.you_have
 			div У ВАС
-			div #{user?user.points : 0} б.
+			div
+				span.points_number #{user?user.points : 0}
+				span  б.
 		
 		.moneybox
 			img(src="/img/user/core/moneybox.png")

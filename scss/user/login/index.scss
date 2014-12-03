@@ -21,12 +21,6 @@
 			background: url('/img/user/registration/child_2.png') no-repeat;
 		}
 		
-		.adorable_table {
-			> .adorable_cell {
-				padding: 0 20px;
-			}
-		}
-		
 		input {
 			margin-top: 45px;
 			height: 39px;
@@ -59,10 +53,6 @@
 			.close {
 				display: block;
 			}
-			
-			.done {
-				width: 132px;
-			}
 		}
 	}
 	
@@ -84,13 +74,45 @@
 		@include border_radius(5px);
 		width: 80px;
 		margin-left: 10px;
+		height: 39px;
+	}
+	
+	.line_block {
+		height: 14px;
+		margin-top: 36px;
+		position: relative;
+		
+		&:before {
+			@include pseudo;
+			@include absolute_centered;
+			width: 100%;
+			z-index: 2;
+			height: 1px;
+			background-color: #57bbe8;
+		}
 	}
 	
 	.forgot_btn {
-		width: 173px;
-		margin-left: 10px;
-		background-color: transparent;
-		border: 1px solid #83cbed;
+		width: 188px;
+		background-color: $blue;
+		text-align: center;
+		height: 100%;
+		font-family: 'PT_Sans_Bold';
+		margin: 0 auto;
+		cursor: pointer;
+		text-transform: uppercase;
+		position: relative;
+		z-index: 2;
+		
+		&:hover {
+			span {
+				opacity: 0.7;
+			}
+		}
+		
+		span {
+			border-bottom: 1px dashed white;
+		}
 	}
 	
 	.child {
@@ -98,11 +120,11 @@
 	}
 	
 	.or_social {
-		margin-top: 20px;
+		margin-top: 25px;
 	}
 	
 	.social {
-		padding-top: 13px;
+		padding-top: 25px;
 	}
 	
 	button {
@@ -115,12 +137,25 @@
 	.reminder_content {
 		display: none;
 		
+		input {
+			margin-top: 14px;
+		}
+		
+		.reg_top {
+			color: $white;
+		}
+		
+		.login_label {
+			font-size: 16px;
+			margin-top: 15px;
+		}
+		
 		.email {
-			width: 200px;
+			width: 361px;
 		}
 		
 		.done {
-			margin-left: 0px;
+			width: 132px;
 		}
 	}
 }

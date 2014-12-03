@@ -14,8 +14,6 @@ export default Controller.extend(
 			this.search_query = '';
 			this.classname = 'active';
 			
-			this.tab_selectors = this.element.find('.tab_selector');
-			
 			this.tab_blocks = this.element.find('.tab_block');
 			this.faq_blocks = this.tab_blocks.filter('.faq_block');
 			
@@ -53,7 +51,7 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
-			if(data) {
+			if(data && data.faq) {
 				this.faq = data.faq;
 			} else {
 				this.faq = app.faq;
@@ -159,13 +157,6 @@ export default Controller.extend(
 			text.stop(true, false)[func](300);
 			
 			tab_block.toggleClass(this.classname);
-		},
-		
-		'.tab click': function(el) {
-			var tab = el.data('tab');
-			
-			this.tab_selectors.removeClass(this.classname);
-			this.tab_selectors.filter('.' + tab).addClass(this.classname);
 		},
 		
 		'.feedback_form submit': function(el, ev) {

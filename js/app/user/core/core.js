@@ -34,11 +34,30 @@ var Core = can.Control.extend(
 			this.start = null;
 			this.initBindings();
 			this.resize();
+			
+			appState.delegate('moneybox', 'set', can.proxy(this.moneyboxed, this));
 		},
+		
+		moneyboxed: function (ev, newVal) {
+			if (!newVal) {
+				return;
+			}
+			
+			can.ajax({
+				url: '/moneybox-points-only',
+				dataType: 'json',
+				method: 'get'
+			}).done(function (data) {
+				$('#right_menu_small .points_number').html(data.data.points);
+				appState.attr('moneybox', false);
+			});
+		},
+		
 		'.logout click': function() {
 			this.hide_right_menu()
 			appState.attr('user').logout()
 		},
+		
 		'#right_menu_small .subTopper .top click': function() {
 			var user = appState.attr('user'),
 				isAuth = user.auth.attr('isAuth');
@@ -57,13 +76,13 @@ var Core = can.Control.extend(
 
 		step: function(timestamp) {
 			var that = this;
-
+			
 			if(this.start === null) {
 				this.start = timestamp;
 			}
-
+			
 			var progress = timestamp - this.start;
-
+			
 			this.window.trigger('custom_resize');
 
 			if(progress <= 300) {

@@ -24,7 +24,9 @@ export default {
                 theme_id: theme_id
             }
         }).done(function (data) {
-            appState.attr('popUp').show(popUpObj);
+            appState
+                .attr('subsChanged', true)
+                .attr('popUp').show(popUpObj);
             cb.call(self, data);
         }).fail(this.reqFail);
     },

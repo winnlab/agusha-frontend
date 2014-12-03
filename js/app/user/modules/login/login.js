@@ -266,7 +266,7 @@ export default Controller.extend(
 		'.forgot_btn click': function(el, ev) {
 			ev.preventDefault();
 			
-			this.element.find('.reg_box').addClass(this.reminder);
+			this.element.find('.reg_box').toggleClass(this.reminder);
 		},
 		'.close click': function(el, ev) {
 			this.element.find('.reg_box').removeClass(this.reminder);
