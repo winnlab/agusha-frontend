@@ -266,11 +266,11 @@ if article.image
 					.adorable_cell
 						.title Появился вопрос?
 						.subtitle Задайте его специалисту!
-						.avatar
+						.avatar.cap
 							img.rounded(src='/img/user/specialist/doc_mini.jpg')
 						.name Ирина Матвиенко
 						.info Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем здорового ребенка и преморбидных состояний.
-						button.ask_button Задать вопрос
+						button.ask_button(href="/specialist", class="new_module") Задать вопрос
 			.clearfix
 	
 	include ../helpers/article_bottom

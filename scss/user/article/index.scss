@@ -208,6 +208,15 @@
 			top: -18px;
 			left: -7px;
 		}
+		&.cap:before {
+			position: absolute;
+			content: "";
+			width: 37px;
+			height: 35px;
+			top: -18px;
+			left: -7px;
+			background: url('/img/user/specialist/medical_cap.png') no-repeat;
+		}
 
 		img {
 			position: relative;

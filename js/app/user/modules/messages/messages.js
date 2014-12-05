@@ -142,7 +142,9 @@ export default Controller.extend(
                         responseForm.show();
                     }
 
-                    $messagesContainer.fadeIn(150);
+                    $messagesContainer.fadeIn(150, function () {
+                        $('.messageForm').css('display', 'block');
+                    });
                 });
             }
 
