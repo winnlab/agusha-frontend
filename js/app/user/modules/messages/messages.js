@@ -54,6 +54,10 @@ export default Controller.extend(
                 );
             });
 
+            if (data.length === 0) {
+                $('.noMessagesInfo').show();
+            }
+
             self.findUnreadConversations();
         },
 
