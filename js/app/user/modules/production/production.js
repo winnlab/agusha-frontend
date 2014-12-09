@@ -43,7 +43,6 @@ export default Controller.extend(
 		},
 		
 		'.child click': function() {
-			this.custom_resize();
 			this.video.addClass(this.active);
 		},
 		
