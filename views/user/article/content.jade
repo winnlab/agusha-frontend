@@ -244,7 +244,7 @@ if article.image
 				.footer
 					.half.left
 						.adorable_table
-							.adorable_cell
+							.adorable_cell.scrollToComments
 								img.comment(src="/img/user/article/comment.png")
 								span.count.commentariesCount(data-component_id="#{article._id}")
 									| #{commentariesAmount}
@@ -258,7 +258,7 @@ if article.image
 								img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component="Article")
 								span.count.like(data-component_id="#{article._id}")
 									| #{likesAmount}
-								span.slash / 
+								span.slash /
 								span.post_like Одобрить
 			
 			.right.column

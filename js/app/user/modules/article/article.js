@@ -147,6 +147,16 @@ export default Controller.extend(
 					top: coords
 				});
 			}
+		},
+
+		'.scrollToComments click': function (el, ev) {
+			var self = this;
+
+			var $comments = self.element.find('.comments');
+
+			$('html, body').animate({
+				scrollTop: $comments.offset().top
+			}, 500);
 		}
 	}
 );
