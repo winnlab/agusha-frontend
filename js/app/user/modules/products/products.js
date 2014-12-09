@@ -84,6 +84,13 @@ export default Controller.extend(
 		variables: function() {
 			this.about_ages = this.element.find('#about_ages');
 			this.about_blocks = this.element.find('.about_block');
+			
+			this.video = this.element.find('.video');
+			this.player_bg = this.video.find('.player_bg');
+			
+			this.left_menu = $('#left_menu');
+			
+			this.active = 'active';
 		},
 		
 		plugins: function() {	
@@ -140,6 +147,26 @@ export default Controller.extend(
 			el.addClass('active');
 			
 			this.data.attr('category', val);
+		},
+		
+		'.child click': function() {
+			this.video.addClass(this.active);
+		},
+		
+		'.video .close click': function() {
+			this.video.removeClass(this.active);
+		},
+		
+		'{window} custom_resize': 'custom_resize',
+		
+		custom_resize: function() {
+			if(!this.element.hasClass(this.active)){
+				return;
+			}
+			
+			this.player_bg.css({
+				left: this.left_menu.width()
+			});
 		}
     }
 );
