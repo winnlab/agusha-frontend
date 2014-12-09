@@ -1,7 +1,7 @@
-import Controller from 'controller'
+import Controller from 'controller';
 
-import select2 from 'select2'
-import 'validate'
+import select2 from 'select2';
+import 'validate';
 
 export default Controller.extend(
 	{
@@ -188,7 +188,7 @@ export default Controller.extend(
 						return console.error(data.err);
 					}
 					
-					that.feedback_form.find('input[type=text], input[type=email], textarea').val('');
+					that.feedback_form.find('input, textarea').val('');
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					that.form_processing = 0;
@@ -233,7 +233,7 @@ export default Controller.extend(
 					},
 					text: {
 						required: required,
-						maxlength: 'Максимальное количество символов - 13',
+						maxlength: 'Максимальное количество символов - 8000',
 						minlength: 'Минимальное количество символов - 7'
 					}
 				},
@@ -244,6 +244,6 @@ export default Controller.extend(
 					}, 1000);
 				}
 			});
-		},
+		}
 	}
 );
