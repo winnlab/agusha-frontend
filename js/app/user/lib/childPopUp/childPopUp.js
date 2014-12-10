@@ -34,10 +34,10 @@ function startYear (startYear) {
 }
 
 export default PopUp.extend({
-	init: function (el, options) {
-		var that = this;
+    init: function (el, options) {
+        var that = this;
 
-		this.child = options.child || new childMap({
+        this.child = options.child || new childMap({
             isSaved: false,
             birth: {
                 value: {
@@ -48,7 +48,7 @@ export default PopUp.extend({
             }
         });
 
-		this.module = new can.Map({
+        this.module = new can.Map({
             'close': true,
             'visible': null,
             'text': '',
@@ -80,19 +80,19 @@ export default PopUp.extend({
                 return '';
             }
         }));
-	},
+    },
     '.childBirthDate select change': function(el, ev) {
          var clss = $(el).attr('class'),
             selectedValue = Number($(el, 'option:selected').val()),
             defYear = $('.childBrithMonth option:selected').val() || 2000,
             defMonth = $('.childBrithYear option:selected').val() || 0;
 
-        if(clss == 'birth_month') {
-            this.dates.attr('days', getDaysInMonth(selectedValue, defYear));
+        if(clss == 'childBrithMonth') {
+            this.module.attr('dates.days', getDaysInMonth(selectedValue, defYear));
         }
 
-        if(clss == 'birth_year') {
-            this.dates.attr('days', getDaysInMonth(defMonth, selectedValue));
+        if(clss == 'childBrithYear') {
+            this.module.attr('dates.days', getDaysInMonth(defMonth, selectedValue));
         }
     },
     '.addChildPopUp .button.ok click': function() {
@@ -105,15 +105,15 @@ export default PopUp.extend({
     '.ok click': function() {
 
     },
-	show: function (options) {
-		var that = this;
+    show: function (options) {
+        var that = this;
 
         this.module.attr({
             visible: true,
             title: '<h1>О вашем малыше</h1>',
             cb: options.cb
         });
-	},
+    },
     closePopup: function() {
         this.module.attr({
             'visible': false
