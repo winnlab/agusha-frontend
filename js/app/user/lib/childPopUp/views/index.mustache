@@ -26,19 +26,19 @@
             			</label>
             		</div>
             		<div class="childBirthDate">
-                        <select can-value="child.birth.day">
+                        <select class="childBrithDay" can-value="child.birth.day">
                             <option disabled="disabled" selected>День</option>
                             {{#each dates.days}}
                                 <option value="{{.}}">{{.}}</option>
                             {{/each}}
                         </select>
-                        <select can-value="child.birth.month">
+                        <select class="childBrithMonth"  can-value="child.birth.month">
                             <option disabled="disabled" selected>Мес.</option>
                             {{#each dates.months}}
                                 <option value={{@index}}>{{.}}</option>
                             {{/each}}
                         </select>
-                        <select can-value="child.birth.year">
+                        <select class="childBrithYear" can-value="child.birth.year">
                             <option disabled="disabled" selected>Год</option>
                             {{#each dates.years}}
                                 <option value="{{.}}">{{.}}</option>

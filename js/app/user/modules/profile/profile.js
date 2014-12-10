@@ -249,20 +249,9 @@ function getDaysInMonth(month, year) {
     var date = new Date(year, month, 1);
     var days = [];
 
-    console.log('date', date.getMonth());
-    console.log(date.getMonth() === month);
-
     while (date.getMonth() === month) {
         days.push(date.getDate());
         date.setDate(date.getDate() + 1);
-    }
-
-    console.log('days', days);
-
-    if(month == 2) {
-        if(days[length-1] == 28) {
-            days.push(29);
-        }
     }
 
     return days;
@@ -369,8 +358,8 @@ export default Controller.extend(
         '.user_birth_date select change': function(el, ev) {
             var clss = $(el).attr('class'),
                 selectedValue = Number($(el, 'option:selected').val()),
-                defYear = $('.user_birth_date .birth_year option:selected').val() || 2000,
-                defMonth = $('.user_birth_month .birth_year option:selected').val() || 0;
+                defYear = $('.user_birth_date option:selected').val() || 2000,
+                defMonth = $('.user_birth_month option:selected').val() || 0;
 
             if(clss == 'birth_month') {
                 this.dates.attr('days', getDaysInMonth(selectedValue, defYear));
