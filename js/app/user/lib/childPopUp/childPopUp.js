@@ -14,20 +14,9 @@ function getDaysInMonth(month, year) {
     var date = new Date(year, month, 1);
     var days = [];
 
-    console.log('date', date.getMonth());
-    console.log(date.getMonth() === month);
-
     while (date.getMonth() === month) {
         days.push(date.getDate());
         date.setDate(date.getDate() + 1);
-    }
-
-    console.log('days', days);
-
-    if(month == 2) {
-        if(days[length-1] == 28) {
-            days.push(29);
-        }
     }
 
     return days;
@@ -68,7 +57,7 @@ export default PopUp.extend({
             dates: {
                 months: getMonths(),
                 days: getDaysInMonth(1, 2001),
-                years: startYear(200)
+                years: startYear(2000)
             }
         });
 
@@ -92,6 +81,20 @@ export default PopUp.extend({
             }
         }));
 	},
+    '.childBirthDate select change': function(el, ev) {
+         var clss = $(el).attr('class'),
+            selectedValue = Number($(el, 'option:selected').val()),
+            defYear = $('.childBrithMonth option:selected').val() || 2000,
+            defMonth = $('.childBrithYear option:selected').val() || 0;
+
+        if(clss == 'birth_month') {
+            this.dates.attr('days', getDaysInMonth(selectedValue, defYear));
+        }
+
+        if(clss == 'birth_year') {
+            this.dates.attr('days', getDaysInMonth(defMonth, selectedValue));
+        }
+    },
     '.addChildPopUp .button.ok click': function() {
         this.child.attr('isSaved', true);
         this.closePopup();

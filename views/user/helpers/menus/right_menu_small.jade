@@ -16,15 +16,12 @@ mixin points()
 .topper
 	.subTopper
 		.top
-		- if (user && user.getImage('min'))
-			| #{JSON.stringify(user)}
-			img(src="/img/uploads/"+(user ? user.getImage('min') : ''))
-		
-		- if(user)
-			a.new_module(href="/messages")
-				.message
-					.circle.rounded.adorable_table
-						.adorable_cell.unreadConversationsAmount= (user?user.points:0)
+			img(src="")
+
+		a.new_module(href="/messages")
+			.message
+				.circle.rounded.adorable_table
+					.adorable_cell.unreadConversationsAmount 0
 
 a.new_module(href="/moneybox")
 	mixin points()
