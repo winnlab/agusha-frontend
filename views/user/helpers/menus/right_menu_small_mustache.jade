@@ -23,7 +23,7 @@ mixin points()
 	.subTopper
 		.top
 			| {{#if auth.isAuth}}
-			img(src="{{image.small}}")
+			img(src="{{getProfileImage 'small'}}")
 			| {{/if}}
 		
 		| {{#if auth.isAuth}}

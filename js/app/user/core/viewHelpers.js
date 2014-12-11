@@ -140,3 +140,10 @@ can.mustache.registerHelper('checkAnswer', function (article) {
     }
     return !!result ? 'Я уже' : 'Я тоже';
 });
+
+can.mustache.registerHelper('getProfileImage', function(label) {
+    var module = appState.attr('user')
+        , user = module.options.user;
+
+    return user.getImage(label);
+});

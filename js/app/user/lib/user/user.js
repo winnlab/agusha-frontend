@@ -85,7 +85,7 @@ UserMap = can.Map.extend({
 			}
 		},
 		image: {
-			value: defImages
+			value: {}
 		},
 		email: {
 			set: function(value) {
@@ -119,7 +119,7 @@ UserMap = can.Map.extend({
 			}
 		}
 	},
-	removeImage: function() {
+	removeImage: function(callback) {
 		var options, that = this, name = this.attr('image.large')
 			.match(/[a-zA-Z\d]{0,}.[a-zA-Z\d]{1,4}$/i);
 
@@ -136,11 +136,18 @@ UserMap = can.Map.extend({
 			url: '/profile/upload?'+can.param(options),
 			type: 'DELETE'
 		}).success(function() {
-			that.attr('image', defImages);
+			that.attr('image', {
+				orig: null,
+				medium: null,
+				large: null,
+				small: null
+			});
 
-			callback();
+			if(callback) {
+				callback();
+			}
 		}).fail(function( ) {
-			alert('fail');
+			// alert('fail');
 		});
 	},
 	setImages: function(images) {
@@ -149,6 +156,16 @@ UserMap = can.Map.extend({
 		_.each(images, function (image, key, list) {
 			that.attr('image.'+key, image);
 		});
+	},
+	getImage: function(label) {
+		var thatImageByLabel = this.attr('image.'+label)
+			, defImageByLabel = defImages[label];
+
+		if(!thatImageByLabel) {
+			return defImageByLabel;
+		}
+
+		return thatImageByLabel;
 	}
 });
 
@@ -207,9 +224,9 @@ User = can.Control.extend({
 				var field;
 
 				try {
-					field = that.attr(field);
+					return field = that.attr(field);
 				} catch(e) {
-
+					return false;
 				}
 			});
 
