@@ -47,7 +47,7 @@ var levels = [
         label: 'Профи',
         points: 1000
     }];
- 
+
 can.mustache.registerHelper('tooltip', function(errors, property, position, options) {
     var errors = options.context.user.attr('errors');
 

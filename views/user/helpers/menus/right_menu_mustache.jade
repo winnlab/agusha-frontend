@@ -15,7 +15,7 @@
 		)
 		.avatar
 			| {{#if auth.isAuth}}
-			img.rounded(src="{{image.large}}")
+			img.rounded(src="{{getProfileImage 'large'}}")
 			| {{/if}}
 		.name {{fullName}}
 
