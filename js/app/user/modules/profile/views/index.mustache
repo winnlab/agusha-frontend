@@ -288,38 +288,50 @@
 					<div class="question_bubble tooltip agushaTooltip" title="Выберите для себя уникальный пароль и будьте уверены в том, что никто, кроме вас, не сможет воспользоваться вашим замечательным профилем.">?</div>
 				</div>
 			</div>
-			<div class="profileInfo passwordInfo passwords">
-				<div class="userInputs" style="margin-top: 0px;">
-					<div class="column middle">
-						<div class="inner">
-							<div class="input_row">
-								<input class="password" can-value="old_password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
-								<span class="switcher" data-passid="oldPass"></span>
-							</div>
-						</div>
-					</div>
-					<div class="column left">
-						<div class="inner">
-							<div class="input_row">
-								<input data-passid="pass" can-value="new_password" placeholder="Новый пароль" type="password" class="password newPasswordValidate newPassword1" >
-								<span class="switcher" data-passid="pass"></span>
-							</div>
-						</div>
-					</div>
-					<div class="column right">
-						<div class="inner">
-							<div class="input_row">
-								<input data-passid="newPass" can-value="renew_password" class="password newPasswordValidate newPassword2" placeholder="Новый пароль еще раз" type="password" >
-								<span class="switcher" data-passid="newPass"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 
-			<button type="button" class="buttonSave">
-				Изменить пароль
-			</button>
+        <form class="changePassword">
+
+            <div class="profileInfo passwordInfo passwords">
+                <div class="userInputs" style="margin-top: 0px;">
+                    <div class="column middle">
+                        <div class="inner">
+                            <div class="input_row">
+                                <input name="oldPassword" class="password" can-value="old_password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
+                                <span class="switcher" data-passid="oldPass"></span>
+                            </div>
+                        </div>
+                    </div>
+
+					<div class="newPasswordTooltip">
+
+                        <div class="column left">
+                            <div class="inner">
+                                <div class="input_row">
+                                    <input name="newPassword" data-passid="pass" can-value="new_password" placeholder="Новый пароль" type="password" class="password newPasswordValidate newPassword1" >
+                                    <span class="switcher" data-passid="pass"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column right">
+                            <div class="inner">
+                                <div class="input_row">
+                                    <input data-passid="newPass" can-value="renew_password" class="password newPasswordValidate newPassword2" placeholder="Новый пароль еще раз" type="password" >
+                                    <span class="switcher" data-passid="newPass"></span>
+                                </div>
+                            </div>
+                        </div>
+
+					</div>
+
+                </div>
+            </div>
+
+            <button type="submit" class="buttonSave">
+                Изменить пароль
+            </button>
+
+        </form>
+
 
 			<div class="profileHead">
 				<div class="headWrap">

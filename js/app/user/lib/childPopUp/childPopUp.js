@@ -150,7 +150,6 @@ export default PopUp.extend({
     },
 
     '.customSelectListItem click': function (el, ev) {
-        console.log('child select');
 
         var selectValue = el.data('value');
         var selectHtml = el.html();
@@ -168,8 +167,6 @@ export default PopUp.extend({
         } else if ($customSelect.hasClass('customYear')) {
             this.child.attr('birth.year', selectValue);
         }
-
-        console.log(this.child);
 
         $list.removeClass('active');
         $content.html(selectHtml);

@@ -3,6 +3,7 @@
 import Controller from 'controller'
 import Model from 'module/article/articleModel'
 import 'bx-slider'
+import 'js/plugins/jquery.autosize/jquery.autosize.min';
 
 
 export default Controller.extend(
@@ -34,6 +35,11 @@ export default Controller.extend(
 
 			this.carousel();
 			this.moveBackground();
+			this.initResizableTextarea();
+		},
+
+		initResizableTextarea: function () {
+			$('.comment_form textarea').autosize();
 		},
 
 		carousel: function () {

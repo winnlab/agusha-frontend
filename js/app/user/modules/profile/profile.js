@@ -54,6 +54,7 @@ can.mustache.registerHelper('tooltip', function(errors, property, position, opti
     var errors = options.context.user.attr('errors');
 
     return function(el) {
+
         errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
             if(newVal == null) {
                 $(el).tooltipster('destroy');
@@ -322,6 +323,15 @@ export default Controller.extend(
             });
 
             this.initCustomScrollbar();
+            this.initSetPasswordTooltipster();
+        },
+
+        initSetPasswordTooltipster: function () {
+            $('.newPasswordTooltip').tooltipster({
+                position: 'right',
+                theme: 'tooltipster-error',
+                trigger: 'hover'
+            });
         },
 
         initCustomScrollbar: function () {
@@ -668,7 +678,12 @@ export default Controller.extend(
             var $newPassword1 = $('.newPassword1', self.element).val();
             var $newPassword2 = $('.newPassword2', self.element).val();
 
-            console.log($newPassword1, $newPassword2);
+            if ($newPassword1 != $newPassword2) {
+                $('.newPasswordTooltip').tooltipster('content', 'Пароли не совпадают');
+                $('.newPasswordTooltip').tooltipster('show', function() {  });
+            } else {
+                $('.newPasswordTooltip').tooltipster('hide', function() {  });
+            }
         },
 
         '.customSelect .content click': function (el, ev) {
@@ -705,6 +720,20 @@ export default Controller.extend(
             $targetSelect.find('option[value="'+selectValue+'"]').attr('selected', 'selected');
 
             this.saveModel();
+        },
+
+        '.changePassword submit': function (el, ev) {
+            ev.preventDefault();
+
+            can.ajax({
+                url: '/profile/changePassword',
+                method: 'POST',
+                data: can.deparam(el.serialize())
+            }).done(function (response) {
+                console.log(response);
+            }).fail(function (response) {
+
+            });
         }
     }
 );

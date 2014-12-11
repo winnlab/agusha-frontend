@@ -174,8 +174,9 @@
 					.avatar.rounded
 						- var avatarPath = "/img/user/helpers/stub/small.png"
 						if user && user.image && user.image.small
-							- avatarPath = "/img/uploads/#{user.image.small}"
-						img.rounded(src=avatarPath)
+							img.rounded(src="#{user.image.small}")
+						else
+							img.rounded(src="/img/user/helpers/stub/small.png")
 
 				.form_container
 					form.comment_form

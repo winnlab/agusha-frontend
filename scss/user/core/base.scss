@@ -5,6 +5,7 @@
 @import '../helpers/popup';
 @import '../helpers/cropper';
 @import '../../bourbon/bourbon';
+@import "placeholders";
 
 @mixin number_pseudo {
 	@include pseudo;
@@ -1522,6 +1523,21 @@ table tr {
 	display: none !important;
 }
 
+.scrollToTop {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 50px;
+	height: 52px;
+	@extend %bg-image-cover;
+	background-image: url('/img/user/main/scrollToTop.png');
+	opacity: 0.85;
+	@include transition(opacity 150ms ease-in-out 0s);
 
+	&:hover {
+		cursor: pointer;
+		opacity: 1;
+	}
+}
 
 

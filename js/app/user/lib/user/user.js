@@ -103,6 +103,7 @@ UserMap = can.Map.extend({
 				return value;
 			}
 		},
+
 		spareEmail: {
 			set: function(value) {
 				var regexp;

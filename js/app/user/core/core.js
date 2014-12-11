@@ -207,6 +207,12 @@ var Core = can.Control.extend(
 			}
 			
 			this.left_menu_line[func]();
+		},
+
+		'.scrollToTop click': function (el, ev) {
+			$('html, body').animate({
+				scrollTop: 0
+			}, 600);
 		}
 	}
 );
