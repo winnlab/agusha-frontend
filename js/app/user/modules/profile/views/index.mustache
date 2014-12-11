@@ -136,24 +136,60 @@
 						</div>
 						<div class="inner">
 							<div class="input_row user_birth_date birth_date">
-								<select class="birth_day" can-value="user.birth_date.day">
-									<option disabled="disabled" selected>День</option>
-									{{#each dates.days}}
-										<option value="{{.}}">{{.}}</option>
-									{{/each}}
-								</select>
-								<select can-value="user.birth_date.month" class="birth_month">
-									<option disabled="disabled" selected>Мес.</option>
-									{{#each dates.months}}
-										<option value={{@index}}>{{.}}</option>
-									{{/each}}
-								</select>
-								<select can-value="user.birth_date.year" class="birth_year">
-									<option disabled="disabled" selected>Год</option>
-									{{#each dates.years}}
-										<option value="{{.}}">{{.}}</option>
-									{{/each}}
-								</select>
+
+								<div class="customSelect customDay inactive" data-target="customDay">
+									<p class="content"><span class="value">{{#if user.birth_date.day}}{{user.birth_date.day}}{{else}}День{{/if}}</span> <span class="triangleDown">▾</span></p>
+									<div class="customSelectList">
+										{{#each dates.days}}
+											<p class="customSelectListItem" data-value="{{.}}">{{.}}</p>
+										{{/each}}
+									</div>
+								</div>
+
+                                <div class="customSelect customMonth inactive" data-target="customMonth">
+                                    <p class="content"><span class="value">{{#if user.birth_date.month}}{{getUserMonth user.birth_date.month}}{{else}}Мес.{{/if}}</span> <span class="triangleDown">▾</span></p>
+                                    <div class="customSelectList">
+										{{#each dates.months}}
+                                            <p class="customSelectListItem" data-value="{{@index}}">{{.}}</p>
+										{{/each}}
+                                    </div>
+                                </div>
+
+                                <div class="customSelect customYear inactive" data-target="customYear">
+                                    <p class="content"><span class="value">{{#if user.birth_date.year}}{{user.birth_date.year}}{{else}}Год.{{/if}}</span> <span class="triangleDown">▾</span></p>
+                                    <div class="customSelectList">
+										{{#each dates.years}}
+                                            <p class="customSelectListItem" data-value="{{.}}">{{.}}</p>
+										{{/each}}
+                                    </div>
+                                </div>
+
+								<div class="clearfix"></div>
+
+								<div style="display: none">
+
+                                    <select name="birth_date[day]" class="birth_day customDay" can-value="user.birth_date.day">
+                                        <option disabled="disabled" selected>День</option>
+										{{#each dates.days}}
+                                            <option value="{{.}}">{{.}}</option>
+										{{/each}}
+                                    </select>
+
+                                    <select name="birth_date[month]" can-value="user.birth_date.month" class="birth_month customMonth">
+                                        <option disabled="disabled" selected>Мес.</option>
+										{{#each dates.months}}
+                                            <option value={{@index}}>{{.}}</option>
+										{{/each}}
+                                    </select>
+                                    <select  name="birth_date[year]" can-value="user.birth_date.year" class="birth_year customYear">
+                                        <option disabled="disabled" selected>Год</option>
+										{{#each dates.years}}
+                                            <option value="{{.}}">{{.}}</option>
+										{{/each}}
+                                    </select>
+
+								</div>
+
 							</div>
 						</div>
 					</div>
@@ -227,6 +263,11 @@
 						</div>
 					</div>
 				</div>
+
+                <button type="button" class="buttonSave">
+                    Сохранить
+                </button>
+
 				<div class="iAgreeBlock">
 					<div class="checkbox">
 						<input type="checkbox" id="user.agree" can-value="user.agree" {{isChekedAgree user.agree}} />
@@ -260,7 +301,7 @@
 					<div class="column left">
 						<div class="inner">
 							<div class="input_row">
-								<input data-passid="pass" can-value="new_password" placeholder="Новый пароль" type="password" class="password" >
+								<input data-passid="pass" can-value="new_password" placeholder="Новый пароль" type="password" class="password newPasswordValidate newPassword1" >
 								<span class="switcher" data-passid="pass"></span>
 							</div>
 						</div>
@@ -268,7 +309,7 @@
 					<div class="column right">
 						<div class="inner">
 							<div class="input_row">
-								<input data-passid="newPass" can-value="renew_password" class="password" placeholder="Новый пароль еще раз" type="password" >
+								<input data-passid="newPass" can-value="renew_password" class="password newPasswordValidate newPassword2" placeholder="Новый пароль еще раз" type="password" >
 								<span class="switcher" data-passid="newPass"></span>
 							</div>
 						</div>
@@ -278,10 +319,6 @@
 
 			<button type="button" class="buttonSave">
 				Изменить пароль
-			</button>
-
-			<button type="button" class="buttonSave">
-				Сохранить
 			</button>
 
 			<div class="profileHead">

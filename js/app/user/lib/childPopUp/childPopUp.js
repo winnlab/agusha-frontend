@@ -4,10 +4,12 @@ import view from 'js/app/user/lib/childPopUp/views/index.mustache!';
 import appState from 'core/appState';
 import childMap from 'lib/user/children';
 import _ from 'lodash';
+import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css!';
+import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min';
 
 function getMonths() {
-    return [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ];
+    return [ "Янв", "Фев", "Март", "Апр", "Май", "Июнь",
+        "Июль", "Авг", "Сен", "Окт", "Нояб", "Дек" ];
 }
 
 function getDaysInMonth(month, year) {
@@ -56,8 +58,8 @@ export default PopUp.extend({
             'classes': 'addChildPopUp',
             dates: {
                 months: getMonths(),
-                days: getDaysInMonth(1, 2001),
-                years: startYear(2000)
+                days: getDaysInMonth(0, 2007),
+                years: startYear(2007)
             }
         });
 
@@ -80,6 +82,21 @@ export default PopUp.extend({
                 return '';
             }
         }));
+
+        $(".customSelectList", this.element).mCustomScrollbar({
+            theme: "dark-thick",
+            axis: 'y',
+            height: 300,
+            scrollInertia: 400,
+            scrollButtons: {
+                enable: false,
+                scrollAmount: 200,
+                scrollType: 'stepless'
+            },
+            advanced:{
+                updateOnContentResize: true
+            }
+        });
     },
     '.childBirthDate select change': function(el, ev) {
          var clss = $(el).attr('class'),
@@ -120,5 +137,43 @@ export default PopUp.extend({
         });
 
         this.element.remove();
+    },
+
+    '.customSelect .content click': function (el, ev) {
+        var $list = el.parents('.customSelect').find('.customSelectList');
+
+        if ($list.hasClass('active')) {
+            $list.removeClass('active');
+        } else {
+            $list.addClass('active');
+        }
+    },
+
+    '.customSelectListItem click': function (el, ev) {
+        console.log('child select');
+
+        var selectValue = el.data('value');
+        var selectHtml = el.html();
+        var $customSelect = el.parents('.customSelect');
+        var $content = $customSelect.find('.content .value');
+        var $list = $customSelect.find('.customSelectList');
+        var targetClass = $customSelect.data('target');
+
+        var $targetSelect = $customSelect.parent().find('select.'+targetClass);
+
+        if ($customSelect.hasClass('customDay')) {
+            this.child.attr('birth.day', selectValue);
+        } else if ($customSelect.hasClass('customMonth')) {
+            this.child.attr('birth.month', selectValue);
+        } else if ($customSelect.hasClass('customYear')) {
+            this.child.attr('birth.year', selectValue);
+        }
+
+        console.log(this.child);
+
+        $list.removeClass('active');
+        $content.html(selectHtml);
+        $targetSelect.find('option:selected').attr('selected', false);
+        $targetSelect.find('option[value="'+selectValue+'"]').attr('selected', 'selected');
     }
 });

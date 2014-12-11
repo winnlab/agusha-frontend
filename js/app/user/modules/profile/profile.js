@@ -12,6 +12,8 @@ import s3Options from 'js/app/user/modules/profile/select3Options';
 import moment from 'moment';
 import friendsView from 'js/app/user/modules/profile/views/friends.mustache!';
 import 'vk-openapi'
+import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css!';
+import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min';
 
 import 'js/plugins/select2/select2.css!'
 
@@ -241,8 +243,8 @@ can.mustache.registerHelper('levelPrefix', function(points) {
 
 
 function getMonths() {
-    return [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ];
+    return [ "Янв", "Фев", "Март", "Апр", "Май", "Июнь",
+    "Июль", "Авг", "Сен", "Окт", "Нояб", "Дек" ];
 }
 
 function getDaysInMonth(month, year) {
@@ -289,8 +291,8 @@ export default Controller.extend(
             this.errs = new can.Map();
             this.dates = new can.Map({
                 months: getMonths(),
-                days: getDaysInMonth(1, 2001),
-                years: startYear(1920)
+                days: getDaysInMonth(0, 1960),
+                years: startYear(1960)
             });
 
             if(!this.data.auth.isAuth) {
@@ -318,7 +320,29 @@ export default Controller.extend(
             VK.init({
               apiId: 4581691
             });
+
+            this.initCustomScrollbar();
         },
+
+        initCustomScrollbar: function () {
+            var self = this;
+
+            $(".customSelectList", self.element).mCustomScrollbar({
+                theme: "dark-thick",
+                axis: 'y',
+                height: 300,
+                scrollInertia: 400,
+                scrollButtons: {
+                    enable: false,
+                    scrollAmount: 200,
+                    scrollType: 'stepless'
+                },
+                advanced:{
+                    updateOnContentResize: true
+                }
+            });
+        },
+
         createChildPopUp: function(child) {
             var elem = $('<span class="childPopupWrap"></span>');
             this.childPopupElement = $('body').append(elem);
@@ -330,16 +354,20 @@ export default Controller.extend(
             this.child = this.childPopUp.module.child;
             this.bindChild();
         },
+
         '.social_buttons .vk click': function() {
             window.location.href = '/registration/vk';
         },
+
         '.social_buttons .fb click': function() {
             window.location.href = '/registration/fb';
         },
+
         '.addChild click': function() {
             this.createChildPopUp();
             this.childPopUp.show({});
         },
+
         '.childPic click': function(el, ev) {
             var child = el.data('children');
 
@@ -347,14 +375,17 @@ export default Controller.extend(
 
             this.childPopUp.show({});
         },
+
         'change': function(el, ev) {
             ev.preventDefault();
 
             this.saveModel();
         },
+
         '.buttons .remove.button click': function() {
             this.user.removeImage();
         },
+
         '.user_birth_date select change': function(el, ev) {
             var clss = $(el).attr('class'),
                 selectedValue = Number($(el, 'option:selected').val()),
@@ -439,7 +470,8 @@ export default Controller.extend(
                 errs: this.errs,
                 levels: levels,
                 levelKeys: [1,2,3,4,5,6,7],
-                dates: this.dates
+                dates: this.dates,
+                months: getMonths()
             });
 
             $('#profile').html(can.view(view, viewModel, {
@@ -459,6 +491,9 @@ export default Controller.extend(
                     }
 
                     return '';
+                },
+                getUserMonth: function (month) {
+                    return getMonths()[month()];
                 }
             }));
 
@@ -621,6 +656,55 @@ export default Controller.extend(
                 .prop('disabled', true)
                 .html('ОТПРАВЛЕНО')
                 .off('click');
+        },
+
+        '.newPasswordValidate keyup': function (el, ev) {
+            this.newPasswordValidate(el);
+        },
+
+        newPasswordValidate: function (el) {
+            var self = this;
+
+            var $newPassword1 = $('.newPassword1', self.element).val();
+            var $newPassword2 = $('.newPassword2', self.element).val();
+
+            console.log($newPassword1, $newPassword2);
+        },
+
+        '.customSelect .content click': function (el, ev) {
+            var $list = el.parents('.customSelect').find('.customSelectList');
+
+            if ($list.hasClass('active')) {
+                $list.removeClass('active');
+            } else {
+                $list.addClass('active');
+            }
+        },
+
+        '.customSelectListItem click': function (el, ev) {
+            var selectValue = el.data('value');
+            var selectHtml = el.html();
+            var $customSelect = el.parents('.customSelect');
+            var $content = $customSelect.find('.content .value');
+            var $list = $customSelect.find('.customSelectList');
+            var targetClass = $customSelect.data('target');
+
+            var $targetSelect = $customSelect.parent().find('select.'+targetClass);
+
+            if ($customSelect.hasClass('customDay')) {
+                this.user.attr('birth_date.day', selectValue);
+            } else if ($customSelect.hasClass('customMonth')) {
+                this.user.attr('birth_date.month', selectValue);
+            } else if ($customSelect.hasClass('customYear')) {
+                this.user.attr('birth_date.year', selectValue);
+            }
+
+            $list.removeClass('active');
+            $content.html(selectHtml);
+            $targetSelect.find('option:selected').attr('selected', false);
+            $targetSelect.find('option[value="'+selectValue+'"]').attr('selected', 'selected');
+
+            this.saveModel();
         }
     }
 );

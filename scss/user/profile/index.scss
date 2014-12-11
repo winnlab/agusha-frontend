@@ -1009,11 +1009,83 @@ span.deleteicon {
 	}
 }
 
+.customSelect {
+	border-radius: 5px;
+	box-sizing: border-box;
+	border: none;
+	text-transform: uppercase;
+	font-size: 100%;
+	outline-style: none;
+	color: #999999;
+	background-color: #fff;
+	float: left;
+	margin-right: 30px;
+	font-family: 'PT_Sans_Regular';
+	position: relative;
+	width: 73px;
+
+	.mCS-dark-thick.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+		background-color: #000; background-color: #999999;
+	}
+	.mCS-dark-thick.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar{
+		background-color: #999999; background-color: #999999;
+	}
+
+	&.customYear {
+		margin-right: 0;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	.content {
+		padding: 15px 10px;
+
+		.triangleDown {
+			float: right;
+
+		}
+	}
+
+	.customSelectList {
+		display: none;
+		position: absolute;
+		top: 45px;
+		left: 0;
+		background: #ffffff;
+		z-index: 1;
+		min-width: 100%;
+		height: 300px;
+		overflow: auto;
+
+		&.active {
+			display: block;
+		}
+
+		.customSelectListItem {
+			padding: 5px;
+			text-align: left;
+
+			&:hover {
+				cursor: pointer;
+				background: #e5e5e5;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
 .popUpWrap {
 	&.addChildPopUp {
 		input[type="text"] {
 			height: 60px;
 			padding-top: 3px;
+		}
+
+		.customSelect {
+			margin-right: 10px;
+			width: 77px;
 		}
 
 		.contentWrap {
