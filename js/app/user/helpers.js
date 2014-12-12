@@ -3,7 +3,7 @@ window.strip_tags = function(str) {
 };
 
 window.escape = function(text) {
-	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+	return text && text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 };
 
 window.jadeTemplate = {
