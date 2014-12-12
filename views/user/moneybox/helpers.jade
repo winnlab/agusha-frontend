@@ -48,7 +48,9 @@ mixin moneybox()
 		| {{/each}}
 		| {{#each lvls}}
 		div(class="label {{name}}")= '{{minus points 200}}'
-		| {{/each}}	
+		| {{/each}}
+
+	include prizes
 
 	.table_container
 		| {{#each actions}}
