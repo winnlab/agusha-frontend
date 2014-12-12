@@ -134,4 +134,4 @@ mixin article(a, i)
 							| одобряют
 						
 						img.comment(src="/img/user/article/comment.png")
-						span.count.commentariesCount= (a ? (a.counter ? a.counter.comment : 0) : '{{#if counter.comment}}{{counter.comment}}{{else}}0{{/if}}')
+						span.count.commentariesCount= (a ? (a.commentaries ? a.commentaries.length : 0;) : '{{#if commentaries.length}}{{commentaries.length}}{{else}}0{{/if}}')
