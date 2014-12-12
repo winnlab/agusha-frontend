@@ -120,7 +120,7 @@ can.mustache.registerHelper('isWatched', function (article) {
             return user._id == watch;
         });
     }
-    return result !== -1 ? 'isWatched' : '';
+    return (result && result !== -1) ? 'isWatched' : '';
 });
 
 can.mustache.registerHelper('isSpecAns', function (article, options) {
