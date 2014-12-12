@@ -1266,13 +1266,10 @@ table tr {
 }
 
 #modules {
+	height: 100%;
 	position: relative;
 	overflow: visible;
 	z-index: 9;
-
-	.module {
-		height: 100%;
-	}
 
 	.content {
 		height: 100%;
