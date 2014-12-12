@@ -23,15 +23,16 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
+			var self = this;
 			this.tab_blocks.filter(':not(.active)').find('.text').hide();
 			this.module = new can.Map({
 				lvls: data ? data.lvls : app.lvls,
 				actions: data ? data.actions : app.actions,
 				points: data ? data.user.points : (app.user ? app.user.points : 0),
 				year: new Date().getFullYear(),
-				activatedAt: data ? data.user.activated_at : (app.user ? app.user.activated_at : 0),
+				activatedAt: data ? data.user.activated_at : (app.user ? app.user.activated_at : 0)
 			});
-			
+
 			var moneybox_mustache = $('#moneybox_mustache'),
 				html;
 
@@ -45,7 +46,7 @@ export default Controller.extend(
 
 			this.element.find('.moneyBoxWrap').html(can.view('moneybox_mustache', this.module, moneyboxHelpers));
 
-			appState.delegate('moneybox', 'set', can.proxy(this.moneyboxed, this))
+			appState.delegate('moneybox', 'set', can.proxy(self.moneyboxed, self));
 		},
 
 		moneyboxed: function (ev, newVal) {
@@ -58,8 +59,8 @@ export default Controller.extend(
 				dataType: 'json',
 				method: 'get'
 			}).done(function (data) {
-				self.attr('actions').replace(data.data.actions)
-				self.attr('points', data.data.points);
+				self.module.attr('actions', data.data.actions);
+				self.module.attr('points', data.data.points);
 			});
 		},
 

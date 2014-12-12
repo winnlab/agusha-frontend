@@ -213,6 +213,15 @@ var Core = can.Control.extend(
 			$('html, body').animate({
 				scrollTop: 0
 			}, 600);
+		},
+
+		'.triggerClosePopup click': function (el, ev) {
+			var $mainPopupWrapper = $('.mainPopupWrapper');
+
+			$mainPopupWrapper.fadeOut(function(){
+				$mainPopupWrapper.find('h1').html('');
+				$mainPopupWrapper.find('p').html('');
+			});
 		}
 	}
 );

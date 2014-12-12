@@ -18,6 +18,7 @@ import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat
 import 'js/plugins/select2/select2.css!'
 
 import Profile from 'js/app/user/modules/profile/profileModel';
+import PopUp from 'js/app/user/lib/popUp/popUp';
 
 var invMessages = {
     vk: 'Привет, хало, слалют.'
@@ -730,9 +731,22 @@ export default Controller.extend(
                 method: 'POST',
                 data: can.deparam(el.serialize())
             }).done(function (response) {
-                console.log(response);
+                PopUp.showPopup({
+                    title: '',
+                    content: 'Ваш пароль изменен'
+                });
             }).fail(function (response) {
+                PopUp.showPopup({
+                    title: '',
+                    content: 'Ошибка при изменении пароля'
+                });
+            });
+        },
 
+        '.saveProfileData click': function (el, ev) {
+            PopUp.showPopup({
+                title: '',
+                content: 'Ваши данные успешно сохранены'
             });
         }
     }

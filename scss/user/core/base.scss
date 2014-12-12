@@ -1540,4 +1540,56 @@ table tr {
 	}
 }
 
+.mainPopupWrapper {
+	position: fixed;
+	line-height: 1.6;
+	z-index: 12;
+
+	.mainPopupBackground {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background: rgba(35,133,178,0.9);
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	.mainPopupContent {
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		margin-left: rem(-160);
+		@include transform(translateY(-50%));
+		background: #f2efed;
+		border-radius: 20px;
+		width: rem(320);
+		padding: rem(55);
+		color: #666666;
+		text-align: center;
+
+		.closeMainPopup {
+			position: absolute;
+			top: 17px;
+			right: 17px;
+			height: 30px;
+			width: 30px;
+			background: url("/img/user/helpers/popUp/close.png");
+			cursor: pointer;
+			opacity: 1;
+		}
+
+		h1 {
+			font-size: 24px;
+		}
+		p {
+			font-size: 16px;
+			line-height: 23px;
+		}
+	}
+}
+
 

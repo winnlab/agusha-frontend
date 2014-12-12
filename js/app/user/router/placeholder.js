@@ -71,6 +71,14 @@ export default can.Map.extend({
 		} else {
 			this.footer.show();
 		}
+
+		this.scrollToTop();
+	},
+
+	scrollToTop: function () {
+		$('html, body').animate({
+			scrollTop: 0
+		}, 0);
 	},
 	
 	addModule: function (module) {
