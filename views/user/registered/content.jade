@@ -26,6 +26,6 @@ include ../encyclopedia/helpers
 				.items_container
 					- each a, i in articles.documents
 						mixin article(a, i)
-		if (articles.nextAnchorId)
-			.loadMore
-				img(src="/img/user/main/icon_book.gif")
+			if (articles.nextAnchorId)
+				.loadMore
+					img(src="/img/user/main/icon_book.gif")
