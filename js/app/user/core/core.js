@@ -196,6 +196,14 @@ var Core = can.Control.extend(
 			});
 		},
 		
+		'{window} custom_ready': function() {
+			$('body').css({
+				overflow: 'auto'
+			});
+			
+			$('#preloader').fadeOut(300);
+		},
+		
 		'{window} resize': 'resize',
 		
 		resize: function() {

@@ -24,8 +24,6 @@ export default can.Control.extend({
 			
 			can.route.bindings.pushstate.root = options.base;
 			can.route.ready();
-			
-			$('#preloader').fadeOut(300);
 		},
 		
 		'.new_module click': function (el, ev) {
