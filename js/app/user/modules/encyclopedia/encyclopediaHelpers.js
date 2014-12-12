@@ -13,11 +13,11 @@ export default {
     articleType: function (entity) {
         var type = entity.attr('type.name'),
             result = '';
-		
+
 		if(!type) {
 			return '';
 		}
-		
+
         if (type === 'Статья от редакции') {
             result = 'redaction'
         } else if (type === 'Тема недели') {
@@ -93,7 +93,7 @@ export default {
             result[0].XL = true;
         }
 
-        if (result[0].type && (result[0].type.name == 'Статья от специалиста' 
+        if (result[0].type && (result[0].type.name == 'Статья от специалиста'
             || result[0].type.name == 'Статья от пользователя')) {
             result[0].XL = false;
             isXL = false;
