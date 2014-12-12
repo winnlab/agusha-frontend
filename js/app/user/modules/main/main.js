@@ -56,7 +56,9 @@ export default Controller.extend(
 			appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
 				if (appState.attr('user') && appState.attr('user').user() && appState.attr('user').user()._id) {
 					self.element.find('.carousel_container').hide();
-					self.element.find('.username').html(appState.attr('user').user().attr('profile.first_name'))
+					var username = appState.attr('user').user().attr('profile.first_name');
+					self.element.find('.breadcrumbs span').html('/ ' + username)
+					self.element.find('.username').html(username)
 				} else {
 					self.element.find('.carousel_container').show();
 				}
@@ -88,6 +90,7 @@ export default Controller.extend(
 
 			return html;
 		},
+
 		after_init: function(data) {
 			var auth = appState.attr('user').auth;
 

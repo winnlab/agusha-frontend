@@ -1,5 +1,5 @@
 mixin feed()
-    .filters
+    .filters(style="{{#unless feed.length}}display: none;{{/unless}}")
         select.feed_select
             option(data-count="{{plus themeSubs authorSubs}}" value=0) Все подписки
             option(data-count="{{themeSubs}}" value=1) Подписки на тему
@@ -108,3 +108,6 @@ mixin feed()
                                 |{{#is type.name "Статья от пользователя"}}{{answer.length}}{{/is}}
 
         | {{/each}}
+    | {{#unless feed.length}}
+    h1.centered Ваша лента пока пуста
+    | {{/unless}}
