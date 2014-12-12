@@ -52,6 +52,15 @@ export default Controller.extend(
 					self.updateSubscribe();
 				}
 			});
+
+			appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
+				if (appState.attr('user') && appState.attr('user').user() && appState.attr('user').user()._id) {
+					self.element.find('.carousel_container').hide();
+					self.element.find('.username').html(appState.attr('user').user().attr('profile.first_name'))
+				} else {
+					self.element.find('.carousel_container').show();
+				}
+			});
 		},
 
 		select2: function() {
@@ -243,6 +252,7 @@ export default Controller.extend(
 		},
 
 		reRenderFeed: function () {
+			console.info('reRenderFeed');
 			if (this.data) {
 				var data = this.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, this.data.attr('sort'), true, true);

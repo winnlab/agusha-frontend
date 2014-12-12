@@ -293,8 +293,8 @@ export default Controller.extend(
             this.errs = new can.Map();
             this.dates = new can.Map({
                 months: getMonths(),
-                days: getDaysInMonth(0, 1960),
-                years: startYear(1960)
+                days: getDaysInMonth(0, 1950),
+                years: startYear(1950)
             });
 
             if(!this.data.auth.isAuth) {
@@ -688,6 +688,8 @@ export default Controller.extend(
         },
 
         '.customSelect .content click': function (el, ev) {
+            ev.stopPropagation();
+
             var $list = el.parents('.customSelect').find('.customSelectList');
 
             if ($list.hasClass('active')) {
@@ -738,7 +740,7 @@ export default Controller.extend(
             }).fail(function (response) {
                 PopUp.showPopup({
                     title: '',
-                    content: 'Ошибка при изменении пароля'
+                    content: ''
                 });
             });
         },
@@ -748,6 +750,13 @@ export default Controller.extend(
                 title: '',
                 content: 'Ваши данные успешно сохранены'
             });
+        },
+
+        '.user_profile click': function (el, ev) {
+            var $list = $('.customSelectList');
+            if ($list.hasClass('active')) {
+                $list.removeClass('active');
+            }
         }
     }
 );

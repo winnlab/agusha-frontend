@@ -21,7 +21,11 @@ can.mustache.registerHelper('filterBy', function (entity, filter) {
 can.mustache.registerHelper('getUserImg', function (article) {
     var result = 'user/helpers/stub/medium.png';
 
-    if (article.author && article.author.author_id && article.author.author_id.image) {
+    if (article.author 
+        && article.author.author_id
+        && article.author.author_id.image
+        && article.author.author_id.image.medium
+    ) {
         result = 'uploads/' + article.author.author_id.image.medium
     }
 

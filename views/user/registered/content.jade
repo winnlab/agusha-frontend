@@ -5,7 +5,7 @@ include ../encyclopedia/helpers
 .content.userTitle(style = (user ? 'display: none' : ''))
 	include ../helpers/breadcrumbs
 	
-	.topper_title Привет, #{breadcrumbs[0].title}
+	.topper_title Привет, <span class="username">#{breadcrumbs[0].title}</span>
 
 	.tabs
 		.tabs_flex

@@ -58,8 +58,8 @@ export default PopUp.extend({
             'classes': 'addChildPopUp',
             dates: {
                 months: getMonths(),
-                days: getDaysInMonth(0, 2007),
-                years: startYear(2007)
+                days: getDaysInMonth(0, 1990),
+                years: startYear(1990)
             }
         });
 

@@ -17,7 +17,7 @@ export default {
 			'contacts.city',
 			'contacts.street',
 			'contacts.houseNum',
-			'contacts.apartament',
+			'contacts.apartament'
 		],
 		weight: 25
 	},
@@ -25,7 +25,6 @@ export default {
 		fields: [
 			'contacts.phone',
 			'email',
-			'contacts.spareEmail',
 			'contacts.phone',
 			'contacts.postIndex'
 		],
