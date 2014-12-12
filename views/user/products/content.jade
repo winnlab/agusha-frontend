@@ -38,8 +38,8 @@ finclude helpers
 		- each a, key in ages
 			.about_block(id = 'age_' + a.value, class=(key == 0 ? 'active' : ''))
 				//.about_bg
-					img.left(src = (a.desc.image ? '/img/uploads/' + a.desc.image : ''))
-					img.right(src = (a.desc.image ? '/img/uploads/' + a.desc.image : ''))
+					img.left(src = (a.desc && a.desc.image ? '/img/uploads/' + a.desc.image : ''))
+					img.right(src = (a.desc && a.desc.image ? '/img/uploads/' + a.desc.image : ''))
 				
 				.about_text.adorable_table
 					.adorable_cell !{a.desc.subtitle}
