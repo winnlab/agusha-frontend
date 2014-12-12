@@ -42,7 +42,7 @@ finclude helpers
 					img.right(src = (a.desc && a.desc.image ? '/img/uploads/' + a.desc.image : ''))
 				
 				.about_text.adorable_table
-					.adorable_cell !{a.desc.subtitle}
+					.adorable_cell !{a.desc && a.desc.subtitle ? a.desc.subtitle : ''}
 	
 	#products_container
 		- each p, key in products
