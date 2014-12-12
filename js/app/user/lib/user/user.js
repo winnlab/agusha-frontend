@@ -3,6 +3,7 @@ import 'can/map/validations/validations';
 import weights from 'lib/user/profileWeight'
 import _ from 'lodash';
 import ChildrenMap from 'lib/user/children';
+import appState from 'core/appState';
 
 var getCurrentUser, User, logout, UserMap,
 	ChildrenList, defImages;
@@ -217,6 +218,10 @@ User = can.Control.extend({
 	reCheckFilling: function(ev, newVal, oldVal, prop) {
 		var def = 0,
 		that = this;
+
+		if (newVal == 100) {
+			appState.attr('moneybox', true);
+		}
 
 		_.forEach(weights, function(item, key, list) {
 			var isField;

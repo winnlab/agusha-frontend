@@ -21,6 +21,14 @@ html
 				include footer
 
 			.right_menu.right_resizable
+
+			.mainPopupWrapper(style="display: none")
+				.mainPopupBackground.triggerClosePopup
+				.mainPopupContent
+					.closeMainPopup.triggerClosePopup
+					h1
+					p.content
+
 		
 		#left_menu.left_menu.left_resizable
 			include left_menu

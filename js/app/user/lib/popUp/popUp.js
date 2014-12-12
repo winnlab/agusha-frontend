@@ -3,6 +3,16 @@ import view from 'js/app/user/lib/popUp/views/index.mustache!'
 
 export default can.Control.extend({
 
+    showPopup: function (data) {
+        var $popupWrapper = $('.mainPopupWrapper');
+
+        $popupWrapper.find('h1').html(data.title);
+        $popupWrapper.find('p.content').html(data.content);
+
+        $popupWrapper.fadeIn();
+    }
+},{
+
     init: function () {
         this.module = new can.Map({
             'close': true,
