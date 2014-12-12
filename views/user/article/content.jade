@@ -43,10 +43,11 @@ if article.image
 							| мамочек
 							br
 							| одобряют
-						
-						img.comment(src="/img/user/article/comment.png")
-						span.count.commentariesCount(data-component_id="#{article._id}")
-							| #{commentariesAmount}
+
+						span.scrollToComments
+							img.comment(src="/img/user/article/comment.png")
+							span.count.commentariesCount(data-component_id="#{article._id}")
+								| #{commentariesAmount}
 
 			//.column
 			//	.adorable_table
@@ -107,7 +108,7 @@ if article.image
 							.adorable_cell
 								button.poll_button(type="submit", style=(user ? '' : 'display: none')) Проголосовать
 
-					.plz Для того, чтобы увидеть результаты опроса, плз, ответьте сами
+					.plz Для того чтобы посмотреть результаты опроса, вам тоже необходимо в нем поучаствовать.
 
 				.social
 					.social_button
@@ -177,7 +178,7 @@ if article.image
 								.progress_line
 									.progress(style="width: #{answerItem.percent}%;")
 				
-				.plz(style=(userVoted ? 'display: none' : '')) Для того, чтобы увидеть результаты опроса, плз, ответьте сами
+				.plz(style=(userVoted ? 'display: none' : '')) Для того чтобы посмотреть результаты опроса, вам тоже необходимо в нем поучаствовать.
 				.social
 					.social_button
 						.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
