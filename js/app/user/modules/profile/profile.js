@@ -752,7 +752,8 @@ export default Controller.extend(
             });
         },
 
-        '.user_profile click': function (el, ev) {
+        'click': function (el, ev) {
+            console.log('click');
             var $list = $('.customSelectList');
             if ($list.hasClass('active')) {
                 $list.removeClass('active');

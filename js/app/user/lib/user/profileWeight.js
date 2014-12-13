@@ -25,6 +25,7 @@ export default {
 		fields: [
 			'contacts.phone',
 			'email',
+			'email',
 			'contacts.phone',
 			'contacts.postIndex'
 		],

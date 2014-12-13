@@ -5,9 +5,22 @@ export default can.Control.extend({
 
     showPopup: function (data) {
         var $popupWrapper = $('.mainPopupWrapper');
+        var $title = $popupWrapper.find('h1');
+        var $content = $popupWrapper.find('p.content');
 
-        $popupWrapper.find('h1').html(data.title);
-        $popupWrapper.find('p.content').html(data.content);
+        if (data.title && data.title.length > 0) {
+            $title.show();
+            $title.html(data.title);
+        } else {
+            $title.hide();
+        }
+
+        if (data.content && data.content.length > 0) {
+            $content.show();
+            $content.html(data.content);
+        } else {
+            $content.hide();
+        }
 
         $popupWrapper.fadeIn();
     }
