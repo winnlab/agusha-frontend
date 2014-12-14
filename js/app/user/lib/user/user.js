@@ -50,7 +50,8 @@ ChildrenList = can.List.extend({
 
 UserMap = can.Map.extend({
 	attributes: {
-		email: 'string'
+		email: 'string',
+		spareEmail: 'string'
 	},
 	init: function() {
 	}
