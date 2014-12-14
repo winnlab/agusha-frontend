@@ -728,10 +728,27 @@ export default Controller.extend(
         '.changePassword submit': function (el, ev) {
             ev.preventDefault();
 
+            var form = can.deparam(el.serialize());
+
+            if (form.oldPassword.length == 0 || form.newPassword.length == 0) {
+                PopUp.showPopup({
+                    title: 'Ошибка!',
+                    content: 'Пожалуйста, заполните все поля'
+                });
+                return false;
+            }
+            if (form.newPassword != form.newPasswordCopy) {
+                PopUp.showPopup({
+                    title: 'Ошибка!',
+                    content: 'Пароли не совпадают'
+                });
+                return false;
+            }
+
             can.ajax({
                 url: '/profile/changePassword',
                 method: 'POST',
-                data: can.deparam(el.serialize())
+                data: form
             }).done(function (response) {
                 PopUp.showPopup({
                     title: '',
@@ -739,8 +756,8 @@ export default Controller.extend(
                 });
             }).fail(function (response) {
                 PopUp.showPopup({
-                    title: '',
-                    content: ''
+                    title: 'Ошибка!',
+                    content: 'При изменении пароля произошла ошибка'
                 });
             });
         },
@@ -753,7 +770,6 @@ export default Controller.extend(
         },
 
         'click': function (el, ev) {
-            console.log('click');
             var $list = $('.customSelectList');
             if ($list.hasClass('active')) {
                 $list.removeClass('active');

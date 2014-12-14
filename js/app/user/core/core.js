@@ -42,20 +42,23 @@ var Core = can.Control.extend(
 			if (!newVal) {
 				return;
 			}
+
+			console.log('moneybox ajax');
 			
 			can.ajax({
 				url: '/moneybox-points-only',
 				dataType: 'json',
 				method: 'get'
 			}).done(function (data) {
+				console.log(data);
 				$('#right_menu_small .points_number').html(data.data.points);
 				appState.attr('moneybox', false);
 			});
 		},
 		
 		'.logout click': function() {
-			this.hide_right_menu()
-			appState.attr('user').logout()
+			this.hide_right_menu();
+			appState.attr('user').logout();
 		},
 		
 		'#right_menu_small .subTopper .top click': function() {
