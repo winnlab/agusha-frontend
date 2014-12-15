@@ -13,15 +13,30 @@ export default Controller.extend(
 		}
 	}, {
 		variables: function() {
+			this.base_url = window.location.protocol + '//' + window.location.host;
+			
 			this.id = this.options.id != "article" ? this.options.id : "undefined";
 		},
 		
-		plugins: function() {
+		plugins: function(data) {
+			this.article = null;
+			
+			if(data) {
+				this.article = data.article;
+			} else {
+				this.article = app.article;
+			}
+			
 			var vk_options = {
 					type: "mini",
-					height: 20
+					height: 20,
+					pageTitle: this.article.title
 				},
 				ok_options = "{width:145,height:20,st:'rounded',sz:20,ck:1}";
+			
+			if(this.article.image && this.article.image.SOCIAL) {
+				vk_options.pageImage = this.base_url + '/img/uploads/' + this.article.image.SOCIAL;
+			}
 			
 			var vk_top = $('#vk_top_' + this.id);
 			if(vk_top.length) {

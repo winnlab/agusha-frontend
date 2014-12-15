@@ -75,7 +75,7 @@ export default can.Control.extend({
 	
 	after_request: function(data) {
 		this.variables();
-		this.plugins();
+		this.plugins(data);
 		this.window.trigger('custom_resize');
 		
 		this.module_preload.hide();

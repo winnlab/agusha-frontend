@@ -11,4 +11,7 @@ block content
 		include content
 
 block append scripts
-	
+	script.
+		var app = {
+			article: !{JSON.stringify(article)}
+		};
