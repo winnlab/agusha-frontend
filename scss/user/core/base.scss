@@ -1500,16 +1500,16 @@ table tr {
 	height: 100% !important;
 	overflow: hidden !important;
 	outline: none !important;
-	border-radius: 1000px !important;
+	border-radius: 50%;
 }
 
 .cropper-canvas {
 	border-radius: 20px !important;
 }
 
-.cropper-dashed {
+/*.cropper-dashed {
 	display: none !important;
-}
+}*/
 
 .cropper-face {
 	opacity: 1 !important;
@@ -1522,16 +1522,20 @@ table tr {
 	background-color: #fff !important;
 	background: none !important;
 	border: 1px dashed #797670;
-	border-radius: 1000px;
+	border-radius: 50%;
+}
+
+.point-nw, .point-ne, .point-sw, .point-se {
+	display: none !important;
 }
 
 .cropper-line {
 	display: none !important;
 }
 
-.cropper-point {
+/*.cropper-point {
 	display: none !important;
-}
+}*/
 
 .scrollToTop {
 	position: fixed;

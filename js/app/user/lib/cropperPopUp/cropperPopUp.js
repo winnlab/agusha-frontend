@@ -40,24 +40,20 @@ function computedVal (value) {
 
 can.mustache.registerHelper('cropper', function (entity) {
     return function (el) {
+
         entity.bind("change", function (ev, newVal) {
             $(el).cropper("destroy");
             $(el).attr('src', newVal);
 
             $(el).cropper({
-                data: {
-                    width: 250,
-                    height: 250
-                }
+                dashed: false,
+                aspectRatio: 1
             });
         });
 
         $(el).cropper({
-            data: {
-                width: 250,
-                height: 250
-            },
-            resizable: true
+            dashed: false,
+            aspectRatio: 1
         });
 
         return el
@@ -81,6 +77,7 @@ Cropper = PopUp.extend({
 
         this.element.append(can.view(view, this.module));
     },
+
     '.addPhotoCropper .button.ok click': function() {
         var img = this.module.attr('file'),
             imgDom = this.element.find(
@@ -113,8 +110,11 @@ Cropper = PopUp.extend({
             alert('fail');
         });
     },
+
     '.ok click': function() {
+
     },
+
     show: function (options) {
         var that = this;
 
@@ -129,6 +129,7 @@ Cropper = PopUp.extend({
 
         this.module.attr('image.url', options.url);
     },
+
     closePopup: function() {
         this.module.attr({
             'visible': false
@@ -145,10 +146,13 @@ can.mustache.registerHelper('uploader', function (type, options) {
 
     owner = options.context.child || options.context.user;
 
-    input = $('<input type="file" accept="image/x-png, image/gif, image/jpeg" />').addClass('uploader uploader'+type);
+    input = $('<input id="imageToCrop" type="file" accept="image/x-png, image/gif, image/jpeg" />').addClass('uploader uploader'+type);
 
     clojureBind = function(ow, tp, inp) {
         inp.change(function(ev) {
+            console.log('input change');
+            console.log(ev);
+
             var target = $(ev.target).data('target'),
                 input = this;
 
