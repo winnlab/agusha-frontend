@@ -172,7 +172,7 @@ export default Controller.extend(
 			ev.preventDefault();
 			window.location.href = '/registration/vk';
 		},
-		'.social .ok click': function(el, ev) {
+		'.social .odnoklasniki click': function(el, ev) {
 			ev.preventDefault();
 			window.location.href = '/registration/ok';
 		},

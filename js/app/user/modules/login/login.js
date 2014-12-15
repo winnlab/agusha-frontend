@@ -148,9 +148,9 @@ export default Controller.extend(
 			ev.preventDefault();
 			window.location.href = '/login/vk';
 		},
-		'.social .ok click': function(el, ev) {
+		'.social .odnoklasniki click': function(el, ev) {
 			ev.preventDefault();
-			window.location.href = '/login/ok';
+			window.location.href = '/registration/ok';
 		},
 		'.login_form .done click': function(el, ev) {
 			var data, form = el.parents('form'), that = this;

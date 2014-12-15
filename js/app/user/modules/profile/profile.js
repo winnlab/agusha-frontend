@@ -443,7 +443,12 @@ export default Controller.extend(
 
             this.options.model._data = user.attr();
 
-            this.options.model.save().fail(function() {
+            this.options.model.save()
+                .done(function(){
+                    console.log('done saveModel');
+                    appState.attr('moneybox', true);
+                })
+                .fail(function() {
                 if(callback) {
                     callback(user);
                 }
