@@ -301,7 +301,7 @@ export default Controller.extend(
                 days: getDaysInMonth(0, 1950),
                 years: startYear(1950)
             });
-            this.countries = ['Украина', 'Россия', 'Беларусь', 'Германия', 'Израиль', 'Канада', 'Чехия', 'Польша', 'Казахстан'];
+            this.countries = ['Украина', 'Россия', 'Беларусь', 'Германия', 'Израиль', 'Канада', 'Чехия', 'Польша', 'Казахстан', 'Другая страна'];
 
             if(!this.data.auth.isAuth) {
                 can.route.attr({module: 'login'});
@@ -331,10 +331,19 @@ export default Controller.extend(
 
             this.initCustomScrollbar();
             this.initSetPasswordTooltipster();
+            this.initSpareEmailTooltipster();
         },
 
         initSetPasswordTooltipster: function () {
             $('.newPasswordTooltip').tooltipster({
+                position: 'right',
+                theme: 'tooltipster-error',
+                trigger: 'hover'
+            });
+        },
+
+        initSpareEmailTooltipster: function () {
+            $('.spareEmail').tooltipster({
                 position: 'right',
                 theme: 'tooltipster-error',
                 trigger: 'hover'
@@ -787,6 +796,23 @@ export default Controller.extend(
             var $list = $('.customSelectList');
             if ($list.hasClass('active')) {
                 $list.removeClass('active');
+            }
+        },
+
+        '.spareEmail keyup': function (el, ev) {
+            var value = el.val();
+
+            if (value) {
+                var regexp;
+                regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+
+                if(value.match(regexp)) {
+                    el.tooltipster('hide', function() {  });
+                } else {
+                    el.tooltipster('content', 'Введите корректный e-mail');
+                    el.tooltipster('show', function() {  });
+                }
+
             }
         }
     }

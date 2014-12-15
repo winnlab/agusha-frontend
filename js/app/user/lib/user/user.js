@@ -104,9 +104,9 @@ UserMap = can.Map.extend({
 				this.attr('errors.email', "Введите корректный E-mail");
 				return value;
 			}
-		},
+		}
 
-		spareEmail: {
+/*		spareEmail: {
 			set: function(value) {
 
 				if (value) {
@@ -123,7 +123,7 @@ UserMap = can.Map.extend({
 					return value;
 				}
 			}
-		}
+		}*/
 	},
 	removeImage: function(callback) {
 		var options, that = this, name = this.attr('image.large')
