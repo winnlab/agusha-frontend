@@ -3,7 +3,7 @@ extends ../layout
 block append header
 	link(href="/css/user/article/article.css" rel="stylesheet")
 	if article.image && article.image.SOCIAL
-		meta(property="og:image" content = (base_url + article.image.SOCIAL))
+		meta(property="og:image" content = (base_url + '/' + article.image.SOCIAL))
 	meta(property="og:title" content = article.title)
 
 block content
