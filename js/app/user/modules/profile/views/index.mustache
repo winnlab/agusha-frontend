@@ -233,7 +233,22 @@
 								<input class="editableInput" placeholder="Город" value="{{user.contacts.city}}" id="city" can-value="user.contacts.city" type="text" >
 							</div>
 							<div class="input_row">
-								<input class="editableInput" placeholder="Страна" value="{{user.contacts.country}}" id="country" can-value="user.contacts.country" type="text">
+
+                                <div class="customSelect customInput customCountry inactive" data-target="customCountry" id="country">
+                                    <p class="content"><span class="value">{{#if user.contacts.country}}{{user.contacts.country}}{{else}}Страна{{/if}}</span> <span class="triangleDown">▾</span></p>
+                                    <div class="customSelectList">
+										{{#each countries}}
+                                            <p class="customSelectListItem" data-value="{{.}}">{{.}}</p>
+										{{/each}}
+                                    </div>
+                                </div>
+
+								<div style="display: none">
+
+                                    <input can-value="user.contacts.country" class="editableInput customCountry" placeholder="Страна" value="{{user.contacts.country}}"  type="text">
+
+								</div>
+
 							</div>
 							<div class="input_row">
 								<input class="editableInput" placeholder="Улица" value="{{user.contacts.street}}" can-value="user.contacts.street" type="text" >
@@ -258,7 +273,7 @@
 								<input class="editableInput" {{tooltip user.errors 'email' 'right'}} placeholder="E-mail" value="{{user.email}}" can-value="user.email" type="text">
 							</div>
 							<div class="input_row">
-								<input class="editableInput" {{tooltip user.errors 'spareEmail' 'right'}} placeholder="Запасной E-mail" value="{{user.contacts.spareEmail}}" can-value="user.contacts.spareEmail" type="text" >
+								<input class="editableInput" {{tooltip user.errors 'spareEmail' 'right'}} placeholder="Запасной E-mail" can-value="user.spareEmail" type="text" >
 							</div>
 						</div>
 					</div>
@@ -315,7 +330,7 @@
                         <div class="column right">
                             <div class="inner">
                                 <div class="input_row">
-                                    <input data-passid="newPass" can-value="renew_password" class="password newPasswordValidate newPassword2" placeholder="Новый пароль еще раз" type="password" >
+                                    <input name="newPasswordCopy" data-passid="newPass" can-value="renew_password" class="password newPasswordValidate newPassword2" placeholder="Новый пароль еще раз" type="password" >
                                     <span class="switcher" data-passid="newPass"></span>
                                 </div>
                             </div>
@@ -338,7 +353,7 @@
 					<h3 class="inner_title">
 						Пригласите друзей из соцсеточек
 					</h3>
-					<div class="question_bubble tooltip" title="Выберите Ваших друзей в соцсети и вышлите им приглашение присоединиться к Вам на сайте.">?</div>
+					<div class="question_bubble tooltip agushaTooltip" title="Выберите Ваших друзей в соцсети и вышлите им приглашение присоединиться к Вам на сайте.">?</div>
 				</div>
 			</div>
 			<div class="profileInfo passwordInfo profileSocials">

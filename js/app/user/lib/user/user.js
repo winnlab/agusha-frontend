@@ -46,13 +46,15 @@ ChildrenList = can.List.extend({
 	Map: ChildrenMap
 },{
 
-})
+});
 
 UserMap = can.Map.extend({
 	attributes: {
-		email: 'string'
+		email: 'string',
+		spareEmail: 'string'
 	},
 	init: function() {
+
 	}
 }, {
 	define: {
@@ -99,7 +101,6 @@ UserMap = can.Map.extend({
 					return value;
 				}
 
-
 				this.attr('errors.email', "Введите корректный E-mail");
 				return value;
 			}
@@ -107,17 +108,20 @@ UserMap = can.Map.extend({
 
 		spareEmail: {
 			set: function(value) {
-				var regexp;
-				regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
 
-				if(value.match(regexp)) {
-					this.attr('errors.spareEmail', null);
+				if (value) {
+					var regexp;
+					regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
 
+					if(value.match(regexp)) {
+						this.attr('errors.spareEmail', null);
+
+						return value;
+					}
+
+					this.attr('errors.spareEmail', "Введите корректный E-mail");
 					return value;
 				}
-
-				this.attr('errors.spareEmail', "Введите корректный E-mail");
-				return value;
 			}
 		}
 	},

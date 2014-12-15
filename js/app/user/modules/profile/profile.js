@@ -56,13 +56,18 @@ can.mustache.registerHelper('tooltip', function(errors, property, position, opti
 
     return function(el) {
 
-        errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
-            if(newVal == null) {
-                $(el).tooltipster('destroy');
+
+        errors.delegate('**', 'set', function(ev, newVal, oldVal, prop) {
+
+            if(prop != property) {
                 return;
             }
 
-            if(prop != property) {
+            console.log('delegate:');
+            console.log(el);
+
+            if(newVal == null) {
+                $(el).tooltipster('destroy');
                 return;
             }
 
@@ -296,6 +301,7 @@ export default Controller.extend(
                 days: getDaysInMonth(0, 1950),
                 years: startYear(1950)
             });
+            this.countries = ['Украина', 'Россия', 'Беларусь', 'Германия', 'Израиль', 'Канада', 'Чехия', 'Польша', 'Казахстан'];
 
             if(!this.data.auth.isAuth) {
                 can.route.attr({module: 'login'});
@@ -313,7 +319,7 @@ export default Controller.extend(
                 trigger: 'hover'
             });
 
-            $('#country').select2(s3Options);
+            //$('#country').select2(s3Options);
             $('#city').select2(s2Options);
             $('#city').select2('val', this.user.attr('contacts.city'));
             
@@ -482,6 +488,7 @@ export default Controller.extend(
                 levels: levels,
                 levelKeys: [1,2,3,4,5,6,7],
                 dates: this.dates,
+                countries: this.countries,
                 months: getMonths()
             });
 
@@ -703,6 +710,7 @@ export default Controller.extend(
             var selectValue = el.data('value');
             var selectHtml = el.html();
             var $customSelect = el.parents('.customSelect');
+            var $customInput = el.parents('.customInput');
             var $content = $customSelect.find('.content .value');
             var $list = $customSelect.find('.customSelectList');
             var targetClass = $customSelect.data('target');
@@ -719,19 +727,42 @@ export default Controller.extend(
 
             $list.removeClass('active');
             $content.html(selectHtml);
-            $targetSelect.find('option:selected').attr('selected', false);
-            $targetSelect.find('option[value="'+selectValue+'"]').attr('selected', 'selected');
+            if ($customInput.length > 0) {
+                var $targetInput = $customSelect.parent().find('input.'+targetClass);
+                $targetInput.val(selectValue);
+                $targetInput.trigger('change');
+            } else {
+                $targetSelect.find('option:selected').attr('selected', false);
+                $targetSelect.find('option[value="'+selectValue+'"]').attr('selected', 'selected');
 
-            this.saveModel();
+                this.saveModel();
+            }
         },
 
         '.changePassword submit': function (el, ev) {
             ev.preventDefault();
 
+            var form = can.deparam(el.serialize());
+
+            if (form.oldPassword.length == 0 || form.newPassword.length == 0) {
+                PopUp.showPopup({
+                    title: 'Ошибка!',
+                    content: 'Пожалуйста, заполните все поля'
+                });
+                return false;
+            }
+            if (form.newPassword != form.newPasswordCopy) {
+                PopUp.showPopup({
+                    title: 'Ошибка!',
+                    content: 'Пароли не совпадают'
+                });
+                return false;
+            }
+
             can.ajax({
                 url: '/profile/changePassword',
                 method: 'POST',
-                data: can.deparam(el.serialize())
+                data: form
             }).done(function (response) {
                 PopUp.showPopup({
                     title: '',
@@ -739,8 +770,8 @@ export default Controller.extend(
                 });
             }).fail(function (response) {
                 PopUp.showPopup({
-                    title: '',
-                    content: ''
+                    title: 'Ошибка!',
+                    content: 'При изменении пароля произошла ошибка'
                 });
             });
         },
@@ -752,7 +783,7 @@ export default Controller.extend(
             });
         },
 
-        '.user_profile click': function (el, ev) {
+        'click': function (el, ev) {
             var $list = $('.customSelectList');
             if ($list.hasClass('active')) {
                 $list.removeClass('active');
