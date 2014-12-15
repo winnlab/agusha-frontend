@@ -56,7 +56,8 @@ can.mustache.registerHelper('cropper', function (entity) {
             data: {
                 width: 250,
                 height: 250
-            }
+            },
+            resizable: true
         });
 
         return el

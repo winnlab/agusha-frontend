@@ -56,14 +56,18 @@ can.mustache.registerHelper('tooltip', function(errors, property, position, opti
 
     return function(el) {
 
-        errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
 
-            if(newVal == null) {
-                $(el).tooltipster('destroy');
+        errors.delegate('**', 'set', function(ev, newVal, oldVal, prop) {
+
+            if(prop != property) {
                 return;
             }
 
-            if(prop != property) {
+            console.log('delegate:');
+            console.log(el);
+
+            if(newVal == null) {
+                $(el).tooltipster('destroy');
                 return;
             }
 
