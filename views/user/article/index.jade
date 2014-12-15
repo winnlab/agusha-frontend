@@ -1,14 +1,14 @@
 extends ../layout
 
 block append header
-    link(href="/css/user/article/article.css" rel="stylesheet")
-    if article.image && article.image.SOCIAL
-        meta(property="og:image" content = article.image.SOCIAL)
-    meta(property="og:title" content = article.title)
+	link(href="/css/user/article/article.css" rel="stylesheet")
+	if article.image && article.image.SOCIAL
+		meta(property="og:image" content = article.image.SOCIAL)
+	meta(property="og:title" content = article.title)
 
 block content
-    .module.server.article
-    include content
+	.module.server.article
+		include content
 
 block append scripts
-    
+	
