@@ -51,7 +51,24 @@ mixin moneybox()
 		| {{/each}}
 
 	include prizes
-
+	
+	.prizes_topper
+		.you_participate
+			.half.left
+				.adorable_table
+					.adorable_cell Ваша активность
+					
+			.half.right
+				.adorable_table
+					.adorable_cell
+						span.left_arrow
+							img(src="/img/user/article/left_arrow.png")
+						| {{#each actions}}
+						span(class='{{#isnt @index 0}}hidden{{/isnt}} yearLabel', data-year='{{_id.year}}')= '{{_id.year}}'
+						| {{/each}}	
+						span.right_arrow
+							img.hidden(src="/img/user/article/right_arrow.png")
+						
 	.table_container
 		| {{#each actions}}
 		table(class='{{#isnt _id.year year}}hidden {{/isnt}}yearWrap{{_id.year}}')
