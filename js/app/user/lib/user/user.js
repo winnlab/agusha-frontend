@@ -223,10 +223,6 @@ User = can.Control.extend({
 		var def = 0,
 		that = this;
 
-		if (newVal == 100) {
-			appState.attr('moneybox', true);
-		}
-
 		_.forEach(weights, function(item, key, list) {
 			var isField;
 
