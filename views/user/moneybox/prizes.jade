@@ -133,19 +133,3 @@
 
 .all_prizes
 	button Все призы декабря
-
-.prizes_topper
-	.you_participate
-		.half.left
-			.adorable_table
-				.adorable_cell Ваша активность
-		
-		.half.right
-			.adorable_table
-				.adorable_cell
-					span.left_arrow
-						img(src="/img/user/article/left_arrow.png")
-					- each action, i in actions
-						span(class=( i != 0 ? 'hidden ' : '') + 'yearLabel', data-year='#{action._id.year}')= action._id.year
-					span.right_arrow
-						img.hidden(src="/img/user/article/right_arrow.png")
