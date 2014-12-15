@@ -21,7 +21,8 @@ function computedVal (value) {
 
 export default {
     lvl: function (points, lvls) {
-        return getLvl(computedVal(points), computedVal(lvls)).label;
+        var points = computedVal(points);
+        return points && getLvl(points, computedVal(lvls)).label;
     },
     isLast: function (index, all, options) {
         return index() == all() - 1 ? options.fn() : options.inverse();
