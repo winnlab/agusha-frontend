@@ -168,58 +168,16 @@ export default Controller.extend(
 				var data = self.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, self.data.attr('sort'), true, true);
 				self.data.attr('feed', feed);
+
+				self.data.attr('themeSubs', self.themeSubs.length);
+				self.data.attr('consultations', self.consultations.length);
+
 				appState.attr('subsChanged', false);
 			}).fail(function () {
 				console.error(arguments);
 			});
 		},
 
-		'.social .facebook click': function(el, ev) {
-			ev.preventDefault();
-			window.location.href = '/login/fb';
-		},
-		'.social .vkontakte click': function(el, ev) {
-			ev.preventDefault();
-			window.location.href = '/login/vk';
-		},
-		'.social .ok click': function(el, ev) {
-			ev.preventDefault();
-			window.location.href = '/login/ok';
-		},
-
-		'.login_form .done click': function(el, ev) {
-			var data;
-			ev.preventDefault();
-
-			data = this.data.loginForm;
-
-			can.ajax({
-				url: '/login?ajax=true',
-				method: 'POST',
-				data: data.serialize(),
-				success: function(response) {
-					var user = appState.attr('user');
-
-					data.attr({
-						email: null,
-						password: null
-					});
-
-					if(!response.message || !response.message.user) {
-						return alert('Произошла ошибка при авторизации');
-					}
-
-					user.options.user.attr(response.message.user);
-
-					user.auth.attr('isAuth', true)
-
-					can.route.attr({module: 'profile'});
-				},
-				error: function (xhr, type, resp) {
-
-				}
-			});
-		},
 		isAuth: function (el, isAuth) {
 			var self = this;
 			if (isAuth) {
@@ -306,8 +264,10 @@ export default Controller.extend(
 
 		'.feed_select change': function (el) {
 			var val = +el.val();
-			this.data.attr('feedFilter', val);
-			this.reRenderFeed();
+			if (+el.find(':selected').data('count')) {
+				this.data.attr('feedFilter', val);
+				this.reRenderFeed();
+			}
 		},
 
 		getFilteredData: function () {
