@@ -71,5 +71,56 @@ export default {
         result += diffMonths ? localeData.relativeTime(diffMonths, true, 'MM') + ' ' : '';
         result += diffDays ? localeData.relativeTime(diffDays, true, 'dd') : '';
         return result;
+    },
+    showPrizes: function (allPrizes, points, lvl) {
+        points = +computedVal(points);
+        var result = 'display: none;',
+            lvlPoints = +computedVal(lvl).points;
+        if (computedVal(allPrizes)) {
+            return 'display: block;';
+        }
+        if (points + 400 >= lvlPoints && points <= lvlPoints) {
+            result = 'display: block;'
+        }
+        return result;
+    },
+    lvlLabel: function (points, lvl) {
+        points = +computedVal(points);
+        var lvlPoints = +computedVal(lvl).points;
+        if (points + 200 >= lvlPoints && points <= lvlPoints) {
+            return 'Ваш уровень';
+        }
+        if (points + 400 >= lvlPoints && points <= lvlPoints) {
+            return 'Ваш следующий уровень';
+        }
+        return 'Уровень';
+    },
+    raffleLable: function (points, lvl) {
+        points = +computedVal(points);
+        var result = '',
+            lvlPoints = +computedVal(lvl).points;
+        if (points + 200 >= lvlPoints && points <= lvlPoints) {
+            result = 'Вы участвуете в розыгрыше для ';
+        } else {
+            result = 'Розыгрыш для ';
+        }
+        switch (computedVal(lvl).label) {
+            case 'Новичок':
+                result += 'новичков';
+                break;
+            case 'Ученик':
+                result += 'учеников';
+                break;
+            case 'Знаток':
+                result += 'знатоков';
+                break;
+            case 'Эксперт':
+                result += 'экспертов';
+                break;
+            case 'Профи':
+                result += 'профи';
+                break;
+        }
+        return result;
     }
 }
