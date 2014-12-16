@@ -10,12 +10,14 @@ export default Controller.extend(
 		}
 	}, {
 		variables: function() {
-			this.classname = 'active';
+			this.active = 'active';
 			this.base_url = window.location.protocol + '//' + window.location.host;
 			
 			this.tab_selectors = this.element.find('.tab_selector');
 			
 			this.tab_blocks = this.element.find('.tab_block');
+			
+			this.prizes_buttons = this.element.find('.all_prizes button');
 		},
 		
 		plugins: function() {
@@ -69,13 +71,13 @@ export default Controller.extend(
 				text = el.next(),
 				func = 'slideDown';
 
-			if(tab_block.hasClass(this.classname)) {
+			if(tab_block.hasClass(this.active)) {
 				func = 'slideUp';
 			}
 
 			text.stop(true, false)[func](300);
 
-			tab_block.toggleClass(this.classname);
+			tab_block.toggleClass(this.active);
 		},
 
 		'.tab click': 'changeTab',
@@ -86,16 +88,16 @@ export default Controller.extend(
 			var tab = el.data('tab'),
 				block = el.data('block');
 			
-			this.tab_selectors.removeClass(this.classname);
-			this.tab_selectors.filter('.' + tab).addClass(this.classname);
+			this.tab_selectors.removeClass(this.active);
+			this.tab_selectors.filter('.' + tab).addClass(this.active);
 			
 			if(block) {
-				this.tab_blocks.removeClass(this.classname);
+				this.tab_blocks.removeClass(this.active);
 				this.tab_blocks.find('.text').stop(true, false).slideUp(300);
 				
 				var tab_block = this.tab_blocks.filter('.' + block);
 				
-				tab_block.addClass(this.classname);
+				tab_block.addClass(this.active);
 				tab_block.find('.text').stop(true, false).slideDown(300);
 			}
 			
@@ -106,6 +108,13 @@ export default Controller.extend(
 		
 		'scrollTop': function() {
 			$('html, body').scrollTop(0);
+		},
+		
+		'.all_prizes button click': function(el) {
+			var prizes_buttons = this.element.find('.all_prizes button');
+			
+			prizes_buttons.removeClass(this.active);
+			el.siblings().addClass(this.active);
 		}
 	}
 );
