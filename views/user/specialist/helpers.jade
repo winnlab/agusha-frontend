@@ -84,16 +84,16 @@ mixin article(a, i)
                     if a.author && a.author.name
                         .user
                             .avatar
-                                - var img = 'user/helpers/stub/medium.png'
+                                - var img = '/img/user/helpers/stub/medium.png'
                                 if a.author.author_id && a.author.author_id.image
-                                    - img = 'uploads/' + a.author.author_id.image.medium
-                                img.rounded(src='/img/#{img}')
+                                    - img = a.author.author_id.image.medium
+                                img.rounded(src='#{img}')
                             .name= a.author.name
                 else
                     | {{#if author.name}}
                     .user
                         .avatar
-                            img.rounded(src='/img/{{getUserImg .}}')
+                            img.rounded(src='{{getUserImg .}}')
                         .name= '{{autor.name}}'
                     | {{/if}}
                 .user.doctor
