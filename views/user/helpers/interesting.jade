@@ -3,18 +3,23 @@
 		.adorable_table
 			.adorable_cell
 				| Вам будет интересно
-	
 	.half.right
 		.adorable_table
 			.adorable_cell
 				span.slideLeft
 					img.left_arrow(src="/img/user/article/left_arrow.png")
-				span 3 / 5
+				- var similarArticlesAmount = 3
+				if similarArticles && similarArticles.length
+					- similarArticlesAmount = similarArticles.length
+				- var displayedAmount = 3
+				if similarArticlesAmount < 3
+					- displayedAmount = similarArticlesAmount
+				span #{displayedAmount} / #{similarArticlesAmount}
 				span.slideRight
 					img.right_arrow(src="/img/user/article/right_arrow.png")
 
 .interesting_content
-	
+
 	- each similarArticle, similarArticleKey in similarArticles
 
 		//- .item.column
@@ -22,60 +27,66 @@
 		//- 		.adorable_cell
 		//- 			.top_label #{similarArticle.theme.name}
 		//- 			.label #{similarArticle.title}
-			
+
 		//- 	.item_body(style=(similarArticle.image && similarArticle.image.background ? "background-image: url('/img/uploads/#{similarArticle.image.background}')" : ''))
-			
+
 		//- 	.item_footer.adorable_table
 		//- 		.adorable_cell 396 мам одобряют
 
 		//- - var classname = ''
 		//- - var articleType = ''
-		//- if similarArticle.type.name === 'Статья от редакции' 
+		//- if similarArticle.type.name === 'Статья от редакции'
 		//- 	- articleType = 'redaction'
-		//- else if similarArticle.type.name === 'Тема недели' 
+		//- else if similarArticle.type.name === 'Тема недели'
 		//- 	- articleType = 'week'
-		//- else 
+		//- else
 		//- 	- articleType = 'author'
 
 		- var likesAmount = similarArticle.likes ? similarArticle.likes.length : 0
+		- var commentariesAmount = similarArticle.commentaries ? similarArticle.commentaries.length : 0
+
+		- var classname = ''
+		- var articleType = ''
+
+		if similarArticle.type.name === 'Статья от редакции'
+			- articleType = 'redaction'
+		else if similarArticle.type.name === 'Тема недели'
+			- articleType = 'week'
+		else
+			- articleType = 'author'
 
 		- classname += (!similarArticle.image || !similarArticle.image.background ? ' no-image' : '')
 		- classname += similarArticle.is_quiz ? ' poll' : '';
-		
+
 		- classname += ' ' + articleType
 
 		a(class="new_module card #{classname}" href="/article/" + similarArticle.transliterated)
-			.inner					
-				if similarArticle.image && similarArticle.image.background
-					img.background(src='/img/uploads/' + similarArticle.image.background)
-			
-				
-				.topper
+			.inner(style=( similarArticle && similarArticle.image && similarArticle.image['S'] ? "background-image: url(/img/uploads/" + similarArticle.image['S'] + ");" : ''))
+				.topper.bg
 					.topper_label
 						.adorable_table
-							.adorable_cell= similarArticle.theme[0].name 
-
+							.adorable_cell= similarArticle.theme[0].name
 					.topper_title= similarArticle.title
 					.topper_text= similarArticle.desc.shorttext
 
-				if similarArticle.is_quiz
-					.topper_approve
-						span.count= (similarArticle ? similarArticle.answer.length : '{{answer.length}}')
-						span.approve
-							div мамочек
-							div ответили
+					if similarArticle.is_quiz
+						.topper_approve
+							span.count.commentariesCount(data-component_id="#{similarArticle._id}")
+								| #{commentariesAmount}
+							span.approve
+								div мамочек
+								div ответили
 
 				if similarArticle.is_quiz
 					.button_content.gold
 						button.me_too Я тоже
-										
+
 				if articleType === 'author' && similarArticle.is_quiz === false
 					.user_content
 						.avatar.medical_cap
 							img.rounded(src='/img/avatar_100x100.jpg')
 						.name врач-педиатр
 						.name Ирина Матвиенко
-
 
 				- var isLiked = ''
 				if user
@@ -89,16 +100,78 @@
 					.heart
 						img.liked(src="/img/user/article/heart.png")
 						img.not-liked(src="/img/user/article/heart-.png")
+
 						if similarArticle.recommended
 							img(src="/img/user/helpers/cards/lamp.png")
+
 					.counters.adorable_table
 						.adorable_cell
 							img.like.liked(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
 							img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{similarArticle._id}", data-component="Article")
+
 							span.count.like(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
 							span.approve
 								| мамочек
 								br
 								| одобряют
+
 							img.comment(src="/img/user/article/comment.png")
-							span.count= (similarArticle ? similarArticle.counter.comment : '{{counter.comment}}')
+							span.count.commentariesCount(data-component_id="#{similarArticle._id}")
+								| #{commentariesAmount}
+
+				//if similarArticle.image && similarArticle.image.background
+				//	img.background(src='/img/uploads/' + similarArticle.image.background)
+				//
+				//
+				//.topper
+				//	.topper_label
+				//		.adorable_table
+				//			.adorable_cell= similarArticle.theme[0].name
+				//
+				//	.topper_title= similarArticle.title
+				//	.topper_text= similarArticle.desc.shorttext
+				//
+				//if similarArticle.is_quiz
+				//	.topper_approve
+				//		span.count= (similarArticle ? similarArticle.answer.length : '{{answer.length}}')
+				//		span.approve
+				//			div мамочек
+				//			div ответили
+				//
+				//if similarArticle.is_quiz
+				//	.button_content.gold
+				//		button.me_too Я тоже
+				//
+				//if articleType === 'author' && similarArticle.is_quiz === false
+				//	.user_content
+				//		.avatar.medical_cap
+				//			img.rounded(src='/img/avatar_100x100.jpg')
+				//		.name врач-педиатр
+				//		.name Ирина Матвиенко
+				//
+				//
+				//- var isLiked = ''
+				//if user
+				//	- var userId = user._id
+				//	if similarArticle.likes
+				//		- each like, likeKey in similarArticle.likes
+				//			if like.client.toString() == userId.toString()
+				//				- isLiked = 'isLiked'
+				//
+				//div(class="footer #{isLiked}")
+				//	.heart
+				//		img.liked(src="/img/user/article/heart.png")
+				//		img.not-liked(src="/img/user/article/heart-.png")
+				//		if similarArticle.recommended
+				//			img(src="/img/user/helpers/cards/lamp.png")
+				//	.counters.adorable_table
+				//		.adorable_cell
+				//			img.like.liked(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
+				//			img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{similarArticle._id}", data-component="Article")
+				//			span.count.like(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
+				//			span.approve
+				//				| мамочек
+				//				br
+				//				| одобряют
+				//			img.comment(src="/img/user/article/comment.png")
+				//			span.count= (similarArticle ? similarArticle.counter.comment : '{{counter.comment}}')
