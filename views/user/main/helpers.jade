@@ -2,8 +2,7 @@ mixin feed()
     .filters(style="{{#unless feed.length}}display: none;{{/unless}}")
         select.feed_select
             option(data-count="{{plus themeSubs authorSubs}}" value=0) Все подписки
-            option(data-count="{{themeSubs}}" value=1) Подписки на тему
-            option(data-count="{{authorSubs}}" value=2) Подписки на автора
+            option(data-count="{{themeSubs}}" value=1)= '{{#is themeSubs 0}}Подписки на темы пока отсутствуют{{else}}Подписки на тему{{/is}}'
             option(data-count="{{consultations}}" value=3) Вопросы специалисту
         
         select.order_select
