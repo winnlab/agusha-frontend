@@ -115,6 +115,10 @@ export default Controller.extend(
 			
 			prizes_buttons.removeClass(this.active);
 			el.siblings().addClass(this.active);
+		},
+		
+		'.blueTable thead click': function(el) {
+			el.parent().toggleClass(this.active);
 		}
 	}
 );

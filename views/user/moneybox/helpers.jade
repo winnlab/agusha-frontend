@@ -71,25 +71,27 @@ mixin moneybox()
 						
 	.table_container
 		| {{#each actions}}
-		table(class='{{#isnt _id.year year}}hidden {{/isnt}}yearWrap{{_id.year}}')
+		table(class='{{#isnt _id.year year}}hidden {{/isnt}}yearWrap{{_id.year}} blueTable active')
 			thead
 				tr
 					th.date= '{{monthName _id.month}}'
 					th.time
 					th.label
+						.thead_label
 					th.total
 						span Всего
 						img(src="/img/user/moneybox/coin.png")
 					th.number= '{{allPoints}}'
+			
 			tbody(class=( i !== 0 ? 'hidden' : ''))
-			| {{#each data}}
-			tr
-				td.date= '{{getDate time}}'
-				td.time= '{{getTime time}}'
-				td.label= '{{label}}'
-				td.total
-					td.number= '+{{points}}'
-			| {{/each}}
+				| {{#each data}}
+				tr
+					td.date= '{{getDate time}}'
+					td.time= '{{getTime time}}'
+					td.label= '{{label}}'
+					td.total
+						td.number= '+{{points}}'
+				| {{/each}}
 		| {{/each}}
 		table
 			tbody
