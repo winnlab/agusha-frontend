@@ -83,7 +83,7 @@ mixin moneybox()
 						img(src="/img/user/moneybox/coin.png")
 					th.number= '{{allPoints}}'
 			
-			tbody(class=( i !== 0 ? 'hidden' : ''))
+			tbody(class=('{{#isnt @index 0}}hidden{{/isnt}}'))
 				| {{#each data}}
 				tr
 					td.date= '{{getDate time}}'
