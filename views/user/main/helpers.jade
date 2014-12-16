@@ -1,5 +1,5 @@
 mixin feed()
-    .filters(style="{{#unless feed.length}}display: none;{{/unless}}")
+    .filters(style="{{#unless feedLength}}display: none;{{/unless}}")
         select.feed_select
             option(data-count="{{plus themeSubs authorSubs}}" value=0) Все подписки
             option(data-count="{{themeSubs}}" value=1)= '{{#is themeSubs 0}}Подписки на темы пока отсутствуют{{else}}Подписки на тему{{/is}}'
@@ -107,6 +107,6 @@ mixin feed()
                                 |{{#is type.name "Статья от пользователя"}}{{answer.length}}{{/is}}
 
         | {{/each}}
-    | {{#unless feed.length}}
+    | {{#unless feedLength}}
     h1.centered.emtyFeed Ваша лента пока пуста
     | {{/unless}}

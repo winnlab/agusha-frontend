@@ -118,6 +118,7 @@ export default Controller.extend(
 			this.data = new can.Map({
 				articles: articles,
 				feed: feed,
+				feedLength: this.feedSource.length,
 				sort: 'desc',
 				filter: 0,
 				iconFilter: null,
@@ -167,10 +168,12 @@ export default Controller.extend(
 				self.feedSource = ([]).concat(self.themeSubs, self.consultations);
 				var data = self.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, self.data.attr('sort'), true, true);
-				self.data.attr('feed', feed);
 
+				self.data.attr('feed', feed);
+				self.data.attr('feedLength', self.feedSource.length);
 				self.data.attr('themeSubs', self.themeSubs.length);
 				self.data.attr('consultations', self.consultations.length);
+
 
 				appState.attr('subsChanged', false);
 			}).fail(function () {
@@ -213,7 +216,6 @@ export default Controller.extend(
 		},
 
 		reRenderFeed: function () {
-			console.info('reRenderFeed');
 			if (this.data) {
 				var data = this.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, this.data.attr('sort'), true, true);
@@ -264,10 +266,13 @@ export default Controller.extend(
 
 		'.feed_select change': function (el) {
 			var val = +el.val();
-			if (+el.find(':selected').data('count')) {
-				this.data.attr('feedFilter', val);
-				this.reRenderFeed();
+
+			if (val === 0) {
+				this.data.attr('iconFilter', false);
 			}
+
+			this.data.attr('feedFilter', val);
+			this.reRenderFeed();
 		},
 
 		getFilteredData: function () {
