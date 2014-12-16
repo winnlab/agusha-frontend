@@ -25,7 +25,7 @@ export default Controller.extend(
 
             Model.findAll()
                 .done(function(data){
-                    if (data && data.length > 0) {
+                    if (data) {
                         self.conversations = data;
                         self.renderConversations(data);
                     }
@@ -41,6 +41,11 @@ export default Controller.extend(
 
             $container.html('');
 
+            if (data.length === 0) {
+                $('.search_container').hide();
+                $('.noMessagesInfo').show();
+            }
+
             _.each(data, function(conversation) {
                 var lastMessageUser = null;
 
@@ -53,10 +58,6 @@ export default Controller.extend(
                     })
                 );
             });
-
-            if (data.length === 0) {
-                $('.noMessagesInfo').show();
-            }
 
             self.findUnreadConversations();
         },

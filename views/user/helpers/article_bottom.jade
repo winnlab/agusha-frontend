@@ -92,6 +92,7 @@
 							- each like, likeKey in similarArticle.likes
 								if like.client.toString() == userId.toString()
 									- isLiked = 'isLiked'
+
 					div(class="footer #{isLiked}")
 						.heart
 							img.liked(src="/img/user/article/heart.png")
