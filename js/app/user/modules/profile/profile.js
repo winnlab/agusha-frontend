@@ -17,6 +17,8 @@ import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat
 
 import 'js/plugins/select2/select2.css!'
 
+import 'js/plugins/social/vk/vk_sdk';
+
 import Profile from 'js/app/user/modules/profile/profileModel';
 import PopUp from 'js/app/user/lib/popUp/popUp';
 
@@ -283,10 +285,24 @@ export default Controller.extend(
             Model: Profile,
             input: '.editableInput',
             user: appState.attr('user'),
-            css_path: 'css/user/'
+            css_path: 'css/user/',
+            facebookPermissions: '',
+            vkLoginPermissions: ''
         }
     }, {
 		after_init: function(data) {
+            console.log('after init');
+            FB.init({
+                appId: 319137821610071,
+                cookie: true,
+                xfbml: true,
+                version: 'v2.1'
+            });
+
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+
             System.import('./js/plugins/tooltipster/css/tooltipster.css!');
             System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
             System.import('./js/plugins/tooltipster/css/themes/tooltipster-error.css!');
@@ -382,11 +398,75 @@ export default Controller.extend(
         },
 
         '.social_buttons .vk click': function() {
-            window.location.href = '/registration/vk';
+            var self = this;
+
+            VK.Auth.login(function(response) {
+                self.vkLoginResponse(response);
+
+            }, self.options.vkLoginPermissions);
+        },
+
+        vkLoginResponse: function (response, cb) {
+            var self = this;
+
+            if (response.session) {
+
+                can.ajax({
+                    url: '/login/linkVk',
+                    type: 'POST',
+                    data: {
+                        response: response
+                    }
+                }).done(function (data) {
+                    $('.button.vk').addClass('active');
+                }).fail(function (data) {
+                    console.error(data);
+                });
+
+            } else {
+                alert('not auth');
+            }
         },
 
         '.social_buttons .fb click': function() {
-            window.location.href = '/registration/fb';
+            var self = this;
+
+            FB.login(function(response){
+                console.log(response);
+/*                self.fbLoginResponse(response);*/
+            });
+        },
+
+        fbLoginResponse: function (response) {
+            var self = this;
+
+            if (response.status === 'connected') {
+
+                FB.api('/me', function(userResponse) {
+
+                    response.user = userResponse;
+
+                    console.log(userResponse);
+
+/*                    can.ajax({
+                        url: '/user/facebook',
+                        type: 'POST',
+                        data: {
+                            response: response
+                        }
+                    }).done(function (data) {
+                        self.loginSuccess(data, cb);
+                    }).fail(function (data) {
+                        console.error(data);
+                    });*/
+                });
+
+            } else if (response.status === 'not_authorized') {
+                // The person is logged into Facebook, but not your app.
+            } else {
+                // The person is not logged into Facebook, so we're not sure if
+                // they are logged into this app or not.
+            }
         },
 
         '.addChild click': function() {
