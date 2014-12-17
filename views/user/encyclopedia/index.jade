@@ -7,7 +7,7 @@ block content
 	.module.server.encyclopedia#encyclopedia
 		include content
 
-block append scripts
+block prepend scripts
 	script.
 		var app = {
 			articles: !{JSON.stringify(articles)},

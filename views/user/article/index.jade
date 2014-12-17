@@ -10,7 +10,7 @@ block content
 	.module.server.article
 		include content
 
-block append scripts
+block prepend scripts
 	script.
 		var app = {
 			article: !{JSON.stringify(article)}

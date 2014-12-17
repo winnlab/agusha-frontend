@@ -7,7 +7,7 @@ block content
 	.module.server.help#help
 		include content
 
-block append scripts
+block prepend scripts
 	script.
 		var app = {
 			faq: !{JSON.stringify(faq ? faq : [])}
