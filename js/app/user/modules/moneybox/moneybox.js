@@ -72,11 +72,57 @@ export default Controller.extend(
 					imagesInside: imagesInside,
 					cards: cards,
 					pages: pages,
-					currentPage: 1
+					currentPage: 1,
+					currentPageSpan: prizeGroup.find('.currentPage')
 				}
 				
 				prizeGroup.find('.pages').html(pages);
 			}
+		},
+		
+		'.moneybox_card .left click': 'prev_card_image',
+		'.moneybox_card .right click': 'next_card_image',
+		
+		prev_card_image: function(el) {
+			var	groupIndex = el.closest('.prizeGroup').data('index'),
+				image = this.images[groupIndex],
+				cardIndex = el.closest('.moneybox_card').data('index'),
+				card = $(image.cards[cardIndex]),
+				images = card.find('.card_image_selector'),
+				prev = images.filter('.active').prev(),
+				target, imageIndex;
+			
+			if(prev.length) {
+				target = prev;
+			} else {
+				target = images.filter(':last-child');
+			}
+			
+			imageIndex = target.data('index');
+			
+			images.removeClass(this.active);
+			card.find('.card_image_' + imageIndex).addClass(this.active);
+		},
+		
+		next_card_image: function(el) {
+			var	groupIndex = el.closest('.prizeGroup').data('index'),
+				image = this.images[groupIndex],
+				cardIndex = el.closest('.moneybox_card').data('index'),
+				card = $(image.cards[cardIndex]),
+				images = card.find('.card_image_selector'),
+				next = images.filter('.active').next(),
+				target, imageIndex;
+			
+			if(next.length) {
+				target = next;
+			} else {
+				target = images.filter(':first-child');
+			}
+			
+			imageIndex = target.data('index');
+			
+			images.removeClass(this.active);
+			card.find('.card_image_' + imageIndex).addClass(this.active);
 		},
 		
 		'.prizeGroup .left_arrow click': 'prev_cards_page',
@@ -117,7 +163,7 @@ export default Controller.extend(
 				'margin-left': -(offset | 0)
 			});
 			
-			image.prizeGroup.find('.currentPage').html(image.currentPage);
+			image.currentPageSpan.html(image.currentPage);
 		},
 		
 		moneyboxed: function (ev, newVal) {
