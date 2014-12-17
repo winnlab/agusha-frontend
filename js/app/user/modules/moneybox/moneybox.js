@@ -51,8 +51,75 @@ export default Controller.extend(
 			this.element.find('.moneyBoxWrap').html(can.view('moneybox_mustache', this.module, moneyboxHelpers));
 
 			appState.delegate('moneybox', 'set', can.proxy(self.moneyboxed, self));
+			
+			this.init_sliders();
 		},
-
+		
+		init_sliders: function() {
+			var prizeGroups = this.element.find('.prizeGroup'),
+				i;
+			
+			this.images = [];
+			
+			for(i = prizeGroups.length; i--;) {
+				var prizeGroup = $(prizeGroups[i]),
+					imagesInside = prizeGroup.find('.images_inside'),
+					cards = imagesInside.find('.moneybox_card'),
+					pages = Math.ceil(cards.length / 2);
+				
+				this.images[i] = {
+					prizeGroup: prizeGroup,
+					imagesInside: imagesInside,
+					cards: cards,
+					pages: pages,
+					currentPage: 1
+				}
+				
+				prizeGroup.find('.pages').html(pages);
+			}
+		},
+		
+		'.prizeGroup .left_arrow click': 'prev_cards_page',
+		'.prizeGroup .right_arrow click': 'next_cards_page',
+		
+		prev_cards_page: function(el) {
+			var index = el.closest('.prizeGroup').data('index'),
+				image = this.images[index];
+			
+			if(image.currentPage == 1) {
+				image.currentPage = image.pages;
+			} else {
+				image.currentPage--;
+			}
+			
+			this.change_cards_page(image);
+		},
+		
+		next_cards_page: function(el) {
+			var index = el.closest('.prizeGroup').data('index'),
+				image = this.images[index];
+			
+			if(image.currentPage == image.pages) {
+				image.currentPage = 1;
+			} else {
+				image.currentPage++;
+			}
+			
+			this.change_cards_page(image);
+		},
+		
+		change_cards_page: function(image) {
+			var index = (image.currentPage - 1) * 2,
+				card = $(image.cards[index]),
+				offset = card.position().left;
+			
+			image.imagesInside.css({
+				'margin-left': -(offset | 0)
+			});
+			
+			image.prizeGroup.find('.currentPage').html(image.currentPage);
+		},
+		
 		moneyboxed: function (ev, newVal) {
 			if (!newVal) {
 				return;
