@@ -780,7 +780,7 @@ export default Controller.extend(
         '.profileInvite.fb click': function () {
             FB.ui({
                 method: 'send',
-                url: window.location.origin
+                link: window.location.origin
             });
         },
         /* end of FB friends invitation */
