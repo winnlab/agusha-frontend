@@ -3,7 +3,9 @@ window.strip_tags = function(str) {
 };
 
 window.escape = function(text) {
-	return text && text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+	if (text && text.length > 0) {
+		return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+	}
 };
 
 window.jadeTemplate = {

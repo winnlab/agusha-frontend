@@ -151,7 +151,6 @@ export default Controller.extend(
 
 			this.items_container.html(can.view('mainArticlesView', this.data, encyclopediaHelpers));
 			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
-			loginForm.html(can.view('logIn', this.data.loginForm));
 
 			this.initPlugins();
 		},
