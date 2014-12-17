@@ -3,6 +3,7 @@
 @import '../helpers/topper_title';
 @import '../helpers/tabs';
 @import '../helpers/table';
+@import '../helpers/_modal';
 
 .module.moneybox {
 	width: 920px;
@@ -420,6 +421,7 @@
 			
 			.card_image {
 				display: none;
+				cursor: pointer;
 				
 				&.active {
 					display: block;
@@ -926,6 +928,54 @@
 		.grey {
 			color: #b2b2b2;
 			font-family: 'PT_Sans_Italic';
+		}
+	}
+	
+	.modal_group_card {
+		@include absolute_centered;
+		width: 445px;
+		height: 500px;
+		
+		.card_images, .img_container, .bottom {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			left: 0;
+			top: 0;
+		}
+		
+		.img_container {
+			img {
+				@include absolute_centered;
+				display: none;
+				max-width: 100%;
+				max-height: 100%;
+				
+				&.active {
+					display: block;
+				}
+			}
+		}
+		
+		.arrow {
+			position: absolute;
+			width: 18px;
+			height: 18px;
+			background: url('/img/user/article/left_arrow.png') no-repeat;
+			margin: auto;
+			top: 0;
+			bottom: 0;
+			cursor: pointer;
+			z-index: 2;
+			
+			&.left {
+				left: -98px;
+			}
+			
+			&.right {
+				background: url('/img/user/article/right_arrow.png') no-repeat;
+				right: -98px;
+			}
 		}
 	}
 }

@@ -12,16 +12,17 @@ export default Controller.extend(
 		variables: function() {
 			this.active = 'active';
 			this.base_url = window.location.protocol + '//' + window.location.host;
+			
+			this.left_menu = $('#left_menu');
 
 			this.tab_selectors = this.element.find('.tab_selector');
 
 			this.tab_blocks = this.element.find('.tab_block');
 
 			this.prizes_buttons = this.element.find('.all_prizes button');
-		},
-
-		plugins: function() {
-
+			
+			this.modal = this.element.find('.modal');
+			this.modal_bg = this.modal.find('.modal_bg');
 		},
 
 		after_init: function(data) {
@@ -57,7 +58,7 @@ export default Controller.extend(
 		
 		init_sliders: function() {
 			var prizeGroups = this.element.find('.prizeGroup'),
-				i;
+				i, j;
 			
 			this.images = [];
 			
@@ -70,10 +71,22 @@ export default Controller.extend(
 				this.images[i] = {
 					prizeGroup: prizeGroup,
 					imagesInside: imagesInside,
-					cards: cards,
+					cards: [],
 					pages: pages,
 					currentPage: 1,
 					currentPageSpan: prizeGroup.find('.currentPage')
+				}
+				
+				for(j = cards.length; j--;) {
+					var card = $(cards[j]),
+						imageSelectors = card.find('.card_image_selector');
+					
+					this.images[i].cards[j] = {
+						el: card,
+						imageSelectors: imageSelectors,
+						images: imageSelectors.length / 2,
+						currentImage: 1
+					}
 				}
 				
 				prizeGroup.find('.pages').html(pages);
@@ -84,45 +97,32 @@ export default Controller.extend(
 		'.moneybox_card .right click': 'next_card_image',
 		
 		prev_card_image: function(el) {
-			var	groupIndex = el.closest('.prizeGroup').data('index'),
-				image = this.images[groupIndex],
-				cardIndex = el.closest('.moneybox_card').data('index'),
-				card = $(image.cards[cardIndex]),
-				images = card.find('.card_image_selector'),
-				prev = images.filter('.active').prev(),
-				target, imageIndex;
-			
-			if(prev.length) {
-				target = prev;
-			} else {
-				target = images.filter(':last-child');
-			}
-			
-			imageIndex = target.data('index');
-			
-			images.removeClass(this.active);
-			card.find('.card_image_' + imageIndex).addClass(this.active);
+			this.change_card_image(el, 'prev', ':last-child')
 		},
 		
 		next_card_image: function(el) {
+			this.change_card_image(el, 'next', ':first-child')
+		},
+		
+		change_card_image: function(el, next, selector) {
 			var	groupIndex = el.closest('.prizeGroup').data('index'),
 				image = this.images[groupIndex],
 				cardIndex = el.closest('.moneybox_card').data('index'),
-				card = $(image.cards[cardIndex]),
-				images = card.find('.card_image_selector'),
-				next = images.filter('.active').next(),
+				card = image.cards[cardIndex],
+				images = card.imageSelectors,
+				next = images.filter('.active')[next](),
 				target, imageIndex;
 			
 			if(next.length) {
 				target = next;
 			} else {
-				target = images.filter(':first-child');
+				target = images.filter(selector);
 			}
 			
 			imageIndex = target.data('index');
 			
 			images.removeClass(this.active);
-			card.find('.card_image_' + imageIndex).addClass(this.active);
+			card.el.find('.card_image_' + imageIndex).addClass(this.active);
 		},
 		
 		'.prizeGroup .left_arrow click': 'prev_cards_page',
@@ -156,7 +156,7 @@ export default Controller.extend(
 		
 		change_cards_page: function(image) {
 			var index = (image.currentPage - 1) * 2,
-				card = $(image.cards[index]),
+				card = image.cards[index].el,
 				offset = card.position().left;
 			
 			image.imagesInside.css({
@@ -164,6 +164,48 @@ export default Controller.extend(
 			});
 			
 			image.currentPageSpan.html(image.currentPage);
+		},
+		
+		'.modal_group_card .left click': 'prev_modal_image',
+		'.modal_group_card .right click': 'next_modal_image',
+		
+		prev_modal_image: function(el) {
+			var	modal_group_card = el.closest('.modal_group_card'),
+				card_selectors = modal_group_card.find('.card_image_selector'),
+				current_image = card_selectors.filter('.active'),
+				current_index = current_image.data('index');
+			
+			if(current_index == 0) {
+				var images = modal_group_card.data('images');
+				
+				current_index = images - 1;
+			} else {
+				current_index--;
+			}
+			
+			this.change_modal_image(card_selectors, current_index);
+		},
+		
+		next_modal_image: function(el) {
+			var	modal_group_card = el.closest('.modal_group_card'),
+				card_selectors = modal_group_card.find('.card_image_selector'),
+				current_image = card_selectors.filter('.active'),
+				current_index = current_image.data('index'),
+				images = modal_group_card.data('images');
+			
+			if(current_index == images - 1) {
+				current_index = 0;
+			} else {
+				current_index++;
+			}
+			
+			this.change_modal_image(card_selectors, current_index);
+		},
+		
+		change_modal_image: function(card_selectors, current_index) {
+			
+			card_selectors.removeClass(this.active);
+			card_selectors.filter('.card_image_' + current_index).addClass(this.active);
 		},
 		
 		moneyboxed: function (ev, newVal) {
@@ -180,7 +222,44 @@ export default Controller.extend(
 				self.module.attr('points', data.data.points);
 			});
 		},
-
+		
+		'.moneybox_card .card_image click': function(el) {
+			this.modal.addClass(this.active);
+			
+			if(!this.modal_image_container) {
+				this.modal_image_container = $("<div>").attr({
+					'class': 'image_container'
+				});
+				
+				this.modal_bg.append(this.modal_image_container);
+			}
+			
+			var	groupIndex = el.closest('.prizeGroup').data('index'),
+				cardIndex = el.closest('.moneybox_card').data('index'),
+				selector = 'modal_group_' + groupIndex + '_card_' + cardIndex,
+				card = this.images[groupIndex].cards[cardIndex];
+			
+			if(!this[selector]) {
+				this[selector] = $("<div>").attr({
+					'class': 'modal_group_card ' + selector,
+					'data-images': card.images
+				});
+				
+				this.modal_image_container.append(this[selector]);
+				
+				this[selector].append(card.el.html());
+			}
+			
+			
+			// var	groupIndex = el.closest('.prizeGroup').data('index'),
+				// cardIndex = el.closest('.moneybox_card').data('index'),
+				// image = this.images[groupIndex],
+				// card = image.cards[cardIndex],
+				// images = card.imageSelectors,
+				// next = images.filter('.active')[next](),
+				// target, imageIndex;
+		},
+		
 		'.tab_block .title click': function(el) {
 			var tab_block = el.parent(),
 				text = el.next(),
@@ -235,6 +314,22 @@ export default Controller.extend(
 
 		'.blueTable thead click': function(el) {
 			el.parent().toggleClass(this.active);
+		},
+		
+		'.modal .close click': function() {
+			this.modal.removeClass(this.active);
+		},
+		
+		'{window} custom_resize': 'custom_resize',
+		
+		custom_resize: function() {
+			if(!this.element.hasClass(this.active)){
+				return;
+			}
+			
+			this.modal_bg.css({
+				left: this.left_menu.width()
+			});
 		}
 	}
 );

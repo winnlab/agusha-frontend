@@ -57,7 +57,7 @@
 							.arrow.left
 							.circles
 								| {{#each .}}
-								.circle.card_image_selector(class = "card_image_{{@index}}{{#is @index 0}} active{{/is}}")
+								.circle.card_image_selector(class = "card_image_{{@index}}{{#is @index 0}} active{{/is}}", data-index = "{{@index}}")
 								| {{/each}}
 							.arrow.right
 				| {{/each}}
