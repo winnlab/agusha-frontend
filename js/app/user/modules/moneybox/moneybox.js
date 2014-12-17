@@ -250,14 +250,14 @@ export default Controller.extend(
 				this[selector].append(card.el.html());
 			}
 			
+			this.modal_image_container.find('.modal_group_card').removeClass(this.active);
+			this[selector].addClass(this.active);
 			
-			// var	groupIndex = el.closest('.prizeGroup').data('index'),
-				// cardIndex = el.closest('.moneybox_card').data('index'),
-				// image = this.images[groupIndex],
-				// card = image.cards[cardIndex],
-				// images = card.imageSelectors,
-				// next = images.filter('.active')[next](),
-				// target, imageIndex;
+			var index = el.data('index'),
+				card_selectors = this[selector].find('.card_image_selector');
+			
+			card_selectors.removeClass(this.active);
+			card_selectors.filter('.card_image_' + index).addClass(this.active);
 		},
 		
 		'.tab_block .title click': function(el) {

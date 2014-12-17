@@ -935,6 +935,11 @@
 		@include absolute_centered;
 		width: 445px;
 		height: 500px;
+		display: none;
+		
+		&.active {
+			display: block;
+		}
 		
 		.card_images, .img_container, .bottom {
 			position: absolute;
