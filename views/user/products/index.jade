@@ -7,7 +7,7 @@ block content
 	.module.server#products
 		include content
 
-block append scripts
+block prepend scripts
 	script.
 		var app = {
 			products: !{JSON.stringify(products)}
