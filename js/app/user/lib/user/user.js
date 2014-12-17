@@ -3,6 +3,7 @@ import 'can/map/validations/validations';
 import weights from 'lib/user/profileWeight'
 import _ from 'lodash';
 import ChildrenMap from 'lib/user/children';
+import appState from 'core/appState';
 
 var getCurrentUser, User, logout, UserMap,
 	ChildrenList, defImages;
@@ -45,13 +46,15 @@ ChildrenList = can.List.extend({
 	Map: ChildrenMap
 },{
 
-})
+});
 
 UserMap = can.Map.extend({
 	attributes: {
-		email: 'string'
+		email: 'string',
+		spareEmail: 'string'
 	},
 	init: function() {
+
 	}
 }, {
 	define: {
@@ -85,7 +88,7 @@ UserMap = can.Map.extend({
 			}
 		},
 		image: {
-			value: defImages
+			value: {}
 		},
 		email: {
 			set: function(value) {
@@ -98,28 +101,31 @@ UserMap = can.Map.extend({
 					return value;
 				}
 
-
 				this.attr('errors.email', "Введите корректный E-mail");
 				return value;
 			}
-		},
-		spareEmail: {
+		}
+
+/*		spareEmail: {
 			set: function(value) {
-				var regexp;
-				regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
 
-				if(value.match(regexp)) {
-					this.attr('errors.spareEmail', null);
+				if (value) {
+					var regexp;
+					regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
 
+					if(value.match(regexp)) {
+						this.attr('errors.spareEmail', null);
+
+						return value;
+					}
+
+					this.attr('errors.spareEmail', "Введите корректный E-mail");
 					return value;
 				}
-
-				this.attr('errors.spareEmail', "Введите корректный E-mail");
-				return value;
 			}
-		}
+		}*/
 	},
-	removeImage: function() {
+	removeImage: function(callback) {
 		var options, that = this, name = this.attr('image.large')
 			.match(/[a-zA-Z\d]{0,}.[a-zA-Z\d]{1,4}$/i);
 
@@ -136,11 +142,18 @@ UserMap = can.Map.extend({
 			url: '/profile/upload?'+can.param(options),
 			type: 'DELETE'
 		}).success(function() {
-			that.attr('image', defImages);
+			that.attr('image', {
+				orig: null,
+				medium: null,
+				large: null,
+				small: null
+			});
 
-			callback();
+			if(callback) {
+				callback();
+			}
 		}).fail(function( ) {
-			alert('fail');
+			// alert('fail');
 		});
 	},
 	setImages: function(images) {
@@ -149,6 +162,16 @@ UserMap = can.Map.extend({
 		_.each(images, function (image, key, list) {
 			that.attr('image.'+key, image);
 		});
+	},
+	getImage: function(label) {
+		var thatImageByLabel = this.attr('image.'+label)
+			, defImageByLabel = defImages[label];
+
+		if(!thatImageByLabel) {
+			return defImageByLabel;
+		}
+
+		return thatImageByLabel;
 	}
 });
 
@@ -190,11 +213,11 @@ User = can.Control.extend({
 			can.proxy(this.reCheckFilling, user)
 		);
 
-		user.delegate(
-			'**',
-			'add', 
-			can.proxy(this.reCheckFilling, user)
-		);
+		// user.delegate(
+		// 	'**',
+		// 	'add', 
+		// 	can.proxy(this.reCheckFilling, user)
+		// );
 	},
 	reCheckFilling: function(ev, newVal, oldVal, prop) {
 		var def = 0,
@@ -204,8 +227,13 @@ User = can.Control.extend({
 			var isField;
 
 			isField = _.every(item.fields, function (field) {
-				console.log(field, that.attr(field));
-				return that.attr(field);
+				var field;
+
+				try {
+					return field = that.attr(field);
+				} catch(e) {
+					return false;
+				}
 			});
 
 			if(isField) {

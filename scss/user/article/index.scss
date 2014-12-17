@@ -10,6 +10,7 @@
 	width: 100%;
 	background: url('/img/user/core/pat.png') repeat;
 	position: relative;
+	overflow: hidden;
 
 	.isLiked {
 		.not-liked {
@@ -208,6 +209,16 @@
 			top: -18px;
 			left: -7px;
 		}
+		&.cap:before {
+			position: absolute;
+			content: "";
+			width: 37px;
+			height: 35px;
+			top: -16px;
+			left: 6px;
+			background: url('/img/user/specialist/medical_cap.png') no-repeat;
+			background-size: 75%;
+		}
 
 		img {
 			position: relative;
@@ -358,6 +369,15 @@
 				cursor: pointer;
 				font-size: 12px;
 				text-transform: uppercase;
+			}
+		}
+
+		.right {
+			.title {
+				color: #ffffff;
+			}
+			.ask_button {
+				color: #69d48e;
 			}
 		}
 	}

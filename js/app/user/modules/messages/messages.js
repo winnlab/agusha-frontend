@@ -25,7 +25,7 @@ export default Controller.extend(
 
             Model.findAll()
                 .done(function(data){
-                    if (data && data.length > 0) {
+                    if (data) {
                         self.conversations = data;
                         self.renderConversations(data);
                     }
@@ -40,6 +40,11 @@ export default Controller.extend(
             var $container = $('.left.items_container');
 
             $container.html('');
+
+            if (data.length === 0) {
+                $('.search_container').hide();
+                $('.noMessagesInfo').show();
+            }
 
             _.each(data, function(conversation) {
                 var lastMessageUser = null;
@@ -142,7 +147,9 @@ export default Controller.extend(
                         responseForm.show();
                     }
 
-                    $messagesContainer.fadeIn(150);
+                    $messagesContainer.fadeIn(150, function () {
+                        $('.messageForm').css('display', 'block');
+                    });
                 });
             }
 

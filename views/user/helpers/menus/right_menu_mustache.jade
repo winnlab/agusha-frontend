@@ -15,7 +15,7 @@
 		)
 		.avatar
 			| {{#if auth.isAuth}}
-			img.rounded(src="{{image.large}}")
+			img.rounded(src="{{getProfileImage 'large'}}")
 			| {{/if}}
 		.name {{fullName}}
 
@@ -46,7 +46,7 @@
 		.icon
 		.label
 	
-	a.item.adorable_table.help.module_tab.module_tab_help.new_module(href="/help")
+	a.item.adorable_table.help.module_tab.module_tab_help.new_module(href="/help/faq")
 		.icon
 		.label
 

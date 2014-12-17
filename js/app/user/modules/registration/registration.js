@@ -103,6 +103,10 @@ export default Controller.extend(
 							that.tooltip
 								.tooltipster('show', function() {
 									isOpenedError = true;
+
+									setTimeout(function() {
+										that.tooltip.tooltipster('disable');
+									}, 5000);
 								});
 						}
 					} else {
@@ -110,6 +114,10 @@ export default Controller.extend(
 							that.tooltip
 								.tooltipster('hide', function() {
 									isOpenedError = false;
+
+									setTimeout(function() {
+										that.tooltip.tooltipster('hide');
+									}, 5000);
 								});
 						}
 					}
@@ -164,7 +172,7 @@ export default Controller.extend(
 			ev.preventDefault();
 			window.location.href = '/registration/vk';
 		},
-		'.social .ok click': function(el, ev) {
+		'.social .odnoklasniki click': function(el, ev) {
 			ev.preventDefault();
 			window.location.href = '/registration/ok';
 		},
@@ -200,7 +208,12 @@ export default Controller.extend(
 				},
 				error: function (resp) {
 					that.tooltip.tooltipster('content', resp.responseJSON.err);
-					that.tooltip.tooltipster('show');
+					that.tooltip.tooltipster('show', function() {
+						setTimeout(function() {
+							that.tooltip.tooltipster('hide');
+
+						}, 5000);
+					});
 				}
 			});
 		}

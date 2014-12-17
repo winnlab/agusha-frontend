@@ -19,10 +19,15 @@ can.mustache.registerHelper('filterBy', function (entity, filter) {
 });
 
 can.mustache.registerHelper('getUserImg', function (article) {
-    var result = 'user/helpers/stub/medium.png';
+    var result = '/img/user/helpers/stub/medium.png';
 
-    if (article.author && article.author.author_id && article.author.author_id.image) {
-        result = 'uploads/' + a.author.author_id.image.medium
+    if (article.author
+        && article.author.author_id
+        && article.author.author_id.image
+        && article.author.author_id.image.medium
+    ) {
+        result = article.author.author_id.image.medium
+        console.log(article.author.author_id.image.medium);
     }
 
     return result;
@@ -120,7 +125,7 @@ can.mustache.registerHelper('isWatched', function (article) {
             return user._id == watch;
         });
     }
-    return result !== -1 ? 'isWatched' : '';
+    return (result && result !== -1) ? 'isWatched' : '';
 });
 
 can.mustache.registerHelper('isSpecAns', function (article, options) {
@@ -139,4 +144,11 @@ can.mustache.registerHelper('checkAnswer', function (article) {
         });
     }
     return !!result ? 'Я уже' : 'Я тоже';
+});
+
+can.mustache.registerHelper('getProfileImage', function(label) {
+    var module = appState.attr('user')
+        , user = module.options.user;
+
+    return user.getImage(label);
 });

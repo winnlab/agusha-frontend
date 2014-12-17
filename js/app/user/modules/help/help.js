@@ -1,7 +1,7 @@
-import Controller from 'controller'
+import Controller from 'controller';
 
-import select2 from 'select2'
-import 'validate'
+import select2 from 'select2';
+import 'validate';
 
 export default Controller.extend(
 	{
@@ -13,8 +13,6 @@ export default Controller.extend(
 			this.search_timeout = false;
 			this.search_query = '';
 			this.classname = 'active';
-			
-			this.tab_selectors = this.element.find('.tab_selector');
 			
 			this.tab_blocks = this.element.find('.tab_block');
 			this.faq_blocks = this.tab_blocks.filter('.faq_block');
@@ -53,7 +51,7 @@ export default Controller.extend(
 		},
 		
 		after_init: function(data) {
-			if(data) {
+			if(data && data.faq) {
 				this.faq = data.faq;
 			} else {
 				this.faq = app.faq;
@@ -161,13 +159,6 @@ export default Controller.extend(
 			tab_block.toggleClass(this.classname);
 		},
 		
-		'.tab click': function(el) {
-			var tab = el.data('tab');
-			
-			this.tab_selectors.removeClass(this.classname);
-			this.tab_selectors.filter('.' + tab).addClass(this.classname);
-		},
-		
 		'.feedback_form submit': function(el, ev) {
 			ev.preventDefault();
 			
@@ -197,7 +188,7 @@ export default Controller.extend(
 						return console.error(data.err);
 					}
 					
-					that.feedback_form.find('input[type=text], input[type=email], textarea').val('');
+					that.feedback_form.find('input, textarea').val('');
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					that.form_processing = 0;
@@ -242,7 +233,7 @@ export default Controller.extend(
 					},
 					text: {
 						required: required,
-						maxlength: 'Максимальное количество символов - 13',
+						maxlength: 'Максимальное количество символов - 8000',
 						minlength: 'Минимальное количество символов - 7'
 					}
 				},
@@ -253,6 +244,6 @@ export default Controller.extend(
 					}, 1000);
 				}
 			});
-		},
+		}
 	}
 );

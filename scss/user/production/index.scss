@@ -1,6 +1,7 @@
 @import '../dynamic/dynamic';
 @import '../helpers/breadcrumbs';
 @import '../helpers/carousel';
+@import '../helpers/video';
 
 .module.production {
 	text-align: left;
@@ -134,7 +135,7 @@
 	
 	.items_container {
 		margin-top: 57px;
-		margin-bottom: 258px;
+		padding-bottom: 258px;
 		
 		.content {
 			position: relative;
@@ -473,5 +474,6 @@
 		height: 191px;
 		background: url('/img/user/production/child.png') no-repeat;
 		right: -162px;
+		cursor: pointer;
 	}
 }

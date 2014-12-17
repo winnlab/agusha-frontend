@@ -5,6 +5,7 @@
 @import '../helpers/popup';
 @import '../helpers/cropper';
 @import '../../bourbon/bourbon';
+@import "placeholders";
 
 @mixin number_pseudo {
 	@include pseudo;
@@ -535,24 +536,24 @@ table tr {
 			width: 27px;
 			opacity: 0;
 		}
-
+		
 		.counter {
 			opacity: 0;
 			cursor: default;
 		}
-
+		
 		.count {
 			opacity: 0;
 		}
-
+		
 		.counter_label {
 			opacity: 0;
 		}
-
+		
 		.number {
 			width: 14px;
 		}
-
+		
 		.line {
 			&:before {
 				width: 12px;
@@ -713,6 +714,13 @@ table tr {
 		@include transition(opacity 0.3s ease-in-out);
 		text-align: center;
 		opacity: 1;
+		position: relative;
+		
+		&:hover {
+			.counter_tooltip {
+				display: block;
+			}
+		}
 	}
 
 	.number {
@@ -771,6 +779,37 @@ table tr {
 		text-transform: uppercase;
 		opacity: 1;
 	}
+	
+	.counter_tooltip {
+		@include border_radius(5px);
+		@include box_shadow(0px 2px 4px 0px rgba(0, 0, 0, 0.22));
+		position: absolute;
+		height: 77px;
+		width: 267px;
+		background-color: $white;
+		font-size: 14px;
+		font-family: 'PT_Sans_Italic';
+		top: -18px;
+		right: -250px;
+		color: $blue;
+		display: none;
+		
+		&:before {
+			@include pseudo;
+			background: url('/img/user/core/counter_tooltip_arrow.png') no-repeat;
+			width: 14px;
+			height: 44px;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			left: -13px;
+		}
+		
+		.adorable_cell {
+			text-align: left;
+			padding: 20px;
+		}
+	}
 
 	.center {
 		display: table-row;
@@ -818,6 +857,23 @@ table tr {
 			.label {
 				&:before {
 					content: 'Акции';
+				}
+			}
+		}
+		
+		&.moneybox {
+			.icon {
+				&:before {
+					height: 27px;
+					width: 40px;
+					background: url('/img/user/core/right_menu_icons.png') no-repeat;
+					background-position: -80px 0;
+				}
+			}
+
+			.label {
+				&:before {
+					content: 'Копилка';
 				}
 			}
 		}
@@ -874,6 +930,12 @@ table tr {
 				&.action {
 					.icon:before {
 						background-position: -74px -34px;
+					}
+				}
+				
+				&.moneybox {
+					.icon:before {
+						background-position: -80px -27px;
 					}
 				}
 
@@ -1010,36 +1072,36 @@ table tr {
 	
 	.facebook {
 		&:after {
-			background-position: 0 0px;
+			background-position: 0 -22px;
 		}
 		
 		&:hover, &:active {
 			&:after {
-				background-position: 0 -22px;
+				background-position: 0 0;
 			}
 		}
 	}
 	
 	.vkontakte {
 		&:after {
-			background-position: -23px 0px;
+			background-position: -23px -22px;
 		}
 		
 		&:hover, &:active {
 			&:after {
-				background-position: -23px -22px;
+				background-position: -23px 0;
 			}
 		}
 	}
 
 	.odnoklassniki {
 		&:after {
-			background-position: -46px 0px;
+			background-position: -46px -22px;
 		}
 		
 		&:hover, &:active {
 			&:after {
-				background-position: -46px -22px;
+				background-position: -46px 0;
 			}
 		}
 	}
@@ -1209,10 +1271,6 @@ table tr {
 	overflow: visible;
 	z-index: 9;
 
-	.module {
-		height: 100%;
-	}
-
 	.content {
 		height: 100%;
 	}
@@ -1265,6 +1323,20 @@ table tr {
 	
 	&.active {
 		display: block;
+	}
+}
+
+.module_preload {
+	background-color: $bg;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+	
+	img {
+		@include absolute_centered;
 	}
 }
 
@@ -1428,16 +1500,16 @@ table tr {
 	height: 100% !important;
 	overflow: hidden !important;
 	outline: none !important;
-	border-radius: 1000px !important;
+	border-radius: 50%;
 }
 
 .cropper-canvas {
 	border-radius: 20px !important;
 }
 
-.cropper-dashed {
+/*.cropper-dashed {
 	display: none !important;
-}
+}*/
 
 .cropper-face {
 	opacity: 1 !important;
@@ -1450,17 +1522,88 @@ table tr {
 	background-color: #fff !important;
 	background: none !important;
 	border: 1px dashed #797670;
-	border-radius: 1000px;
+	border-radius: 50%;
+}
+
+.point-nw, .point-ne, .point-sw, .point-se {
+	display: none !important;
 }
 
 .cropper-line {
 	display: none !important;
 }
 
-.cropper-point {
+/*.cropper-point {
 	display: none !important;
+}*/
+
+.scrollToTop {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 50px;
+	height: 52px;
+	@extend %bg-image-cover;
+	background-image: url('/img/user/main/scrollToTop.png');
+	opacity: 0.85;
+	@include transition(opacity 150ms ease-in-out 0s);
+
+	&:hover {
+		cursor: pointer;
+		opacity: 1;
+	}
 }
 
+.mainPopupWrapper {
+	position: fixed;
+	line-height: 1.6;
+	z-index: 12;
 
+	.mainPopupBackground {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background: rgba(35,133,178,0.9);
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	.mainPopupContent {
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		margin-left: rem(-160);
+		@include transform(translateY(-50%));
+		background: #f2efed;
+		border-radius: 20px;
+		width: rem(320);
+		padding: rem(55);
+		color: #666666;
+		text-align: center;
+
+		.closeMainPopup {
+			position: absolute;
+			top: 17px;
+			right: 17px;
+			height: 30px;
+			width: 30px;
+			background: url("/img/user/helpers/popUp/close.png");
+			cursor: pointer;
+			opacity: 1;
+		}
+
+		h1 {
+			font-size: 24px;
+		}
+		p {
+			font-size: 16px;
+			line-height: 23px;
+		}
+	}
+}
 
 

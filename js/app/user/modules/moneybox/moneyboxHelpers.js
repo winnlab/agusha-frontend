@@ -21,7 +21,8 @@ function computedVal (value) {
 
 export default {
     lvl: function (points, lvls) {
-        return getLvl(computedVal(points), computedVal(lvls)).label;
+        var points = computedVal(points);
+        return points && getLvl(points, computedVal(lvls)).label;
     },
     isLast: function (index, all, options) {
         return index() == all() - 1 ? options.fn() : options.inverse();
@@ -69,6 +70,57 @@ export default {
         result += diffYears ? localeData.relativeTime(diffYears, true, 'yy') + ' ' : '';
         result += diffMonths ? localeData.relativeTime(diffMonths, true, 'MM') + ' ' : '';
         result += diffDays ? localeData.relativeTime(diffDays, true, 'dd') : '';
+        return result;
+    },
+    showPrizes: function (allPrizes, points, lvl) {
+        points = +computedVal(points);
+        var result = 'display: none;',
+            lvlPoints = +computedVal(lvl).points;
+        if (computedVal(allPrizes)) {
+            return 'display: block;';
+        }
+        if (points + 400 >= lvlPoints && points <= lvlPoints) {
+            result = 'display: block;'
+        }
+        return result;
+    },
+    lvlLabel: function (points, lvl) {
+        points = +computedVal(points);
+        var lvlPoints = +computedVal(lvl).points;
+        if (points + 200 >= lvlPoints && points <= lvlPoints) {
+            return 'Ваш уровень';
+        }
+        if (points + 400 >= lvlPoints && points <= lvlPoints) {
+            return 'Ваш следующий уровень';
+        }
+        return 'Уровень';
+    },
+    raffleLable: function (points, lvl) {
+        points = +computedVal(points);
+        var result = '',
+            lvlPoints = +computedVal(lvl).points;
+        if (points + 200 >= lvlPoints && points <= lvlPoints) {
+            result = 'Вы участвуете в розыгрыше для ';
+        } else {
+            result = 'Розыгрыш для ';
+        }
+        switch (computedVal(lvl).label) {
+            case 'Новичок':
+                result += 'новичков';
+                break;
+            case 'Ученик':
+                result += 'учеников';
+                break;
+            case 'Знаток':
+                result += 'знатоков';
+                break;
+            case 'Эксперт':
+                result += 'экспертов';
+                break;
+            case 'Профи':
+                result += 'профи';
+                break;
+        }
         return result;
     }
 }

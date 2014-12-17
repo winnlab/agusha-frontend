@@ -35,7 +35,6 @@ export default Controller.extend(
 
 		'.close click': function (el) {
 			var theme_id = el.data('theme_id');
-			console.log(theme_id)
 			Sub.unsubscribe(theme_id, function () {
 				el.parents('.tab_block').remove();
 			});

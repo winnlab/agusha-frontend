@@ -185,6 +185,9 @@
 		}
 	}
 
+	.messageForm {
+		display: none;
+	}
 	.form_container {
 		.avatar {
 			margin-top: 20px;
@@ -212,6 +215,10 @@
 		.message_button {
 			padding: 10px 26px;
 		}
+	}
+
+	.noMessagesInfo {
+		display: none;
 	}
 
 	.attach {

@@ -9,6 +9,13 @@ export default Controller.extend(
 	}, {
 		variables: function() {
 			this.carousel = this.element.find('#production_carousel');
+			
+			this.video = this.element.find('.video');
+			this.player_bg = this.video.find('.player_bg');
+			
+			this.left_menu = $('#left_menu');
+			
+			this.active = 'active';
 		},
 		
 		plugins: function() {
@@ -33,6 +40,26 @@ export default Controller.extend(
 		
 		after_init: function(data) {
 			
-		}	
+		},
+		
+		'.child click': function() {
+			this.video.addClass(this.active);
+		},
+		
+		'.video .close click': function() {
+			this.video.removeClass(this.active);
+		},
+		
+		'{window} custom_resize': 'custom_resize',
+		
+		custom_resize: function() {
+			if(!this.element.hasClass(this.active)){
+				return;
+			}
+			
+			this.player_bg.css({
+				left: this.left_menu.width()
+			});
+		}
 	}
 );

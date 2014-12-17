@@ -1,4 +1,4 @@
-.carousel_container
+.carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
 			.item.active
@@ -35,7 +35,7 @@
 					a.new_module(href="/products")
 						button.carousel_button.blue Подробнее
 			
-			.item
+			// .item
 				.banner_image.banner_image_4
 				.content
 					.top_label.purple
@@ -49,7 +49,7 @@
 			li.active(data-target="#main_carousel" data-slide-to="0")
 			li(data-target="#main_carousel" data-slide-to="1")
 			li(data-target="#main_carousel" data-slide-to="2")
-			li(data-target="#main_carousel" data-slide-to="3")
+			// li(data-target="#main_carousel" data-slide-to="3")
 		
 		.content
 			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
@@ -93,6 +93,6 @@
 			.items_container
 				- each a, i in articles.documents
 					mixin article(a, i)
-		if (articles.nextAnchorId)
-			.loadMore
-				img(src="/img/user/main/icon_book.gif")
+			if (articles.nextAnchorId)
+				.loadMore
+					img(src="/img/user/main/icon_book.gif")

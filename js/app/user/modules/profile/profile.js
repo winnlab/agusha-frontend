@@ -8,12 +8,18 @@ import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.
 import select2 from 'select2';
 import s2Options from 'js/app/user/modules/profile/select2Options';
 import s3Options from 'js/app/user/modules/profile/select3Options';
+import moment from 'moment';
 import friendsView from 'js/app/user/modules/profile/views/friends.mustache!';
 import 'vk-openapi'
+import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css!';
+import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min';
 
 import 'js/plugins/select2/select2.css!'
 
+import 'js/plugins/social/vk/vk_sdk';
+
 import Profile from 'js/app/user/modules/profile/profileModel';
+import PopUp from 'js/app/user/lib/popUp/popUp';
 
 var invMessages = {
     vk: 'Привет, хало, слалют.'
@@ -45,18 +51,21 @@ var levels = [
         label: 'Профи',
         points: 1000
     }];
- 
+
 can.mustache.registerHelper('tooltip', function(errors, property, position, options) {
     var errors = options.context.user.attr('errors');
 
     return function(el) {
-        errors.delegate('*', 'set', function(ev, newVal, oldVal, prop) {
-            if(newVal == null) {
-                $(el).tooltipster('destroy');
+
+
+        errors.delegate('**', 'set', function(ev, newVal, oldVal, prop) {
+
+            if(prop != property) {
                 return;
             }
 
-            if(prop != property) {
+            if(newVal == null) {
+                $(el).tooltipster('destroy');
                 return;
             }
 
@@ -235,7 +244,36 @@ can.mustache.registerHelper('levelPrefix', function(points) {
     }
 
     return lavel.name;
-})
+});
+
+
+function getMonths() {
+    return [ "Янв", "Фев", "Март", "Апр", "Май", "Июнь",
+    "Июль", "Авг", "Сен", "Окт", "Нояб", "Дек" ];
+}
+
+function getDaysInMonth(month, year) {
+    var date = new Date(year, month, 1);
+    var days = [];
+
+    while (date.getMonth() === month) {
+        days.push(date.getDate());
+        date.setDate(date.getDate() + 1);
+    }
+
+    return days;
+}
+
+function startYear (startYear) {
+        var currentYear = new Date().getFullYear(), years = [];
+        startYear = startYear || 1980;
+
+        while ( startYear <= currentYear ) {
+                years.push(startYear++);
+        } 
+
+        return years;
+}
 
 export default Controller.extend(
 	{
@@ -243,10 +281,13 @@ export default Controller.extend(
             Model: Profile,
             input: '.editableInput',
             user: appState.attr('user'),
-            css_path: 'css/user/'
+            css_path: 'css/user/',
+            facebookPermissions: '',
+            vkLoginPermissions: ''
         }
     }, {
 		after_init: function(data) {
+
             System.import('./js/plugins/tooltipster/css/tooltipster.css!');
             System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
             System.import('./js/plugins/tooltipster/css/themes/tooltipster-error.css!');
@@ -256,6 +297,12 @@ export default Controller.extend(
             this.data = appState.attr('user');
             this.user = this.data.options.user;
             this.errs = new can.Map();
+            this.dates = new can.Map({
+                months: getMonths(),
+                days: getDaysInMonth(0, 1950),
+                years: startYear(1950)
+            });
+            this.countries = ['Украина', 'Россия', 'Беларусь', 'Германия', 'Израиль', 'Канада', 'Чехия', 'Польша', 'Казахстан', 'Другая страна'];
 
             if(!this.data.auth.isAuth) {
                 can.route.attr({module: 'login'});
@@ -273,16 +320,70 @@ export default Controller.extend(
                 trigger: 'hover'
             });
 
-            $('#country').select2(s3Options);
+            //$('#country').select2(s3Options);
             $('#city').select2(s2Options);
             $('#city').select2('val', this.user.attr('contacts.city'));
             
             $('.phoneInput').inputmask("+3 8(999) 999 - 99 - 99");
 
+            this.initCustomScrollbar();
+            this.initSetPasswordTooltipster();
+            this.initSpareEmailTooltipster();
+            this.initSocial();
+        },
+
+        initSocial: function () {
             VK.init({
-              apiId: 4581691
+                apiId: 4581691
+            });
+
+            FB.init({
+                appId: 319137821610071,
+                cookie: true,
+                xfbml: true,
+                version: 'v2.1'
+            });
+/*
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });*/
+        },
+
+        initSetPasswordTooltipster: function () {
+            $('.newPasswordTooltip').tooltipster({
+                position: 'right',
+                theme: 'tooltipster-error',
+                trigger: 'hover'
             });
         },
+
+        initSpareEmailTooltipster: function () {
+            $('.spareEmail').tooltipster({
+                position: 'right',
+                theme: 'tooltipster-error',
+                trigger: 'hover'
+            });
+        },
+
+        initCustomScrollbar: function () {
+            var self = this;
+
+            $(".customSelectList", self.element).mCustomScrollbar({
+                theme: "dark-thick",
+                axis: 'y',
+                height: 300,
+                scrollInertia: 400,
+                scrollButtons: {
+                    enable: false,
+                    scrollAmount: 200,
+                    scrollType: 'stepless'
+                },
+                advanced:{
+                    updateOnContentResize: true
+                }
+            });
+        },
+
         createChildPopUp: function(child) {
             var elem = $('<span class="childPopupWrap"></span>');
             this.childPopupElement = $('body').append(elem);
@@ -294,16 +395,90 @@ export default Controller.extend(
             this.child = this.childPopUp.module.child;
             this.bindChild();
         },
+
         '.social_buttons .vk click': function() {
-            window.location.href = '/registration/vk';
+            var self = this;
+
+            VK.Auth.login(function(response) {
+                self.vkLoginResponse(response);
+
+            }, self.options.vkLoginPermissions);
         },
+
+        vkLoginResponse: function (response, cb) {
+            var self = this;
+
+            if (response.session) {
+
+                can.ajax({
+                    url: '/login/linkVk',
+                    type: 'POST',
+                    data: {
+                        response: response
+                    }
+                }).done(function (data) {
+                    $('.button.vk').addClass('active');
+                }).fail(function (data) {
+                    console.error(data);
+                });
+
+            } else {
+                alert('not auth');
+            }
+        },
+
         '.social_buttons .fb click': function() {
             window.location.href = '/registration/fb';
+
+/*            var self = this;
+
+            FB.login(function(response){
+                console.log(response);
+                self.fbLoginResponse(response);
+            });*/
         },
+
+        fbLoginResponse: function (response) {
+            var self = this;
+
+            if (response.status === 'connected') {
+
+                FB.api('/me', function(userResponse) {
+
+                    response.user = userResponse;
+
+                    console.log(userResponse);
+
+/*                    can.ajax({
+                        url: '/user/facebook',
+                        type: 'POST',
+                        data: {
+                            response: response
+                        }
+                    }).done(function (data) {
+                        self.loginSuccess(data, cb);
+                    }).fail(function (data) {
+                        console.error(data);
+                    });*/
+                });
+
+            } else if (response.status === 'not_authorized') {
+                // The person is logged into Facebook, but not your app.
+            } else {
+                // The person is not logged into Facebook, so we're not sure if
+                // they are logged into this app or not.
+            }
+        },
+
+        '.social_buttons .ok click': function () {
+            window.location.href = '/registration/ok';
+        },
+
         '.addChild click': function() {
             this.createChildPopUp();
             this.childPopUp.show({});
         },
+
         '.childPic click': function(el, ev) {
             var child = el.data('children');
 
@@ -311,13 +486,30 @@ export default Controller.extend(
 
             this.childPopUp.show({});
         },
+
         'change': function(el, ev) {
             ev.preventDefault();
 
             this.saveModel();
         },
+
         '.buttons .remove.button click': function() {
             this.user.removeImage();
+        },
+
+        '.user_birth_date select change': function(el, ev) {
+            var clss = $(el).attr('class'),
+                selectedValue = Number($(el, 'option:selected').val()),
+                defYear = $('.user_birth_date option:selected').val() || 2000,
+                defMonth = $('.user_birth_month option:selected').val() || 0;
+
+            if(clss == 'birth_month') {
+                this.dates.attr('days', getDaysInMonth(selectedValue, defYear));
+            }
+
+            if(clss == 'birth_year') {
+                this.dates.attr('days', getDaysInMonth(defMonth, selectedValue));
+            }
         },
         '.switcher click': function(el, e) {
             var id = $(e.target).data('passid');
@@ -326,7 +518,7 @@ export default Controller.extend(
 
             $('input[data-passid='+id+']').prop('type', function(idx, oldProp) {
                 if(oldProp == 'password')
-                    return 'text'
+                    return 'text';
 
                 return 'password'
             });
@@ -336,7 +528,12 @@ export default Controller.extend(
 
             this.options.model._data = user.attr();
 
-            this.options.model.save().fail(function() {
+            this.options.model.save()
+                .done(function(){
+                    console.log('done saveModel');
+                    appState.attr('moneybox', true);
+                })
+                .fail(function() {
                 if(callback) {
                     callback(user);
                 }
@@ -372,6 +569,7 @@ export default Controller.extend(
         },
         bindChild: function() {
             var that = this;
+
             this.childPopUp
                 .module
                 .child.delegate(
@@ -387,7 +585,10 @@ export default Controller.extend(
                 user: this.data.options.user, 
                 errs: this.errs,
                 levels: levels,
-                levelKeys: [1,2,3,4,5,6,7]
+                levelKeys: [1,2,3,4,5,6,7],
+                dates: this.dates,
+                countries: this.countries,
+                months: getMonths()
             });
 
             $('#profile').html(can.view(view, viewModel, {
@@ -407,6 +608,9 @@ export default Controller.extend(
                     }
 
                     return '';
+                },
+                getUserMonth: function (month) {
+                    return getMonths()[month()];
                 }
             }));
 
@@ -485,7 +689,35 @@ export default Controller.extend(
             $('body').append(renderer);
         },
         sendMessageVK: function (uid, btn) {
-            VK.Api.call('photos.getWallUploadServer', {}, _.bind(this.uploadImageToWallVK, this, uid, btn));
+            var self = this;
+
+            can.ajax({
+                url: '/profile/invitedVK',
+                method: 'GET',
+                data: {
+                    uid
+                }
+            }).done(function (response) {
+                if (typeof response === 'string') {
+                    return appState.attr('popUp').show({
+                        title: 'Ошибка!',
+                        text: _.isString(response) ? response : 'Произошла неизвестная ошибка.'
+                    });
+                }
+
+                if (response === true) {
+                    if (!confirm('Этому пользователю уже было выслано приглашение, выслать все равно?')) {
+                        return self.checkSocialButton(btn);
+                    }
+                }
+
+                VK.Api.call('photos.getWallUploadServer', {}, _.bind(self.uploadImageToWallVK, self, uid, btn));
+            }).fail(function (response) {
+                appState.attr('popUp').show({
+                    title: 'Ошибка!',
+                    text: _.isString(response) ? response : 'Произошла неизвестная ошибка.'
+                });
+            });
         },
         uploadImageToWallVK: function (uid, btn, response) {
             can.ajax({
@@ -507,7 +739,8 @@ export default Controller.extend(
             }, _.bind(this.sendFriendsMessageVK, this, uid, btn));
         },
         sendFriendsMessageVK: function (uid, btn, response) {
-            var images = response.response;
+            var images = response.response,
+                self = this;
 
             VK.Api.call('wall.post', {
                 owner_id: uid,
@@ -515,16 +748,34 @@ export default Controller.extend(
                 attachments: images && images[0] && images[0].id || ''
             }, function (response) {
                 if (response) {
-                    return btn
-                        .addClass('sended')
-                        .prop('disabled', true)
-                        .html('ОТПРАВЛЕНО')
-                        .off('click');
+                    can.ajax({
+                        url: '/profile/invitedVK',
+                        method: 'POST',
+                        data: {
+                            uid
+                        }
+                    });
+
+                    return self.checkSocialButton(btn);
                 }
 
-                alert('Произошла ошибка при отправке сообщения, пожалуйста, попробуйте позже.')
+                appState.attr('moneybox', true);
+
+                appState.attr('popUp').show({
+                    title: 'Ошибка!',
+                    text: 'Произошла ошибка при отправке сообщения, пожалуйста, попробуйте позже.'
+                });
             })
         },
+
+        checkSocialButton: function (btn) {
+            btn
+                .addClass('sended')
+                .prop('disabled', true)
+                .html('ОТПРАВЛЕНО')
+                .off('click');
+        },
+
         /* FB friends invitation */
         '.profileInvite.fb click': function () {
             FB.ui({
@@ -532,5 +783,137 @@ export default Controller.extend(
                 url: window.location.origin
             });
         },
+        /* end of FB friends invitation */
+
+        '.newPasswordValidate keyup': function (el, ev) {
+            this.newPasswordValidate(el);
+        },
+
+        newPasswordValidate: function (el) {
+            var self = this;
+
+            var $newPassword1 = $('.newPassword1', self.element).val();
+            var $newPassword2 = $('.newPassword2', self.element).val();
+
+            if ($newPassword1 != $newPassword2) {
+                $('.newPasswordTooltip').tooltipster('content', 'Пароли не совпадают');
+                $('.newPasswordTooltip').tooltipster('show', function() {  });
+            } else {
+                $('.newPasswordTooltip').tooltipster('hide', function() {  });
+            }
+        },
+
+        '.customSelect .content click': function (el, ev) {
+            ev.stopPropagation();
+
+            var $list = el.parents('.customSelect').find('.customSelectList');
+
+            if ($list.hasClass('active')) {
+                $list.removeClass('active');
+            } else {
+                $list.addClass('active');
+            }
+        },
+
+        '.customSelectListItem click': function (el, ev) {
+            var selectValue = el.data('value');
+            var selectHtml = el.html();
+            var $customSelect = el.parents('.customSelect');
+            var $customInput = el.parents('.customInput');
+            var $content = $customSelect.find('.content .value');
+            var $list = $customSelect.find('.customSelectList');
+            var targetClass = $customSelect.data('target');
+
+            var $targetSelect = $customSelect.parent().find('select.'+targetClass);
+
+            if ($customSelect.hasClass('customDay')) {
+                this.user.attr('birth_date.day', selectValue);
+            } else if ($customSelect.hasClass('customMonth')) {
+                this.user.attr('birth_date.month', selectValue);
+            } else if ($customSelect.hasClass('customYear')) {
+                this.user.attr('birth_date.year', selectValue);
+            }
+
+            $list.removeClass('active');
+            $content.html(selectHtml);
+            if ($customInput.length > 0) {
+                var $targetInput = $customSelect.parent().find('input.'+targetClass);
+                $targetInput.val(selectValue);
+                $targetInput.trigger('change');
+            } else {
+                $targetSelect.find('option:selected').attr('selected', false);
+                $targetSelect.find('option[value="'+selectValue+'"]').attr('selected', 'selected');
+
+                this.saveModel();
+            }
+        },
+
+        '.changePassword submit': function (el, ev) {
+            ev.preventDefault();
+
+            var form = can.deparam(el.serialize());
+
+            if (form.oldPassword.length == 0 || form.newPassword.length == 0) {
+                PopUp.showPopup({
+                    title: 'Ошибка!',
+                    content: 'Пожалуйста, заполните все поля'
+                });
+                return false;
+            }
+            if (form.newPassword != form.newPasswordCopy) {
+                PopUp.showPopup({
+                    title: 'Ошибка!',
+                    content: 'Пароли не совпадают'
+                });
+                return false;
+            }
+
+            can.ajax({
+                url: '/profile/changePassword',
+                method: 'POST',
+                data: form
+            }).done(function (response) {
+                PopUp.showPopup({
+                    title: '',
+                    content: 'Ваш пароль изменен'
+                });
+            }).fail(function (response) {
+                PopUp.showPopup({
+                    title: 'Ошибка!',
+                    content: 'При изменении пароля произошла ошибка'
+                });
+            });
+        },
+
+        '.saveProfileData click': function (el, ev) {
+            PopUp.showPopup({
+                title: '',
+                content: 'Ваши данные успешно сохранены'
+            });
+        },
+
+        'click': function (el, ev) {
+            var $list = $('.customSelectList');
+            if ($list.hasClass('active')) {
+                $list.removeClass('active');
+            }
+        },
+
+        '.spareEmail keyup': function (el, ev) {
+            var value = el.val();
+
+            if (value) {
+                var regexp;
+                regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+
+                if(value.match(regexp)) {
+                    el.tooltipster('hide', function() {  });
+                } else {
+                    el.tooltipster('content', 'Введите корректный e-mail');
+                    el.tooltipster('show', function() {  });
+                }
+
+            }
+        }
     }
 );

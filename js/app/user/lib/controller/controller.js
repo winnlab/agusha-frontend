@@ -9,14 +9,21 @@ export default can.Control.extend({
 	}
 }, {
 	init: function() {
+		this.window = $(window);
+		
 		var server = $('#modules').find('.module.server');
-
-		if(server.length) {
+		
+		this.server = server.length;
+		
+		this.module_preload = this.element.find('.module_preload');
+		this.module_preload.height(this.window.height());
+		
+		if(this.server) {
 			server.children().appendTo(this.element);
 			server.remove();
 			return this.after_request();
 		}
-
+		
 		System.import(this.options.css_path + this.options.name + '/index.css!').then(can.proxy(this.request, this));
 	},
 
@@ -61,17 +68,23 @@ export default can.Control.extend({
 
 		var html = jadeTemplate.get('user/' + this.options.name + '/content', data.data);
 
-		this.element.html(html);
+		this.element.append(html);
 
 		this.after_request(data.data);
 	},
 	
 	after_request: function(data) {
 		this.variables();
-		this.plugins();
-		$(window).trigger('custom_resize');
+		this.plugins(data);
+		this.window.trigger('custom_resize');
+		
+		this.module_preload.hide();
 		
 		this.after_init(data);
+		
+		if(this.server) {
+			$(window).trigger('custom_ready');
+		}
 	},
 	
 	after_init: function(data) {

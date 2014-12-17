@@ -3,7 +3,9 @@ window.strip_tags = function(str) {
 };
 
 window.escape = function(text) {
-	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+	if (text && text.length > 0) {
+		return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+	}
 };
 
 window.jadeTemplate = {
@@ -45,7 +47,7 @@ window.requestAnimFrame = (function() {
 	var js, fjs = d.getElementsByTagName(s)[0];
 	if (d.getElementById(id)) return;
 	js = d.createElement(s); js.id = id;
-	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+	js.src = "//connect.facebook.net/en_US/sdk.js";
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
@@ -54,5 +56,6 @@ window.requestAnimFrame = (function() {
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 
 // vk
+/*
 
-VK.init({apiId: 4603722, onlyWidgets: true});
+VK.init({apiId: 4603722, onlyWidgets: true});*/

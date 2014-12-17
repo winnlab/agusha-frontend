@@ -13,19 +13,21 @@ if article.image
 	.bg.articleBackground
 		div.bgImageWrapper
 			.darkenBg
-			img(src=(article.image && article.image.B ? "/img/uploads/#{article.image.B}" : "/img/uploads/#{article.image.background}"))
+			img(src=(article.image && article.image.B ? "/img/uploads/#{article.image.B}" : "/img/uploads/#{article.image.background}") itemprop="image")
 	//.articleBackground.bg(style=(article.image && article.image.B ? 'background-image: url("/img/uploads/#{article.image.B}");' : 'background-image: url("/img/uploads/#{article.image.background}");'))
 	//	.darkenBg
 
-.content
+.content(itemscope itemtype="http://schema.org/BlogPosting")
 	include ../helpers/breadcrumbs
+
+	.scrollToTop
 	
 	.topper_title
 		| #{article.theme.name}
 	
 	.title
 		.label.adorable_table
-			.adorable_cell
+			.adorable_cell(itemprop="name")
 				| #{article.title}
 		
 		.middle
@@ -41,10 +43,11 @@ if article.image
 							| мамочек
 							br
 							| одобряют
-						
-						img.comment(src="/img/user/article/comment.png")
-						span.count.commentariesCount(data-component_id="#{article._id}")
-							| #{commentariesAmount}
+
+						span.scrollToComments
+							img.comment(src="/img/user/article/comment.png")
+							span.count.commentariesCount(data-component_id="#{article._id}")
+								| #{commentariesAmount}
 
 			//.column
 			//	.adorable_table
@@ -63,10 +66,10 @@ if article.image
 						//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
 						
 						.social_button
-							div(id="vk_top_article_" + params.alias)
+							div(id="vk_top_article-" + params.id)
 						
 						.social_button
-							div(id="ok_top_article_" + params.alias)
+							div(id="ok_top_article-" + params.id)
 						
 						.social_button
 							.g-plusone(data-size="medium")
@@ -105,7 +108,7 @@ if article.image
 							.adorable_cell
 								button.poll_button(type="submit", style=(user ? '' : 'display: none')) Проголосовать
 
-					.plz Для того, чтобы увидеть результаты опроса, плз, ответьте сами
+					.plz Для того чтобы посмотреть результаты опроса, вам тоже необходимо в нем поучаствовать.
 
 				.social
 					.social_button
@@ -115,10 +118,10 @@ if article.image
 					//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
 
 					.social_button
-						div(id="vk_top_poll_" + params.alias)
+						div(id="vk_top_poll_" + params.id)
 
 					.social_button
-						div(id="ok_top_poll_" + params.alias)
+						div(id="ok_top_poll_" + params.id)
 
 					.social_button
 						.g-plusone(data-size="medium")
@@ -175,7 +178,7 @@ if article.image
 								.progress_line
 									.progress(style="width: #{answerItem.percent}%;")
 				
-				.plz(style=(userVoted ? 'display: none' : '')) Для того, чтобы увидеть результаты опроса, плз, ответьте сами
+				.plz(style=(userVoted ? 'display: none' : '')) Для того чтобы посмотреть результаты опроса, вам тоже необходимо в нем поучаствовать.
 				.social
 					.social_button
 						.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
@@ -184,10 +187,10 @@ if article.image
 					//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
 					
 					.social_button
-						div(id="vk_bottom_poll_" + params.alias)
+						div(id="vk_bottom_poll_" + params.id)
 					
 					.social_button
-						div(id="ok_bottom_poll_" + params.alias)
+						div(id="ok_bottom_poll_" + params.id)
 					
 					.social_button
 						.g-plusone(data-size="medium")
@@ -222,10 +225,10 @@ if article.image
 						//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
 						
 						.social_button
-							div(id="vk_bottom_article_" + params.alias)
+							div(id="vk_bottom_article-" + params.id)
 						
 						.social_button
-							div(id="ok_bottom_article_" + params.alias)
+							div(id="ok_bottom_article-" + params.id)
 						
 						.social_button
 							.g-plusone(data-size="medium")
@@ -244,7 +247,7 @@ if article.image
 				.footer
 					.half.left
 						.adorable_table
-							.adorable_cell
+							.adorable_cell.scrollToComments
 								img.comment(src="/img/user/article/comment.png")
 								span.count.commentariesCount(data-component_id="#{article._id}")
 									| #{commentariesAmount}
@@ -258,7 +261,7 @@ if article.image
 								img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component="Article")
 								span.count.like(data-component_id="#{article._id}")
 									| #{likesAmount}
-								span.slash / 
+								span.slash /
 								span.post_like Одобрить
 			
 			.right.column
@@ -266,11 +269,11 @@ if article.image
 					.adorable_cell
 						.title Появился вопрос?
 						.subtitle Задайте его специалисту!
-						.avatar
+						.avatar.cap
 							img.rounded(src='/img/user/specialist/doc_mini.jpg')
 						.name Ирина Матвиенко
 						.info Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем здорового ребенка и преморбидных состояний.
-						button.ask_button Задать вопрос
+						button.ask_button(href="/specialist", class="new_module") Задать вопрос
 			.clearfix
 	
 	include ../helpers/article_bottom

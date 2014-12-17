@@ -5,11 +5,11 @@
 	.close
 	.settings
 	.subToppper
-		.percentage= (user ? user.fillingProfile() : '0') + '%'
+		.percentage= '0%'
 		//- canvas#profile_circle(width="128", height="128")
 		.avatar
-			img.rounded(src=(user ? user.getImage('middle') : ''))
-		.name= (user ? user.name(): '')
+			img.rounded(src="")
+		.name= ''
 
 	
 .buttons
@@ -25,7 +25,7 @@
 		.icon
 		.label
 	
-	a.item.adorable_table.help.module_tab.module_tab_help.new_module(href="/help")
+	a.item.adorable_table.help.module_tab.module_tab_help.new_module(href="/help/faq")
 		.icon
 		.label
 

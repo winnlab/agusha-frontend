@@ -12,8 +12,9 @@ block append scripts
 	script.
 		var app = {
 			actions: !{JSON.stringify(actions)},
-			user: !{JSON.stringify(user)},
-			lvls: !{JSON.stringify(lvls)}
+			user: !{user ? JSON.stringify(user) : 'null'},
+			lvls: !{JSON.stringify(lvls)},
+			prizes: !{JSON.stringify(prizes)}
 		};
 	script#moneybox_mustache(type="text/mustache")
 		mixin moneybox()

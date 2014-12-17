@@ -6,7 +6,7 @@ html
 		link(href='/img/favicon.ico', rel='shortcut icon', type='image/x-icon')
 		block header
 	
-	body
+	body(style="overflow: hidden;")
 		#preloader(style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: #f2efed; z-index: 999999;")
 			img(src="/img/preloader.gif" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;")
 		
@@ -18,9 +18,17 @@ html
 			#center_container
 				#modules
 					block content
-				include footer
+					include footer
 
 			.right_menu.right_resizable
+
+			.mainPopupWrapper(style="display: none")
+				.mainPopupBackground.triggerClosePopup
+				.mainPopupContent
+					.closeMainPopup.triggerClosePopup
+					h1
+					p.content
+
 		
 		#left_menu.left_menu.left_resizable
 			include left_menu
@@ -38,3 +46,4 @@ html
 		
 		block scripts
 			include route
+			include codes

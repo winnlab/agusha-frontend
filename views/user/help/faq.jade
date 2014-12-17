@@ -1,0 +1,10 @@
+.tab_content.tab_selector.faq.active
+	.tab_block.search_block.active
+		input#faq_search(type="text", placeholder="Поиск")
+	
+	- each f, key in faq
+		.tab_block.faq_block(id = 'faq_block_' + f.id, class = (f.active ? 'active' : ''))
+			.title
+				.adorable_table
+					.adorable_cell #{f.title}
+			.text !{f.text}

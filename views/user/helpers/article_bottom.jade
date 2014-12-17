@@ -55,7 +55,7 @@
 
 			- classname += ' ' + articleType
 
-			a(class="new_module card #{classname}" href="/article/" + similarArticle._id)
+			a(class="new_module card #{classname}" href="/article/" + similarArticle.transliterated)
 				.inner(style=( similarArticle && similarArticle.image && similarArticle.image['S'] ? "background-image: url(/img/uploads/" + similarArticle.image['S'] + ");" : ''))
 					.topper.bg
 						.topper_label
@@ -92,6 +92,7 @@
 							- each like, likeKey in similarArticle.likes
 								if like.client.toString() == userId.toString()
 									- isLiked = 'isLiked'
+
 					div(class="footer #{isLiked}")
 						.heart
 							img.liked(src="/img/user/article/heart.png")
@@ -174,8 +175,9 @@
 					.avatar.rounded
 						- var avatarPath = "/img/user/helpers/stub/small.png"
 						if user && user.image && user.image.small
-							- avatarPath = "/img/uploads/#{user.image.small}"
-						img.rounded(src=avatarPath)
+							img.rounded(src="#{user.image.small}")
+						else
+							img.rounded(src="/img/user/helpers/stub/small.png")
 
 				.form_container
 					form.comment_form

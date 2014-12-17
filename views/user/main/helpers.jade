@@ -1,9 +1,8 @@
 mixin feed()
-    .filters
+    .filters(style="{{#unless feedLength}}display: none;{{/unless}}")
         select.feed_select
             option(data-count="{{plus themeSubs authorSubs}}" value=0) Все подписки
-            option(data-count="{{themeSubs}}" value=1) Подписки на тему
-            option(data-count="{{authorSubs}}" value=2) Подписки на автора
+            option(data-count="{{themeSubs}}" value=1)= '{{#is themeSubs 0}}Подписки на темы пока отсутствуют{{else}}Подписки на тему{{/is}}'
             option(data-count="{{consultations}}" value=3) Вопросы специалисту
         
         select.order_select
@@ -28,7 +27,7 @@ mixin feed()
     .feedWrap
         | {{#each feed}}
         - var classname = '{{getClassName . @index module}} {{articleType . @index}}'
-        a(class="new_module card #{classname}" href="/article/{{_id}}")
+        a(class="new_module card #{classname}" href="/article/{{transliterated}}")
             .inner(style='{{getBg . @index module}}')
                 .topper.bg
                     .topper_label
@@ -108,3 +107,6 @@ mixin feed()
                                 |{{#is type.name "Статья от пользователя"}}{{answer.length}}{{/is}}
 
         | {{/each}}
+    | {{#unless feedLength}}
+    h1.centered.emtyFeed Ваша лента пока пуста
+    | {{/unless}}

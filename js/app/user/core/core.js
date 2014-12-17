@@ -42,20 +42,23 @@ var Core = can.Control.extend(
 			if (!newVal) {
 				return;
 			}
+
+			console.log('moneybox ajax');
 			
 			can.ajax({
 				url: '/moneybox-points-only',
 				dataType: 'json',
 				method: 'get'
 			}).done(function (data) {
+				console.log(data);
 				$('#right_menu_small .points_number').html(data.data.points);
 				appState.attr('moneybox', false);
 			});
 		},
 		
 		'.logout click': function() {
-			this.hide_right_menu()
-			appState.attr('user').logout()
+			this.hide_right_menu();
+			appState.attr('user').logout();
 		},
 		
 		'#right_menu_small .subTopper .top click': function() {
@@ -196,6 +199,14 @@ var Core = can.Control.extend(
 			});
 		},
 		
+		'{window} custom_ready': function() {
+			$('body').css({
+				overflow: 'auto'
+			});
+			
+			$('#preloader').fadeOut(300);
+		},
+		
 		'{window} resize': 'resize',
 		
 		resize: function() {
@@ -207,6 +218,21 @@ var Core = can.Control.extend(
 			}
 			
 			this.left_menu_line[func]();
+		},
+
+		'.scrollToTop click': function (el, ev) {
+			$('html, body').animate({
+				scrollTop: 0
+			}, 600);
+		},
+
+		'.triggerClosePopup click': function (el, ev) {
+			var $mainPopupWrapper = $('.mainPopupWrapper');
+
+			$mainPopupWrapper.fadeOut(function(){
+				$mainPopupWrapper.find('h1').html('');
+				$mainPopupWrapper.find('p').html('');
+			});
 		}
 	}
 );

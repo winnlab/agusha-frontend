@@ -5,7 +5,7 @@ include ../encyclopedia/helpers
 .content.userTitle(style = (user ? 'display: none' : ''))
 	include ../helpers/breadcrumbs
 	
-	.topper_title Привет, #{breadcrumbs[0].title}
+	.topper_title Привет, <span class="username">#{breadcrumbs[0].title}</span>
 
 	.tabs
 		.tabs_flex
@@ -26,6 +26,6 @@ include ../encyclopedia/helpers
 				.items_container
 					- each a, i in articles.documents
 						mixin article(a, i)
-		if (articles.nextAnchorId)
-			.loadMore
-				img(src="/img/user/main/icon_book.gif")
+			if (articles.nextAnchorId)
+				.loadMore
+					img(src="/img/user/main/icon_book.gif")

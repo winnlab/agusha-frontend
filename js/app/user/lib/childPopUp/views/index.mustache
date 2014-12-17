@@ -14,7 +14,7 @@
                     </div>   
             	</div>
             	<div class="childMetaInfo">
-            		<input type="Ванечка" can-value="child.name" placeholder="Имя детеныша" class="deletable">
+            		<input type="text" can-value="child.name" placeholder="Имя детеныша" class="deletable">
             		<div class="buttons">
             			<input type="radio" can-value="child.gender" class="childGender" value="1" name="child_gender" id="child_male" {{#genderChecked 'male'}}checked{{/genderChecked}}>
             			<label for="child_male">
@@ -26,9 +26,60 @@
             			</label>
             		</div>
             		<div class="childBirthDate">
-            			<input type="text" name="birth_day" can-value="child.birth.day" placeholder="день" class="childBirthInput" />
-            			<input type="text" name="birth_month" can-value="child.birth.month" placeholder="мес." class="childBirthInput" />
-            			<input type="text" name="birth_year" can-value="child.birth.year" placeholder="год" class="childBirthInput" />
+
+                        <div class="customSelect customDay inactive" data-target="customDay">
+                            <p class="content"><span class="value">День</span> <span class="triangleDown">▾</span></p>
+                            <div class="customSelectList">
+                                {{#each dates.days}}
+                                    <p class="customSelectListItem" data-value="{{.}}">{{.}}</p>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        <div class="customSelect customMonth inactive" data-target="customMonth">
+                            <p class="content"><span class="value">Мес.</span> <span class="triangleDown">▾</span></p>
+                            <div class="customSelectList">
+                                {{#each dates.months}}
+                                    <p class="customSelectListItem" data-value="{{@index}}">{{.}}</p>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        <div class="customSelect customYear inactive" data-target="customYear">
+                            <p class="content"><span class="value">Год.</span> <span class="triangleDown">▾</span></p>
+                            <div class="customSelectList">
+                                {{#each dates.years}}
+                                    <p class="customSelectListItem" data-value="{{.}}">{{.}}</p>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div style="display: none">
+
+                            <select class="birth_day customDay" can-value="child.birth.day">
+                                <option disabled="disabled" selected>День</option>
+                                {{#each dates.days}}
+                                    <option value="{{.}}">{{.}}</option>
+                                {{/each}}
+                            </select>
+
+                            <select can-value="child.birth.month" class="birth_month customMonth">
+                                <option disabled="disabled" selected>Мес.</option>
+                                {{#each dates.months}}
+                                    <option value={{@index}}>{{.}}</option>
+                                {{/each}}
+                            </select>
+                            <select can-value="child.birth.year" class="birth_year customYear">
+                                <option disabled="disabled" selected>Год</option>
+                                {{#each dates.years}}
+                                    <option value="{{.}}">{{.}}</option>
+                                {{/each}}
+                            </select>
+
+                        </div>
+
             		</div>
             	</div>
             </div>
@@ -38,4 +89,3 @@
         </div>
     </div>
 </div>
-

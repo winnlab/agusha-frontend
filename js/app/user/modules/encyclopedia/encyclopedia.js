@@ -276,7 +276,7 @@ export default Controller.extend(
 				});
 				can.batch.stop();
 
-				if (data.documents < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+				if (data.documents.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
 					self.noMoreArts = true;
 					el.parent().hide();
 				}

@@ -52,6 +52,17 @@ export default Controller.extend(
 					self.updateSubscribe();
 				}
 			});
+
+			appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
+				if (appState.attr('user') && appState.attr('user').user() && appState.attr('user').user()._id) {
+					self.element.find('.carousel_container').hide();
+					var username = appState.attr('user').user().attr('profile.first_name');
+					self.element.find('.breadcrumbs span').html('/ ' + username)
+					self.element.find('.username').html(username)
+				} else {
+					self.element.find('.carousel_container').show();
+				}
+			});
 		},
 
 		select2: function() {
@@ -79,6 +90,7 @@ export default Controller.extend(
 
 			return html;
 		},
+
 		after_init: function(data) {
 			var auth = appState.attr('user').auth;
 
@@ -106,6 +118,7 @@ export default Controller.extend(
 			this.data = new can.Map({
 				articles: articles,
 				feed: feed,
+				feedLength: this.feedSource.length,
 				sort: 'desc',
 				filter: 0,
 				iconFilter: null,
@@ -138,7 +151,6 @@ export default Controller.extend(
 
 			this.items_container.html(can.view('mainArticlesView', this.data, encyclopediaHelpers));
 			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
-			loginForm.html(can.view('logIn', this.data.loginForm));
 
 			this.initPlugins();
 		},
@@ -155,59 +167,19 @@ export default Controller.extend(
 				self.feedSource = ([]).concat(self.themeSubs, self.consultations);
 				var data = self.getFilteredData(),
 					feed = encyclopediaHelpers.sortArticles(data, self.data.attr('sort'), true, true);
+
 				self.data.attr('feed', feed);
+				self.data.attr('feedLength', self.feedSource.length);
+				self.data.attr('themeSubs', self.themeSubs.length);
+				self.data.attr('consultations', self.consultations.length);
+
+
 				appState.attr('subsChanged', false);
 			}).fail(function () {
 				console.error(arguments);
 			});
 		},
 
-		'.social .facebook click': function(el, ev) {
-			ev.preventDefault();
-			window.location.href = '/login/fb';
-		},
-		'.social .vkontakte click': function(el, ev) {
-			ev.preventDefault();
-			window.location.href = '/login/vk';
-		},
-		'.social .ok click': function(el, ev) {
-			ev.preventDefault();
-			window.location.href = '/login/ok';
-		},
-
-		'.login_form .done click': function(el, ev) {
-			var data;
-			ev.preventDefault();
-
-			data = this.data.loginForm;
-
-			can.ajax({
-				url: '/login?ajax=true',
-				method: 'POST',
-				data: data.serialize(),
-				success: function(response) {
-					var user = appState.attr('user');
-
-					data.attr({
-						email: null,
-						password: null
-					});
-
-					if(!response.message || !response.message.user) {
-						return alert('Произошла ошибка при авторизации');
-					}
-
-					user.options.user.attr(response.message.user);
-
-					user.auth.attr('isAuth', true)
-
-					can.route.attr({module: 'profile'});
-				},
-				error: function (xhr, type, resp) {
-
-				}
-			});
-		},
 		isAuth: function (el, isAuth) {
 			var self = this;
 			if (isAuth) {
@@ -293,6 +265,11 @@ export default Controller.extend(
 
 		'.feed_select change': function (el) {
 			var val = +el.val();
+
+			if (val === 0) {
+				this.data.attr('iconFilter', false);
+			}
+
 			this.data.attr('feedFilter', val);
 			this.reRenderFeed();
 		},

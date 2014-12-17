@@ -35,7 +35,7 @@
 			<div class="userMeta">
 				<div class="userPic">
 					<div class="pic">
-						<img src="{{user.image.large}}" alt="">
+						<img src="{{getProfileImage 'large'}}" alt="">
 					</div>
 					<div class="buttons horizontal">
 						<div class="upload button" {{uploader 'profile'}}> Загрузить</div>
@@ -51,7 +51,6 @@
 							</div>
 							
 							<div class="stars">
-
 								{{#each levels}}
 									<div class="star {{name}} {{isFilledStart . user.points}}"></div>
 								{{/each}}
@@ -136,10 +135,61 @@
 							</div>
 						</div>
 						<div class="inner">
-							<div class="input_row birth_date">
-								<input type="text" placeholder="День" value="{{user.birth_date.day}}" can-value="user.birth_date.day" class="birth_day editableInput" >
-								<input type="text" placeholder="Мес." value="{{user.birth_date.month}}" can-value="user.birth_date.month" class="birth_month editableInput" >
-								<input type="text" placeholder="Год" value="{{user.birth_date.year}}" can-value="user.birth_date.year" class="birth_year editableInput" >
+							<div class="input_row user_birth_date birth_date">
+
+								<div class="customSelect customDay inactive" data-target="customDay">
+									<p class="content"><span class="value">{{#if user.birth_date.day}}{{user.birth_date.day}}{{else}}День{{/if}}</span> <span class="triangleDown">▾</span></p>
+									<div class="customSelectList">
+										{{#each dates.days}}
+											<p class="customSelectListItem" data-value="{{.}}">{{.}}</p>
+										{{/each}}
+									</div>
+								</div>
+
+                                <div class="customSelect customMonth inactive" data-target="customMonth">
+                                    <p class="content"><span class="value">{{#if user.birth_date.month}}{{getUserMonth user.birth_date.month}}{{else}}Мес.{{/if}}</span> <span class="triangleDown">▾</span></p>
+                                    <div class="customSelectList">
+										{{#each dates.months}}
+                                            <p class="customSelectListItem" data-value="{{@index}}">{{.}}</p>
+										{{/each}}
+                                    </div>
+                                </div>
+
+                                <div class="customSelect customYear inactive" data-target="customYear">
+                                    <p class="content"><span class="value">{{#if user.birth_date.year}}{{user.birth_date.year}}{{else}}Год.{{/if}}</span> <span class="triangleDown">▾</span></p>
+                                    <div class="customSelectList">
+										{{#each dates.years}}
+                                            <p class="customSelectListItem" data-value="{{.}}">{{.}}</p>
+										{{/each}}
+                                    </div>
+                                </div>
+
+								<div class="clearfix"></div>
+
+								<div style="display: none">
+
+                                    <select name="birth_date[day]" class="birth_day customDay" can-value="user.birth_date.day">
+                                        <option disabled="disabled" selected>День</option>
+										{{#each dates.days}}
+                                            <option value="{{.}}">{{.}}</option>
+										{{/each}}
+                                    </select>
+
+                                    <select name="birth_date[month]" can-value="user.birth_date.month" class="birth_month customMonth">
+                                        <option disabled="disabled" selected>Мес.</option>
+										{{#each dates.months}}
+                                            <option value={{@index}}>{{.}}</option>
+										{{/each}}
+                                    </select>
+                                    <select  name="birth_date[year]" can-value="user.birth_date.year" class="birth_year customYear">
+                                        <option disabled="disabled" selected>Год</option>
+										{{#each dates.years}}
+                                            <option value="{{.}}">{{.}}</option>
+										{{/each}}
+                                    </select>
+
+								</div>
+
 							</div>
 						</div>
 					</div>
@@ -183,7 +233,22 @@
 								<input class="editableInput" placeholder="Город" value="{{user.contacts.city}}" id="city" can-value="user.contacts.city" type="text" >
 							</div>
 							<div class="input_row">
-								<input class="editableInput" placeholder="Страна" value="{{user.contacts.country}}" id="country" can-value="user.contacts.country" type="text">
+
+                                <div class="customSelect customInput customCountry inactive" data-target="customCountry" id="country">
+                                    <p class="content"><span class="value">{{#if user.contacts.country}}{{user.contacts.country}}{{else}}Страна{{/if}}</span> <span class="triangleDown">▾</span></p>
+                                    <div class="customSelectList">
+										{{#each countries}}
+                                            <p class="customSelectListItem" data-value="{{.}}">{{.}}</p>
+										{{/each}}
+                                    </div>
+                                </div>
+
+								<div style="display: none">
+
+                                    <input can-value="user.contacts.country" class="editableInput customCountry" placeholder="Страна" value="{{user.contacts.country}}"  type="text">
+
+								</div>
+
 							</div>
 							<div class="input_row">
 								<input class="editableInput" placeholder="Улица" value="{{user.contacts.street}}" can-value="user.contacts.street" type="text" >
@@ -208,11 +273,16 @@
 								<input class="editableInput" {{tooltip user.errors 'email' 'right'}} placeholder="E-mail" value="{{user.email}}" can-value="user.email" type="text">
 							</div>
 							<div class="input_row">
-								<input class="editableInput" {{tooltip user.errors 'spareEmail' 'right'}} placeholder="Запасной E-mail" value="{{user.contacts.spareEmail}}" can-value="user.contacts.spareEmail" type="text" >
+								<input class="editableInput spareEmail" {{tooltip user.errors 'spareEmail' 'right'}} placeholder="Запасной E-mail" can-value="user.spareEmail" type="text" >
 							</div>
 						</div>
 					</div>
 				</div>
+
+                <button type="button" class="buttonSave saveProfileData">
+                    Сохранить
+                </button>
+
 				<div class="iAgreeBlock">
 					<div class="checkbox">
 						<input type="checkbox" id="user.agree" can-value="user.agree" {{isChekedAgree user.agree}} />
@@ -233,45 +303,57 @@
 					<div class="question_bubble tooltip agushaTooltip" title="Выберите для себя уникальный пароль и будьте уверены в том, что никто, кроме вас, не сможет воспользоваться вашим замечательным профилем.">?</div>
 				</div>
 			</div>
-			<div class="profileInfo passwordInfo passwords">
-				<div class="userInputs" style="margin-top: 0px;">
-					<div class="column middle">
-						<div class="inner">
-							<div class="input_row">
-								<input class="password" can-value="old_password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
-								<span class="switcher" data-passid="oldPass"></span>
-							</div>
-						</div>
-					</div>
-					<div class="column left">
-						<div class="inner">
-							<div class="input_row">
-								<input data-passid="pass" can-value="new_password" placeholder="Новый пароль" type="password" class="password" >
-								<span class="switcher" data-passid="pass"></span>
-							</div>
-						</div>
-					</div>
-					<div class="column right">
-						<div class="inner">
-							<div class="input_row">
-								<input data-passid="newPass" can-value="renew_password" class="password" placeholder="Новый пароль еще раз" type="password" >
-								<span class="switcher" data-passid="newPass"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 
-			<button type="button" class="buttonSave">
-				Сохранить
-			</button>
+        <form class="changePassword">
+
+            <div class="profileInfo passwordInfo passwords">
+                <div class="userInputs" style="margin-top: 0px;">
+                    <div class="column middle">
+                        <div class="inner">
+                            <div class="input_row">
+                                <input name="oldPassword" class="password" can-value="old_password" type="password" data-passid="oldPass" placeholder="Ваш старый пароль" >
+                                <span class="switcher" data-passid="oldPass"></span>
+                            </div>
+                        </div>
+                    </div>
+
+					<div class="newPasswordTooltip">
+
+                        <div class="column left">
+                            <div class="inner">
+                                <div class="input_row">
+                                    <input name="newPassword" data-passid="pass" can-value="new_password" placeholder="Новый пароль" type="password" class="password newPasswordValidate newPassword1" >
+                                    <span class="switcher" data-passid="pass"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column right">
+                            <div class="inner">
+                                <div class="input_row">
+                                    <input name="newPasswordCopy" data-passid="newPass" can-value="renew_password" class="password newPasswordValidate newPassword2" placeholder="Новый пароль еще раз" type="password" >
+                                    <span class="switcher" data-passid="newPass"></span>
+                                </div>
+                            </div>
+                        </div>
+
+					</div>
+
+                </div>
+            </div>
+
+            <button type="submit" class="buttonSave">
+                Изменить пароль
+            </button>
+
+        </form>
+
 
 			<div class="profileHead">
 				<div class="headWrap">
 					<h3 class="inner_title">
 						Пригласите друзей из соцсеточек
 					</h3>
-					<div class="question_bubble tooltip" title="Выберите Ваших друзей в соцсети и вышлите им приглашение присоединиться к Вам на сайте.">?</div>
+					<div class="question_bubble tooltip agushaTooltip" title="Выберите Ваших друзей в соцсети и вышлите им приглашение присоединиться к Вам на сайте.">?</div>
 				</div>
 			</div>
 			<div class="profileInfo passwordInfo profileSocials">
