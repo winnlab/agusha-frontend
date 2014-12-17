@@ -4,7 +4,6 @@ import tooltip from 'tooltipster';
 import _ from 'lodash';
 import childPopUp from 'lib/childPopUp/';
 import view from 'js/app/user/modules/profile/views/index.mustache!';
-import friendsМiew from 'js/app/user/modules/profile/views/friends.mustache!';
 import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.min';
 import select2 from 'select2';
 import s2Options from 'js/app/user/modules/profile/select2Options';
@@ -627,7 +626,7 @@ export default Controller.extend(
             });
         },
         /* VK friends invitation */
-        '.block.vk click': function () {
+        '.profileInvite.vk click': function () {
             VK.Auth.login(_.bind(this.handleAuthVK, this), 8198);
         },
         handleAuthVK: function (response) {
@@ -768,6 +767,7 @@ export default Controller.extend(
                 });
             })
         },
+
         checkSocialButton: function (btn) {
             btn
                 .addClass('sended')
@@ -775,6 +775,15 @@ export default Controller.extend(
                 .html('ОТПРАВЛЕНО')
                 .off('click');
         },
+
+        /* FB friends invitation */
+        '.profileInvite.fb click': function () {
+            FB.ui({
+                method: 'send',
+                link: window.location.origin
+            });
+        },
+        /* end of FB friends invitation */
 
         '.newPasswordValidate keyup': function (el, ev) {
             this.newPasswordValidate(el);

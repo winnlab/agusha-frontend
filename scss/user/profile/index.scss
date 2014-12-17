@@ -1290,7 +1290,7 @@ span.deleteicon {
 
 /* "Invite friends" start */
 .profileSocials {
-	margin-bottom: 50px;
+	padding-bottom: 50px;
 }
 
 .profileInvite {
@@ -1305,6 +1305,7 @@ span.deleteicon {
 	border-radius: 6px;
 	margin-top: 6px;
 	.img {
+		text-transform: none;
 		position: absolute;
 		width: 10px;
 		height: 10px;
@@ -1313,6 +1314,9 @@ span.deleteicon {
 	}
 	&.vk {
 		background-color: #4c75a3;
+	}
+	&.fb {
+		background-color: #3c599b;
 	}
 }
 
