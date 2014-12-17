@@ -65,9 +65,6 @@ can.mustache.registerHelper('tooltip', function(errors, property, position, opti
                 return;
             }
 
-            console.log('delegate:');
-            console.log(el);
-
             if(newVal == null) {
                 $(el).tooltipster('destroy');
                 return;
@@ -291,17 +288,6 @@ export default Controller.extend(
         }
     }, {
 		after_init: function(data) {
-            console.log('after init');
-            FB.init({
-                appId: 319137821610071,
-                cookie: true,
-                xfbml: true,
-                version: 'v2.1'
-            });
-
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
 
             System.import('./js/plugins/tooltipster/css/tooltipster.css!');
             System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
@@ -341,13 +327,27 @@ export default Controller.extend(
             
             $('.phoneInput').inputmask("+3 8(999) 999 - 99 - 99");
 
-            VK.init({
-              apiId: 4581691
-            });
-
             this.initCustomScrollbar();
             this.initSetPasswordTooltipster();
             this.initSpareEmailTooltipster();
+            this.initSocial();
+        },
+
+        initSocial: function () {
+            VK.init({
+                apiId: 4581691
+            });
+
+            FB.init({
+                appId: 319137821610071,
+                cookie: true,
+                xfbml: true,
+                version: 'v2.1'
+            });
+/*
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });*/
         },
 
         initSetPasswordTooltipster: function () {
@@ -429,12 +429,14 @@ export default Controller.extend(
         },
 
         '.social_buttons .fb click': function() {
-            var self = this;
+            window.location.href = '/registration/fb';
+
+/*            var self = this;
 
             FB.login(function(response){
                 console.log(response);
-/*                self.fbLoginResponse(response);*/
-            });
+                self.fbLoginResponse(response);
+            });*/
         },
 
         fbLoginResponse: function (response) {
@@ -467,6 +469,10 @@ export default Controller.extend(
                 // The person is not logged into Facebook, so we're not sure if
                 // they are logged into this app or not.
             }
+        },
+
+        '.social_buttons .ok click': function () {
+            window.location.href = '/registration/ok';
         },
 
         '.addChild click': function() {
@@ -513,7 +519,7 @@ export default Controller.extend(
 
             $('input[data-passid='+id+']').prop('type', function(idx, oldProp) {
                 if(oldProp == 'password')
-                    return 'text'
+                    return 'text';
 
                 return 'password'
             });
