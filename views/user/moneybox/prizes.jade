@@ -46,17 +46,19 @@
 		.images_container
 			.images_inside
 				| {{#each prizes}}
-				.column.moneybox_card
+				.column.moneybox_card(data-index = "{{@index}}")
 					.card_images
 						.img_container
-							img.active(src="{{.}}")
+							| {{#each .}}
+							img.card_image.card_image_selector(src="{{.}}", class = "card_image_{{@index}}{{#is @index 0}} active{{/is}}", data-index = "{{@index}}")
+							| {{/each}}
 						
 						.bottom
 							.arrow.left
 							.circles
-								.circle.active
-								.circle
-								.circle
+								| {{#each .}}
+								.circle.card_image_selector(class = "card_image_{{@index}}{{#is @index 0}} active{{/is}}", data-index = "{{@index}}")
+								| {{/each}}
 							.arrow.right
 				| {{/each}}
 | {{/each}}
