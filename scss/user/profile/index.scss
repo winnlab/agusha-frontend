@@ -2,6 +2,7 @@
 @import '../helpers/socialSprite';
 @import '../../../js/plugins/bourbon/dist/_bourbon';
 @import '../../customMixins';
+@import '../helpers/_modal';
 
 $barColor: #e3ddd2;
 // $overlayColor: #f2efed;
@@ -1335,53 +1336,36 @@ span.deleteicon {
 
 .pf-container {
 	@include vertical-align;
-	border-radius: 20px;
-	background: white;
 	padding: 20px 0;
 	width: 800px;
 	margin: 0 auto;
-	height: 70%;
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
-}
-
-.pf-close {
-	color: white;
-	border-radius: 50%;
-	background-color: rgb(76, 117, 163);
-	text-align: center;
-	font-size: 16px;
-	height: 22px;
-	width: 22px;
-	position: absolute;
-	top: 14px;
-	right: 14px;
-	cursor: pointer;
+	height: 420px;
 }
 
 .pf-title {
 	width: 100%;
 	height: 12%;
-	color: black;
-	font-size: 30px;
+	color: #676767;
+	font-size: 24px;
+	font-family: 'PT_Sans_Narrow_Bold';
 }
 
 .pf-items {
 	margin: 0 auto;
-	width: 72%;
-	height: 88%;
-	overflow-y: auto;
-	overflow-x: hidden;
+	width: 660px;
+	height: 380px;
+	overflow: auto;
 }
 
 .pf-friend {
-	width: 22%;
-	margin: 1% 1% 5% 1%;
+	width: 130px;
+	margin: 10px 10px 15px;
 	display: inline-block;
 	text-align: center;
 }
 
 .pf-img {
-	border-radius: 50%;
+	@include rounded;
 	width: 80px;
 	height: 80px;
 }
@@ -1389,17 +1373,21 @@ span.deleteicon {
 .pf-name {
 	height: 36px;
 	text-align: center;
+	color: #4d4d4d;
 }
 
 .pf-send {
-	background-color: #4c75a3;
-	border-radius: 4px;
+	@include border_radius(3px);
+	background-color: $bluefont;
 	margin-top: 8px;
-	padding: 4px 0;
-	font-size: 80%;
-	width: 90%;
+	padding: 0;
+	width: 130px;
+	height: 30px;
+	color: $white;
+	font-size: 14px;
+	
 	&.sended {
-		background-color: #D0D0D0 !important;
+		background-color: #cccccc !important;
 	}
 }
 /* "Invite friends" ending */

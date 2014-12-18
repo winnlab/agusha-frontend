@@ -1,14 +1,16 @@
-<div class="pf-wrap">
-    <div class="pf-container">
+<div class="pf-wrap modal active">
+    <div class="pf-container modal_bg">
         <div class="pf-title">
             ВАШИ ДРУЗЬЯ В {{socialNetwork}}
         </div>
-        <div class="pf-close" {{close}}>&times;</div>
+        <div class="pf-close close" {{close}}></div>
         <div class="pf-items">
             {{#each friends}}
                 <div class="pf-friend">
                     <img src="{{photo}}" class="pf-img" />
-                    <div class="pf-name">{{first_name}}&nbsp;{{last_name}}</div>
+                    <div class="pf-name">
+						{{first_name}} {{last_name}}
+					</div>
                     <div>
                         <button class="pf-send" {{sendMessage}} data-id="{{uid}}">
                             ПРИГЛАСИТЬ
