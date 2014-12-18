@@ -11,7 +11,7 @@ block content
 	.module.server#main
 		include content
 
-block append scripts
+block prepend scripts
 	script.
 		var app = {
 			articles: !{JSON.stringify(articles)},

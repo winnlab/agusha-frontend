@@ -13,7 +13,7 @@
 		div розыгрыш!
 
 | {{#each prizes}}
-.prizeGroup(style="{{showPrizes allPrizes ../points .}}")
+.prizeGroup(style="{{showPrizes allPrizes ../points .}}", data-index = "{{@index}}")
 	.prizes_topper
 		.you_participate
 			.half.left
@@ -24,8 +24,12 @@
 				.adorable_table
 					.adorable_cell
 						img.left_arrow(src="/img/user/article/left_arrow.png")
-						span 1 / 3
+						span
+							span.currentPage 1
+							span  / 
+							span.pages 1
 						img.right_arrow(src="/img/user/article/right_arrow.png")
+	
 	.cards_container
 		.column.level_card
 			.adorable_table
@@ -38,19 +42,25 @@
 					.prize_name
 						div= '{{prizeName}}'
 						div= '{{prizeQty}}'
-		| {{#each prizes}}
-		.column.moneybox_card
-			.card_images
-				.img_container
-					img.active(src="{{.}}")
-				.bottom
-					.arrow.left
-					.circles
-						.circle.active
-						.circle
-						.circle
-					.arrow.right
-		| {{/each}}
+		
+		.images_container
+			.images_inside
+				| {{#each prizes}}
+				.column.moneybox_card(data-index = "{{@index}}")
+					.card_images
+						.img_container
+							| {{#each .}}
+							img.card_image.card_image_selector(src="{{.}}", class = "card_image_{{@index}}{{#is @index 0}} active{{/is}}", data-index = "{{@index}}")
+							| {{/each}}
+						
+						.bottom
+							.arrow.left
+							.circles
+								| {{#each .}}
+								.circle.card_image_selector(class = "card_image_{{@index}}{{#is @index 0}} active{{/is}}", data-index = "{{@index}}")
+								| {{/each}}
+							.arrow.right
+				| {{/each}}
 | {{/each}}
 
 .all_prizes

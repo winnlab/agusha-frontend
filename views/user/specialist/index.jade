@@ -7,7 +7,7 @@ block content
 	.module.server.specialist
 		include content
 
-block append scripts
+block prepend scripts
 	script.
 		var app = {
 			consultations: !{JSON.stringify(articles)},

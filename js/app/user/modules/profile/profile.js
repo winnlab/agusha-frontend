@@ -329,13 +329,10 @@ export default Controller.extend(
             this.initCustomScrollbar();
             this.initSetPasswordTooltipster();
             this.initSpareEmailTooltipster();
-            this.initSocial();
+            //this.initSocial();
         },
 
         initSocial: function () {
-            VK.init({
-                apiId: 4581691
-            });
 
             FB.init({
                 appId: 319137821610071,
@@ -687,6 +684,23 @@ export default Controller.extend(
                 });
 
             $('body').append(renderer);
+			
+			console.log($(".pf-items"));
+			
+			$(".pf-items").mCustomScrollbar({
+                theme: "dark-thin",
+                axis: 'y',
+                height: 300,
+                scrollInertia: 400,
+                scrollButtons: {
+                    enable: false,
+                    scrollAmount: 200,
+                    scrollType: 'stepless'
+                },
+                advanced:{
+                    updateOnContentResize: true
+                }
+            });
         },
         sendMessageVK: function (uid, btn) {
             var self = this;
