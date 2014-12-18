@@ -341,7 +341,7 @@ export default Controller.extend(
                 appId: 319137821610071,
                 cookie: true,
                 xfbml: true,
-                version: 'v2.1'
+                version: 'v2.2'
             });
 /*
             FB.getLoginStatus(function(response) {
