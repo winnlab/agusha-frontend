@@ -329,7 +329,7 @@ export default Controller.extend(
             this.initCustomScrollbar();
             this.initSetPasswordTooltipster();
             this.initSpareEmailTooltipster();
-            //this.initSocial();
+            this.initSocial();
         },
 
         initSocial: function () {
