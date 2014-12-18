@@ -36,6 +36,10 @@ var Core = can.Control.extend(
 			this.resize();
 			
 			appState.delegate('moneybox', 'set', can.proxy(this.moneyboxed, this));
+
+			VK.init({
+				apiId: 4581691
+			});
 		},
 		
 		moneyboxed: function (ev, newVal) {
