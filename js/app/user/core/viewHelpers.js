@@ -155,7 +155,7 @@ can.mustache.registerHelper('getProfileImage', function(label) {
 
 can.mustache.registerHelper('showChildImage', function(image, gender) {
     var result = '/img/user/helpers/stub/ava_child.png';
-    
+
     if (image() && image().length > 0) {
         result = image;
     } else if (gender() == 1) {
