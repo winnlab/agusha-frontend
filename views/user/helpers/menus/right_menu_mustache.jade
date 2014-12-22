@@ -15,7 +15,7 @@
 		)
 		.avatar
 			| {{#if auth.isAuth}}
-			img.rounded(src="{{getProfileImage 'large'}}")
+			img.rounded(src="{{getProfileImage 'medium'}}")
 			| {{/if}}
 		.name {{fullName}}
 
@@ -24,7 +24,7 @@
 			| {{log}}
 			.child
 				.image
-					img.rounded(src="{{image.small}}")
+					img.rounded(src="{{showChildImage image.small gender}}")
 				
 				.desc
 					.adorable_table

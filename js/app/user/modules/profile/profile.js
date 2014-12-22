@@ -22,7 +22,7 @@ import Profile from 'js/app/user/modules/profile/profileModel';
 import PopUp from 'js/app/user/lib/popUp/popUp';
 
 var invMessages = {
-    vk: 'Привет, хало, слалют.'
+    vk: 'Быть родителем интересно!\n\rОсобенно если знаешь, как правильно воспитывать, кормить, пеленать, развлекать и ухаживать за маленькой непоседой. У вас тоже есть детки? Тогда вам сюда!'
 };
 
 var levels = [
@@ -329,7 +329,7 @@ export default Controller.extend(
             this.initCustomScrollbar();
             this.initSetPasswordTooltipster();
             this.initSpareEmailTooltipster();
-            //this.initSocial();
+            this.initSocial();
         },
 
         initSocial: function () {
@@ -338,7 +338,7 @@ export default Controller.extend(
                 appId: 319137821610071,
                 cookie: true,
                 xfbml: true,
-                version: 'v2.1'
+                version: 'v2.2'
             });
 /*
             FB.getLoginStatus(function(response) {
@@ -444,8 +444,6 @@ export default Controller.extend(
 
                     response.user = userResponse;
 
-                    console.log(userResponse);
-
 /*                    can.ajax({
                         url: '/user/facebook',
                         type: 'POST',
@@ -527,7 +525,6 @@ export default Controller.extend(
 
             this.options.model.save()
                 .done(function(){
-                    console.log('done saveModel');
                     appState.attr('moneybox', true);
                 })
                 .fail(function() {
@@ -684,8 +681,6 @@ export default Controller.extend(
                 });
 
             $('body').append(renderer);
-			
-			console.log($(".pf-items"));
 			
 			$(".pf-items").mCustomScrollbar({
                 theme: "dark-thin",
