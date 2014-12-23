@@ -1,5 +1,6 @@
-import can from'can/'
 import _ from 'lodash'
+import can from'can/'
+import moment from 'js/plugins/moment/min/moment-with-locales.min'
 import 'js/app/admin/lib/viewport'
 
 'use strict';
