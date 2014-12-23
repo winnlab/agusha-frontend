@@ -309,7 +309,23 @@ table tr {
 		text-align: left;
 		line-height: 17px;
 		text-decoration: inherit;
-
+		
+		&.profile {
+			.icon {
+				&:before {
+					height: 32px;
+					width: 34px;
+					background: url('/img/user/core/settings_icon.png') no-repeat;
+				}
+			}
+			
+			.label {
+				&:before {
+					content: 'Настройки';
+				}
+			}
+		}
+		
 		&.messages {
 			.label {
 				&:before {
@@ -381,6 +397,12 @@ table tr {
 					top: -8px;
 					width: 10px;
 					height: 50px;
+				}
+				
+				&.profile {
+					.icon:before {
+						background-position: 0 -33px;
+					}
 				}
 
 				&.messages {

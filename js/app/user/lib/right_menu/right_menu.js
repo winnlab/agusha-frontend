@@ -13,8 +13,8 @@ var RightMenu = can.Control.extend({
 		this.bindFilling();
 	},
 	'.settings click': function(el, ev) {
-		ev.stopPropagation()
-		can.route.attr({module: 'profile'})
+		ev.stopPropagation();
+		can.route.attr({module: 'profile'}, true);
 	},
 	bindFilling: function() {
 		var user = appState.attr('user').options.user;

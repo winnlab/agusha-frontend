@@ -70,15 +70,15 @@
 									<img class="tell_friends" src="{{ site.baseUrl }}img/user/helpers/email/tell_friends.png" />
 									
 									<div class="social">
-										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
+										<a class="social_icon" href="{{ site.baseUrl }}" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/facebook.png" />
 										</a>
 										
-										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
+										<a class="social_icon" href="{{ site.baseUrl }}" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/vk.png" />
 										</a>
 										
-										<a class="social_icon" href="http://agusha.com.ua:8080" target="_blank">
+										<a class="social_icon" href="{{ site.baseUrl }}" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/odnoklasniki.png" />
 										</a>
 									</div>
@@ -94,7 +94,7 @@
 									</div>
 									
 									<div class="half right">
-										<a class="decline" href="http://agusha.com.ua:8080" target="_blank">
+										<a class="decline" href="{{ site.baseUrl }}" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/decline.png" />
 										</a>
 									</div>
