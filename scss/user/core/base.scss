@@ -465,6 +465,21 @@ table tr {
 		letter-spacing: 0;
 	}
 	
+	.count {
+		@include border_radius(9px);
+		position: absolute;
+		right: 12px;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		background-color: $darkblue;
+		line-height: 20px;
+		font-size: 12px;
+		padding: 0 9px;
+		z-index: 5;
+		height: 20px;
+	}
+	
 	.right_footer {
 		position: absolute;
 		bottom: 0;
