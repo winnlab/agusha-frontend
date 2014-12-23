@@ -8,7 +8,10 @@ if user
 			if like.client.toString() == userId.toString()
 				- isLiked = 'isLiked'
 
-.bg(style=(consultation.age && consultation.age.length > 0 && consultation.age[0].fixture ? 'background-image: url("/img/uploads/#{consultation.age[0].fixture}");' : 'background-image: url("/img/user/question/bg.jpg");'))
+.bg.questionBackground
+	div.bgImageWrapper
+		.darkenBg
+		img(src=(consultation.age && consultation.age.length > 0 && consultation.age[0].fixture ? "/img/uploads/#{consultation.age[0].fixture}" : "/img/user/question/bg.jpg"))
 
 .content
 	include ../helpers/breadcrumbs
@@ -177,7 +180,7 @@ if user
 			//- 		.tag вызывает у вас
 			//- 		.tag сомнений
 	
-	.social
+	.social.socialWrapper
 		.adorable_table
 			.adorable_cell
 				.social_button
