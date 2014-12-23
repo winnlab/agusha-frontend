@@ -156,15 +156,18 @@
                     <button type="button" class="btn btn-{{#if addingComment}}warning{{else}}primary{{/if}} addComment">
                         {{#if addingComment}}
                             <i class="fa fa-minus"></i>
-                            <span>Скрыть добавление комментария</span>
+                            <span>Скрыть добавление ответа</span>
                         {{else}}
                             <i class="fa fa-plus"></i>
-                            <span>Добавить комментарий</span>
+                            <span>Добавить ответ</span>
                         {{/if}}
                     </button>
                 </div>
                 <div class="panel-body {{#unless addingComment}}hidden{{/unless}}">
-                    <textarea class="form-control" {{wysiwyg}}></textarea>
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea class="form-control" {{wysiwyg}}></textarea>
+                    </div>
                     <div class="well">
                         <button type="button" class="btn btn-success confirmComment">
                                 <i class="fa fa-ok"></i>
