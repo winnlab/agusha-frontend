@@ -8,7 +8,7 @@ if user
 			if like.client.toString() == userId.toString()
 				- isLiked = 'isLiked'
 
-.bg
+.bg(style=(consultation.age && consultation.age.length > 0 && consultation.age[0].fixture ? 'background-image: url("/img/uploads/#{consultation.age[0].fixture}");' : 'background-image: url("/img/user/question/bg.jpg");'))
 
 .content
 	include ../helpers/breadcrumbs
@@ -123,7 +123,7 @@ if user
 
 					.authorImage
 						if user.image
-							img(src=(user.image.small ? '/img/uploads/x160/' + user.image.small : '/img/user/helpers/stub/small.png'))
+							img(src=(user.image.small ? user.image.small : '/img/user/helpers/stub/small.png'))
 						else
 							img(src=('/img/user/helpers/stub/small.png'))
 					.responseBody
