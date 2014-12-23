@@ -150,8 +150,8 @@
 							.image
 								.avatar.rounded
 									- var avatarPath = "/img/user/helpers/stub/small.png"
-									if commentaryItem.client && commentaryItem.client.profile && commentaryItem.client.profile.image
-										- avatarPath = "/img/uploads/#{commentaryItem.client.profile.image}"
+									if commentaryItem.client && commentaryItem.client.image
+										- avatarPath = commentaryItem.client.image
 									img.rounded(src=avatarPath)
 							.text
 								.time
