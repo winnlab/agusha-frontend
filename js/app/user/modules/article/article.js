@@ -57,6 +57,8 @@ export default Controller.extend(
 			if(ok_bottom.length) {
 				OK.CONNECT.insertShareWidget("ok_bottom_" + this.id, document.URL, ok_options);
 			}
+			
+			FB.XFBML.parse(this.element[0]);
 		},
 		
 		after_init: function(data) {
