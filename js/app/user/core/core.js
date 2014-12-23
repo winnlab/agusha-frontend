@@ -56,6 +56,7 @@ var Core = can.Control.extend(
 			}).done(function (data) {
 				console.log(data);
 				$('#right_menu_small .points_number').html(data.data.points);
+				$('#right_menu .moneybox .count').html(data.data.points);
 				appState.attr('moneybox', false);
 			});
 		},
