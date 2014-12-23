@@ -53,7 +53,7 @@ export default Controller.extend(
 				OK.CONNECT.insertShareWidget("ok_top_" + this.id, document.URL, ok_options);
 			}
 			
-			var ok_bottom = $('ok_bottom_' + this.id);
+			var ok_bottom = $('#ok_bottom_' + this.id);
 			if(ok_bottom.length) {
 				OK.CONNECT.insertShareWidget("ok_bottom_" + this.id, document.URL, ok_options);
 			}
