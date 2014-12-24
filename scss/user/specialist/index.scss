@@ -8,7 +8,7 @@
 
 .module.specialist {
 	width: 100%;
-	
+
 	.bg {
 		position: absolute;
 		width: 100%;
@@ -22,7 +22,7 @@
 			top: 0;
 			left: 0;
 		}
-		
+
 		&:after {
 			@include pseudo;
 			width: 100%;
@@ -32,11 +32,21 @@
 			left: 0;
 		}
 	}
-	
+
 	.content {
 		margin: 0 auto;
 		text-align: left;
-		width: 920px;
+		@include respond-to(small) {
+			width: 620px;
+		}
+
+		@include respond-to(medium) {
+			width: 920px;
+		}
+
+		@include respond-to(large) {
+			width: 1220px;
+		}
 
 		&:before {
 			@include pseudo;

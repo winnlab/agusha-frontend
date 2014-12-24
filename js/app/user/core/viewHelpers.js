@@ -26,8 +26,7 @@ can.mustache.registerHelper('getUserImg', function (article) {
         && article.author.author_id.image
         && article.author.author_id.image.medium
     ) {
-        result = article.author.author_id.image.medium
-        console.log(article.author.author_id.image.medium);
+        result = article.author.author_id.image.medium;
     }
 
     return result;
@@ -125,7 +124,7 @@ can.mustache.registerHelper('isWatched', function (article) {
             return user._id == watch;
         });
     }
-    return (result && result !== -1) ? 'isWatched' : '';
+    return (result !== false && result !== -1) ? 'isWatched' : '';
 });
 
 can.mustache.registerHelper('isSpecAns', function (article, options) {
