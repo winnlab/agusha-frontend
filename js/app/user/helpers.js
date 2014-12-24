@@ -45,7 +45,7 @@ window.requestAnimFrame = (function() {
 
 window.fbAsyncInit = function() {
 	FB.init({
-		appId:		'783157918387726',
+		appId:		'812840382107432',
 		xfbml:		true,
 		version:	'v2.2'
 	});

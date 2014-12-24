@@ -335,7 +335,7 @@ export default Controller.extend(
         initSocial: function () {
 
             FB.init({
-                appId: 319137821610071,
+                appId: 812840382107432,
                 cookie: true,
                 xfbml: true,
                 version: 'v2.2'
