@@ -22,7 +22,7 @@ import Profile from 'js/app/user/modules/profile/profileModel';
 import PopUp from 'js/app/user/lib/popUp/popUp';
 
 var invMessages = {
-    vk: 'Быть родителем интересно!\n\rОсобенно если знаешь, как правильно воспитывать, кормить, пеленать, развлекать и ухаживать за маленькой непоседой. У вас тоже есть детки? Тогда вам сюда! ' + window.location.origin + + "?referer=" + appState.attr('user').user().attr('_id')
+    vk: 'Быть родителем интересно!\n\rОсобенно если знаешь, как правильно воспитывать, кормить, пеленать, развлекать и ухаживать за маленькой непоседой. У вас тоже есть детки? Тогда вам сюда! '
 };
 
 var levels = [
@@ -751,10 +751,15 @@ export default Controller.extend(
             var images = response.response,
                 self = this;
 
+            var attachments = '';
+
+            attachments += window.location.origin + + "?referer=" + appState.attr('user').user().attr('_id');
+            attachments += images && images[0] && images[0].id || '';
+
             VK.Api.call('wall.post', {
                 owner_id: uid,
                 message: invMessages.vk,
-                attachments: images && images[0] && images[0].id || ''
+                attachments: attachments
             }, function (response) {
                 if (response) {
                     can.ajax({
