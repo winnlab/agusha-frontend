@@ -22,7 +22,7 @@ import Profile from 'js/app/user/modules/profile/profileModel';
 import PopUp from 'js/app/user/lib/popUp/popUp';
 
 var invMessages = {
-    vk: 'Быть родителем интересно!\n\rОсобенно если знаешь, как правильно воспитывать, кормить, пеленать, развлекать и ухаживать за маленькой непоседой. У вас тоже есть детки? Тогда вам сюда!'
+    vk: 'Быть родителем интересно!\n\rОсобенно если знаешь, как правильно воспитывать, кормить, пеленать, развлекать и ухаживать за маленькой непоседой. У вас тоже есть детки? Тогда вам сюда! ' + window.location.origin + + "?referer=" + appState.attr('user').user().attr('_id')
 };
 
 var levels = [
@@ -789,7 +789,7 @@ export default Controller.extend(
         '.profileInvite.fb click': function () {
             FB.ui({
                 method: 'send',
-                link: window.location.origin
+                link: window.location.origin + "?referer=" + appState.attr('user').user().attr('_id')
             });
         },
         /* end of FB friends invitation */
