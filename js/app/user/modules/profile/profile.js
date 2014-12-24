@@ -754,7 +754,7 @@ export default Controller.extend(
             var attachments = '';
 
             attachments += window.location.origin + + "/?referer=" + appState.attr('user').user().attr('_id');
-            attachments = encodeURI(attachments);
+            attachments = encodeURIComponent(attachments);
             attachments += images && images[0] && images[0].id || '';
 
             VK.Api.call('wall.post', {
