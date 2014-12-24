@@ -163,9 +163,10 @@ export default Controller.extend(
 			data.theme_id = self.element.find('select.specialist_theme_select').val();
 
 			if (!el.valid()) {
-				return appState.attr('popUp').show({
-					text: 'Пожалуйста заполните все поля.'
-				});
+				// return appState.attr('popUp').show({
+				// 	text: 'Пожалуйста заполните все поля.'
+				// });
+				return;
 			}
 
 			can.ajax({
@@ -212,6 +213,12 @@ export default Controller.extend(
 						maxlength: "Максимальное количество символов для описания вопроса - 300.",
 						required: "Описание вопроса это обязательное поле."
 					}
+				},
+				showErrors: function (errors) {
+					return appState.attr('popUp').show({
+						text: (errors.name ? errors.name + "<br />" : '') + (errors.text ? errors.text : ''),
+						status: 'error'
+					});
 				}
 			});
 		}

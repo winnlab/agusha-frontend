@@ -12,6 +12,10 @@
         display: table;
     }
 
+    &.error {
+        background: rgba(255, 99, 71, 0.9);
+    }
+
     .popUpBody {
         display: table-cell;
         vertical-align: middle;
@@ -23,7 +27,7 @@
         display: inline-block;
         position: relative;
         background: $bg;
-        width: 320px;        
+        width: 320px;
         border-radius: 20px;
         border: 3px solid #fff;
         padding: 75px 10px;

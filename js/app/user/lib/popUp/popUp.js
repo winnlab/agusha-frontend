@@ -44,6 +44,7 @@ export default can.Control.extend({
             visible: true,
             title: options.title,
             text: options.text,
+            status: options.status || 'info',
             cb: options.cb
         });
     },
