@@ -63,6 +63,22 @@ export default Controller.extend(
 					self.element.find('.carousel_container').show();
 				}
 			});
+
+			can.bind.call(appState, "toggleWatch", can.proxy(this.toggleWatch, this))
+		},
+
+		toggleWatch: function (ev, id, doc) {
+			var userId = appState.attr('user').user().attr('_id'),
+				consIndex = _.findIndex(this.data.attr('feed'), { _id: id });
+
+			if (consIndex === -1) {
+				this.data.attr('feed').push(doc);
+				this.feedSource.push(doc);
+				return;
+			} else {
+				this.data.attr('feed').splice(consIndex, 1);
+				this.feedSource.splice(_.findIndex(this.feedSource, { _id: id }), 1);
+			}
 		},
 
 		select2: function() {
@@ -245,7 +261,8 @@ export default Controller.extend(
 				}
 				switch (filterIt) {
 					case 'watchers':
-						return !!(item.watchers && item.watchers.length);
+						var userId = appState.attr('user').user().attr('_id');
+						return !!(item.watchers && item.watchers.indexOf(userId) !== -1);
 						break;
 					case 'recommended':
 						return !!item.recommended;

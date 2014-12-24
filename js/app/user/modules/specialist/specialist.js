@@ -1,6 +1,7 @@
 import Controller from 'controller';
 import select2 from 'select2';
 import appState from 'core/appState';
+import validator from 'jquery-validation';
 
 var ViewModel = can.Map.extend({
 		isAuth: appState.attr('user').auth.attr('isAuth'),
@@ -83,7 +84,7 @@ export default Controller.extend(
 			this.formWrap.html(can.view('consultation_view', this.data));
 			this.itemsContainer.html(can.view('specialist_view', this.data, {
 				getClassName: function (index) {
-					return (index - 6) % 5 == 0 ? 'double' : '';
+					return (index - 4) % 5 == 0 ? 'double' : '';
 				},
 				filterIt: function (entity, filter) {
 					filter = filter();
@@ -91,7 +92,11 @@ export default Controller.extend(
 						return !entity.attr('recommended') ? 'display: none' : '';
 					}
 					if (filter == 'watchers') {
-						return !entity.attr('watchers').length ? 'display: none' : '';
+						var userId = appState.attr('user').user().attr('_id');
+						if (!userId) {
+							return !entity.attr('watchers').length ? 'display: none' : '';
+						}
+						return entity.attr('watchers').indexOf(userId) === -1 ? 'display: none' : '';
 					}
 					if (filter == 'spec') {
 						return !!_.find(entity.attr('answer'), function (answer) {
@@ -111,6 +116,19 @@ export default Controller.extend(
 				that.select2Options.width = '100%'
 				that.element.find('select.specialist_theme_select, select.specialist_age_select').select2(that.select2Options);
 			});
+			can.bind.call(appState, "toggleWatch", can.proxy(that.toggleWatch, that))
+		},
+
+		toggleWatch: function (ev, id) {
+			var userId = appState.attr('user').user().attr('_id'),
+				consIndex = _.findIndex(this.data.attr('articles'), { _id: id }),
+				userIndex = this.data.attr('articles.' + consIndex + '.watchers').indexOf(userId);
+
+			if (userIndex !== -1) {
+				this.data.attr('articles.' + consIndex + '.watchers').splice(userIndex, 1);
+			} else {
+				this.data.attr('articles.' + consIndex + '.watchers').push(userId);
+			}
 		},
 
 		'.icon click': function (el) {
@@ -137,13 +155,14 @@ export default Controller.extend(
 
 		'form submit': function (el, ev) {
 			ev.preventDefault();
+			this.validate(el);
 
 			var self = this,
 				data = can.deparam(el.serialize());
 			data.age_id = self.element.find('select.specialist_age_select').val();
 			data.theme_id = self.element.find('select.specialist_theme_select').val();
 
-			if (!data.text || !data.name) {
+			if (!el.valid()) {
 				return appState.attr('popUp').show({
 					text: 'Пожалуйста заполните все поля.'
 				});
@@ -169,7 +188,32 @@ export default Controller.extend(
 					text: text
 				});
 			});
+		},
 
+		validate: function (form) {
+			return form.validate({
+				errorPlacement: function() {},
+				rules: {
+					name: {
+						maxlength: 100,
+						required: true
+					},
+					text: {
+						maxlength: 300,
+						required: true
+					}
+				},
+				messages: {
+					name: {
+						maxlength: "Максимальное количество символов для вопроса - 100.",
+						required: "Вопрос это обязательное поле."
+					},
+					text: {
+						maxlength: "Максимальное количество символов для описания вопроса - 300.",
+						required: "Описание вопроса это обязательное поле."
+					}
+				}
+			});
 		}
     }
 );

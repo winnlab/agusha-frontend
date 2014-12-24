@@ -1,4 +1,5 @@
 @import '../dynamic/dynamic';
+@import '../../bourbon/bourbon';
 
 .card {
 	@include column;
@@ -401,6 +402,12 @@
 		.topper_text {
 			display: block;
 		}
+		.user_content {
+			display: none;
+		}
+	}
+	&.no-image:hover .user_content {
+		display: block;
 	}
 
 	&.no-image {
@@ -469,10 +476,20 @@
 		}
 	}
 
+	&.double {
+		.user_content {
+			left: 0;
+			@include transform(translateX(0));
+		}
+	}
+
 	.user_content {
 		padding: 20px 10px 20px;
 		text-align: center;
-		position: relative;
+		position: absolute;
+		left: 50%;
+		@include transform(translateX(-50%));
+		bottom: 56px;
 		z-index: 20;
 		color: $white;
 

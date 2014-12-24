@@ -64,13 +64,13 @@ mixin article(a, i)
     - var articleType = 'author'
     
     if a
-        - classname = (i - 6) % 5 == 0 ? 'double' : ''
+        - classname = (i - 4) % 5 == 0 ? 'double' : ''
     else
         - classname = '{{getClassName @index}}'
     
     - classname += ' ' + articleType
     
-    a(class="new_module card #{classname}" href='/question/' + (a ? a.transliterated : '{{transliterated}}') style=(a ? '' : '{{filterIt . filter}}'))
+    a(class="new_module no-image card #{classname}" href='/question/' + (a ? a.transliterated : '{{transliterated}}') style=(a ? '' : '{{filterIt . filter}}'))
         .inner
             .topper
                 .topper_label
