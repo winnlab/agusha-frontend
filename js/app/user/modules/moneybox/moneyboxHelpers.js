@@ -57,7 +57,7 @@ export default {
         return moment( computedVal(time) ).format('DD.MM.YYYY');
     },
     getTime: function (time) {
-        return moment( computedVal(time) ).format('hh:mm');
+        return moment( computedVal(time) ).format('HH:mm');
     },
     onWebSite: function (activatedAt) {
         activatedAt = computedVal(activatedAt);
