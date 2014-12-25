@@ -5,7 +5,7 @@ import validator from 'jquery-validation';
 
 var ViewModel = can.Map.extend({
 		isAuth: appState.attr('user').auth.attr('isAuth'),
-		sort: 'asc',
+		sort: 'desc',
 		filter: ''
 	});
 
@@ -140,7 +140,7 @@ export default Controller.extend(
 		},
 
 		'.specialist_sort_select change': function (el)  {
-			this.data.attr('sort', el.val() === 1 ? 'asc' : 'desc');
+			this.data.attr('sort', +el.val() === 1 ? 'desc' : 'asc');
 		},
 
 		'.specialist_age_select change': function (el)  {
