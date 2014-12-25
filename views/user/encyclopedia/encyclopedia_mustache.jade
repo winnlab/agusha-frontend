@@ -1,5 +1,10 @@
 include helpers
-
+| {{#unless articles.length}}
+| {{#isnt filter 0}}
+h1.emptyFilter= 'Извините, ваш фильтр настроен слишком строго!'
+| {{/isnt}}
+| {{/unless}}
+| {{/unless}}
 | {{#each articles}}
 mixin article()
 | {{/each}}

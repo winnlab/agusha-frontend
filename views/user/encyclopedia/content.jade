@@ -57,12 +57,15 @@ include helpers
 				select.author_select
 					- var countIt = function (type) {
 						- if (type == 0) {
-							- return articles.length;
+							- return articles.documents.length;
 						- }
 						- var count = 0;
-						- for (var i = 0, ln = articles.length; i < ln; i += 1) {
-							- var a = articles[i];
+						- for (var i = 0, ln = articles.documents.length; i < ln; i += 1) {
+							- var a = articles.documents[i];
 							- if (a.type.name == type) {									
+								- count += 1
+							- }
+							- if (type == 'Тема недели' && a.recommended) {
 								- count += 1
 							- }
 						- } 

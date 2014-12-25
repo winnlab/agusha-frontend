@@ -480,7 +480,7 @@ $ageFilterWidth: 160px;
 	}
 
 	.author_select {
-		width: 150px;
+		width: 210px;
 		@include box_shadow(1px 0 0 0 #e5e5e5);
 		margin-right: 1px !important;
 	}
@@ -612,6 +612,10 @@ $ageFilterWidth: 160px;
 		}
 	}
 
+	.emptyFilter {
+		text-align: center;
+		padding: 100px 0;
+	}
 }
 
 .encyclopedia_select2_result {

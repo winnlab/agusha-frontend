@@ -167,8 +167,29 @@ export default Controller.extend(
 
 		reRenderArticles: function () {
 			if (this.data) {
-				var articles = encyclopediaHelpers.sortArticles(this.articlesSource, this.data.attr('sort'), can.proxy(this.isXL, this));
+				var articles = encyclopediaHelpers.sortArticles(this.getFilteredData(), this.data.attr('sort'), can.proxy(this.isXL, this));
 				this.data.attr('articles', articles);
+			}
+		},
+
+		getFilteredData: function () {
+			var filter = this.data.attr('filter');
+
+			switch (filter) {
+				case 0:
+					return this.articlesSource;
+					break;
+				case 'Статья от редакции': // Omited break
+				case 'Статья от специалиста':
+					return _.filter(this.articlesSource, function (article) {
+						return article.type.name == filter;
+					});
+					break;
+				case 'Тема недели':
+					return _.filter(this.articlesSource, function (article) {
+						return article.recommended;
+					});
+					break;
 			}
 		},
 
@@ -183,7 +204,6 @@ export default Controller.extend(
 			this.theme_filter.addClass(this.active);
 
 			this.setScroll();
-
 		},
 
 		setScroll: function () {
@@ -214,6 +234,7 @@ export default Controller.extend(
 
 		'.author_select change': function (el) {
 			this.data.attr('filter', el.val());
+			this.reRenderArticles();
 		},
 
 		'.subscribeIt click': function () {

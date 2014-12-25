@@ -19,6 +19,11 @@ block prepend scripts
 		mixin theme()
 		| {{/each}}
 	script#encyclopedia_mustache(type="text/mustache")
+		| {{#unless articles.length}}
+		| {{#isnt filter 0}}
+		h1.emptyFilter= 'Извините, ваш фильтр настроен слишком строго!'
+		| {{/isnt}}
+		| {{/unless}}
 		| {{#each articles}}
 		mixin article()
 		| {{/each}}
