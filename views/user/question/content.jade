@@ -11,12 +11,7 @@ if user
 .bg.questionBackground
 	div.bgImageWrapper
 		.darkenBg
-		- var bgImage = "/img/user/question/bg.jpg";
-		if consultation.age && consultation.age.length > 0
-			for age in consultation.age
-				if age._id.fixture && age._id.fixture.length > 0
-					bgImage = age._id.fixture
-		img(src=(bgImage))
+		img(src=(consultation.fixture))
 
 .content
 	include ../helpers/breadcrumbs

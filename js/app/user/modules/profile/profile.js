@@ -22,7 +22,7 @@ import Profile from 'js/app/user/modules/profile/profileModel';
 import PopUp from 'js/app/user/lib/popUp/popUp';
 
 var invMessages = {
-    vk: 'Быть родителем интересно!\n\rОсобенно если знаешь, как правильно воспитывать, кормить, пеленать, развлекать и ухаживать за маленькой непоседой. У вас тоже есть детки? Тогда вам сюда!'
+    vk: 'Быть родителем интересно!\n\rОсобенно если знаешь, как правильно воспитывать, кормить, пеленать, развлекать и ухаживать за маленькой непоседой. У вас тоже есть детки? Тогда вам сюда! '
 };
 
 var levels = [
@@ -335,7 +335,7 @@ export default Controller.extend(
         initSocial: function () {
 
             FB.init({
-                appId: 319137821610071,
+                appId: 812840382107432,
                 cookie: true,
                 xfbml: true,
                 version: 'v2.2'
@@ -751,10 +751,15 @@ export default Controller.extend(
             var images = response.response,
                 self = this;
 
+            var attachments = '';
+
+            attachments += window.location.origin + "/?referer=" + appState.attr('user').user().attr('_id') + ",";
+            attachments += images && images[0] && images[0].id || '';
+
             VK.Api.call('wall.post', {
                 owner_id: uid,
                 message: invMessages.vk,
-                attachments: images && images[0] && images[0].id || ''
+                attachments: attachments
             }, function (response) {
                 if (response) {
                     can.ajax({
@@ -789,7 +794,7 @@ export default Controller.extend(
         '.profileInvite.fb click': function () {
             FB.ui({
                 method: 'send',
-                link: window.location.origin
+                link: window.location.origin + "/?referer=" + appState.attr('user').user().attr('_id')
             });
         },
         /* end of FB friends invitation */
