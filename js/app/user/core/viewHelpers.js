@@ -8,16 +8,6 @@ function computedVal (value) {
     return value;
 };
 
-can.mustache.registerHelper('filterBy', function (entity, filter) {
-    filter = computedVal(filter);
-    if (filter == 0) {
-        return 'display: block;';
-    }
-    if (entity.attr('type.name') !== filter) {
-        return 'display: none;'
-    }
-});
-
 can.mustache.registerHelper('getUserImg', function (article) {
     var result = '/img/user/helpers/stub/medium.png';
 
