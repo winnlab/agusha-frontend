@@ -38,7 +38,7 @@ var Core = can.Control.extend(
 			appState.delegate('moneybox', 'set', can.proxy(this.moneyboxed, this));
 
 			VK.init({
-				apiId: 4581691
+				apiId: 4699559
 			});
 		},
 		

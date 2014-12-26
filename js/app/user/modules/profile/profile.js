@@ -207,7 +207,7 @@ can.mustache.registerHelper('leftNext', function(points) {
 
     left = levels[level].points - points;
 
-    return "До "+(level+1)+"го осталось "+left+" баллов";
+    return "До "+(level+2)+"го осталось "+left+" баллов";
 });
 
 can.mustache.registerHelper('isChekedAgree', function(agree) {
@@ -584,6 +584,8 @@ export default Controller.extend(
                 countries: this.countries,
                 months: getMonths()
             });
+
+            console.log(appState.attr('user').user());
 
             $('#profile').html(can.view(view, viewModel, {
                 genderChecked: function(sex) {

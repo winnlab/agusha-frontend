@@ -291,7 +291,7 @@ User = can.Control.extend({
 		});
 	},
 	getCurrentUser: getCurrentUser,
-	logout: logout,
+	logout: logout
 })
 
 export default User
