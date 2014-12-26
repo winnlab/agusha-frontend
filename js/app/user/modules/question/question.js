@@ -31,6 +31,7 @@ export default Controller.extend(
 			var id = this.id.split('-')[1];
 
 			this.carousel();
+			this.initIFrameEvents();
 		},
 
 		carousel: function () {
@@ -126,6 +127,40 @@ export default Controller.extend(
 					top: coords
 				});
 			}
+		},
+
+		initIFrameEvents: function () {
+			var self = this;
+
+			$('.social_button.fb iframe', self.element).iframeTracker({
+				blurCallback: function(){
+					self.sendSocialLike('fb');
+				}
+			});
+
+			$('.social_button.vk iframe', self.element).iframeTracker({
+				blurCallback: function(){
+					self.sendSocialLike('vk');
+				}
+			});
+
+			$('.social_button.ok iframe', self.element).iframeTracker({
+				blurCallback: function(){
+					self.sendSocialLike('ok');
+				}
+			});
+		},
+
+		sendSocialLike: function (network) {
+			console.log(network);
+			can.ajax({
+				url: '/like/socialLike',
+				type: 'POST',
+				data: {network: network},
+				success: function (data) {
+					console.log('success');
+				}
+			});
 		}
 	}
 );

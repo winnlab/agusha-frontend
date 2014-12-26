@@ -212,21 +212,19 @@ export default Controller.extend(
 		initIFrameEvents: function () {
 			var self = this;
 
-
-
-			$('.social_button.fb iframe').iframeTracker({
+			$('.social_button.fb iframe', self.element).iframeTracker({
 				blurCallback: function(){
 					self.sendSocialLike('fb');
 				}
 			});
 
-			$('.social_button.vk iframe').iframeTracker({
+			$('.social_button.vk iframe', self.element).iframeTracker({
 				blurCallback: function(){
 					self.sendSocialLike('vk');
 				}
 			});
 
-			$('.social_button.ok iframe').iframeTracker({
+			$('.social_button.ok iframe', self.element).iframeTracker({
 				blurCallback: function(){
 					self.sendSocialLike('ok');
 				}
