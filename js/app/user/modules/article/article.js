@@ -31,9 +31,10 @@ export default Controller.extend(
 			var vk_options = {
 					type: "mini",
 					height: 20,
-					pageTitle: this.article.title
+					pageTitle: this.article.title,
+					pageUrl: decodeURI(document.location.href) + '?utm_source=vkontakte&utm_medium=share&utm_campaign=site_articleshare'
 				},
-				ok_options = "{width:145,height:20,st:'rounded',sz:20,ck:1}";
+				ok_options = "{width:145, height:20, st:'rounded', sz:20, ck:1}";
 			
 			if(this.article.image && this.article.image.SOCIAL) {
 				vk_options.pageImage = this.base_url + '/img/uploads/' + this.article.image.SOCIAL;
@@ -49,14 +50,16 @@ export default Controller.extend(
 				VK.Widgets.Like("vk_bottom_" + this.id, vk_options);
 			}
 			
+			var ok_url = decodeURI(document.location.href) + '?utm_source=Odnoklassniki&utm_medium=share&utm_campaign=site_articleshare';
+			
 			var ok_top = $('#ok_top_' + this.id);
 			if(ok_top.length) {
-				OK.CONNECT.insertShareWidget("ok_top_" + this.id, document.URL, ok_options);
+				OK.CONNECT.insertShareWidget("ok_top_" + this.id, ok_url, ok_options);
 			}
 			
 			var ok_bottom = $('#ok_bottom_' + this.id);
 			if(ok_bottom.length) {
-				OK.CONNECT.insertShareWidget("ok_bottom_" + this.id, document.URL, ok_options);
+				OK.CONNECT.insertShareWidget("ok_bottom_" + this.id, ok_url, ok_options);
 			}
 			
 			FB.XFBML.parse(this.element[0]);
