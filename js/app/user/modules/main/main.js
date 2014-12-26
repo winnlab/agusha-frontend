@@ -347,6 +347,21 @@ export default Controller.extend(
 
 		'a.carousel-control click': function(el, ev) {
 			ev.preventDefault();
+		},
+		
+		'.carousel-control.left click': function() {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'MainCarousel', 'Left');
+		},
+		
+		'.carousel-control.right click': function() {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'MainCarousel', 'Right');
+		},
+		
+		'.registration_button click': function() {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Registration', 'MainBanner');
 		}
     }
 );

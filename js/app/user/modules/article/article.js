@@ -122,12 +122,23 @@ export default Controller.extend(
 
 		'.slideRight click': function(el, ev) {
 			$('.bx-wrapper .bx-next', this.element).trigger('click');
+			
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'ArticleCarousel', 'Right');
 		},
 
 		'.slideLeft click': function(el, ev) {
 			$('.bx-wrapper .bx-prev', this.element).trigger('click');
+			
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'ArticleCarousel', 'Left');
 		},
-
+		
+		'.registration_link click': function() {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Registration', 'ArticleComment');
+		},
+		
 		'{window} scroll': function (el, ev) {
 			if (this.element.hasClass('active')) {
 				this.moveBackground();

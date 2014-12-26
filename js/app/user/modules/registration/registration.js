@@ -190,6 +190,9 @@ export default Controller.extend(
 			} else {
 				this.tooltip.tooltipster('hide');
 			}
+			
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Registration', 'Usual');
 
 			user = this.data;
 

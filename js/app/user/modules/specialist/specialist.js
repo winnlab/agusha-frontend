@@ -190,6 +190,11 @@ export default Controller.extend(
 				});
 			});
 		},
+		
+		'.registration_link click': function() {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Registration', 'Specialist');
+		},
 
 		validate: function (form) {
 			return form.validate({

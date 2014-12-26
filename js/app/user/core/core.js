@@ -121,15 +121,43 @@ var Core = can.Control.extend(
 
 		'#left_menu .close click': function(el) {
 			this.right_menu.removeClass('active');
+			
+			var event = 'Close';
+			
+			if(this.left_resizable.hasClass('small')) {
+				event = 'Open';
+			}
+			
 			this.left_resizable.toggleClass('small');
 
 			this.requestAnimFrame();
+			
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'LeftMenu', event);
 		},
-
+		
 		'#left_menu .about click': function(el) {
 			this.animate_left_inner_menu(true);
 
 			this.requestAnimFrame();
+			console.log(1)
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'AboutAgusha', 'Click');
+		},
+		
+		'#left_menu .facebook click': function(el) {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Social', 'Facebook');
+		},
+		
+		'#left_menu .vkontakte click': function(el) {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Social', 'Vkontakte');
+		},
+		
+		'#left_menu .odnoklassniki click': function(el) {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Social', 'Odnoklassniki');
 		},
 
 		'#right_menu .close click' : function(el) {
@@ -174,6 +202,9 @@ var Core = can.Control.extend(
 			phrase = phrase.toLowerCase();
 
 			if(phrase != '') {
+				ga('set', 'page', decodeURI(document.location.href));
+				ga('send', 'event', 'Search', phrase);
+				
 				router.new_module('search/' + phrase);
 			}
 		},
@@ -226,6 +257,9 @@ var Core = can.Control.extend(
 		},
 
 		'.scrollToTop click': function (el, ev) {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'ScrollToTop', 'Click');
+			
 			$('html, body').animate({
 				scrollTop: 0
 			}, 600);
