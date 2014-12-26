@@ -177,6 +177,9 @@ export default Controller.extend(
 			var	that = this,
 				data = el.serialize();
 			
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Feedback', 'Send');
+			
 			can.ajax({
 				url: '/send_feedback',
 				data: data,

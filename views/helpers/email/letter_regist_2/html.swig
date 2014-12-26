@@ -33,7 +33,7 @@
 													</div>
 													
 													<div>
-														Поздравляем, вы удачно зарегистрировались на сайте <a href="{{ site.baseUrl }}" target="_blank">agusha.com.ua</a>!
+														Поздравляем, вы удачно зарегистрировались на сайте <a href="{{ site.baseUrl }}?utm_source=email_activate&utm_medium=email&utm_content=letterclick&utm_campaign= email_approveregistration" target="_blank">agusha.com.ua</a>!
 													</div>
 												</div>
 											</td>
@@ -63,22 +63,22 @@
 								<td>
 									<img class="come_and_get" src="{{ site.baseUrl }}img/user/helpers/email/come_and_get.png" />
 									
-									<a href="{{site.linkTo('registration/activate/'+user._id)}}" class="button" target="_blank">
+									<a href="{{site.linkTo('registration/activate/' + user._id + '?utm_source=email_activate&utm_medium=email&utm_content=registrationapproved&utm_campaign= email_approveregistration')}}" class="button" target="_blank">
 										<img src="{{ site.baseUrl }}img/user/helpers/email/blue_button.png" />
 									</a>
 									
 									<img class="tell_friends" src="{{ site.baseUrl }}img/user/helpers/email/tell_friends.png" />
 									
 									<div class="social">
-										<a class="social_icon" href="{{ site.baseUrl }}" target="_blank">
+										<a class="social_icon" href="{{ site.baseUrl }}?utm_source=email_activate&utm_medium=email&utm_content=letterclick&utm_campaign= email_approveregistration" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/facebook.png" />
 										</a>
 										
-										<a class="social_icon" href="{{ site.baseUrl }}" target="_blank">
+										<a class="social_icon" href="{{ site.baseUrl }}?utm_source=email_activate&utm_medium=email&utm_content=letterclick&utm_campaign= email_approveregistration" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/vk.png" />
 										</a>
 										
-										<a class="social_icon" href="{{ site.baseUrl }}" target="_blank">
+										<a class="social_icon" href="{{ site.baseUrl }}?utm_source=email_activate&utm_medium=email&utm_content=letterclick&utm_campaign= email_approveregistration" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/odnoklasniki.png" />
 										</a>
 									</div>
@@ -94,7 +94,7 @@
 									</div>
 									
 									<div class="half right">
-										<a class="decline" href="{{ site.baseUrl }}" target="_blank">
+										<a class="decline" href="{{ site.baseUrl }}?utm_source=email_activate&utm_medium=email&utm_content=letterclick&utm_campaign= email_approveregistration" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/decline.png" />
 										</a>
 									</div>

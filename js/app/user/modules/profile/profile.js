@@ -755,7 +755,7 @@ export default Controller.extend(
 
             var attachments = '';
 
-            attachments += window.location.origin + "/?referer=" + appState.attr('user').user().attr('_id') + ",";
+            attachments += window.location.origin + "/?referer=" + appState.attr('user').user().attr('_id') + "&utm_source=facebook&utm_medium=invite&utm_campaign=site_invite,";
             attachments += images && images[0] && images[0].id || '';
 
             VK.Api.call('wall.post', {
@@ -796,7 +796,7 @@ export default Controller.extend(
         '.profileInvite.fb click': function () {
             FB.ui({
                 method: 'send',
-                link: window.location.origin + "/?referer=" + appState.attr('user').user().attr('_id')
+                link: window.location.origin + "/?referer=" + appState.attr('user').user().attr('_id') + '&utm_source=facebook&utm_medium=invite&utm_campaign=site_invite'
             });
         },
         /* end of FB friends invitation */

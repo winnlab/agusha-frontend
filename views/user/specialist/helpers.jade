@@ -43,7 +43,7 @@ mixin message
             .links
                 a.new_module(href="/login")= "вход"
                 |  / 
-                a.new_module(href="/registration")= "регистрация"
+                a.new_module.registration_link(href="/registration")= "регистрация"
 
 mixin user(server)
     if server

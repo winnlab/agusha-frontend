@@ -320,6 +320,11 @@ export default Controller.extend(
 			this.modal.removeClass(this.active);
 		},
 		
+		'.registration_link click': function() {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Registration', 'Moneybox');
+		},
+		
 		'{window} custom_resize': 'custom_resize',
 		
 		custom_resize: function() {

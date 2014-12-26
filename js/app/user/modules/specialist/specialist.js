@@ -175,8 +175,10 @@ export default Controller.extend(
 				data: data
 			}).done(function (data) {
 				appState.attr('popUp').show({
+					status: 'info',
 					text: 'Ваш вопрос успешно отправлен консультанту.'
 				});
+				appState.attr('moneybox', true);
 				el[0].reset();
 			}).fail(function (data) {
 				var text = data.responseJSON.err.message || data.responseJSON.err.err;
@@ -186,9 +188,15 @@ export default Controller.extend(
 				}
 
 				appState.attr('popUp').show({
+					status: 'error',
 					text: text
 				});
 			});
+		},
+		
+		'.registration_link click': function() {
+			ga('set', 'page', decodeURI(document.location.href));
+			ga('send', 'event', 'Registration', 'Specialist');
 		},
 
 		validate: function (form) {
