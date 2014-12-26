@@ -4,6 +4,7 @@ import Controller from 'controller'
 import Model from 'module/article/articleModel'
 import 'bx-slider'
 import 'js/plugins/jquery.autosize/jquery.autosize.min';
+import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
 
 
 export default Controller.extend(
@@ -70,6 +71,7 @@ export default Controller.extend(
 			this.carousel();
 			this.moveBackground();
 			this.initResizableTextarea();
+			this.initIFrameEvents();
 		},
 
 		initResizableTextarea: function () {
@@ -208,6 +210,42 @@ export default Controller.extend(
 			$('html, body').animate({
 				scrollTop: $comments.offset().top
 			}, 500);
+		},
+
+		initIFrameEvents: function () {
+			var self = this;
+
+
+
+			$('.social_button.fb iframe').iframeTracker({
+				blurCallback: function(){
+					self.sendSocialLike('fb');
+				}
+			});
+
+			$('.social_button.vk iframe').iframeTracker({
+				blurCallback: function(){
+					self.sendSocialLike('vk');
+				}
+			});
+
+			$('.social_button.ok iframe').iframeTracker({
+				blurCallback: function(){
+					self.sendSocialLike('ok');
+				}
+			});
+		},
+
+		sendSocialLike: function (network) {
+			console.log(network);
+			can.ajax({
+				url: '/like/socialLike',
+				type: 'POST',
+				data: {network: network},
+				success: function (data) {
+					console.log('success');
+				}
+			});
 		}
 	}
 );
