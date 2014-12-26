@@ -223,6 +223,7 @@ export default Controller.extend(
 
 			$('.social_button.vk iframe', self.element).iframeTracker({
 				blurCallback: function(){
+					console.log('vk click');
 					self.sendSocialLike('vk');
 				}
 			});
