@@ -61,6 +61,9 @@ can.mustache.registerHelper('sortBy', function (collection, prop, direction, opt
     if (collection && collection.attr('length') && prop) {
         var sorted = _.sortBy(collection, function (member) {
             var p = member.attr(prop);
+            if (typeof p == 'object' && p.attr) {
+                p = p.attr();
+            }
             if (_.isArray(p)) {
                 return p.length;
             }
