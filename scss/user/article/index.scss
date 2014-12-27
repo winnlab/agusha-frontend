@@ -460,8 +460,11 @@
 				background: url('/img/user/poll/question_info.png') no-repeat;
 				text-transform: none;
 				color: $white;
-				padding: 0 20px 10px;
 				display: none;
+				
+				.adorable_cell {
+					padding: 0;
+				}
 			}
 		}
 
