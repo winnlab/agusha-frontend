@@ -33,7 +33,7 @@ export default Controller.extend(
 				actions: data ? data.actions : app.actions,
 				points: data ? data.user.points : (app.user ? app.user.points : 0),
 				year: new Date().getFullYear(),
-				activatedAt: data ? data.user.activated_at : (app.user ? app.user.activated_at : 0),
+				activatedAt: data ? (data.user ? data.user.activated_at : 0) : (app.user ? app.user.activated_at : 0),
 				allPrizes: false,
 				prizes: data ? data.prizes : app.prizes
 			});

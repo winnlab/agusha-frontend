@@ -222,7 +222,6 @@ export default Controller.extend(
 			setTimeout(function() {
 				$('.social_button.vk iframe', self.element).iframeTracker({
 					blurCallback: function(){
-						console.log('vk click');
 						self.sendSocialLike('vk');
 					}
 				});
@@ -236,7 +235,6 @@ export default Controller.extend(
 		},
 
 		sendSocialLike: function (network) {
-			console.log(network);
 			can.ajax({
 				url: '/like/socialLike',
 				type: 'POST',

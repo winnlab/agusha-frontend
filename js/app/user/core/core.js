@@ -79,7 +79,7 @@ var Core = can.Control.extend(
 				return;
 			}
 			
-			can.route.attr({module: 'registration'})
+			can.route.attr({module: 'registration'}, true)
 		},
 
 		step: function(timestamp) {

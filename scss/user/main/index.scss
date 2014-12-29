@@ -114,7 +114,7 @@
 				color: #13abea;
 			}
 		}
-
+		
 		.carousel_button {
 			background-color: $white;
 			color: #2998cd;
@@ -151,6 +151,10 @@
 		height: 100%;
 		top: 0;
 		left: 0;
+		
+		&.banner_image_new_year {
+			background: url('/img/user/main/new_year_banner.jpg') no-repeat center;
+		}
 
 		&.banner_image_1 {
 			background: url('/img/user/main/banner_1.jpg') no-repeat center;
