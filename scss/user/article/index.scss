@@ -470,6 +470,16 @@
 
 		.options_container {
 			margin: 20px 0;
+
+			h1 {
+				color: #404040;
+				text-align: center;
+				font-size: 24px;
+				line-height: 18px;
+				font-family: 'PT_Sans_Bold';
+				margin-bottom: 40px;
+				text-transform: uppercase;
+			}
 		}
 
 		.option {
