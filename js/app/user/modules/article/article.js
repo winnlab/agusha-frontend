@@ -5,6 +5,7 @@ import Model from 'module/article/articleModel'
 import 'bx-slider'
 import 'js/plugins/jquery.autosize/jquery.autosize.min';
 import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
+import appState from 'core/appState';
 
 
 export default Controller.extend(
@@ -106,23 +107,20 @@ export default Controller.extend(
 
 		displayPollFormData: function (el, data) {
 			var self = this;
-            var $pollAnsweredWrapper = $('.poll_container.answered');
+            var $pollAnsweredWrapper = $('.answered');
             var $pollResults = $pollAnsweredWrapper.find('.pollResults');
-            var $plz = $pollAnsweredWrapper.find('.plz');
 
-			el.slideUp();
-			el.parent().find('.plz').html('Вы уже проголосовали в этом опросе');
+			$('.pollUnvoted').slideUp();
 
-            $('.options_container.pollResults').html(
+			$pollResults.html(
                 can.view(self.options.viewpath + 'pollResults.stache', {
                 	article: data.data
                 })
             );
 
-            if ($pollResults.css('display') == 'none') {
-            	$pollResults.slideDown();
+            if ($pollAnsweredWrapper.css('display') == 'none') {
+	            $pollAnsweredWrapper.slideDown();
             }
-            $plz.slideUp();
 		},
 
 		'.slideRight click': function(el, ev) {
@@ -221,12 +219,14 @@ export default Controller.extend(
 				}
 			});
 
-			$('.social_button.vk iframe', self.element).iframeTracker({
-				blurCallback: function(){
-					console.log('vk click');
-					self.sendSocialLike('vk');
-				}
-			});
+			setTimeout(function() {
+				$('.social_button.vk iframe', self.element).iframeTracker({
+					blurCallback: function(){
+						console.log('vk click');
+						self.sendSocialLike('vk');
+					}
+				});
+			}, 1000);
 
 			$('.social_button.ok iframe', self.element).iframeTracker({
 				blurCallback: function(){
@@ -242,7 +242,7 @@ export default Controller.extend(
 				type: 'POST',
 				data: {network: network},
 				success: function (data) {
-					console.log('success');
+					appState.attr('moneybox', true);
 				}
 			});
 		}

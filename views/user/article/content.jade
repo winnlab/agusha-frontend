@@ -81,28 +81,26 @@ if article.image
 	if article.is_quiz
 
 		.poll_container
-			.text
-				| !{article.desc.text}
 
-			.center.pollContentWrapper
-				if userVoted
-					.plz Вы уже проголосовали в этом опросе
+			.pollUnvoted(style=(userVoted ? 'display: none' : ''))
+				.text
+					| !{article.desc.text}
 
-				else
+				.center.pollContentWrapper
 					form(name='pollForm', class='pollForm options_container')
 
 						input(type="hidden", name="article", value="#{article._id}")
 
 						.options_container
 
-								- each answerItem, answerKey in article.answer
-									.option
-										.radio_cell
-											.checkbox
-												input(name="answer", type="radio", value="#{answerItem._id}")
-												label
-													.img
-										.label #{answerItem.text}
+							- each answerItem, answerKey in article.answer
+								.option
+									.radio_cell
+										.checkbox
+											input(name="answer", type="radio", value="#{answerItem._id}")
+											label
+												.img
+									.label #{answerItem.text}
 
 						.bottom.adorable_table
 							.adorable_cell
@@ -110,21 +108,38 @@ if article.image
 
 					.plz Для того чтобы посмотреть результаты опроса, вам тоже необходимо в нем поучаствовать.
 
-				.social
-					.social_button
-						.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
+			.answered(style=(userVoted ? '' : 'display: none'))
+				.center
+					.title
+						.question
+							.question_info
+								.adorable_table
+									.adorable_cell Воспитание и уход за малышом — ответственный и сложный процесс. Вот почему нам необходимо знать ваше мнение по этому вопросу.
+					.options_container.pollResults
+						h1 Результаты опроса:
+						- each answerItem, answerKey in article.answer
+							.option
+								.radio_cell #{answerItem.percent}%
+								.label
+									div #{answerItem.text}
+									.progress_line
+										.progress(style="width: #{answerItem.percent}%;")
 
-					//.social_button
-					//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
+			.social
+				.social_button
+					.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
 
-					.social_button
-						div(id="vk_top_poll_" + params.id)
+				//.social_button
+				//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
 
-					.social_button
-						div(id="ok_top_poll_" + params.id)
+				.social_button
+					div(id="vk_top_poll_" + params.id)
 
-					.social_button
-						.g-plusone(data-size="medium")
+				.social_button
+					div(id="ok_top_poll_" + params.id)
+
+				.social_button
+					.g-plusone(data-size="medium")
 
 			.login_box(style=(user ? 'display: none' : ''))
 				.info.column.double
@@ -156,44 +171,6 @@ if article.image
 						img.comment(src="/img/user/article/comment.png")
 						span.count.commentariesCount(data-component_id="#{article._id}")
 							| #{commentariesAmount}
-
-		.poll_container.answered
-			.center
-				.title
-					.question
-						.question_info
-							.adorable_table
-								.adorable_cell Воспитание и уход за малышом — ответственный и сложный процесс. Вот почему нам необходимо знать ваше мнение по этому вопросу.
-					
-					div Результаты опроса:
-				
-				.options_container.pollResults(style=(userVoted ? '' : 'display: none'))
-
-					- each answerItem, answerKey in article.answer
-
-						.option
-							.radio_cell #{answerItem.percent}%
-							.label
-								div #{answerItem.text}
-								.progress_line
-									.progress(style="width: #{answerItem.percent}%;")
-				
-				.plz(style=(userVoted ? 'display: none' : '')) Для того чтобы посмотреть результаты опроса, вам тоже необходимо в нем поучаствовать.
-				.social
-					.social_button
-						.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
-					
-					//.social_button
-					//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
-					
-					.social_button
-						div(id="vk_bottom_poll_" + params.id)
-					
-					.social_button
-						div(id="ok_bottom_poll_" + params.id)
-					
-					.social_button
-						.g-plusone(data-size="medium")
 
 	else
 		.article_content

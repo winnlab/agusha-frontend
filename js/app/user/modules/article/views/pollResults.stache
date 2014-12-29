@@ -1,3 +1,5 @@
+<h1>Результаты опроса:</h1>
+
 {{#each article.answer}}
 
 	<div class="option">
