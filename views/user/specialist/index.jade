@@ -2,6 +2,9 @@ extends ../layout
 
 block append header
 	link(href="/css/user/specialist/specialist.css" rel="stylesheet")
+	meta(property="og:title" content = "Вопрос специалисту")
+	meta(property="og:description" content = "Карапуз не хочет спать, кушать, у него режутся зубки и он часто плачет? Не бегите за советом к мудрой бабушке или подруге, ведь все детки уникальны, а причины, казалось бы, одинаковых проблем могут быть абсолютно разными. Лучше задайте вопрос нашему квалифицированному детскому врачу!")
+	meta(property="og:image" content = base_url + "/img/user/specialist/og_image.jpg")
 
 block content
 	.module.server.specialist
