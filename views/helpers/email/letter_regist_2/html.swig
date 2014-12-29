@@ -70,15 +70,15 @@
 									<img class="tell_friends" src="{{ site.baseUrl }}img/user/helpers/email/tell_friends.png" />
 									
 									<div class="social">
-										<a class="social_icon" href="{{ site.baseUrl }}?utm_source=email_activate&utm_medium=email&utm_content=letterclick&utm_campaign= email_approveregistration" target="_blank">
+										<a class="social_icon" href="https://www.facebook.com/agusha.ukraine" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/facebook.png" />
 										</a>
 										
-										<a class="social_icon" href="{{ site.baseUrl }}?utm_source=email_activate&utm_medium=email&utm_content=letterclick&utm_campaign= email_approveregistration" target="_blank">
+										<a class="social_icon" href="https://vk.com/agusha.ukraine" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/vk.png" />
 										</a>
 										
-										<a class="social_icon" href="{{ site.baseUrl }}?utm_source=email_activate&utm_medium=email&utm_content=letterclick&utm_campaign= email_approveregistration" target="_blank">
+										<a class="social_icon" href="http://ok.ru/agusha.ukraine" target="_blank">
 											<img src="{{ site.baseUrl }}img/user/helpers/email/odnoklasniki.png" />
 										</a>
 									</div>
