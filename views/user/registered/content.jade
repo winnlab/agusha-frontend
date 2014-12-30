@@ -3,9 +3,12 @@
 include ../encyclopedia/helpers
 
 .content.userTitle(style = (user ? 'display: none' : ''))
-	include ../helpers/breadcrumbs
-	
-	.topper_title Привет, <span class="username">#{breadcrumbs[0].title}</span>
+	include ../helpers/breadcrumbs	
+	.topper_title 
+		if (breadcrumbs[0] && breadcrumbs[0].title)
+			| Привет,
+			span.username
+				| #{breadcrumbs[0].title}
 
 	.tabs
 		.tabs_flex
