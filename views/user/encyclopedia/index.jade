@@ -2,6 +2,9 @@ extends ../layout
 
 block append header
 	link(href="/css/user/encyclopedia/encyclopedia.css" rel="stylesheet")
+	meta(property="og:title" content = "Энциклопедия")
+	meta(property="og:description" content = "Было бы куда проще, если бы к малышам прилагалась специальная инструкция. Тогда мамы и папы точно бы знали, как правильно кормить, воспитывать и ухаживать за своими карапузами. В большой «Энциклопедии для мам» вы найдете ответы на все важные родительские вопросы!")
+	meta(property="og:image" content = base_url + "/img/user/encyclopedia/og_image.jpg")
 
 block content
 	.module.server.encyclopedia#encyclopedia
