@@ -158,3 +158,20 @@ can.mustache.registerHelper('showChildImage', function(image, gender) {
 
     return result;
 });
+
+can.mustache.registerHelper('countAnswersAmount', function (answer) {
+    var result = 0;
+
+    if (answer && answer() && answer().length > 0) {
+
+        for (var ans in answer()) {
+            if (answer().hasOwnProperty(ans)) {
+                if (answer()[ans].clients) {
+                    result += answer()[ans].clients.length
+                }
+            }
+        }
+    }
+
+    return result;
+});

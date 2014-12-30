@@ -65,14 +65,22 @@
 						.topper_text= similarArticle.desc.shorttext
 
 						if similarArticle.is_quiz
+
+							- var answersAmount = 0;
+							if a
+								- each ans, ind in similarArticle
+									if ans.clients
+										answersAmount = answersAmount + ans.clients.length
+
 							.topper_approve
 								span.count.commentariesCount(data-component_id="#{similarArticle._id}")
-									| #{commentariesAmount}
+									| #{answersAmount}
 								span.approve
 									div мамочек
 									div ответили
 
 					if similarArticle.is_quiz
+
 						.button_content.gold
 							button.me_too Я тоже
 

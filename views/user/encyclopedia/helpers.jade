@@ -58,18 +58,29 @@ mixin article(a, i)
 					| {{#if desc}}
 					.topper_text='{{desc.shorttext}}'
 					| {{/if}}
-				
+
+				- var answersAmount = 0;
+				if a
+					- each ans, ind in a.answer
+						if ans.clients
+							answersAmount = answersAmount + ans.clients.length
+				else
+					if answer
+						- each ans, ind in answer
+							if ans.clients
+								answersAmount = answersAmount + ans.clients.length
+
 				if a 
 					if a.is_quiz
 						.topper_approve
-							span.count= (a.answer ? a.answer.length : 0)
+							span.count= (answersAmount)
 							span.approve
 								div мамочек
 								div ответили
 				else 
 					| {{#if is_quiz}}
 					.topper_approve
-						span.count= '{{answer.length}}'
+						span.count= '{{countAnswersAmount answer}}'
 						span.approve
 							div мамочек
 							div ответили						
