@@ -204,10 +204,10 @@ var wysiwyg = function (slider, module, options) {
 	};
 };
 
-can.mustache.registerHelper('datepicker', function (options) {
+can.mustache.registerHelper('datepicker', function (date, options) {
 	return function (el) {
-		$(el).datetimepicker({
-			pickTime: false
+		$(el).datepicker({
+			format: 'dd/mm/yyyy'
 		});
 	};
 });
@@ -248,6 +248,15 @@ can.mustache.registerHelper('arrContains', function (array, value, strict, rever
 	}
 
 	return (array.indexOf(value) > -1) ^ reverse ? options.fn() : false;
+});
+
+can.mustache.registerHelper('ensureDate', function (entity, property, format = false) {
+	var format = _.isString(format) && format || 'DD.MM.YYYY hh:mm:s',
+		date = computedVal(entity).attr(property);
+
+	return date
+		? moment(date).format(format)
+		: moment().format(format);
 });
 
 can.mustache.registerHelper('parseDate', function (date) {

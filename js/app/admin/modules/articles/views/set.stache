@@ -22,7 +22,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="name">Дата создания:</label>
                 <div class="col-md-10">
-                    <input class="form-control" {{datepicker}} type="date" can-value="article.created" placeholder="Дата создания" />
+                    <input class="form-control" type="text" name="created" value="{{ensureDate article 'created' 'DD/MM/YYYY'}}" placeholder="Дата создания" {{datepicker}} />
                     <div class="help help-block"></div>
                 </div>
             </div>
