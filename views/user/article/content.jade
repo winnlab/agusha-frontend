@@ -186,7 +186,11 @@ if article.image
 						.adorable_table
 							.adorable_cell
 
-								- var date = new Date(article.updated);
+								if article.created
+									- var date = new Date(article.created);
+								else
+									- var date = new Date(article.updated);
+
 								- var day = date.getDate();
 								- var monthNames = [ "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
 								- var month = monthNames[date.getMonth()];

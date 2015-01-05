@@ -44,7 +44,11 @@ if user
 			.question_items
 				.item
 					.date
-						- var date = new Date(consultation.updated);
+						if consultation.created
+							- var date = new Date(consultation.created);
+						else
+							- var date = new Date(consultation.updated);
+
 						- var day = date.getDate();
 						- var monthNames = [ "Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек" ];
 						- var month = monthNames[date.getMonth()];
@@ -117,7 +121,7 @@ if user
 								
 								.text !{answerItem.text}
 
-			if user && consultation.author.author_id._id.toString() == user._id.toString()
+			if user && consultation.author && consultation.author.author_id && consultation.author.author_id._id && consultation.author.author_id._id.toString() == user._id.toString()
 				form.consultationResponse
 
 					input(type="hidden" name="_id" value="#{consultation._id}")
