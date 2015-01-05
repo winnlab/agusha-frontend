@@ -204,6 +204,14 @@ var wysiwyg = function (slider, module, options) {
 	};
 };
 
+can.mustache.registerHelper('datepicker', function (options) {
+	return function (el) {
+		$(el).datetimepicker({
+			pickTime: false
+		});
+	};
+});
+
 can.mustache.registerHelper('cropper', function (entity, prefix, ratio, options) {
 	entity = computedVal(entity);
 	prefix = computedVal(prefix);

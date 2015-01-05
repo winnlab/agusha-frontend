@@ -16,6 +16,7 @@ System.config({
 		'summernote': 'js/plugins/summernote/dist/summernote.min.js',
 		'sortable': 'js/plugins/html5sortable/jquery.sortable.js',
 		'cropper': 'js/plugins/cropper/dist/cropper.min.js',
+		'datepicker': 'js/plugins/datepicker/bootstrap-datepicker.js',
 
 		'adminlte-css/*': 'js/plugins/adminlte/css/*css',
 
@@ -45,6 +46,13 @@ System.config({
 		stache: 'can/view/stache/system'
 	},
 	meta: {
+		datepicker: {
+			format: 'global',
+			deps: [
+				'jquery',
+				'js/plugins/datepicker/datepicker.css!'
+			]
+		},
 		cropper: {
 			format: 'global',
 			deps: [

@@ -10,6 +10,7 @@ import 'cropper'
 import 'slider'
 import 'summernote'
 import 'sortable'
+import 'datepicker'
 
 import GalleryModel from 'js/app/admin/modules/articles/galleryModel'
 

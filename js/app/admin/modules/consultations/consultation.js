@@ -3,6 +3,7 @@ import Edit from 'edit'
 
 // import 'bootstrap-wysihtml5'
 import 'summernote'
+import 'datepicker'
 
 import appState from 'appState'
 
