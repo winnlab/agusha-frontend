@@ -149,6 +149,10 @@ export default Controller.extend(
 			this.data.attr('category', val);
 		},
 		
+		'.open_close click': function(el) {
+			this.about_ages.toggleClass('opened');
+		},
+		
 		'.child click': function() {
 			this.video.addClass(this.active);
 		},

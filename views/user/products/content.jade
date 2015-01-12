@@ -37,12 +37,15 @@ include helpers
 		
 		- each a, key in ages
 			.about_block(id = 'age_' + a.value, class=(key == 0 ? 'active' : ''))
-				//.about_bg
-					img.left(src = (a.desc && a.desc.image ? '/img/uploads/' + a.desc.image : ''))
-					img.right(src = (a.desc && a.desc.image ? '/img/uploads/' + a.desc.image : ''))
+				img.about_bg_right(src = (a.desc && a.desc.image ? '/img/uploads/' + a.desc.image : ''))
 				
-				.about_text.adorable_table
-					.adorable_cell !{a.desc && a.desc.subtitle ? a.desc.subtitle : ''}
+				.about_text
+					.top_label !{strip_tags(a.desc && a.desc.subtitle ? a.desc.subtitle : '')}
+					.title_label !{a.desc && a.desc.title ? a.desc.title : ''}
+					.text !{a.desc && a.desc.text ? a.desc.text : ''}
+					.open_close
+						.open_close_icon
+						.open_close_label
 	
 	#products_container
 		- each p, key in products

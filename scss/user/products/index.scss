@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 @import '../dynamic/dynamic';
 @import '../helpers/breadcrumbs';
 @import '../helpers/topper_title';
@@ -86,12 +88,61 @@
 	}
 
 	.about_text {
-		@include absolute_horizontal_centered;
-		width: 280px;
-		z-index: 1;
-
-		.adorable_cell {
-			text-align: left;
+		@include border_boxed;
+		position: relative;
+		z-index: 5;
+		width: 800px;
+		padding: 20px 50px;
+		
+		.top_label {
+			font-family: 'PT_Sans_Italic';
+			text-transform: none;
+			color: #898274;
+		}
+		
+		.title_label {
+			font-size: 40px;
+			line-height: 40px;
+			text-transform: uppercase;
+			color: $titleblue;
+			font-family: 'PT_Sans_Narrow_Bold';
+			margin-top: 8px;
+		}
+		
+		.text {
+			display: none;
+			font-size: 16px;
+			color: $titlegrey;
+			margin-top: 20px;
+			margin-bottom: 12px;
+		}
+	}
+	
+	.open_close {
+		margin-top: 8px;
+		display: inline-block;
+		cursor: pointer;
+	}
+	
+	.open_close_icon {
+		display: inline-block;
+		vertical-align: middle;
+		width: 18px;
+		height: 18px;
+		background: url('/img/user/products/open_close_icon.png') no-repeat;
+	}
+	
+	.open_close_label {
+		display: inline-block;
+		vertical-align: middle;
+		font-size: 14px;
+		color: #898274;
+		font-family: 'PT_Sans_Bold';
+		text-transform: uppercase;
+		margin-left: 10px;
+		
+		&:before {
+			content: 'Раскрыть';
 		}
 	}
 
@@ -137,7 +188,7 @@
 #about_ages {
 	@include border_boxed;
 	margin: 20px 20px 0;
-	height: 140px;
+	min-height: 140px;
 	position: relative;
 	display: none;
 	background-color: $white;
@@ -145,23 +196,31 @@
 	&.active {
 		display: block;
 	}
-
-	&:before {
-		@include pseudo;
-		width: 50%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		background: url('/img/user/products/about_bg_left.jpg') no-repeat left;
+	
+	&.opened {
+		.about_text {
+			.text {
+				display: block;
+			}
+		}
+		
+		.open_close_icon {
+			background-position: -19px 0;
+		}
+		
+		.open_close_label {
+			&:before {
+				content: 'Скрыть';
+			}
+		}
 	}
-
-	&:after {
-		@include pseudo;
-		width: 50%;
-		height: 100%;
-		top: 0;
+	
+	.about_bg_right {
+		position: absolute;
 		right: 0;
-		background: url('/img/user/products/about_bg_right.jpg') no-repeat right;
+		top: 0;
+		height: 100%;
+		z-index: 1;
 	}
 }
 
