@@ -115,6 +115,12 @@
 			color: $titlegrey;
 			margin-top: 20px;
 			margin-bottom: 12px;
+			
+			p {
+				&:not(:first-child) {
+					margin-top: 20px;
+				}
+			}
 		}
 	}
 	

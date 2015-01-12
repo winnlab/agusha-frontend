@@ -44,28 +44,28 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc_title">Название описания:</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" can-value="productAge.desc_title" placeholder="Наименование описания" />
+                            <input class="form-control" type="text" can-value="productAge.desc.title" placeholder="Наименование описания" />
                             <div class="help help-block"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc_subtitle">Под-название описания:</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" can-value="productAge.desc_subtitle" placeholder="Поднаименование описания" />
+                            <input class="form-control" type="text" can-value="productAge.desc.subtitle" placeholder="Поднаименование описания" />
                             <div class="help help-block"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc_subsubtitle">Под-под-название описания:</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" can-value="productAge.desc_subsubtitle" placeholder="Подподнаименование описания" />
+                            <input class="form-control" type="text" can-value="productAge.desc.subsubtitle" placeholder="Подподнаименование описания" />
                             <div class="help help-block"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="text">Текст описания:</label>
                         <div class="col-md-10">
-                            <textarea {{wysiwyg}} name="desc_text">{{{productAge.desc_text}}}</textarea>
+                            <textarea {{wysiwyg}} name="desc[text]">{{{productAge.desc.text}}}</textarea>
                             <div class="help help-block"></div>
                         </div>
                     </div>
