@@ -16,12 +16,12 @@
           <button class='btn btn-danger t-pending' {{#if showPending}}disabled{{/if}}>
             <i class="fa fa-question-circle"></i>
             &nbsp;
-            <span>Добавить</span>
+            <span>Без ответа</span>
           </button>
           <button class='btn btn-success t-answered' {{#unless showPending}}disabled{{/unless}}>
             <i class="fa fa-check-circle"></i>
             &nbsp;
-            <span>Добавить</span>
+            <span>С ответом</span>
           </button>
         </div>
     </div>

@@ -11,9 +11,6 @@ import ArticleTypeModel from 'js/app/admin/modules/articleTypes/articleTypeModel
 import ThemeModel from 'js/app/admin/modules/category/themeModel'
 
 can.mustache.registerHelper('checkAnswer', function (doc, showPending, options) {
-	console.log(doc.attr('answer.length') > 0 && !showPending())
-	console.info(showPending(), doc.attr('answer.length'))
-
 	return doc.attr('answer.length') > 0 ^ showPending()
 		? options.fn()
 		: options.inverse();
