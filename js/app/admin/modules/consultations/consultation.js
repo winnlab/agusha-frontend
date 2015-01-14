@@ -36,7 +36,7 @@ export default Edit.extend({
         self.ensureObject(options.doc, 'answer', []);
         self.ensureObject(options.doc, 'theme');
         self.ensureObject(options.doc, 'type');
-        
+
         self.module.attr(options.moduleName, options.doc);
 
         self.module.attr('ages', options.ages);
@@ -44,7 +44,7 @@ export default Edit.extend({
         self.module.attr('types', options.types);
 
         self.module.attr('addingComment', null);
-        self.module.attr('showComments', false);
+        self.module.attr('showComments', true);
 
         var ageValue = [],
             themeValue = [];
@@ -104,7 +104,7 @@ export default Edit.extend({
             themes = self.module.attr(self.options.moduleName + '.theme'),
             newThemes = [];
 
-        if (! themes instanceof can.List) {
+        if (! (themes instanceof can.List)) {
             themes = new can.List;
             self.module.attr(self.options.moduleName + '.theme', themes);
         }
@@ -166,30 +166,59 @@ export default Edit.extend({
         this.module.attr('addingComment', !this.module.attr('addingComment'));
     },
 
-    '.confirmComment click': function (el) {
+    '{form} submit': function (el, ev) {
+      ev.preventDefault();
+
+      var self = this,
+      options = self.options,
+      data = this.getDocData(el),
+      doc = options.doc;
+
+      doc.attr(data);
+
+      can.ajax({
+        url: '/admin/user'
+      }).done(function (response) {
+        self.proceedSubmit(response, doc)
+      }).fail(function (response) {
+        self.processError(response);
+      });
+    },
+
+    proceedSubmit: function (response, doc) {
         var self = this,
-            doc = self.options.doc;
-        can.ajax({
-            url: '/admin/user'
-        }).done(function (response) {
-            var wysiwyg = el.closest('.panel-body').find('textarea'),
-                commentText = wysiwyg.code(),
-                newComment = {
-                    date: Date.now(),
-                    text: commentText,
-                    specialist: {
-                        _id: response.data._id,
-                        name: response.data.name
-                    }
-                };
+            options = self.options,
+            wysiwyg = self.element.find('.t-answer-form').find('textarea'),
+            commentText = wysiwyg.code();
+
+        if (self.module.attr('addingComment') === true) {
+            var newComment = {
+                date: Date.now(),
+                text: commentText,
+                specialist: {
+                    _id: response.data._id,
+                    name: response.data.name
+                }
+            };
 
             doc.attr('answer').push(newComment);
 
             self.module.attr('addingComment', false);
             wysiwyg.code('');
-            saSuccess('Комментарий добавлен! Нажмите "Сохранить", чтобы сохранить добавленный комментарий.');
-        }).fail(function (response) {
-            saError(response.err || response.responseJSON ? response.responseJSON.err : 'Произошла неизвестная ошибка.' );
+        }
+
+        doc.save()
+        .done(function (response) {
+          options.entity(doc.attr('_id'));
+
+          if (options.setRoute) {
+            can.route.attr({'entity_id': doc.attr('_id')});
+          }
+
+          self.setNotification('success', options.successMsg);
+        })
+        .fail(function (response) {
+          self.processError(response);
         });
     }
 });

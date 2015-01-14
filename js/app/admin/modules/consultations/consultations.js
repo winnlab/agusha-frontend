@@ -35,8 +35,7 @@ export default List.extend(
 
             List.prototype.init.call(self);
 
-            self.module.attr('doFilter', new can.Map({exec: self.doFilter.bind(self)})
-            );
+            self.module.attr('doFilter', new can.Map({exec: self.doFilter.bind(self)}));
 
             self.module.attr('ages', new can.List);
             self.module.attr('themes', new can.List);
@@ -75,7 +74,7 @@ export default List.extend(
             if (this.options.EditHandle) {
                 this.options.EditHandle.destroy();
             }
-            
+
             this.options.EditHandle = new this.options.Edit(area, params);
         },
 
