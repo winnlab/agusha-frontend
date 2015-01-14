@@ -12,6 +12,18 @@
                 </button>
             </div>
         </div>
+        <div class='row well'>
+          <button class='btn btn-danger t-pending' {{#if showPending}}disabled{{/if}}>
+            <i class="fa fa-question-circle"></i>
+            &nbsp;
+            <span>Добавить</span>
+          </button>
+          <button class='btn btn-success t-answered' {{#unless showPending}}disabled{{/unless}}>
+            <i class="fa fa-check-circle"></i>
+            &nbsp;
+            <span>Добавить</span>
+          </button>
+        </div>
     </div>
     <div class='panel-body' id='consultationList'>
       <table class="table-striped table">
@@ -19,22 +31,24 @@
           <tbody>
             {{#if consultations.length}}
                 {{#sortedBy consultations 'created' 'desc'}}
-                  <tr class='row consultation' {{data "consultations"}}>
-                    <td class="col-md-6">
-                      {{name}}
-                    </td>
-                    <td class="col-md-4">
-                      {{parseDate . 'created'}}
-                    </td>
-                    <td class='col-md-2'>
-                        <div class="btn btn-default editConsultation" title="Редактировать">
-                            <i class="fa fa-edit"></i>
-                        </div>
-                        <div class="btn btn-danger removeConsultation" title="Удалить">
-                            <i class="fa fa-trash-o"></i>
-                        </div>
-                    </td>
-                  </tr>
+                  {{#checkAnswer . showPending}}
+                    <tr class='row consultation' {{data "consultations"}}>
+                      <td class="col-md-6">
+                        {{name}}
+                      </td>
+                      <td class="col-md-4">
+                        {{parseDate . 'created'}}
+                      </td>
+                      <td class='col-md-2'>
+                          <div class="btn btn-default editConsultation" title="Редактировать">
+                              <i class="fa fa-edit"></i>
+                          </div>
+                          <div class="btn btn-danger removeConsultation" title="Удалить">
+                              <i class="fa fa-trash-o"></i>
+                          </div>
+                      </td>
+                    </tr>
+                  {{/checkAnswer}}
                 {{/sortedBy}}
             {{else}}
                 <div class="alert alert-info">

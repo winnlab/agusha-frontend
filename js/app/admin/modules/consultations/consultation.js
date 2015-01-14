@@ -155,8 +155,8 @@ export default Edit.extend({
                     answ = self.options.doc.attr('answer'),
                     index = answ.indexOf(item);
 
-                if(index > -1) {
-                    answ.splice(index, 1);
+                if (index > -1) {
+                  self.options.doc.attr('answer').splice(index, 1);
                 }
             }
         });
@@ -173,7 +173,6 @@ export default Edit.extend({
       options = self.options,
       data = this.getDocData(el),
       doc = options.doc;
-
       doc.attr(data);
 
       can.ajax({
