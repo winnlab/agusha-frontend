@@ -251,7 +251,7 @@ can.mustache.registerHelper('arrContains', function (array, value, strict, rever
 });
 
 can.mustache.registerHelper('ensureDate', function (entity, property, format = false) {
-	var format = _.isString(format) && format || 'DD.MM.YYYY hh:mm:s',
+	var format = _.isString(format) ? format : 'DD.MM.YYYY hh:mm:ss',
 		date = computedVal(entity).attr(property);
 
 	return date
@@ -259,10 +259,15 @@ can.mustache.registerHelper('ensureDate', function (entity, property, format = f
 		: moment().format(format);
 });
 
-can.mustache.registerHelper('parseDate', function (date) {
+can.mustache.registerHelper('parseDate', function (date, prop) {
 	date = computedVal(date);
+
+	if (_.isString(prop)) {
+		date = date.attr(prop);
+	}
+
 	return date
-		? moment(date).format('DD.MM.YYYY hh:mm:s')
+		? moment(date).format('DD.MM.YYYY hh:mm:ss')
 		: "Нет данных";
 });
 
@@ -302,7 +307,7 @@ can.mustache.registerHelper('arrOfObjectsContains', function (array, property, v
 can.mustache.registerHelper('getURLRoot', function () {
 	var url = document.URL.split('/');
 
-	return url.length > 1 
+	return url.length > 1
 		? url[0] + '//' + url[2]
 		: url;
 });
