@@ -1,6 +1,7 @@
 import Controller from 'controller'
 import Model from 'module/question/questionModel'
 import appState from 'core/appState';
+import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
 import 'bx-slider';
 
 export default Controller.extend(
