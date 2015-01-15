@@ -10,6 +10,13 @@ import AgeModel from 'js/app/admin/modules/category/ageModel'
 import ArticleTypeModel from 'js/app/admin/modules/articleTypes/articleTypeModel'
 import ThemeModel from 'js/app/admin/modules/category/themeModel'
 
+can.mustache.registerHelper('checkAnswer', function (doc, showPending, options) {
+	return doc.attr('answer.length') > 0 ^ showPending()
+		? options.fn()
+		: options.inverse();
+});
+
+
 export default List.extend(
 	{
 		defaults: {
@@ -35,8 +42,9 @@ export default List.extend(
 
             List.prototype.init.call(self);
 
-            self.module.attr('doFilter', new can.Map({exec: self.doFilter.bind(self)})
-            );
+						self.module.attr('showPending', true);
+
+            self.module.attr('doFilter', new can.Map({exec: self.doFilter.bind(self)}));
 
             self.module.attr('ages', new can.List);
             self.module.attr('themes', new can.List);
@@ -61,6 +69,14 @@ export default List.extend(
             });
         },
 
+				'.t-pending click': function () {
+					this.module.attr('showPending', true);
+				},
+
+				'.t-answered click': function () {
+					this.module.attr('showPending', false);
+				},
+
         initSetControl: function (area, doc, entity) {
             area.html('');
 
@@ -75,7 +91,7 @@ export default List.extend(
             if (this.options.EditHandle) {
                 this.options.EditHandle.destroy();
             }
-            
+
             this.options.EditHandle = new this.options.Edit(area, params);
         },
 

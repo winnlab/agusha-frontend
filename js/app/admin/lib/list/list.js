@@ -205,7 +205,7 @@ export default can.Control.extend({
 		if (this.options.EditHandle) {
             this.options.EditHandle.destroy();
         }
-        
+
         this.options.EditHandle = new this.options.Edit(area, params);
 	},
 
@@ -237,12 +237,12 @@ export default can.Control.extend({
 
 		}, function(isConfirm) {
 			if (isConfirm) {
-				doc.destroy().always(function (doc, status, def) {
+				doc.destroy().always(function (error, doc, status, def) {
 					appState.attr('notification', {
 						status: status,
 						msg: status === 'success'
 							? options.deletedMsg
-							: options.deletedErr
+							: error || options.deletedErr
 					});
 				});
 			}

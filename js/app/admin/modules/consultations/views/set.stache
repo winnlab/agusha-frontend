@@ -171,26 +171,20 @@
                         {{/if}}
                     </button>
                 </div>
-                <div class="panel-body {{#unless addingComment}}hidden{{/unless}}">
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-success confirmComment">
-                                <i class="fa fa-ok"></i>
-                                <span>Добавить</span>
-                        </button>
-                    </div>
-                    <div class="col-md-10">
+                <div class="panel-body t-answer-form {{#unless addingComment}}hidden{{/unless}}">
+                    <div class="col-md-12">
                         <textarea class="form-control" {{wysiwyg}}></textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="well">
+            <!-- <div class="well">
                 <div class="form-control">
                     <label class="col-md-4">
                         <input type="checkbox" can-value="showComments" /> Показать ответы
                     </label>
                 </div>
-            </div>
+            </div> -->
 
             <div class="{{#unless showComments}}hidden {{/unless}}panel panel-default">
                 <div class="panel-heading">
