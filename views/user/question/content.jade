@@ -12,12 +12,7 @@ if user
 	div.bgImageWrapper
 		.darkenBg
 
-		- var background = "/img/user/question/bg.jpg"
-
-		if !consultation.fixture
-			- consultation.fixture = "/img/user/question/bg.jpg"
-
-		img(src=(consultation.fixture))
+		img(src=(background))
 
 .content
 	include ../helpers/breadcrumbs
