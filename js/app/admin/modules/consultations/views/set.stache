@@ -178,13 +178,13 @@
                 </div>
             </div>
 
-            <div class="well">
+            <!-- <div class="well">
                 <div class="form-control">
                     <label class="col-md-4">
                         <input type="checkbox" can-value="showComments" /> Показать ответы
                     </label>
                 </div>
-            </div>
+            </div> -->
 
             <div class="{{#unless showComments}}hidden {{/unless}}panel panel-default">
                 <div class="panel-heading">
