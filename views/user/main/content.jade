@@ -1,7 +1,7 @@
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
-			.item.active
+			// .item.active
 				.banner_image.banner_image_new_year
 				.content
 					.top_label
@@ -11,7 +11,7 @@
 						div с Новым годом
 						div и Рождеством!
 			
-			.item
+			.item.active
 				.banner_image.banner_image_1
 				.content
 					.top_label
@@ -59,7 +59,7 @@
 			li.active(data-target="#main_carousel" data-slide-to="0")
 			li(data-target="#main_carousel" data-slide-to="1")
 			li(data-target="#main_carousel" data-slide-to="2")
-			li(data-target="#main_carousel" data-slide-to="3")
+			// li(data-target="#main_carousel" data-slide-to="3")
 		
 		.content
 			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
