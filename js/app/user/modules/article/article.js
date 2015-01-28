@@ -1,12 +1,12 @@
 'use strict';
 
-import Controller from 'controller'
-import Model from 'module/article/articleModel'
-import 'bx-slider'
+import Controller from 'controller';
+import Model from 'module/article/articleModel';
+import appState from 'core/appState';
+import pollResults from 'module/article/views/pollResults.mustache!'
+import 'bx-slider';
 import 'js/plugins/jquery.autosize/jquery.autosize.min';
 import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
-import appState from 'core/appState';
-
 
 export default Controller.extend(
 	{
@@ -59,11 +59,13 @@ export default Controller.extend(
 			}
 			
 			var ok_bottom = $('#ok_bottom_' + this.id);
-			if(ok_bottom.length) {
+			if (ok_bottom.length) {
 				OK.CONNECT.insertShareWidget("ok_bottom_" + this.id, ok_url, ok_options);
 			}
-			
-			FB.XFBML.parse(this.element[0]);
+
+			if (typeof FB !== 'undefined') {
+				FB.XFBML.parse(this.element[0]);
+			}
 		},
 		
 		after_init: function(data) {
@@ -113,7 +115,7 @@ export default Controller.extend(
 			$('.pollUnvoted').slideUp();
 
 			$pollResults.html(
-                can.view(self.options.viewpath + 'pollResults.stache', {
+                can.view(pollResults, {
                 	article: data.data
                 })
             );

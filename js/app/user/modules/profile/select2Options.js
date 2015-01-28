@@ -6,7 +6,6 @@ export default {
 
 	},
 	val: function() {
-		console.log(arguments);
 		return 'value';
 	},
 	initSelection: function(el, cb) {

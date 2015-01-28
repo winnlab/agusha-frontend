@@ -3,6 +3,6 @@
 css/user/
 /css/user/*
 css/user/*
-
+node_modules/
 
 .fuse_*

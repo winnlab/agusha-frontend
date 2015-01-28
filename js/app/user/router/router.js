@@ -1,9 +1,8 @@
-import $ from 'jquery'
-import can from 'can/'
-import 'can/route/pushstate/'
-import _ from 'underscore'
-
-import Placeholder from 'placeholder'
+import $ from 'jquery';
+import can from 'can/';
+import _ from 'lodash';
+import Placeholder from 'placeholder';
+import 'can/route/pushstate/';
 
 export default can.Control.extend({
 		defaults: {
@@ -82,7 +81,6 @@ export default can.Control.extend({
 					module.id = id;
 					module.entity_id = data.id;
 					module.param2 = data.param2;
-					
 					this.Placeholder.initModule(module);
 				} else {
 					throw new Error("There is no '" + moduleName + "' module, please check your configuration file");

@@ -1,6 +1,7 @@
 import Controller from 'controller'
 import Model from 'module/question/questionModel'
 import appState from 'core/appState';
+import answerView from 'module/question/views/answer.mustache!';
 import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
 import 'bx-slider';
 
@@ -80,7 +81,7 @@ export default Controller.extend(
 			var $answersContainer = $('.question_items', self.element);
 
 			$answersContainer.append(
-				can.view(self.options.viewpath + 'answer.stache', {
+				can.view(answerView, {
 					answer: formData.answer.text,
 					user: appState.attr('user').user(),
 					date: data.data.updated
@@ -153,7 +154,6 @@ export default Controller.extend(
 		},
 
 		sendSocialLike: function (network) {
-			console.log(network);
 			can.ajax({
 				url: '/like/socialLike',
 				type: 'POST',

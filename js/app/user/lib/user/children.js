@@ -7,14 +7,12 @@ var defImages = {
 }
 
 export default can.Map.extend({
-	define: {
-		image: {
-			value: {
-				large: '',
-				small: ''
-			}
-		}
+	image: {
+		large: '',
+		small: ''
 	},
+	name: '',
+	gender: 0,
 	removeImages: function(callback) {
 		var options, that = this, name = this.attr('image.large')
 			.match(/[a-zA-Z\d]{0,}.[a-zA-Z\d]{1,4}$/i);
@@ -43,7 +41,7 @@ export default can.Map.extend({
 		var that = this;
 
 		_.each(images, function (image, key, list) {
-			that.attr('image.'+key, image);
+			that.attr('image.' + key, image);
 		});
 	}
 });

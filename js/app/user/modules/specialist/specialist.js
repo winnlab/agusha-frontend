@@ -1,7 +1,7 @@
 import Controller from 'controller';
 import select2 from 'select2';
 import appState from 'core/appState';
-import validator from 'jquery-validation';
+import 'jquery-validation';
 
 var ViewModel = can.Map.extend({
 		isAuth: appState.attr('user').auth.attr('isAuth'),

@@ -1,20 +1,8 @@
 import Controller from 'controller';
-import select2 from 'select2';
 import appState from 'core/appState';
-import LoginForm from 'js/app/user/modules/login/login'
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
-import 'carousel'
-
-var ViewModel = can.Map.extend({
-	define: {
-		email: {
-			value: null
-		},
-		password: {
-			value: null
-		}
-	}
-});
+import 'select2';
+import 'carousel';
 
 export default Controller.extend(
 	{
@@ -89,7 +77,6 @@ export default Controller.extend(
 				},
 				author_select = this.element.find('.feed_select'),
 				order_select = this.element.find('.order_select');
-
 			author_select.select2(options);
 			order_select.select2(options);
 		},
@@ -107,7 +94,7 @@ export default Controller.extend(
 			return html;
 		},
 
-		after_init: function(data) {
+		after_init: function(data) {			
 			var auth = appState.attr('user').auth;
 
 			this.isAuth(null, auth.attr('isAuth'));
@@ -127,7 +114,6 @@ export default Controller.extend(
 
 			var encyclopediaHtml,
 				feedHtml,
-				loginHtml,
 				articles = encyclopediaHelpers.sortArticles(this.articlesSource, null, true, true),
 				feed = encyclopediaHelpers.sortArticles(this.feedSource, null, true, true);
 
@@ -142,13 +128,11 @@ export default Controller.extend(
 				module: 'main',
 				themeSubs: data ? data.themeSubs.length : app.themeSubs.length,
 				authorSubs: 0,
-				consultations: data ? data.consultations.length : app.consultations.length,
-				loginForm: new ViewModel()
+				consultations: data ? data.consultations.length : app.consultations.length
 			});
 
 			var encyclopedia_mustache = $('#encyclopedia_mustache'),
-				feed_mustache = $('#feed_mustache'),
-				loginForm = $('.reg_box');
+				feed_mustache = $('#feed_mustache');
 
 			if(!encyclopedia_mustache.length) {
 				encyclopediaHtml = jadeTemplate.get('user/encyclopedia/encyclopedia_mustache');
@@ -158,16 +142,11 @@ export default Controller.extend(
 				feedHtml = feed_mustache.html();
 			}
 
-
-			loginHtml = loginForm.html();
-
 			can.view.mustache('mainArticlesView', encyclopediaHtml);
 			can.view.mustache('feedView', feedHtml);
-			can.view.mustache('logIn', loginHtml);
 
 			this.items_container.html(can.view('mainArticlesView', this.data, encyclopediaHelpers));
 			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
-
 			this.initPlugins();
 		},
 

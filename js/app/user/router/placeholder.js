@@ -1,5 +1,5 @@
 import can from 'can/'
-import _ from 'underscore'
+import _ from 'lodash'
 
 export default can.Map.extend({
 	footer: $('#footer'),
@@ -7,15 +7,17 @@ export default can.Map.extend({
 	modules: [],
 
 	initModule: function (module) {
-		var self = this;
+		var self = this,
+			// productionPath = module.path.client.slice(0, -1).replace('modules', 'bundles');
+			productionPath = module.path.client;
 		
 		if (!self.checkModule(module.id)) {
-			System.import(module.path.client).then((Module) => {
+			System.import(System.env === 'production' ? productionPath : module.path.client).then(function (Module) {
 				if(Module) {
 					self.addModule(module);
 					self.activateModule(module.id);
 					new Module.default('#' + module.id, module);
-					this.moduleActivated(module.id);
+					self.moduleActivated(module.id);
 				} else {
 					msg = module.path.client
 						? 'Please check the constructor of ' + module.path.client + '.js'
@@ -26,11 +28,11 @@ export default can.Map.extend({
 			}).catch((e) => {
 				var msg = 'Error caught while executing the ' + module.name
 						+ ' module from "' + module.path.client + '": ';
-				console.log(' --- ');
+				console.groupCollapsed(msg);
 				console.error(msg);
 				console.info(e);
 				console.info(e.stack);
-				console.log(' --- ');
+				console.groupEnd(msg);
 			});
 		}
 	},

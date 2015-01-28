@@ -1,7 +1,8 @@
+import can from 'can/';
 import Controller from 'controller';
 import select2 from 'select2';
-import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 import appState from 'core/appState';
+import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 import Sub from 'lib/subscribe/';
 import 'custom-scrollbar';
 

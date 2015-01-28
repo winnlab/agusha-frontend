@@ -1,5 +1,5 @@
 import can from 'can/';
-import view from 'js/app/user/lib/popUp/views/index.mustache!'
+import view from 'lib/popUp/views/index.mustache!'
 
 export default can.Control.extend({
 

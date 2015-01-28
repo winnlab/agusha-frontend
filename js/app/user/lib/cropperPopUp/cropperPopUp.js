@@ -1,9 +1,8 @@
 
 import can from 'can/';
-import PopUp from 'lib/popUp/';
-import view from 'js/app/user/lib/cropperPopUp/views/index.mustache!';
 import _ from 'lodash';
-
+import PopUp from 'lib/popUp/';
+import view from 'lib/cropperPopUp/views/index.mustache!';
 import 'cropper';
 
 var imageMap = can.Map.extend({}), Cropper, cropper,
@@ -64,8 +63,6 @@ Cropper = PopUp.extend({
     init: function() {
         var that = this;
 
-        System.import('js/plugins/cropper/dist/cropper.css!');
-
         this.module = new can.Map({
             'close': true,
             'visible': null,
@@ -84,7 +81,8 @@ Cropper = PopUp.extend({
                 '.popUpWrap.cropper .innerImage img.cropImageNode'
             ),
             imgData = imgDom.cropper('getData'),
-            data = new FormData(), module = this.module,
+            data = new FormData(), 
+            module = this.module,
             type = module.attr('type'), lvar,
             that = this;
 
@@ -103,7 +101,6 @@ Cropper = PopUp.extend({
             type: 'POST'
         }).success(function (resp) {
             var owner = module.owner;
-
             owner.setImages(resp.data.images);
             that.closePopup();
         }).fail(function () {
@@ -150,8 +147,6 @@ can.mustache.registerHelper('uploader', function (type, options) {
 
     clojureBind = function(ow, tp, inp) {
         inp.change(function(ev) {
-            console.log('input change');
-            console.log(ev);
 
             var target = $(ev.target).data('target'),
                 input = this;

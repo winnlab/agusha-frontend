@@ -14,13 +14,12 @@
 		)
 		.avatar
 			| {{#if auth.isAuth}}
-			img.rounded(src="{{getProfileImage 'medium'}}")
+			img.rounded(src="{{getProfileImage 'medium' image}}")
 			| {{/if}}
 		.name {{fullName}}
 
 		.children
 			| {{#each children}}
-			| {{log}}
 			.child
 				.image
 					img.rounded(src="{{showChildImage image.small gender}}")
