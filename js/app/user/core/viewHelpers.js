@@ -1,3 +1,5 @@
+'use strict';
+
 import can from 'can/';
 import appState from 'core/appState';
 
@@ -6,7 +8,7 @@ function computedVal (value) {
         value = value();
     }
     return value;
-};
+}
 
 can.mustache.registerHelper('getUserImg', function (article) {
     var result = '/img/user/helpers/stub/medium.png';
@@ -43,8 +45,7 @@ can.mustache.registerHelper('is', function () {
 });
 
 can.mustache.registerHelper('plus', function () {
-    var options = arguments[arguments.length - 1],
-        result = 0;
+    var result = 0;
     for (var i = 0, ln = arguments.length - 1; i < ln; i += 1) {
         result += +computedVal(arguments[i]);
     }
@@ -52,7 +53,7 @@ can.mustache.registerHelper('plus', function () {
 });
 
 can.mustache.registerHelper('sortBy', function (collection, prop, direction, options) {
-    if (arguments.length == 3) {
+    if (arguments.length === 3) {
         options = direction;
         direction = false;
     }
@@ -61,7 +62,7 @@ can.mustache.registerHelper('sortBy', function (collection, prop, direction, opt
     if (collection && collection.attr('length') && prop) {
         var sorted = _.sortBy(collection, function (member) {
             var p = member.attr(prop);
-            if (typeof p == 'object' && p.attr) {
+            if (typeof p === 'object' && p.attr) {
                 p = p.attr();
             }
             if (_.isArray(p)) {
@@ -70,7 +71,7 @@ can.mustache.registerHelper('sortBy', function (collection, prop, direction, opt
             return p;
         });
 
-        if (direction && direction == 'desc') {
+        if (direction && direction === 'desc') {
             sorted.reverse();
         }
 
@@ -85,7 +86,7 @@ can.mustache.registerHelper('sortBy', function (collection, prop, direction, opt
 
 can.mustache.registerHelper('arrContains', function (array, value, strict, reverse, options) {
     strict = computedVal(strict);
-    value = computedVal(value)
+    value = computedVal(value);
 
     if (strict && !value) {
         return false;
@@ -139,9 +140,9 @@ can.mustache.registerHelper('checkAnswer', function (article) {
 });
 
 can.mustache.registerHelper('getProfileImage', function(label, images) {
-    var module = appState.attr('user')
-        , user = module.options.user,
-        images = computedVal(images);
+    var module = appState.attr('user'),
+        user = module.options.user;
+    images = computedVal(images);
     return user.getImage(label);
 });
 
@@ -167,7 +168,7 @@ can.mustache.registerHelper('countAnswersAmount', function (answer) {
         for (var ans in answer()) {
             if (answer().hasOwnProperty(ans)) {
                 if (answer()[ans].clients) {
-                    result += answer()[ans].clients.length
+                    result += answer()[ans].clients.length;
                 }
             }
         }

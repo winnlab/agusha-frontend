@@ -1,31 +1,31 @@
-import can from 'can/'
-import _ from 'lodash'
+'use strict';
+
+import can from 'can/';
+import _ from 'lodash';
 
 export default can.Map.extend({
 	footer: $('#footer'),
-	
+
 	modules: [],
 
 	initModule: function (module) {
-		var self = this,
-			// productionPath = module.path.client.slice(0, -1).replace('modules', 'bundles');
-			productionPath = module.path.client;
-		
+		var self = this, msg;
+
 		if (!self.checkModule(module.id)) {
-			System.import(System.env === 'production' ? productionPath : module.path.client).then(function (Module) {
+			System['import'](module.path.client).then(function (Module) {
 				if(Module) {
 					self.addModule(module);
 					self.activateModule(module.id);
-					new Module.default('#' + module.id, module);
+					new Module['default']('#' + module.id, module);
 					self.moduleActivated(module.id);
 				} else {
 					msg = module.path.client
 						? 'Please check the constructor of ' + module.path.client + '.js'
 						: 'Please check the existance of "' + module.name + '" module';
-					
+
 					throw new Error(msg);
 				}
-			}).catch((e) => {
+			})['catch']((e) => {
 				var msg = 'Error caught while executing the ' + module.name
 						+ ' module from "' + module.path.client + '": ';
 				console.groupCollapsed(msg);
@@ -36,39 +36,39 @@ export default can.Map.extend({
 			});
 		}
 	},
-	
+
 	checkModule: function (id) {
 		var module = _.find(this.modules, function(module){
 				return module.id === id;
 			}),
 			exists = !_.isEmpty(module);
-		
+
 		if(exists) {
 			this.activateModule(id);
-			
+
 			$(window).trigger('custom_resize');
-			
+
 			this.moduleActivated(id);
 		}
-		
+
 		return exists;
 	},
-	
+
 	moduleActivated: function(id) {
 		var classname = 'active',
-			module_tabs = $('.module_tab');
-		
-		module_tabs.removeClass(classname);
-		module_tabs.filter('.module_tab_' + id).addClass(classname);
-		
+			moduleTabs = $('.module_tab');
+
+		moduleTabs.removeClass(classname);
+		moduleTabs.filter('.module_tab_' + id).addClass(classname);
+
 		window.core.animate_left_inner_menu();
-		
-		if(id == 'encyclopedia') {
+
+		if (id === 'encyclopedia') {
 			window.core.hide_left_menu();
 			window.core.hide_right_menu();
 		}
-		
-		if(id == 'login' || id == 'registration') {
+
+		if(id === 'login' || id === 'registration') {
 			this.footer.hide();
 		} else {
 			this.footer.show();
@@ -82,7 +82,7 @@ export default can.Map.extend({
 			scrollTop: 0
 		}, 0);
 	},
-	
+
 	addModule: function (module) {
 		this.modules.push({
 			id: module.id,
@@ -90,7 +90,7 @@ export default can.Map.extend({
 			active: false
 		});
 	},
-	
+
 	activateModule: function (id) {
 		can.batch.start();
 		_.map(this.modules, function (module) {

@@ -1,3 +1,4 @@
+'use strict';
 import can from 'can/';
 import Like from 'like';
 import Watch from 'watch';
@@ -42,7 +43,7 @@ var Core = can.Control.extend({
 		if (!newVal) {
 			return;
 		}
-		
+
 		can.ajax({
 			url: '/moneybox-points-only',
 			dataType: 'json',
@@ -53,37 +54,37 @@ var Core = can.Control.extend({
 			appState.attr('moneybox', false);
 		});
 	},
-	
+
 	'.logout click': function() {
 		this.hide_right_menu();
 		appState.attr('user').logout();
 	},
-	
+
 	'#right_menu_small .subTopper .top click': function() {
 		var user = appState.attr('user'),
 			isAuth = user.auth.attr('isAuth');
-		
+
 		if(isAuth) {
 			this.left_resizable.addClass('small');
 			this.right_menu.toggleClass('active');
 			this.animate_left_inner_menu();
 			this.requestAnimFrame();
-			
+
 			return;
 		}
-		
+
 		can.route.attr({module: 'registration'}, true)
 	},
 
 	step: function(timestamp) {
 		var that = this;
-		
+
 		if(this.start === null) {
 			this.start = timestamp;
 		}
-		
+
 		var progress = timestamp - this.start;
-		
+
 		this.window.trigger('custom_resize');
 
 		if(progress <= 300) {
@@ -114,21 +115,21 @@ var Core = can.Control.extend({
 
 	'#left_menu .close click': function(el) {
 		this.right_menu.removeClass('active');
-		
+
 		var event = 'Close';
-		
+
 		if(this.left_resizable.hasClass('small')) {
 			event = 'Open';
 		}
-		
+
 		this.left_resizable.toggleClass('small');
 
 		this.requestAnimFrame();
-		
+
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', 'LeftMenu', event);
 	},
-	
+
 	'#left_menu .about click': function(el) {
 		this.animate_left_inner_menu(true);
 
@@ -136,17 +137,17 @@ var Core = can.Control.extend({
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', 'AboutAgusha', 'Click');
 	},
-	
+
 	'#left_menu .facebook click': function(el) {
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', 'Social', 'Facebook');
 	},
-	
+
 	'#left_menu .vkontakte click': function(el) {
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', 'Social', 'Vkontakte');
 	},
-	
+
 	'#left_menu .odnoklassniki click': function(el) {
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', 'Social', 'Odnoklassniki');
@@ -193,12 +194,12 @@ var Core = can.Control.extend({
 		phrase = phrase.replace(/ /g, '_');
 		phrase = phrase.toLowerCase();
 
-		if(phrase != '') {
+		if(phrase !== '') {
 			if (typeof ga !== 'undefined') {
 				ga('set', 'page', decodeURI(document.location.href));
 				ga('send', 'event', 'Search', phrase);
 			}
-			
+
 			router.new_module('search/' + phrase);
 		}
 	},
@@ -210,7 +211,7 @@ var Core = can.Control.extend({
 	},
 
 	initBindings: function () {
-		appState.attr('user').user().bind('change', function (ev, attr, how, newVal, oldVal) {
+		appState.attr('user').user().bind('change', function () {
 
 			if (appState.attr('user') && appState.attr('user').user() && appState.attr('user').user()._id) {
 				$(document).find('.comment_box').css('display', 'block');
@@ -228,32 +229,32 @@ var Core = can.Control.extend({
 			$('#right_menu_small .message .adorable_cell').html(newValue);
 		});
 	},
-	
+
 	'{window} custom_ready': function() {
 		$('body').css({
 			overflow: 'auto'
 		});
-		
+
 		$('#preloader').fadeOut(300);
 	},
-	
+
 	'{window} resize': 'resize',
-	
+
 	resize: function() {
 		var	height = this.window.height(),
 			func = 'show';
-		
+
 		if(height < 690) {
 			func = 'hide';
 		}
-		
+
 		this.left_menu_line[func]();
 	},
 
 	'.scrollToTop click': function (el, ev) {
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', 'ScrollToTop', 'Click');
-		
+
 		$('html, body').animate({
 			scrollTop: 0
 		}, 600);

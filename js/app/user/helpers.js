@@ -1,3 +1,5 @@
+'use strict';
+
 window.strip_tags = function(str) {
 	return str.replace(/<\/?[^>]+>/gi, '');
 };
@@ -11,7 +13,7 @@ window.escape = function(text) {
 window.jadeTemplate = {
 	viewPath: '/views/',
 	savedViewFuncs: [],
-	
+
 	get: function(name, data) {
 		if(!(typeof(this.savedViewFuncs[name]) != 'undefined' && this.savedViewFuncs[name])) {
 			var response = $.ajax({
@@ -19,21 +21,21 @@ window.jadeTemplate = {
 				dataType: 'view',
 				async: false
 			});
-			
+
 			this.savedViewFuncs[name] = new Function('return ' + response.responseText)();
 		}
-		
+
 		return this.savedViewFuncs[name](data);
 	}
 };
 
 window.requestAnimFrame = (function() {
-	return	window.requestAnimationFrame	 || 
-		window.webkitRequestAnimationFrame || 
-		window.mozRequestAnimationFrame || 
-		window.oRequestAnimationFrame || 
-		window.msRequestAnimationFrame || 
-		function(callback, element){
+	return	window.requestAnimationFrame	 ||
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		window.oRequestAnimationFrame ||
+		window.msRequestAnimationFrame ||
+		function(callback){
 			var timestamp = new Date().getTime();
 			window.setTimeout(function() {
 				callback(timestamp);

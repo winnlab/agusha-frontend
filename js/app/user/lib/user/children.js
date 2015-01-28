@@ -1,10 +1,10 @@
-
+'use strict';
 import can from 'can/';
 
 var defImages = {
 	large: '',
 	small: ''
-}
+};
 
 export default can.Map.extend({
 	image: {
@@ -40,7 +40,7 @@ export default can.Map.extend({
 	setImages: function(images) {
 		var that = this;
 
-		_.each(images, function (image, key, list) {
+		_.each(images, function (image, key) {
 			that.attr('image.' + key, image);
 		});
 	}

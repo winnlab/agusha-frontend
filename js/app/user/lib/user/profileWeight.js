@@ -39,4 +39,4 @@ export default {
 		],
 		weight: 20
 	}
-}
+};

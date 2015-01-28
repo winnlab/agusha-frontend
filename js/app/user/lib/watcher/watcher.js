@@ -37,7 +37,6 @@ export default can.Control.extend({
     },
 
     toggleWatch: function (el, docId, callback) {
-        var self = this;
         if (docId && callback) {
             can.ajax({
                 url: '/watch/toggleWatch',

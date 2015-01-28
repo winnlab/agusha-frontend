@@ -16,7 +16,12 @@ export default can.Control.extend({
         ev.preventDefault();
         ev.stopPropagation();
 
-        this.toggleLike(el, el.data('component'), el.data('component_id'), this.displayResponse);
+        this.toggleLike(
+            el,
+            el.data('component'),
+            el.data('component_id'),
+            this.displayResponse
+        );
     },
 
     displayResponse: function (el, data) {
@@ -38,8 +43,6 @@ export default can.Control.extend({
     },
 
     toggleLike: function (el, model, docId, callback) {
-        var self = this;
-
         if (model && docId && callback) {
 
             can.ajax({

@@ -1,3 +1,5 @@
+'use strict';
+
 import can from 'can/';
 import Viewport from 'lib/viewport/';
 import PopUp from 'lib/popUp/';

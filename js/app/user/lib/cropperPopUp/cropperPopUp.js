@@ -1,4 +1,4 @@
-
+'use strict';
 import can from 'can/';
 import _ from 'lodash';
 import PopUp from 'lib/popUp/';
@@ -26,17 +26,6 @@ uploadOptions = {
     }
 };
 
-function computedVal (value) {
-    if (typeof value === 'function') {
-        value = value();
-    }
-    // and again
-    if (typeof value === 'function') {
-        value = value();
-    }
-    return value;
-}
-
 can.mustache.registerHelper('cropper', function (entity) {
     return function (el) {
 
@@ -55,20 +44,18 @@ can.mustache.registerHelper('cropper', function (entity) {
             aspectRatio: 1
         });
 
-        return el
+        return el;
     };
 });
 
 Cropper = PopUp.extend({
     init: function() {
-        var that = this;
-
         this.module = new can.Map({
             'close': true,
             'visible': null,
             'text': '',
             'file': null,
-            'image': new imageMap,
+            'image': new imageMap(),
             'classes': 'addPhotoCropper'
         });
 
@@ -81,13 +68,13 @@ Cropper = PopUp.extend({
                 '.popUpWrap.cropper .innerImage img.cropImageNode'
             ),
             imgData = imgDom.cropper('getData'),
-            data = new FormData(), 
+            data = new FormData(),
             module = this.module,
             type = module.attr('type'), lvar,
             that = this;
 
         lvar = can.param(
-            _.extend(imgData, uploadOptions[type]['uploads'])
+            _.extend(imgData, uploadOptions[type].uploads)
         );
 
         data.append(type, img);
@@ -113,17 +100,13 @@ Cropper = PopUp.extend({
     },
 
     show: function (options) {
-        var that = this;
-
         this.parent = options.parent;
-
         this.module.attr({
             visible: true,
             file: options.file,
             owner: options.owner,
             cb: options.cb
         });
-
         this.module.attr('image.url', options.url);
     },
 
@@ -138,18 +121,17 @@ Cropper = PopUp.extend({
 cropper = new Cropper('body');
 
 can.mustache.registerHelper('uploader', function (type, options) {
-    var input, button, btnString, selector, owner,
-        div, clojureBind;
+    var input, owner,
+        clojureBind;
 
     owner = options.context.child || options.context.user;
 
     input = $('<input id="imageToCrop" type="file" accept="image/x-png, image/gif, image/jpeg" />').addClass('uploader uploader'+type);
 
-    clojureBind = function(ow, tp, inp) {
-        inp.change(function(ev) {
+    clojureBind = function (ow, tp, inp) {
+        inp.change(function () {
 
-            var target = $(ev.target).data('target'),
-                input = this;
+            var input = this;
 
             cropper.module.attr('type', tp);
 
@@ -168,7 +150,7 @@ can.mustache.registerHelper('uploader', function (type, options) {
                 reader.readAsDataURL(input.files[0]);
             }
         });
-    }
+    };
 
     clojureBind(owner, type, input);
 

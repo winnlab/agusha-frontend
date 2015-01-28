@@ -1,5 +1,6 @@
+'use strict';
 import can from 'can/';
-import view from 'lib/popUp/views/index.mustache!'
+import view from 'lib/popUp/views/index.mustache!';
 
 export default can.Control.extend({
 
@@ -92,7 +93,7 @@ export default can.Control.extend({
             'text': false
         });
 
-        this.def = null
+        this.def = null;
 
         if (typeof this.module.cb === 'function') {
             this.module.cb();

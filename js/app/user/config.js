@@ -1,5 +1,7 @@
 (function () {
-	// taking from HTML5 Shiv v3.6.2 | @afarkas @jdalton @jon_neal @rem | MIT/GPL2 Licensed
+	'use strict';
+	// taking from HTML5 Shiv v3.6.2 |
+	// @afarkas @jdalton @jon_neal @rem | MIT/GPL2 Licensed
 	var supportsUnknownElements = false;
 
 	(function () {
@@ -7,14 +9,14 @@
 			var a = document.createElement('a');
 			a.innerHTML = '<xyz></xyz>';
 
-			supportsUnknownElements = a.childNodes.length == 1 || (function () {
+			supportsUnknownElements = a.childNodes.length === 1 || (function () {
 				// assign a false positive if unable to shiv
 				(document.createElement)('a');
 				var frag = document.createDocumentFragment();
 				return (
-					typeof frag.cloneNode == 'undefined' ||
-						typeof frag.createDocumentFragment == 'undefined' ||
-						typeof frag.createElement == 'undefined'
+					typeof frag.cloneNode === 'undefined' ||
+						typeof frag.createDocumentFragment === 'undefined' ||
+						typeof frag.createElement === 'undefined'
 					);
 			}());
 		} catch (e) {
@@ -59,7 +61,7 @@
 			'rConfig': 'js/app/user/core/config.js',
 			'helpers': 'js/app/user/helpers.js',
 
-			'carousel': 'js/plugins/bootstrap/js/carousel.js',		
+			'carousel': 'js/plugins/bootstrap/js/carousel.js',
 
 			'controller': 'js/app/user/lib/controller/controller.js',
 			'module/*': 'js/app/user/modules/*.js',
@@ -123,8 +125,8 @@
 			}
 		},
 		ext: {
-			mustache: "home/ansyg/projects/AgushaSteal/public/js/plugins/CanJS/view/mustache/system",
-			stache: "home/ansyg/projects/AgushaSteal/public/js/plugins/CanJS/view/stache/system"
+			mustache: "js/plugins/CanJS/view/mustache/system",
+			stache: "js/plugins/CanJS/view/stache/system"
 		},
 		bundle: [
 			"modules/article/article",
