@@ -12,10 +12,12 @@ import 'tooltipster';
 import 'select2';
 import 'carousel';
 import 'custom-scrollbar';
+import 'bx-slider';
 import 'can/map/delegate/';
 import 'can/map/define/';
 import 'core/viewHelpers';
 import 'lib/right_menu/';
+import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
 
 var Core = can.Control.extend({
 	init: function() {
