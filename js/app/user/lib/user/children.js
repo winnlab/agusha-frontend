@@ -11,8 +11,6 @@ export default can.Map.extend({
 		large: '',
 		small: ''
 	},
-	name: '',
-	gender: 0,
 	removeImages: function(callback) {
 		var options, that = this, name = this.attr('image.large')
 			.match(/[a-zA-Z\d]{0,}.[a-zA-Z\d]{1,4}$/i);

@@ -555,7 +555,6 @@ export default Controller.extend(
             var that = this;
 
             this.childPopUp
-                .module
                 .child.delegate(
                     'isSaved',
                     'set',

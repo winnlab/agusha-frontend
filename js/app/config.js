@@ -97,6 +97,7 @@
 			},
 			'custom-scrollbar': {
 				deps: [
+					'jquery',
 					'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css!'
 				]
 			},
@@ -106,6 +107,7 @@
 			},
 			'bx-slider': {
 				deps: [
+					'jquery',
 					'js/plugins/bx-slider/jquery.bxslider.css!'
 				]
 			}

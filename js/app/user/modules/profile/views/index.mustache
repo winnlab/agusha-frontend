@@ -116,14 +116,14 @@
 					<div class="column left">
 						<div class="inner">
 							<div class="input_row">
-								<input type="text" placeholder="Имя" can-value="user.profile.first_name" value="{{user.profile.first_name}}" >
+								<input type="text" placeholder="Имя" name="profile.first_name" value="{{user.profile.first_name}}" >
 							</div>
 						</div>
 					</div>
 					<div class="column right">
 						<div class="inner">
 							<div class="input_row">
-								<input type="text" placeholder="Фамилия" can-value="user.profile.last_name" value="{{user.profile.last_name}}" >
+								<input type="text" placeholder="Фамилия" name="profile.last_name" value="{{user.profile.last_name}}" >
 							</div>
 						</div>
 					</div>
@@ -131,7 +131,7 @@
 
 						<div class="inner">
 							<div class="input_row">
-								<input type="text" placeholder="Отчество" can-value="user.profile.middle_name" value="{{user.profile.middle_name}}" >
+								<input type="text" placeholder="Отчество" name="profile.middle_name" value="{{user.profile.middle_name}}" >
 							</div>
 						</div>
 						<div class="inner">
@@ -168,20 +168,20 @@
 
 								<div style="display: none">
 
-                                    <select name="birth_date[day]" class="birth_day customDay" can-value="user.birth_date.day">
+                                    <select name="birth_date[day]" class="birth_day customDay">
                                         <option disabled="disabled" selected>День</option>
 										{{#each dates.days}}
                                             <option value="{{.}}">{{.}}</option>
 										{{/each}}
                                     </select>
 
-                                    <select name="birth_date[month]" can-value="user.birth_date.month" class="birth_month customMonth">
+                                    <select name="birth_date[month]" class="birth_month customMonth">
                                         <option disabled="disabled" selected>Мес.</option>
 										{{#each dates.months}}
                                             <option value={{@index}}>{{.}}</option>
 										{{/each}}
                                     </select>
-                                    <select  name="birth_date[year]" can-value="user.birth_date.year" class="birth_year customYear">
+                                    <select  name="birth_date[year]" class="birth_year customYear">
                                         <option disabled="disabled" selected>Год</option>
 										{{#each dates.years}}
                                             <option value="{{.}}">{{.}}</option>
@@ -196,11 +196,11 @@
 					<div class="column right">
 						<div class="inner">
 							<div class="input_row">
-								<input class="editableInput" can-value="user.profile.gender" value="1" id="female" name="gender" {{genderChecked 'female'}} type="radio" >
+								<input class="editableInput" value="1" id="female" name="profile.gender" {{#is user.profile.gender 1}}checked{{/is}} type="radio" >
 								<label for="female">
 									Женщина
 								</label>
-								<input class="editableInput" can-value="user.profile.gender" value="2" id="male" name="gender"{{genderChecked 'male'}} type="radio" >
+								<input class="editableInput" value="2" id="male" name="profile.gender" {{#is user.profile.gender 1}}checked{{/is}}  type="radio" >
 								<label for="male">
 									Мужчина
 								</label>

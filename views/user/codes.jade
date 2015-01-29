@@ -62,10 +62,15 @@ script.
 		s.async = true;
 		s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
 
-		if (w.opera == "[object Opera]") {
-			d.addEventListener("DOMContentLoaded", f, false);
-		} else { f(); }
-	})(document, window, "yandex_metrika_callbacks");
+		var myNav = navigator.userAgent.toLowerCase(),
+			isIe = (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+
+		if (!isIe || isIe > 9) {
+			if (w.opera == "[object Opera]") {
+				d.addEventListener("DOMContentLoaded", f, false);
+			} else { f(); }
+		}
+	}(document, window, "yandex_metrika_callbacks"));
 
 noscript
 	div
