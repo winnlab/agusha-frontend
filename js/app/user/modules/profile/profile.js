@@ -496,6 +496,11 @@ export default Controller.extend(
                 this.dates.attr('days', getDaysInMonth(defMonth, selectedValue));
             }
         },
+
+        'input change': function (el) {
+            this.user.attr(el.attr('name'), el.val());
+        },
+
         '.switcher click': function(el, e) {
             var id = $(e.target).data('passid');
 
