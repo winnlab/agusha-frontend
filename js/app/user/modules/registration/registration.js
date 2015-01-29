@@ -5,10 +5,6 @@ import appState from 'core/appState';
 import 'tooltipster';
 import 'jquery-validation';
 
-import 'js/plugins/tooltipster/css/tooltipster.css!';
-import 'js/plugins/tooltipster/css/themes/tooltipster-agusha.css!';
-import 'js/plugins/tooltipster/css/themes/tooltipster-error.css!';
-
 var ViewModel = can.Map.extend({
 	define: {
 		errors: {

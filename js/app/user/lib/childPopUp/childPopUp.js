@@ -5,7 +5,6 @@ import appState from 'core/appState';
 import childMap from 'lib/user/children';
 import _ from 'lodash';
 import 'custom-scrollbar';
-import 'can/view/bindings/bindings';
 
 function getMonths() {
     return [ "Янв", "Фев", "Март", "Апр", "Май", "Июнь",
@@ -152,5 +151,9 @@ export default PopUp.extend({
         $content.html(selectHtml);
         $targetSelect.find('option:selected').attr('selected', false);
         $targetSelect.find('option[value="'+selectValue+'"]').attr('selected', 'selected');
+    },
+
+    'input change': function (el) {
+        this.child.attr(el.attr('name'), el.val())
     }
 });
