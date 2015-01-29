@@ -1,6 +1,6 @@
 import can from 'can/';
-import appState from 'core/appState'
-import knob from 'knob'
+import appState from 'core/appState';
+import knob from 'knob';
 
 var RightMenu = can.Control.extend({
 	init: function(el) {

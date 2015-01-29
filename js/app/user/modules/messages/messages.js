@@ -4,6 +4,8 @@ import Controller from 'controller'
 import Model from 'module/messages/messagesModel'
 import appState from 'core/appState';
 import _ from 'lodash';
+import conversationsList from 'module/messages/views/conversationsList.mustache!';
+import messagesList from 'module/messages/views/messagesList.mustache!';
 
 export default Controller.extend(
     {
@@ -52,7 +54,7 @@ export default Controller.extend(
                 var lastMessage = self.getLastMessage(conversation);
 
                 $container.append(
-                    can.view(self.options.viewpath + 'conversationsList.stache', {
+                    can.view(conversationsList, {
                         conversation: conversation,
                         lastMessage: lastMessage
                     })
@@ -129,7 +131,7 @@ export default Controller.extend(
                         var messageDate = self.getMessageDate(message.date);
 
                         $messagesContainer.append(
-                            can.view(self.options.viewpath + 'messagesList.stache', {
+                            can.view(messagesList, {
                                 message: message,
                                 author: author,
                                 date: messageDate

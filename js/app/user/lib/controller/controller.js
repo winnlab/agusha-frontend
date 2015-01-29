@@ -1,7 +1,7 @@
-import 'can/'
-import 'can/route/'
-import 'can/view/'
-import 'can/map/define/'
+import can from 'can/';
+import 'can/route/';
+import 'can/view/';
+import 'can/map/define/';
 
 export default can.Control.extend({
 	defaults: {

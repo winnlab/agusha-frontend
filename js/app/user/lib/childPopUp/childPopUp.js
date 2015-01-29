@@ -1,11 +1,11 @@
 import can from 'can/';
 import PopUp from 'lib/popUp/';
-import view from 'js/app/user/lib/childPopUp/views/index.mustache!';
+import view from 'lib/childPopUp/views/index.mustache!';
 import appState from 'core/appState';
 import childMap from 'lib/user/children';
 import _ from 'lodash';
-import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css!';
-import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min';
+import 'custom-scrollbar';
+import 'can/view/bindings/bindings';
 
 function getMonths() {
     return [ "Янв", "Фев", "Март", "Апр", "Май", "Июнь",
@@ -42,20 +42,18 @@ export default PopUp.extend({
         this.child = options.child || new childMap({
             isSaved: false,
             birth: {
-                value: {
-                    month: null,
-                    day: null,
-                    year: null  
-                }
+                month: null,
+                day: null,
+                year: null
             }
         });
 
         this.module = new can.Map({
-            'close': true,
-            'visible': null,
-            'text': '',
-            'child': this.child,
-            'classes': 'addChildPopUp',
+            close: true,
+            visible: null,
+            text: '',
+            child: this.child,
+            classes: 'addChildPopUp',
             dates: {
                 months: getMonths(),
                 days: getDaysInMonth(0, 1990),
@@ -63,26 +61,8 @@ export default PopUp.extend({
             }
         });
 
-        this.element.append(can.view(view, this.module, {
-            genderChecked: function(sex) {
-                var child = that.child, gender;
-
-                if(!(gender = child.gender)) {
-                    return '';
-                }
-
-                if(gender == 1 && sex == 'female') {
-                    return 'checked';
-                }
-
-                if(gender == 2 && sex == 'male') {
-                    return 'checked';
-                }
-
-                return '';
-            }
-        }));
-
+        this.element.html(can.view(view, this.module));
+        window.child = this.child;
         $(".customSelectList", this.element).mCustomScrollbar({
             theme: "dark-thick",
             axis: 'y',

@@ -1,25 +1,24 @@
+import can from 'can/';
+import _ from 'lodash';
 import Controller from 'controller';
 import appState from 'core/appState';
-import tooltip from 'tooltipster';
-import _ from 'lodash';
+import Profile from 'module/profile/profileModel';
+import PopUp from 'lib/popUp/popUp';
 import childPopUp from 'lib/childPopUp/';
-import view from 'js/app/user/modules/profile/views/index.mustache!';
-import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle.min';
-import select2 from 'select2';
-import s2Options from 'js/app/user/modules/profile/select2Options';
-import s3Options from 'js/app/user/modules/profile/select3Options';
+import inputMask from 'js/plugins/jquery.inputmask/dist/jquery.inputmask.bundle';
+import s2Options from 'module/profile/select2Options';
+import s3Options from 'module/profile/select3Options';
 import moment from 'moment';
-import friendsView from 'js/app/user/modules/profile/views/friends.mustache!';
+import view from 'module/profile/views/index.mustache!';
+import friendsView from 'module/profile/views/friends.mustache!';
+import 'tooltipster';
+import 'select2';
 import 'vk-openapi'
-import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css!';
-import 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min';
-
+import 'custom-scrollbar';
 import 'js/plugins/select2/select2.css!'
-
 import 'js/plugins/social/vk/vk_sdk';
-
-import Profile from 'js/app/user/modules/profile/profileModel';
-import PopUp from 'js/app/user/lib/popUp/popUp';
+import 'css/user/profile/select2Profile.css!';
+import 'can/view/bindings/bindings';
 
 var invMessages = {
     vk: 'Быть родителем интересно!\n\rОсобенно если знаешь, как правильно воспитывать, кормить, пеленать, развлекать и ухаживать за маленькой непоседой. У вас тоже есть детки? Тогда вам сюда! '
@@ -56,7 +55,6 @@ can.mustache.registerHelper('tooltip', function(errors, property, position, opti
     var errors = options.context.user.attr('errors');
 
     return function(el) {
-
 
         errors.delegate('**', 'set', function(ev, newVal, oldVal, prop) {
 
@@ -278,22 +276,13 @@ function startYear (startYear) {
 export default Controller.extend(
 	{
         defaults: {
-            Model: Profile,
             input: '.editableInput',
             user: appState.attr('user'),
-            css_path: 'css/user/',
             facebookPermissions: '',
             vkLoginPermissions: ''
         }
     }, {
 		after_init: function(data) {
-
-            System.import('./js/plugins/tooltipster/css/tooltipster.css!');
-            System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
-            System.import('./js/plugins/tooltipster/css/themes/tooltipster-error.css!');
-
-            System.import('./css/user/profile/select2Profile.css!');
-
             this.data = appState.attr('user');
             this.user = this.data.options.user;
             this.errs = new can.Map();
@@ -309,7 +298,7 @@ export default Controller.extend(
                 return;
             }
 
-            this.options.model = new Profile( this.data.options.user );
+            this.options.model = new Profile( this.data.options.user.serialize() );
 
             this.bindTpl();
             this.bindImages();
@@ -333,7 +322,9 @@ export default Controller.extend(
         },
 
         initSocial: function () {
-
+            if (typeof FB == 'undefined') {
+                return;
+            }
             FB.init({
                 appId: 812840382107432,
                 cookie: true,
@@ -430,7 +421,6 @@ export default Controller.extend(
 /*            var self = this;
 
             FB.login(function(response){
-                console.log(response);
                 self.fbLoginResponse(response);
             });*/
         },
@@ -584,8 +574,6 @@ export default Controller.extend(
                 countries: this.countries,
                 months: getMonths()
             });
-
-            console.log(appState.attr('user').user());
 
             $('#profile').html(can.view(view, viewModel, {
                 genderChecked: function(sex) {

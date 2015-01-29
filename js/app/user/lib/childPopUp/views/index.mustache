@@ -14,13 +14,14 @@
                     </div>   
             	</div>
             	<div class="childMetaInfo">
+                    {{log 'isChild'}}
             		<input type="text" can-value="child.name" placeholder="Имя детеныша" class="deletable">
             		<div class="buttons">
-            			<input type="radio" can-value="child.gender" class="childGender" value="1" name="child_gender" id="child_male" {{#genderChecked 'male'}}checked{{/genderChecked}}>
+            			<input type="radio" can-value="child.gender" class="childGender" value="1" name="child_gender" id="child_male">
             			<label for="child_male">
     						мальчик
             			</label>
-            			<input type="radio" can-value="child.gender" class="childGender" value="2" name="child_gender" id="child_female" {{#genderChecked 'female'}}checked{{/genderChecked}}>
+            			<input type="radio" can-value="child.gender" class="childGender" value="2" name="child_gender" id="child_female">
             			<label for="child_female">
             				девочка
             			</label>

@@ -6,133 +6,133 @@ var config = {
 			{
 				name: 'main',
 				path: {
-					client: 'js/app/user/modules/main/',
+					client: 'modules/main/main',
 					server: ''
 				}
 			},
 			{
 				name: 'registration',
 				path: {
-					client: 'js/app/user/modules/registration/',
+					client: 'modules/registration/registration',
 					server: ':name'
 				}
 			},
 			{
 				name: 'profile',
 				path: {
-					client: 'js/app/user/modules/profile/',
+					client: 'modules/profile/profile',
 					server: ':name'
 				}
 			},
 			{
 				name: 'login',
 				path: {
-					client: 'js/app/user/modules/login/',
+					client: 'modules/login/login',
 					server: ':name'
 				}
 			},
 			{
 				name: 'products',
 				path: {
-					client: 'js/app/user/modules/products/',
+					client: 'modules/products/products',
 					server: ':name'
 				}
 			},
 			{
 				name: 'product',
 				path: {
-					client: 'js/app/user/modules/product/',
+					client: 'modules/product/product',
 					server: ':name/:entity_id'
 				}
 			},
 			{
 				name: 'help',
 				path: {
-					client: 'js/app/user/modules/help/',
+					client: 'modules/help/help',
 					server: ':name/:entity_id'
 				}
 			},
 			{
 				name: 'encyclopedia',
 				path: {
-					client: 'js/app/user/modules/encyclopedia/',
+					client: 'modules/encyclopedia/encyclopedia',
 					server: ':name/:entity_id/:param2'
 				}
 			},
 			{
 				name: 'production',
 				path: {
-					client: 'js/app/user/modules/production/',
+					client: 'modules/production/production',
 					server: ':name'
 				}
 			},
 			{
 				name: 'article',
 				path: {
-					client: 'js/app/user/modules/article/',
+					client: 'modules/article/article',
 					server: ':name/:entity_id'
 				}
 			},
 			{
 				name: 'poll',
 				path: {
-					client: 'js/app/user/modules/poll/',
+					client: 'modules/poll/poll',
 					server: ':name/:entity_id'
 				}
 			},
 			{
 				name: 'specialist',
 				path: {
-					client: 'js/app/user/modules/specialist/',
+					client: 'modules/specialist/specialist',
 					server: ':name'
 				}
 			},
 			{
 				name: 'question',
 				path: {
-					client: 'js/app/user/modules/question/',
+					client: 'modules/question/question',
 					server: ':name/:entity_id'
 				}
 			},
 			{
 				name: 'search',
 				path: {
-					client: 'js/app/user/modules/search/',
+					client: 'modules/search/search',
 					server: ':name/:entity_id'
 				}
 			},
 			{
 				name: 'moneybox',
 				path: {
-					client: 'js/app/user/modules/moneybox/',
+					client: 'modules/moneybox/moneybox',
 					server: ':name'
 				}
 			},
 			{
 				name: 'registered',
 				path: {
-					client: 'js/app/user/modules/main/',
+					client: 'modules/main/main',
 					server: ':name'
 				}
 			},
 			{
 				name: 'messages',
 				path: {
-					client: 'js/app/user/modules/messages/',
+					client: 'modules/messages/messages',
 					server: ':name'
 				}
 			},
 			{
 				name: 'subscriptions',
 				path: {
-					client: 'js/app/user/modules/subscriptions/',
+					client: 'modules/subscriptions/subscriptions',
 					server: ':name'
 				}
 			},
 			{
 				name: 'contacts',
 				path: {
-					client: 'js/app/user/modules/contacts/',
+					client: 'modules/contacts/contacts',
 					server: ':name'
 				}
 			}

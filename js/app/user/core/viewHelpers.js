@@ -138,10 +138,10 @@ can.mustache.registerHelper('checkAnswer', function (article) {
     return !!result ? 'Я уже' : 'Я тоже';
 });
 
-can.mustache.registerHelper('getProfileImage', function(label) {
+can.mustache.registerHelper('getProfileImage', function(label, images) {
     var module = appState.attr('user')
-        , user = module.options.user;
-
+        , user = module.options.user,
+        images = computedVal(images);
     return user.getImage(label);
 });
 

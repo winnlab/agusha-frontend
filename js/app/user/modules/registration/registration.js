@@ -2,12 +2,12 @@ import Controller from 'controller';
 import _ from 'lodash';
 import appState from 'core/appState';
 
-import tooltip from 'tooltipster';
-import validator from 'jquery-validation';
+import 'tooltipster';
+import 'jquery-validation';
 
-System.import('./js/plugins/tooltipster/css/tooltipster.css!');
-System.import('./js/plugins/tooltipster/css/themes/tooltipster-agusha.css!');
-System.import('./js/plugins/tooltipster/css/themes/tooltipster-error.css!');
+import 'js/plugins/tooltipster/css/tooltipster.css!';
+import 'js/plugins/tooltipster/css/themes/tooltipster-agusha.css!';
+import 'js/plugins/tooltipster/css/themes/tooltipster-error.css!';
 
 var ViewModel = can.Map.extend({
 	define: {

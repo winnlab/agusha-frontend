@@ -57,22 +57,17 @@ UserMap = can.Map.extend({
 
 	}
 }, {
+	errors: {
+		email: null,
+		spareEmail: null,
+		firstName: null
+	},
+	image: {},
+	children: new ChildrenList,
+	profile: {
+		filling: 0
+	},
 	define: {
-		children: {
-			value: new ChildrenList
-		},
-		errors: {
-			value: new can.Map({
-				email: null,
-				spareEmail: null,
-				firstName: null
-			})
-		},
-		profile: {
-			value: {
-				filling: 0
-			}
-		},
 		fullName: {
 			get: function() {
 				var fname, lname;
@@ -86,9 +81,6 @@ UserMap = can.Map.extend({
 
 				return ''+fname + ' ' + lname;
 			}
-		},
-		image: {
-			value: {}
 		},
 		email: {
 			set: function(value) {
@@ -158,7 +150,6 @@ UserMap = can.Map.extend({
 	},
 	setImages: function(images) {
 		var that = this;
-
 		_.each(images, function (image, key, list) {
 			that.attr('image.'+key, image);
 		});
