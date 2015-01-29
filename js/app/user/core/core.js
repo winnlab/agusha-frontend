@@ -16,7 +16,7 @@ import Commentaries from 'commentaries'
 var Core = can.Control.extend(
 	{
 		defaults: {
-
+			
 		}
 	},
 
