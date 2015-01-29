@@ -104,6 +104,10 @@
 				format: 'global',
 				deps: ['jquery']
 			},
+			'carousel': {
+				format: 'global',
+				deps: ['jquery']
+			},
 			'cropper': {
 				format: 'global',
 				deps: ['js/plugins/cropper/dist/cropper.css!']
@@ -111,6 +115,7 @@
 			'tooltipster': {
 				format: 'global',
 				deps: [
+					'jquery',
 					'js/plugins/tooltipster/css/tooltipster.css!',
 					'js/plugins/tooltipster/css/themes/tooltipster-agusha.css!',
 					'js/plugins/tooltipster/css/themes/tooltipster-error.css!'
