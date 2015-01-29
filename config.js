@@ -1,1 +1,1 @@
-/home/ansyg/projects/AgushaHuge/public/js/app/user/config.js
+js/app/user/config.js

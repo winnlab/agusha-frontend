@@ -21,7 +21,11 @@ export default can.Control.extend({
 			
 			$(options.modulesContainer).prepend(html);
 			
-			can.route.bindings.pushstate.root = options.base;
+			if (can.route.bindings.pushstate) {
+				can.route.bindings.pushstate.root = options.base;
+			} else {
+				can.route.bindings.hashchange.root = options.base;
+			}
 			can.route.ready();
 		},
 		
