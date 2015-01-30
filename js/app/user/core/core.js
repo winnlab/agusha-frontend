@@ -1,11 +1,11 @@
 'use strict';
 import can from 'can/';
+import appState from 'core/appState';
 import Like from 'like';
-import Watch from 'watch';
+import Watch from 'js/app/user/lib/watcher/';
 import Router from 'router';
 import config from 'rConfig';
 import helpers from 'helpers';
-import appState from 'core/appState';
 import Commentaries from 'commentaries';
 import 'jquery-validation';
 import 'tooltipster';
@@ -13,11 +13,11 @@ import 'select2';
 import 'carousel';
 import 'custom-scrollbar';
 import 'bx-slider';
+import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
 import 'can/map/delegate/';
 import 'can/map/define/';
 import 'core/viewHelpers';
 import 'lib/right_menu/';
-import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
 
 var Core = can.Control.extend({
 	init: function() {
@@ -279,3 +279,5 @@ window.router = new Router(document.body, config.router);
 new Like(document.body);
 new Commentaries(document.body);
 new Watch(document.body);
+
+export default window.core;

@@ -4,10 +4,6 @@ import can from 'can/';
 import appState from 'core/appState';
 
 export default can.Control.extend({
-    defaults: {
-
-    }
-}, {
 
     '.watch click': function (el, ev) {
         ev.preventDefault();
