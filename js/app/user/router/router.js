@@ -4,6 +4,7 @@ import $ from 'jquery';
 import can from 'can/';
 import _ from 'lodash';
 import Placeholder from 'placeholder';
+import routerView from 'js/app/user/router/views/index.mustache!';
 import 'can/route/pushstate/';
 
 export default can.Control.extend({
@@ -16,7 +17,7 @@ export default can.Control.extend({
 
 			this.Placeholder = new Placeholder();
 
-			var html = can.view('#route_mustache', {
+			var html = can.view(routerView, {
 					modules: this.Placeholder.attr('modules')
 				});
 
