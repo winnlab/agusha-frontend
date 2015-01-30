@@ -7,7 +7,7 @@
 </div>
 
 <div>
-	<a href="{{ site.baseUrl }}?utm_source=email&utm_medium=email&utm_content=remindpassword&utm_campaign=email_otherletters" target="_blank">{{ site.baseUrl }}</a>
+	<a href="{{ site.baseUrl }}login?utm_source=email&utm_medium=email&utm_content=remindpassword&utm_campaign=email_otherletters" target="_blank">{{ site.baseUrl }}login</a>
 </div>
 
 <div class="text allow">

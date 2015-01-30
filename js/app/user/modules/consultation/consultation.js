@@ -11,21 +11,20 @@ export default Controller.extend(
 		},
 		
 		plugins: function() {
-			var vk_options = {
-					type: "mini",
-					height: 20,
-					pageUrl: decodeURI(document.location.href) + '?utm_source=vkontakte&utm_medium=share&utm_campaign=site_articleshare'
+			var url = decodeURI(document.location.href) + '?utm_source=vkontakte&utm_medium=share&utm_campaign=site_articleshare',
+				vk_options = {
+					url: url
 				},
 				ok_options = "{width:145, height:20, st:'rounded', sz:20, ck:1}";
 			
 			var vk_top = $('#vk_top_question_' + this.id);
 			if(vk_top.length) {
-				VK.Widgets.Like("vk_top_question_" + this.id, vk_options);
+				vk_top.html(VK.Share.button(vk_options));
 			}
 			
 			var vk_bottom = $('#vk_bottom_question_' + this.id);
 			if(vk_bottom.length) {
-				VK.Widgets.Like("vk_bottom_question_" + this.id, vk_options);
+				vk_bottom.html(VK.Share.button(vk_options));
 			}
 			
 			var ok_url = decodeURI(document.location.href) + '?utm_source=Odnoklassniki&utm_medium=share&utm_campaign=site_articleshare';

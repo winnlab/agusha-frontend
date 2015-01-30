@@ -44,6 +44,7 @@
 			'jade': 'js/plugins/jade/runtime.js',
 			'select2': 'js/plugins/select2/select2.js',
 			'vkontakte': 'js/plugins/social/vk.openapi.js',
+			'vk_share': 'js/plugins/social/vk.share.js',
 			'odnoklasniki': 'js/plugins/social/ok.connect.js',
 			'google': 'js/plugins/social/google.plusone.js',
 			'googlemaps_api': 'js/plugins/google/googlemaps_api.js',
@@ -92,6 +93,7 @@
 				deps: [
 					'jade',
 					'vkontakte',
+					'vk_share',
 					'odnoklasniki',
 					'google'
 				]
