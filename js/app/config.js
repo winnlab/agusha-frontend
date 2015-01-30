@@ -113,8 +113,8 @@
 			}
 		},
 		ext: {
-			mustache: "home/ansyg/projects/AgushaSteal/public/js/plugins/CanJS/view/mustache/system",
-			stache: "home/ansyg/projects/AgushaSteal/public/js/plugins/CanJS/view/stache/system"
+			mustache: "js/plugins/CanJS/view/mustache/system",
+			stache: "js/plugins/CanJS/view/stache/system"
 		},
 		bundle: [
 			"modules/article/article",
