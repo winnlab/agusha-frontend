@@ -3,7 +3,7 @@ System.config({
 	paths: {
 		'css-admin/*': 'css/admin/*css',
 		'jquery': 'js/plugins/jquery/dist/jquery.min.js',
-		'can/*': 'js/plugins/CanJS/*.js',
+		'can/*': 'js/plugins/CanJS-minor/*.js',
 		'adminlte': 'js/plugins/adminlte/js/AdminLTE/app.js',
 		'bootstrap': 'js/plugins/adminlte/js/bootstrap.min.js',
 		'slimscroll': 'js/plugins/adminlte/js/plugins/slimScroll/jquery.slimscroll.min.js',
