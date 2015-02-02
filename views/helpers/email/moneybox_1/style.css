@@ -61,10 +61,23 @@ table {
 	text-align: center;
 }
 
+.top_border_logo_left_whitespace {
+	width: 306px;
+	height: 89px;
+	float: left;
+}
+
+.top_border_logo_right_whitespace {
+	width: 305px;
+	height: 89px;
+	float: left;
+}
+
 .top_border img {
 	margin: 0 auto;
 	width: 159px;
 	height: 89px;
+	float: left;
 }
 
 .left_border {
@@ -98,8 +111,20 @@ table {
 	height: 71px;
 }
 
+.bottom_logo_left_whitespace {
+	width: 229px;
+	height: 71px;
+	float: left;
+}
+
+.bottom_logo_right_whitespace {
+	width: 228px;
+	height: 71px;
+	float: left;
+}
+
 .bottom_logo_part img {
-	margin: 0 auto;
+	float: left;
 	width: 159px;
 	height: 71px;
 }
@@ -111,7 +136,7 @@ table {
 }
 
 .hello {
-	font-size: 28px;
+	font-size: 30px;
 	line-height: 30px;
 	font-weight: bold;
 	color: #4c4c4c;
@@ -130,13 +155,35 @@ table {
 	height: 80px;
 }
 
+.button_left_whitespace {
+	width: 137px;
+	height: 80px;
+	float: left;
+}
+
+.button_right_whitespace {
+	width: 136px;
+	height: 80px;
+	float: left;
+}
+
 .button_container img {
-	margin: 0 auto;
-	display: block;
+	width: 343px;
+	height: 80px;
+	float: left;
 }
 
 .text_2_container {
 	height: 179px;
+	font-size: 16px;
+	line-height: 24px;
+	color: #4c4c4c;
+	padding: 0 40px;
+}
+
+.text_2_container .link {
+	color: #69a5d0;
+	text-decoration: underline;
 }
 
 .dotted_line {
@@ -159,8 +206,13 @@ table {
 	background-color: #5484a6;
 }
 
+.bottom_text {
+	height: 80px;
+	color: #bed5e8;
+}
+
 .social {
-	margin: 30px auto 0;
+	margin: 0 auto;
 	text-align: center;
 	width: 241px;
 }
