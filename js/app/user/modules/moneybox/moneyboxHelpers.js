@@ -9,7 +9,7 @@ var monthNames = moment.months();
 
 function getLvl (points, lvls) {
     return _.find(lvls, function (lvl) {
-        return points + 200 > lvl.points;
+        return points < lvl.points;
     })
 }
 function computedVal (value) {
@@ -32,6 +32,9 @@ export default {
     },
     gt: function (a, b, options) {
         return computedVal(a) > computedVal(b) ? options.fn() : options.inverse();
+    },
+    isStarred: function (a, b, options) {
+        return computedVal(a) + 200 > computedVal(b) ? options.fn() : options.inverse();
     },
     getLvlWidth: function (myPoints, points) {
         var diff = 200 - (+(points()) - (+myPoints()))

@@ -44,7 +44,7 @@ mixin moneybox()
 			| {{/each}}
 	.labels_container
 		| {{#each lvls}}
-		div(class='{{name}} {{#isLast @index lvls.length}}circle{{else}}star{{/isLast}}{{#gt ../points points}} filled{{/gt}}')
+		div(class='{{name}} {{#isLast @index lvls.length}}circle{{else}}star{{/isLast}}{{#isStarred ../points points}} filled{{/isStarred}}')
 		| {{/each}}
 		| {{#each lvls}}
 		div(class="label {{name}}")= '{{minus points 200}}'

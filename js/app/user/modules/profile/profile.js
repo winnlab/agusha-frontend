@@ -108,13 +108,12 @@ can.mustache.registerHelper('userLevelText', function(points) {
     var diff, level;
 
     points = typeof points === 'function' ? points() : points;
-
-    for(var i in levels) {
-        if(points > levels[i].points) {
+    for (var i = 0, ln = levels.length; i < ln; i += 1) {
+        if (points < levels[i].points) {
             level = levels[i].label;
+            break;
         }
     }
-
     if(level == undefined) {
         level = levels[0].label;
     }
@@ -126,10 +125,10 @@ can.mustache.registerHelper('isFilledStart', function(level, points, options) {
     var l;
 
     points = typeof points === 'function' ? points() : points;
-
-    for(var i in levels) {
-        if(points > levels[i].points) {
+    for (var i = 0, ln = levels.length; i < ln; i += 1) {
+        if (points < levels[i].points) {
             l = levels[i];
+            break;
         }
     }
 
@@ -268,7 +267,7 @@ function startYear (startYear) {
 
         while ( startYear <= currentYear ) {
                 years.push(startYear++);
-        } 
+        }
 
         return years;
 }
@@ -312,7 +311,7 @@ export default Controller.extend(
             //$('#country').select2(s3Options);
             $('#city').select2(s2Options);
             $('#city').select2('val', this.user.attr('contacts.city'));
-            
+
             $('.phoneInput').inputmask("+3 8(999) 999 - 99 - 99");
 
             this.initCustomScrollbar();
@@ -570,7 +569,7 @@ export default Controller.extend(
             var html, that = this, viewModel;
 
             viewModel = new can.Map({
-                user: this.data.options.user, 
+                user: this.data.options.user,
                 errs: this.errs,
                 levels: levels,
                 levelKeys: [1,2,3,4,5,6,7],
@@ -675,7 +674,7 @@ export default Controller.extend(
                 });
 
             $('body').append(renderer);
-			
+
 			$(".pf-items").mCustomScrollbar({
                 theme: "dark-thin",
                 axis: 'y',
