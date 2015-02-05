@@ -237,14 +237,21 @@ export default can.Control.extend({
 
 		}, function(isConfirm) {
 			if (isConfirm) {
-				doc.destroy().always(function (error, doc, status, def) {
-					appState.attr('notification', {
-						status: status,
-						msg: status === 'success'
-							? options.deletedMsg
-							: error || options.deletedErr
-					});
-				});
+				doc.destroy()
+					.done(function (doc, status, def) {
+						appState.attr('notification', {
+							status: status,
+							msg: status === 'success'
+								? options.deletedMsg
+								: options.deletedErr
+						});
+					})
+					.fail(function (response) {
+						appState.attr('notification', {
+							status: 'error',
+							msg: response
+						});
+					})
 			}
 		})
 	},
