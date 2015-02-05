@@ -58,6 +58,11 @@
                 </div>
             {{/if}}
           </tbody>
+        {{else}}
+        <div class="alert alert-info">
+          <i class="fa fa-repeat"></i>
+          <b>Загрузка... </b>
+        </div>
         {{/if}}
       </table>
     </div>
