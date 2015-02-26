@@ -33,6 +33,7 @@
 			'jquery/jquery': 'jquery'
 		},
 		paths: {
+			'css/*': 'css/user/*.js',
 			'can/*': 'js/plugins/CanJS/*.js',
 			'jquery': 'js/plugins/jquery/dist/jquery.js',
 			'knob': 'js/plugins/jquery-knob/dist/jquery.knob.min.js',
