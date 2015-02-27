@@ -58,8 +58,11 @@ export default Controller.extend(
 
 		init_sliders: function() {
 			var prizeGroups = this.element.find('.prizeGroup'),
+				howItWorksPrizeGroup =  this.element.find('.how_it_works .prizeGroup'),
 				i, j;
-
+			
+			howItWorksPrizeGroup.data('index', prizeGroups.length - 1);
+			
 			this.images = [];
 
 			for(i = prizeGroups.length; i--;) {

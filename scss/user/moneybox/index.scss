@@ -6,14 +6,136 @@
 @import '../helpers/_modal';
 
 .module.moneybox {
-	width: 920px;
-	text-align: left;
+	width: 100%;
 	color: $grey;
+	overflow: hidden;
+	
+	.module_inner {
+		width: 920px;
+		text-align: left;
+		margin: 0 auto;
+	}
+	
+	.content {
+		.images_container {
+			@include my_inline_block;
+			height: 100%;
+			width: 600px;
+			white-space: nowrap;
+			overflow: hidden;
+			
+			.column {
+				height: 360px;
+			}
+		}
+		
+		.images_inside {
+			height: 100%;
+			position: relative;
+		}
+		
+		.moneybox_card {
+			background: url('/img/user/moneybox/moneybox_card_bg.png') top no-repeat;
+			position: relative;
+			height: 100%;
+		}
+		
+		.card_image {
+			display: none;
+			cursor: pointer;
+			
+			&.active {
+				display: block;
+			}
+		}
 
+		.card_images {
+			@include border_boxed;
+			@include border_radius(22px);
+			position: absolute;
+			height: 315px;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			border: 3px solid $white;
+			background-color: $white;
+
+			.img_container {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				z-index: 0;
+			}
+
+			img {
+				@include border_radius(19px);
+				max-width: 100%;
+				max-height: 100%;
+				display: none;
+
+				&.active {
+					display: block;
+				}
+			}
+
+			.bottom {
+				position: absolute;
+				width: 100%;
+				height: 39px;
+				background-color: rgba(0, 0, 0, 0.3);
+				bottom: 0;
+				left: 0;
+				border-bottom-left-radius: 19px;
+				border-bottom-right-radius: 19px;
+				z-index: 1;
+			}
+
+			.arrow {
+				position: absolute;
+				width: 18px;
+				height: 18px;
+				background: url('/img/user/moneybox/arrows.png') no-repeat;
+				margin: auto;
+				top: 0;
+				bottom: 0;
+				cursor: pointer;
+				z-index: 2;
+				
+				&.left {
+					left: 12px;
+				}
+
+				&.right {
+					background-position: -18px 0;
+					right: 12px;
+				}
+			}
+
+			.circles {
+				@include absolute_centered;
+				height: 7px;
+				text-align: center;
+			}
+
+			.circle {
+				@include my_inline_block;
+				@include rounded;
+				width: 6px;
+				height: 6px;
+				background-color: $white;
+				margin: 0 5px;
+				
+				&.active {
+					background-color: #45b4e8;
+				}
+			}
+		}
+	}
+	
 	.link-tab {
 		cursor: pointer;
 	}
-
+	
 	.bg {
 		@include absolute_horizontal_centered;
 		width: 100%;
@@ -67,7 +189,6 @@
 	.tab_contents {
 		margin-top: 50px;
 		padding: 0 10px 20px;
-		overflow: hidden;
 	}
 
 	.tab_content {
@@ -308,7 +429,7 @@
 
 			.prizes_topper {
 				margin: 59px 10px 0;
-
+				
 				.title {
 					font-size: 55px;
 					line-height: 55px;
@@ -394,10 +515,6 @@
 			.cards_container {
 				height: 380px;
 				clear: both;
-
-				.column {
-					height: 360px;
-				}
 			}
 
 			.your_level {
@@ -426,115 +543,6 @@
 			.prize_name {
 				font-size: 18px;
 				font-family: 'PT_Sans_Bold';
-			}
-			
-			.images_container {
-				@include my_inline_block;
-				height: 100%;
-				width: 600px;
-				white-space: nowrap;
-				overflow: hidden;
-			}
-			
-			.images_inside {
-				height: 100%;
-				position: relative;
-			}
-			
-			.moneybox_card {
-				background: url('/img/user/moneybox/moneybox_card_bg.png') top no-repeat;
-				position: relative;
-			}
-			
-			.card_image {
-				display: none;
-				cursor: pointer;
-				
-				&.active {
-					display: block;
-				}
-			}
-
-			.card_images {
-				@include border_boxed;
-				@include border_radius(22px);
-				position: absolute;
-				height: 315px;
-				bottom: 0;
-				left: 0;
-				width: 100%;
-				border: 3px solid $white;
-				background-color: $white;
-
-				.img_container {
-					width: 100%;
-					height: 100%;
-					position: relative;
-					z-index: 0;
-				}
-
-				img {
-					@include border_radius(19px);
-					max-width: 100%;
-					max-height: 100%;
-					display: none;
-
-					&.active {
-						display: block;
-					}
-				}
-
-				.bottom {
-					position: absolute;
-					width: 100%;
-					height: 39px;
-					background-color: rgba(0, 0, 0, 0.3);
-					bottom: 0;
-					left: 0;
-					border-bottom-left-radius: 19px;
-					border-bottom-right-radius: 19px;
-					z-index: 1;
-				}
-
-				.arrow {
-					position: absolute;
-					width: 18px;
-					height: 18px;
-					background: url('/img/user/moneybox/arrows.png') no-repeat;
-					margin: auto;
-					top: 0;
-					bottom: 0;
-					cursor: pointer;
-					z-index: 2;
-					
-					&.left {
-						left: 12px;
-					}
-
-					&.right {
-						background-position: -18px 0;
-						right: 12px;
-					}
-				}
-
-				.circles {
-					@include absolute_centered;
-					height: 7px;
-					text-align: center;
-				}
-
-				.circle {
-					@include my_inline_block;
-					@include rounded;
-					width: 6px;
-					height: 6px;
-					background-color: $white;
-					margin: 0 5px;
-					
-					&.active {
-						background-color: #45b4e8;
-					}
-				}
 			}
 
 			.all_prizes {
@@ -734,11 +742,12 @@
 		}
 
 		&.how_it_works {
+			text-align: center;
+			
 			.simple {
 				font-size: 55px;
 				line-height: 55px;
 				font-family: 'PT_Sans_Narrow_Bold';
-				text-align: center;
 				text-transform: uppercase;
 				color: #ccbfb8;
 			}
@@ -747,9 +756,291 @@
 				font-size: 18px;
 				font-family: 'PT_Sans_Italic';
 				margin-top: 35px;
-				text-align: center;
 			}
-
+			
+			.new_steps {
+				height: 470px;
+				position: relative;
+				
+				&:after {
+					@include pseudo;
+					height: 1px;
+					background-color: #ccbfb8;
+					bottom: 0;
+					width: 200%;
+					left: -50%;
+				}
+			}
+			
+			.new_step {
+				&.new_step_1 {
+					.step_image {
+						&:before {
+							background: url('/img/user/moneybox/step_image_1.png') center bottom no-repeat;
+						}
+					}
+				}
+				
+				&.new_step_2 {
+					.step_image {
+						&:before {
+							background: url('/img/user/moneybox/step_image_2.png') center bottom no-repeat;
+						}
+					}
+				}
+				
+				&.new_step_3 {
+					.step_image {
+						&:before {
+							background: url('/img/user/moneybox/step_image_3.png') center bottom no-repeat;
+						}
+					}
+				}
+				
+				&.new_step_4 {
+					.step_image {
+						&:before {
+							background: url('/img/user/moneybox/step_image_4.png') center bottom no-repeat;
+						}
+					}
+				}
+				
+				.top_label {
+					@include bold;
+					font-size: 18px;
+					line-height: 24px;
+					margin-top: 30px;
+					color: #31a8e0;
+					height: 65px;
+					padding: 0 22px;
+				}
+				
+				.bottom_label {
+					padding: 0 18px;
+				}
+			}
+			
+			.step_image {
+				height: 240px;
+				position: relative;
+				
+				&:before {
+					@include pseudo;
+					width: 100%;
+					height: 100%;
+					top: 0;
+					left: 0;
+				}
+			}
+			
+			.about_levels_label, .about_prizes_label {
+				@include border_boxed;
+				height: 120px;
+				padding-top: 58px;
+				font-size: 50px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				line-height: 50px;
+				color: #ccbfb8;
+				text-transform: uppercase;
+			}
+			
+			.about_levels_desc, .about_prizes_desc {
+				@include border_boxed;
+				height: 90px;
+				padding-top: 5px;
+				font-size: 16px;
+				line-height: 24px;
+				font-family: 'PT_Sans_Italic';
+			}
+			
+			.levels {
+				height: 383px;
+				position: relative;
+				
+				&:before {
+					@include pseudo;
+					height: 1px;
+					background-color: #ccbfb8;
+					bottom: 0;
+					width: 200%;
+					left: -50%;
+					z-index: 5;
+				}
+				
+				.fixed_table {
+					position: relative;
+					z-index: 10;
+				}
+			}
+			
+			.level_item {
+				@include border_radius(1px);
+				height: 100%;
+				width: 100%;
+				
+				&:hover, &.active {
+					@include box_shadow(0 0 0 12px white, 0px 2px 6px 12px rgba(0, 0, 0, 0.22));
+					background-color: white;
+					z-index: 10;
+					
+					&.level_1 {
+						.level_image {
+							&:before {
+								background-position: -75px 0;
+							}
+						}
+					}
+					
+					&.level_2 {
+						.level_image {
+							&:before {
+								background-position: -119px 0;
+							}
+						}
+					}
+					
+					&.level_3 {
+						.level_image {
+							&:before {
+								background-position: -109px 0;
+							}
+						}
+					}
+					
+					&.level_4 {
+						.level_image {
+							&:before {
+								background-position: -105px 0;
+							}
+						}
+					}
+					
+					&.level_5 {
+						.level_image {
+							&:before {
+								background-position: -117px 0;
+							}
+						}
+					}
+					
+					.level_label {
+						div {
+							display: block;
+						}
+					}
+					
+					.level_points {
+						display: block;
+					}
+					
+					.level_desc {
+						display: block;
+					}
+				}
+				
+				&.level_1 {
+					.level_image {
+						&:before {
+							width: 74px;
+							height: 88px;
+							background: url('/img/user/moneybox/level_image_1.png') no-repeat;
+						}
+					}
+				}
+				
+				&.level_2 {
+					.level_image {
+						&:before {
+							width: 118px;
+							height: 122px;
+							background: url('/img/user/moneybox/level_image_2.png') no-repeat;
+						}
+					}
+				}
+				
+				&.level_3 {
+					.level_image {
+						&:before {
+							width: 108px;
+							height: 127px;
+							background: url('/img/user/moneybox/level_image_3.png') no-repeat;
+						}
+					}
+				}
+				
+				&.level_4 {
+					.level_image {
+						&:before {
+							width: 104px;
+							height: 120px;
+							background: url('/img/user/moneybox/level_image_4.png') no-repeat;
+						}
+					}
+				}
+				
+				&.level_5 {
+					.level_image {
+						&:before {
+							width: 116px;
+							height: 162px;
+							background: url('/img/user/moneybox/level_image_5.png') no-repeat;
+						}
+					}
+				}
+			}
+			
+			.level_label {
+				@include border_boxed;
+				height: 24px;
+				padding-top: 7px;
+				color: $titlegrey;
+				position: relative;
+				z-index: 10;
+				
+				div {
+					display: none;
+				}
+			}
+			
+			.level_image {
+				height: 162px;
+				position: relative;
+				margin-top: -15px;
+				
+				&:before {
+					@include pseudo;
+					@include absolute_horizontal_centered;
+					bottom: 0;
+				}
+			}
+			
+			.level_title {
+				@include bold;
+				margin-top: 25px;
+				color: $titlegrey;
+				text-transform: uppercase;
+			}
+			
+			.level_points {
+				display: none;
+				margin-top: 15px;
+			}
+			
+			.level_desc {
+				display: none;
+				margin-top: 20px;
+			}
+			
+			.prizes {
+				height: 380px;
+				
+				.images_container {
+					width: 100%;
+				}
+			}
+			
+			/*
+			
 			.steps {
 				margin-top: 140px;
 				position: relative;
@@ -862,6 +1153,8 @@
 					opacity: 1;
 				}
 			}
+			
+			*/
 		}
 	}
 

@@ -1,101 +1,264 @@
-.bg
+.module_inner
+	.bg
 
-.content
-	include ../helpers/breadcrumbs
-	
-	.topper_text
-		.topper_title
-			div Что такое
-			div Копилка?
+	.content
+		include ../helpers/breadcrumbs
 		
-		button.topper_button.link-tab(data-tab="rules", data-block="official") Официальные правила
-	
-	.tabs
-		.tabs_flex
-			.tab.tab_selector.rules(data-tab="rules")
-				.tab_selector_inside
-					.title Правила
+		.topper_text
+			.topper_title
+				div Что такое
+				div Копилка?
 			
-			.tab.tab_selector.how_it_works(data-tab="how_it_works", class = (user ? '' : 'active'))
-				.tab_selector_inside
-					.title Как работает?
-			
-			if user
-				.tab.tab_selector.my_moneybox.active(data-tab="my_moneybox")
+			button.topper_button.link-tab(data-tab="rules", data-block="official") Официальные правила
+		
+		.tabs
+			.tabs_flex
+				.tab.tab_selector.rules(data-tab="rules")
 					.tab_selector_inside
-						.title Моя копилка
-	
-	.tab_contents
-		if user
-			.tab_content.tab_selector.my_moneybox.moneyBoxWrap.active
+						.title Правила
+				
+				.tab.tab_selector.how_it_works(data-tab="how_it_works", class = (user ? '' : 'active'))
+					.tab_selector_inside
+						.title Как работает?
+				
+				if user
+					.tab.tab_selector.my_moneybox.active(data-tab="my_moneybox")
+						.tab_selector_inside
+							.title Моя копилка
 		
-		.tab_content.tab_selector.how_it_works(class = (user ? '' : 'active'))
-			.simple Все очень просто!
-			.desc
-				div Следуйте инструкциям, собирайте баллы и обменивайте их на чудесные подарки для вашего малыша!
+		.tab_contents
+			if user
+				.tab_content.tab_selector.my_moneybox.moneyBoxWrap.active
 			
-			.steps
-				.step.step_1
-					.column.left
-						.step_title Шаг 1
-						
-						.step_subtitle
-							div Зарегистрируйтесь или авторизуйтесь на сайте
-						
-						.step_desc Для этого вам необходимо заполнить форму регистрации либо ввести свой e-mail и пароль.
-						
-						a.new_module.registration_link(href="/registration")
-							button.step_button Вход / регистрация
-					
-					.column.double.right
-						img.double_img(src="/img/user/moneybox/step_1.png")
+			.tab_content.tab_selector.how_it_works(class = (user ? '' : 'active'))
+				.simple Все очень просто!
+				.desc
+					div Следуйте инструкциям, собирайте баллы и обменивайте их на чудесные подарки для вашего малыша!
 				
-				.step.step_2
-					.column.double.left
-						img.double_img(src="/img/user/moneybox/step_2.png")
-					
-					.column.right
-						.step_title Шаг 2
+				.new_steps
+					.fixed_table
+						.table_item.new_step.new_step_1
+							.step_image
+							.top_label Авторизуйтесь на сайте!
+							.bottom_label Чтобы баллы регулярно начислялись в вашу копилочку, вам необходимо зарегистрироваться на сайте.
 						
-						.step_subtitle Копите баллы
+						.table_item.new_step.new_step_2
+							.step_image
+							.top_label
+								div Копите
+								div баллы
+							.bottom_label Ежедневно используя сайт, вы получаете баллы в копилочку.
 						
-						.step_desc Выполняя простые действия на нашем сайте, вы получите баллы в вашу Копилочку.
+						.table_item.new_step.new_step_3
+							.step_image
+							.top_label Получайте новые звания
+							.bottom_label Читайте интересные статьи, оставляйте комментарии и повышайте рейтинг на сайте.
 						
-						button.step_button.link-tab(data-tab="rules", data-block="points") Как накопить баллы?
+						.table_item.new_step.new_step_4
+							.step_image
+							.top_label Выигрывайте горы призов!
+							.bottom_label Участвуйте в розыгрышах на сайте и выигрывайте замечательные призы для себя и деток.
 				
-				.step.step_3
-					.column.left
-						.step_title Шаг 3
-						
-						.step_subtitle Развивайтесь и получайте новые звания
-						
-						.step_desc Читайте интересные статьи, оставляйте комментарии и повышайте свой рейтинг на сайте.
-						
-						button.step_button.link-tab(data-tab="rules", data-block="ranks") Как развиваться?
-					
-					.column.double.right
-						img.double_img(src="/img/user/moneybox/step_3.png")
+				.about_levels_label Об уровнях
+				.about_levels_desc
+					div Ваш уровень на сайте говорит о том, насколько активное участие вы принимаете в жизни сообщества
+					div для современных родителей «Агуша».
 				
-				.step.step_4
-					.column.double.left
-						img.double_img(src="/img/user/moneybox/step_4.png")
-					
-					.column.right
-						.step_title Шаг 4
+				.levels
+					.fixed_table
+						.table_item
+							.level_item.level_1
+								.level_label
+									div 1 уровень
+								
+								.level_image
+								
+								.level_title Новичок
+								
+								.level_points
+									span От 
+									span.bold 0
+									span  до 
+									span.bold 200
+									span  баллов
+								
+								.level_desc Вы совсем недавно стали родителем, и вас ждет множество интересных открытий. Приготовьтесь к тому, что ваш малыш будет удивлять вас снова и снова!
 						
-						.step_subtitle Участвуйте в розыгрышах и выигрывайте горы призов!
+						.table_item
+							.level_item.level_2
+								.level_label
+									div 2 уровень
+								
+								.level_image
+								
+								.level_title Ученик
+								
+								.level_points
+									span От 
+									span.bold 201
+									span  до 
+									span.bold 400
+									span  баллов
+								
+								.level_desc Каждый день вы получаете новые знания о своем малыше, но вам еще многое предстоит узнать. Продолжайте в том же духе!
 						
-						.step_desc На нашем сайте вы можете выиграть замечательные призы для ваших деток.
+						.table_item
+							.level_item.level_3
+								.level_label
+									div 3 уровень
+								
+								.level_image
+								
+								.level_title Знаток
+								
+								.level_points
+									span От 
+									span.bold 401
+									span  до 
+									span.bold 600
+									span  баллов
+								
+								.level_desc Вы уже научились базовым приемам по уходу за малышом, но чем ребенок старше — тем больше у него потребностей. Вам все еще есть чему поучиться!
 						
-						button.step_button.link-tab(data-tab="rules", data-block="official") Какие призы?
+						.table_item
+							.level_item.level_4
+								.level_label
+									div 4 уровень
+									
+								.level_image
+								
+								.level_title Эксперт
+								
+								.level_points
+									span От 
+									span.bold 601
+									span  до 
+									span.bold 800
+									span  баллов
+								
+								.level_desc Другие мамочки уже обращаются к вам за советами. И правильно делают, ведь вы уже так много знаете о детках!
 						
-						button.step_button.rules_button.link-tab(data-tab="rules", data-block="official") Правила розыгрышей
+						.table_item
+							.level_item.level_5
+								.level_label
+									div 5 уровень
+								
+								.level_image
+								
+								.level_title Профи
+								
+								.level_points
+									span От 
+									span.bold 801
+									span  до 
+									span.bold 1000
+									span  баллов
+								
+								.level_desc Лишь взглянув на ребенка, вы можете определить, чего он хочет: кушать, спать или играть. Поздравляем, вы — настоящая супермама!
 				
-				.up
-					button.up_button Наверх
-		
-		include rules
-
-.modal
-	.modal_bg
-		.close
+				.about_prizes_label Подарки для малышей
+				.about_prizes_desc
+					div Для мамочек каждого звания на нашем сайте проводятся отдельные розыгрыши полезных, милых и красивых
+					div подарочков для их малышей. Вашему карапузу они тоже понравятся!
+				
+				.prizes.prizeGroup(data-index = 5)
+					.images_container
+						.images_inside
+							.column.moneybox_card(data-index = 0)
+								.card_images
+									.img_container
+										img.card_image.card_image_selector(src="/img/user/moneybox/polotenca/polotence_1.jpg", class = "card_image_0 active", data-index = 0)
+									
+									.bottom
+										.arrow.left
+										.circles
+											.circle.card_image_selector(class = "card_image_0 active", data-index = 0)
+										.arrow.right
+							
+							.column.moneybox_card(data-index = 1)
+								.card_images
+									.img_container
+										img.card_image.card_image_selector(src="/img/user/moneybox/postel/postel_5.jpg", class = "card_image_0 active", data-index = 0)
+									
+									.bottom
+										.arrow.left
+										.circles
+											.circle.card_image_selector(class = "card_image_0 active", data-index = 0)
+										.arrow.right
+							
+							.column.moneybox_card(data-index = 2)
+								.card_images
+									.img_container
+										img.card_image.card_image_selector(src="/img/user/moneybox/chemodan/chemodan_3.jpg", class = "card_image_0 active", data-index = 0)
+									
+									.bottom
+										.arrow.left
+										.circles
+											.circle.card_image_selector(class = "card_image_0 active", data-index = 0)
+										.arrow.right
+				
+				//- .steps
+					.step.step_1
+						.column.left
+							.step_title Шаг 1
+							
+							.step_subtitle
+								div Зарегистрируйтесь или авторизуйтесь на сайте
+							
+							.step_desc Для этого вам необходимо заполнить форму регистрации либо ввести свой e-mail и пароль.
+							
+							a.new_module.registration_link(href="/registration")
+								button.step_button Вход / регистрация
+						
+						.column.double.right
+							img.double_img(src="/img/user/moneybox/step_1.png")
+					
+					.step.step_2
+						.column.double.left
+							img.double_img(src="/img/user/moneybox/step_2.png")
+						
+						.column.right
+							.step_title Шаг 2
+							
+							.step_subtitle Копите баллы
+							
+							.step_desc Выполняя простые действия на нашем сайте, вы получите баллы в вашу Копилочку.
+							
+							button.step_button.link-tab(data-tab="rules", data-block="points") Как накопить баллы?
+					
+					.step.step_3
+						.column.left
+							.step_title Шаг 3
+							
+							.step_subtitle Развивайтесь и получайте новые звания
+							
+							.step_desc Читайте интересные статьи, оставляйте комментарии и повышайте свой рейтинг на сайте.
+							
+							button.step_button.link-tab(data-tab="rules", data-block="ranks") Как развиваться?
+						
+						.column.double.right
+							img.double_img(src="/img/user/moneybox/step_3.png")
+					
+					.step.step_4
+						.column.double.left
+							img.double_img(src="/img/user/moneybox/step_4.png")
+						
+						.column.right
+							.step_title Шаг 4
+							
+							.step_subtitle Участвуйте в розыгрышах и выигрывайте горы призов!
+							
+							.step_desc На нашем сайте вы можете выиграть замечательные призы для ваших деток.
+							
+							button.step_button.link-tab(data-tab="rules", data-block="official") Какие призы?
+							
+							button.step_button.rules_button.link-tab(data-tab="rules", data-block="official") Правила розыгрышей
+					
+					.up
+						button.up_button Наверх
+			
+			include rules
+	
+	.modal
+		.modal_bg
+			.close

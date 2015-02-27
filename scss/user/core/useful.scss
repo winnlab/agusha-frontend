@@ -108,3 +108,18 @@ textarea {
 .pull_right {
 	float: right;
 }
+
+.fixed_table {
+	display: table;
+	table-layout: fixed;
+	border-collapse: collapse;
+	height: 100%;
+	width: 100%;
+}
+
+.table_item {
+	display: table-cell;
+	text-align: center;
+	height: 100%;
+	vertical-align: top;
+}
