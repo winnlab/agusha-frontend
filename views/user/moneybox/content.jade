@@ -202,6 +202,13 @@
 					.column.prizes_label Детская постель
 					.column.prizes_label Детский чемодан Trunki
 				
+				if !user
+					.now_you_know_label Теперь вы знаете все о Копилке
+					.now_you_know_desc Можете смело регистрироваться на нашем сайте и получать свои первые 25 баллов на подарочки!
+					
+					a.new_module(href="/registration")
+						button.now_you_know_button Зарегистрироваться
+				
 				//- .steps
 					.step.step_1
 						.column.left

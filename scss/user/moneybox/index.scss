@@ -833,7 +833,7 @@
 				}
 			}
 			
-			.about_levels_label, .about_prizes_label {
+			.about_levels_label, .about_prizes_label, .now_you_know_label {
 				@include border_boxed;
 				height: 120px;
 				padding-top: 58px;
@@ -844,7 +844,7 @@
 				text-transform: uppercase;
 			}
 			
-			.about_levels_desc, .about_prizes_desc {
+			.about_levels_desc, .about_prizes_desc, .now_you_know_desc {
 				@include border_boxed;
 				height: 90px;
 				padding-top: 5px;
@@ -1056,6 +1056,16 @@
 						z-index: 5;
 					}
 				}
+			}
+			
+			.now_you_know_button {
+				@include border_radius(5px);
+				height: 86px;
+				width: 580px;
+				color: white;
+				background-color: $blue;
+				font-size: 30px;
+				margin-bottom: 80px;
 			}
 			
 			/*
