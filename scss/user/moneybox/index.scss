@@ -1039,6 +1039,25 @@
 				}
 			}
 			
+			.prizes_labels {
+				@include bold;
+				font-size: 18px;
+				padding-bottom: 40px;
+				position: relative;
+				
+				&:not(:last-child) {
+					&:before {
+						@include pseudo;
+						height: 1px;
+						background-color: #ccbfb8;
+						bottom: 0;
+						width: 200%;
+						left: -50%;
+						z-index: 5;
+					}
+				}
+			}
+			
 			/*
 			
 			.steps {
