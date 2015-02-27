@@ -130,7 +130,7 @@ table {
 }
 
 .top_text {
-	height: 270px;
+	height: 261px;
 	font-family: sans-serif;
 	color: #4c4c4c;
 }
@@ -147,12 +147,16 @@ table {
 }
 
 .text {
-	margin-top: 40px;
+	margin-top: 35px;
 	font-size: 16px;
 	line-height: 24px;
 	color: #4c4c4c;
 	padding: 0 40px;
 	margin-bottom: 20px;
+}
+
+.prizes {
+	height: 518px;
 }
 
 .button_container {
@@ -177,19 +181,6 @@ table {
 	float: left;
 }
 
-.text_2_container {
-	height: 179px;
-	font-size: 16px;
-	line-height: 24px;
-	color: #4c4c4c;
-	padding: 0 40px;
-}
-
-.text_2_container .link {
-	color: #69a5d0;
-	text-decoration: underline;
-}
-
 .dotted_line {
 	height: 1px;
 }
@@ -201,6 +192,7 @@ table {
 	font-style: italic;
 	color: #4c4c4c;
 	line-height: 24px;
+	margin-top: 22px;
 }
 
 .bottom_shadow {

@@ -4,7 +4,7 @@
 			<div class="top_border_logo_left_whitespace">
 			</div>
 			
-			<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=podarkijanuaryprodleno&utm_campaign=newsletter_2015.02.02" target="_blank">
+			<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=skororozugrushfev&utm_campaign=newsletter_2015.02.27" target="_blank">
 				<img class="logo_part" src="http://agusha.com.ua/img/user/helpers/email/moneybox_1/top_logo_part.png" />
 			</a>
 			
@@ -29,7 +29,7 @@
 							<div class="bottom_logo_left_whitespace">
 							</div>
 							
-							<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=podarkijanuaryprodleno&utm_campaign=newsletter_2015.02.02" target="_blank">
+							<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=skororozugrushfev&utm_campaign=newsletter_2015.02.27" target="_blank">
 								<img class="logo_part" src="http://agusha.com.ua/img/user/helpers/email/moneybox_1/bottom_logo_part.png" />
 							</a>
 							
@@ -69,12 +69,16 @@
 							</td>
 						</table>
 						
+						<div class="prizes">
+							
+						</div>
+						
 						<div class="button_container">
 							
 							<div class="button_left_whitespace">
 							</div>
 							
-							<a href="http://www.agusha.com.ua/moneybox?utm_source=email&utm_medium=email&utm_content=podarkijanuaryprodleno&utm_campaign=newsletter_2015.02.02" target="_blank">
+							<a href="http://www.agusha.com.ua/moneybox?utm_source=email&utm_medium=email&utm_content=skororozugrushfev&utm_campaign=newsletter_2015.02.27" target="_blank">
 								<img src="http://agusha.com.ua/img/user/helpers/email/moneybox_2/button.png" />
 							</a>
 							
