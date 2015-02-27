@@ -16,6 +16,7 @@ img {
     outline:none;
     text-decoration:none;
 	display: block;
+	margin: 0 auto;
 }
 
 a {
@@ -71,6 +72,10 @@ table {
 	width: 305px;
 	height: 89px;
 	float: left;
+}
+
+.logo_part {
+	height: 89px;
 }
 
 .top_border img {
@@ -157,6 +162,35 @@ table {
 
 .prizes {
 	height: 518px;
+}
+
+.prize_item {
+	width: 170px;
+	display: inline-block;
+	vertical-align: middle;
+	height: 235px;
+	margin: 0 0 30px;
+}
+
+.prize_label {
+	font-size: 18px;
+	font-weight: bold;
+	color: #595959;
+	text-transform: uppercase;
+	margin-top: 5px;
+}
+
+.prize_points {
+	font-size: 12px;
+	color: #999999;
+	margin-top: 5px;
+}
+
+.prize_name {
+	font-size: 14px;
+	color: #404040;
+	margin-top: 5px;
+	line-height: 20px;
 }
 
 .button_container {
