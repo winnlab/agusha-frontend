@@ -31,7 +31,7 @@ export default Controller.extend(
 			this.module = new can.Map({
 				lvls: data ? data.lvls : app.lvls,
 				actions: data ? data.actions : app.actions,
-				points: data ? data.user.points : (app.user ? app.user.points : 0),
+				points: data ? (data.user ? data.user.points: 0) : (app.user ? app.user.points : 0),
 				year: new Date().getFullYear(),
 				activatedAt: data ? (data.user ? data.user.activated_at : 0) : (app.user ? app.user.activated_at : 0),
 				allPrizes: false,
