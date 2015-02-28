@@ -17,7 +17,7 @@ import 'vk-openapi'
 import 'custom-scrollbar';
 import 'js/plugins/select2/select2.css!'
 import 'js/plugins/social/vk/vk_sdk';
-import 'css/user/profile/select2Profile.css!';
+import 'css/profile/select2Profile.css!';
 import 'can/view/bindings/bindings';
 
 var invMessages = {

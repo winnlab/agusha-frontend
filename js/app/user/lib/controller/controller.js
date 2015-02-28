@@ -5,7 +5,7 @@ import 'can/map/define/';
 
 export default can.Control.extend({
 	defaults: {
-		css_path: 'css/user/'
+		css_path: 'css/'
 	}
 }, {
 	init: function() {
