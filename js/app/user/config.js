@@ -139,6 +139,7 @@
 			"modules/article/article",
 			"modules/consultation/consultation",
 			"modules/contacts/contacts",
+			"modules/download/download",
 			"modules/encyclopedia/encyclopedia",
 			"modules/help/help",
 			"modules/login/login",

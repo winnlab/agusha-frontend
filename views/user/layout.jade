@@ -45,7 +45,9 @@ html(xmlns:fb="http://ogp.me/ns/fb#")
 
 		block scripts
 			include codes
+		
 		script.
 			console = typeof console !== 'undefined'  ? console : function () {};
-		// script(src="/js/plugins/steal/steal.js", config-path="/js/app/user/config.js", main="js/app/user/core/")
-		script(src="/js/plugins/steal/steal.production.js", data-env="production", main="core")
+		
+		script(src="/js/plugins/steal/steal.js", config-path="/js/app/user/config.js", main="js/app/user/core/")
+		// script(src="/js/plugins/steal/steal.production.js", data-env="production", main="core")

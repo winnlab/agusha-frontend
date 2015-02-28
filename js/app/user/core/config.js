@@ -135,6 +135,13 @@ var config = {
 					client: 'modules/contacts/contacts',
 					server: ':name'
 				}
+			},
+			{
+				name: 'download',
+				path: {
+					client: 'modules/download/download',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'

@@ -269,6 +269,13 @@ var Core = can.Control.extend({
 			$mainPopupWrapper.find('h1').html('');
 			$mainPopupWrapper.find('p').html('');
 		});
+	},
+	
+	'a._blank click': function(el, ev) {
+		ev.preventDefault();
+		
+		var win = window.open(el.attr('href'), '_blank');
+		win.focus();
 	}
 });
 

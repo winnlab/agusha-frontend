@@ -1,0 +1,72 @@
+.content
+	.download_topper
+		include ../helpers/breadcrumbs
+		
+		.topper_title
+			div Меню
+			div малыша
+		
+		if !user
+			.topper_text
+				span Ссылка для скачивания доступна только для авторизованных пользователей сайта. 
+				a.new_module(href="/registration") Зарегистрируйтесь
+				span  сейчас или 
+				a.new_module(href="/login") войдите
+				span  на сайт, используя свой логин и пароль.
+		
+		if user
+			a._blank(href="/doc/Agusha_for_moms_A6_1_1.pdf", target="_blank")
+				button.download_button Скачать в pdf
+	
+	.download_content
+		.what_inside Что внутри?
+		
+		.download_desc
+			div По мере того как малыш растет и развивается, его организму необходимы дополнительные витамины и микроэлементы.
+			div Вот почему специалисты рекомендуют постепенно вводить прикорм. Но с какого возраста и какие продукты 
+			div можно давать крохе? 
+		
+		.download_table
+			.fixed_table
+				.table_item.feeding_table
+					.download_image
+					
+					.download_label
+						div Таблица введения
+						div прикорма
+					
+					.download_text В таблице вы найдете рекомендации по введению прикорма от 6 месяцев до года и старше
+				
+				.table_item.pediatrician_suggestions
+					.download_image
+					
+					.download_label
+						div Рекомендации
+						div педиатра
+					
+					.download_text Полезные советы от кандидата медицинских наук Матвиенко Ирины Николаевны
+				
+				.table_item.useful_numbers
+					.download_image
+					
+					.download_label
+						div Полезные
+						div цифры
+					
+					.download_text Ориентировочная схема введения прикорма при естественном вскармливании малыша
+		
+		.answers
+			.answers_topper
+				.answers_text.adorable_table
+					.adorable_cell
+						div Ответы на эти и другие вопросы вы найдете в «Детском меню», разработанном нашим педиатром специально для
+						div того, чтобы малыши росли здоровыми и счастливыми
+				
+				if user
+					a._blank(href="/doc/Agusha_for_moms_A6_1_1.pdf", target="_blank")
+						button.answers_button Скачать файл в pdf
+			
+			.answers_footer
+				if !user
+					.adorable_table
+						.adorable_cell Ссылка для скачивания доступна только для авторизованных пользователей
