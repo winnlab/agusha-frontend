@@ -13,9 +13,10 @@
 		
 		.tabs
 			.tabs_flex
-				.tab.tab_selector.winners(data-tab="winners", class = (test ? 'active' : ''))
-					.tab_selector_inside
-						.title Победители
+				if test
+					.tab.tab_selector.winners(data-tab="winners", class = (test ? 'active' : ''))
+						.tab_selector_inside
+							.title Победители
 				
 				.tab.tab_selector.rules(data-tab="rules")
 					.tab_selector_inside
@@ -275,7 +276,8 @@
 			
 			include rules
 			
-			include winners
+			if test
+				include winners
 	
 	.modal
 		.modal_bg
