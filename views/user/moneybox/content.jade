@@ -13,6 +13,10 @@
 		
 		.tabs
 			.tabs_flex
+				.tab.tab_selector.winners(data-tab="winners")
+					.tab_selector_inside
+						.title Победители
+				
 				.tab.tab_selector.rules(data-tab="rules")
 					.tab_selector_inside
 						.title Правила
@@ -270,6 +274,8 @@
 						button.up_button Наверх
 			
 			include rules
+			
+			include winners
 	
 	.modal
 		.modal_bg

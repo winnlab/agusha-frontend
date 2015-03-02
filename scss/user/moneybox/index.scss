@@ -130,6 +130,32 @@
 				}
 			}
 		}
+		
+		.calendar {
+			float: left;
+			width: 70px;
+			height: 70px;
+			border-bottom: 1px solid #d9d7d5;
+			font-family: 'PT_Sans_Bold';
+			text-transform: uppercase;
+			margin-right: 30px;
+
+			.topper {
+				height: 21px;
+				background: url('/img/user/moneybox/calendar_topper.png') repeat-x;
+				font-size: 12px;
+				color: $white;
+			}
+
+			.number {
+				background: url('/img/user/moneybox/number_bg.png') top no-repeat;
+				background-color: $white;
+				height: 49px;
+				font-size: 30px;
+				line-height: 30px;
+				color: $titlegrey;
+			}
+		}
 	}
 	
 	.link-tab {
@@ -438,32 +464,6 @@
 					font-family: 'PT_Sans_Narrow_Bold';
 					text-transform: uppercase;
 					height: 68px;
-				}
-			}
-
-			.calendar {
-				float: left;
-				width: 70px;
-				height: 70px;
-				border-bottom: 1px solid #d9d7d5;
-				font-family: 'PT_Sans_Bold';
-				text-transform: uppercase;
-				margin-right: 30px;
-
-				.topper {
-					height: 21px;
-					background: url('/img/user/moneybox/calendar_topper.png') repeat-x;
-					font-size: 12px;
-					color: $white;
-				}
-
-				.number {
-					background: url('/img/user/moneybox/number_bg.png') top no-repeat;
-					background-color: $white;
-					height: 49px;
-					font-size: 30px;
-					line-height: 30px;
-					color: $titlegrey;
 				}
 			}
 
@@ -1184,6 +1184,251 @@
 			}
 			
 			*/
+		}
+		
+		&.rules {
+			padding: 0 10px 80px;
+		}
+		
+		&.winners {
+			padding: 0 10px 80px;
+			
+			.winner_title {
+				height: 139px;
+				margin-top: -50px;
+				position: relative;
+				
+				> .adorable_table {
+					font-size: 55px;
+					text-transform: uppercase;
+					color: #ccbfb8;
+					font-family: 'PT_Sans_Narrow_Bold';
+				}
+			}
+			
+			.calendar {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 60px;
+				margin: auto;
+			}
+			
+			.winners_topper {
+				height: 71px;
+				background-color: #e9e4e0;
+			}
+			
+			.winners_td {
+				@include border_boxed;
+				display: table-cell;
+				vertical-align: middle;
+				height: 100%;
+				
+				&.level {
+					width: 300px;
+					padding: 0 0 0 30px;
+				}
+				
+				&.prize {
+					width: 450px;
+				}
+				
+				&.count {
+					width: 130px;
+				}
+			}
+			
+			.tab_block {
+				&.winners_novice {
+					.level_content {
+						&:after {
+							background: url('/img/user/moneybox/winners_novice.png') no-repeat;
+						}
+					}
+				}
+				
+				&.winners_disciple {
+					.level_content {
+						&:after {
+							background: url('/img/user/moneybox/winners_disciple.png') no-repeat;
+						}
+					}
+				}
+				
+				&.winners_adept {
+					.level_content {
+						&:after {
+							background: url('/img/user/moneybox/winners_adept.png') no-repeat;
+						}
+					}
+				}
+				
+				&.winners_expert {
+					.level_content {
+						&:after {
+							background: url('/img/user/moneybox/winners_expert.png') no-repeat;
+						}
+					}
+				}
+				
+				&.winners_pro {
+					.level_content {
+						&:after {
+							background: url('/img/user/moneybox/winners_pro.png') no-repeat;
+						}
+					}
+				}
+				
+				.title {
+					background-color: white;
+					
+					.adorable_cell {
+						padding: 0;
+					}
+				}
+				
+				.prize {
+					font-size: 14px;
+					font-family: 'PT_Sans_Regular';
+					color: $base;
+					text-transform: none;
+				}
+				
+				.text {
+					padding: 30px 0 0;
+				}
+			}
+			
+			.level_content {
+				height: 100%;
+				position: relative;
+				
+				&:after {
+					@include pseudo;
+					top: 0;
+					bottom: 0;
+					margin: auto;
+					left: 120px;
+					height: 52px;
+					width: 52px;
+					z-index: 1;
+				}
+			}
+			
+			.rank_title {
+				font-size: 18px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				color: #595959;
+			}
+			
+			.counter {
+				@include rounded;
+				width: 34px;
+				height: 34px;
+				background-color: #ff9486;
+				color: white;
+				font-size: 18px;
+				line-height: 34px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				text-align: center;
+			}
+			
+			.congratz {
+				height: 30px;
+				font-size: 18px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				color: #595959;
+				text-transform: uppercase;
+			}
+			
+			.winner_list {
+				margin-top: 30px;
+				padding: 0 30px;
+			}
+			
+			.winner_image {
+				@include rounded;
+				width: 70px;
+				height: 70px;
+				margin: 0 auto;
+				
+				img {
+					@include rounded;
+					height: 100%;
+					width: 100%;
+				}
+			}
+			
+			.winner_name {
+				@include bold;
+				color: #404040;
+				margin-top: 8px;
+				text-decoration: underline;
+			}
+			
+			.children {
+				font-size: 12px;
+				color: $titlegrey;
+				margin-top: 4px;
+			}
+			
+			.your_prize {
+				height: 80px;
+				font-size: 18px;
+				font-family: 'PT_Sans_Narrow_Bold';
+				text-transform: uppercase;
+				color: #595959;
+			}
+			
+			.prize_image_container {
+				@include rounded;
+				width: 124px;
+				height: 124px;
+				margin: 0 auto;
+				position: relative;
+				
+				img {
+					@include rounded;
+					width: 100%;
+					height: 100%;
+				}
+			}
+			
+			.prize_image_arrow {
+				bottom: 0;
+				cursor: pointer;
+				height: 18px;
+				margin: auto;
+				position: absolute;
+				top: 0;
+				width: 18px;
+				z-index: 2;
+			}
+			
+			.left_arrow {
+				background: url('/img/user/article/left_arrow.png') no-repeat;
+				left: -50px;
+			}
+			
+			.right_arrow {
+				background: url('/img/user/article/right_arrow.png') no-repeat;
+				right: -50px;
+			}
+			
+			.prize_name {
+				@include box_shadow(inset 0 -1px 0 0 $bg);
+				padding: 9px 0 38px;
+				text-align: center;
+				color: $titlegrey;
+			}
+			
+			.winners_note {
+				height: 145px;
+				font-size: 12px;
+				color: #807e7e;
+				line-height: 18px;
+			}
 		}
 	}
 

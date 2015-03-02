@@ -75,6 +75,18 @@ textarea {
 	height: 100%;
 	width: 100%;
 	white-space: normal;
+	
+	&.left {
+		text-align: left;
+	}
+	
+	&.right {
+		text-align: right;
+	}
+	
+	&.bottom {
+		vertical-align: bottom;
+	}
 }
 
 .inline_container {
