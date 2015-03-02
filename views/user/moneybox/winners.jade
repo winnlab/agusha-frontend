@@ -8,7 +8,7 @@ mixin winner_child(g, key, length)
 mixin winner(w)
 	.winner_item
 		.winner_image
-			img(src=(w.image && w.image.medium ? w.image.medium : '/img/user/helpers/stub/medium.png'))
+			img(src = (w.image && w.image.medium ? w.image.medium : '/img/user/helpers/stub/medium.png'), class = (user._id == w._id ? 'crown' : 'crown'))
 		.winner_name #{w.profile.first_name} #{w.profile.middle_name} #{w.profile.last_name}
 		
 		if w.children && w.children.length

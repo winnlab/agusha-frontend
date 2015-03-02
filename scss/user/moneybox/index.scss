@@ -1358,11 +1358,26 @@
 				width: 70px;
 				height: 70px;
 				margin: 0 auto;
+				position: relative;
+				
+				&.crown {
+					&:before {
+						@include pseudo;
+						z-index: 10;
+						width: 29px;
+						height: 28px;
+						top: -16px;
+						left: -3px;
+						background: url('/img/user/moneybox/crown.png') no-repeat;
+					}
+				}
 				
 				img {
 					@include rounded;
 					height: 100%;
 					width: 100%;
+					position: relative;
+					z-index: 20;
 				}
 			}
 			
