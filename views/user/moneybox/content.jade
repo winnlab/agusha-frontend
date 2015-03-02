@@ -13,7 +13,7 @@
 		
 		.tabs
 			.tabs_flex
-				.tab.tab_selector.winners(data-tab="winners")
+				.tab.tab_selector.winners(data-tab="winners", class = (test ? 'active' : ''))
 					.tab_selector_inside
 						.title Победители
 				
@@ -21,20 +21,20 @@
 					.tab_selector_inside
 						.title Правила
 				
-				.tab.tab_selector.how_it_works(data-tab="how_it_works", class = (user ? '' : 'active'))
+				.tab.tab_selector.how_it_works(data-tab="how_it_works", class = (!user && !test ? 'active' : ''))
 					.tab_selector_inside
 						.title Как работает?
 				
 				if user
-					.tab.tab_selector.my_moneybox.active(data-tab="my_moneybox")
+					.tab.tab_selector.my_moneybox(data-tab="my_moneybox", class = (user && !test ? 'active' : ''))
 						.tab_selector_inside
 							.title Моя копилка
 		
 		.tab_contents
 			if user
-				.tab_content.tab_selector.my_moneybox.moneyBoxWrap.active
+				.tab_content.tab_selector.my_moneybox.moneyBoxWrap(class = (user && !test ? 'active' : ''))
 			
-			.tab_content.tab_selector.how_it_works(class = (user ? '' : 'active'))
+			.tab_content.tab_selector.how_it_works(class = (!user && !test ? 'active' : ''))
 				.simple Все очень просто!
 				.desc
 					div Следуйте инструкциям, собирайте баллы и обменивайте их на чудесные подарки для вашего малыша!

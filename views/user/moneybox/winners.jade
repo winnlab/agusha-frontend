@@ -1,4 +1,4 @@
-.tab_content.tab_selector.winners
+.tab_content.tab_selector.winners(class = (test ? 'active' : ''))
 	.winner_title
 		.adorable_table
 			.adorable_cell.left Результаты розыгрыша
@@ -27,7 +27,7 @@
 				.winners_td.prize Силиконовый слюнявчик
 				
 				.winners_td.count
-					.counter 5
+					.counter 10
 		
 		.text
 			.congratz.adorable_table
@@ -35,35 +35,12 @@
 			
 			.winner_list
 				.fixed_table
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
+					- each w, key in winners.novice
+						.table_item
+							.winner_image
+								img(src="/img/avatar_100x100.jpg")
+							.winner_name #{w.profile.first_name} #{w.profile.last_name
+							.children Детки: девочка
 			
 			.your_prize.adorable_table
 				.adorable_cell Ваш подарок
@@ -102,35 +79,12 @@
 			
 			.winner_list
 				.fixed_table
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
+					- each w, key in winners.novice
+						.table_item
+							.winner_image
+								img(src="/img/avatar_100x100.jpg")
+							.winner_name #{w.profile.first_name} #{w.profile.last_name
+							.children Детки: девочка
 			
 			.your_prize.adorable_table
 				.adorable_cell Ваш подарок
@@ -169,35 +123,12 @@
 			
 			.winner_list
 				.fixed_table
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
+					- each w, key in winners.novice
+						.table_item
+							.winner_image
+								img(src="/img/avatar_100x100.jpg")
+							.winner_name #{w.profile.first_name} #{w.profile.last_name
+							.children Детки: девочка
 			
 			.your_prize.adorable_table
 				.adorable_cell Ваш подарок
@@ -228,7 +159,7 @@
 				.winners_td.prize Детский набор: варежки, шапочка, шарфик
 				
 				.winners_td.count
-					.counter 5
+					.counter 2
 		
 		.text
 			.congratz.adorable_table
@@ -236,35 +167,12 @@
 			
 			.winner_list
 				.fixed_table
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
+					- each w, key in winners.novice
+						.table_item
+							.winner_image
+								img(src="/img/avatar_100x100.jpg")
+							.winner_name #{w.profile.first_name} #{w.profile.last_name
+							.children Детки: девочка
 			
 			.your_prize.adorable_table
 				.adorable_cell Ваш подарок
@@ -295,7 +203,7 @@
 				.winners_td.prize Детский чемодан Trunki
 				
 				.winners_td.count
-					.counter 3
+					.counter 1
 		
 		.text
 			.congratz.adorable_table
@@ -303,35 +211,12 @@
 			
 			.winner_list
 				.fixed_table
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
-					
-					.table_item
-						.winner_image
-							img(src="/img/avatar_100x100.jpg")
-						.winner_name Ирина Потапенко
-						.children Детки: девочка
+					- each w, key in winners.novice
+						.table_item
+							.winner_image
+								img(src="/img/avatar_100x100.jpg")
+							.winner_name #{w.profile.first_name} #{w.profile.last_name
+							.children Детки: девочка
 			
 			.your_prize.adorable_table
 				.adorable_cell Ваш подарок
