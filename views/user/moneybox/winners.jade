@@ -2,10 +2,26 @@ mixin winner(w)
 	.table_item
 		.winner_image
 			img(src=(w.image && w.image.small ? w.image.small : '/img/agushaAvatar.png'))
-		.winner_name #{w.profile.first_name} #{w.profile.last_name}
+		.winner_name #{w.profile.first_name} #{w.profile.middle_name} #{w.profile.last_name}
 		.children
 			span Детки: 
 			span #{w.children}
+
+mixin congratz()
+	.congratz.adorable_table
+		.adorable_cell Поздравляем победителей февральского розыгрыша!
+
+mixin your_prize()
+	.your_prize.adorable_table
+		.adorable_cell Ваш подарок
+
+mixin winners_note()
+	.winners_note.adorable_table
+		.adorable_cell
+			div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
+			br
+			div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
+			div Возможно, в следующий раз повезет именно вам. Удачи!
 
 .tab_content.tab_selector.winners(class = (test ? 'active' : ''))
 	.winner_title
@@ -39,16 +55,14 @@ mixin winner(w)
 					.counter 10
 		
 		.text
-			.congratz.adorable_table
-				.adorable_cell Поздравляем победителей февральского розыгрыша!
+			mixin congratz()
 			
 			.winner_list
 				.fixed_table
 					- each w, key in winners.novice
 						mixin winner(w)
 			
-			.your_prize.adorable_table
-				.adorable_cell Ваш подарок
+			mixin your_prize()
 			
 			.prize_image_container
 				.prize_image_arrow.left_arrow
@@ -57,12 +71,7 @@ mixin winner(w)
 			
 			.prize_name Силиконовый слюнявчик
 			
-			.winners_note.adorable_table
-				.adorable_cell
-					div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
-					br
-					div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
-					div Возможно, в следующий раз повезет именно вам. Удачи!
+			mixin winners_note()
 	
 	.tab_block.faq_block.winners_disciple
 		.title
@@ -79,16 +88,14 @@ mixin winner(w)
 					.counter 5
 		
 		.text
-			.congratz.adorable_table
-				.adorable_cell Поздравляем победителей февральского розыгрыша!
+			mixin congratz()
 			
 			.winner_list
 				.fixed_table
 					- each w, key in winners.disciple
 						mixin winner(w)
 			
-			.your_prize.adorable_table
-				.adorable_cell Ваш подарок
+			mixin your_prize()
 			
 			.prize_image_container
 				.prize_image_arrow.left_arrow
@@ -119,16 +126,14 @@ mixin winner(w)
 					.counter 4
 		
 		.text
-			.congratz.adorable_table
-				.adorable_cell Поздравляем победителей февральского розыгрыша!
+			mixin congratz()
 			
 			.winner_list
 				.fixed_table
 					- each w, key in winners.adept
 						mixin winner(w)
 			
-			.your_prize.adorable_table
-				.adorable_cell Ваш подарок
+			mixin your_prize()
 			
 			.prize_image_container
 				.prize_image_arrow.left_arrow
@@ -137,12 +142,7 @@ mixin winner(w)
 			
 			.prize_name Детская постель
 			
-			.winners_note.adorable_table
-				.adorable_cell
-					div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
-					br
-					div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
-					div Возможно, в следующий раз повезет именно вам. Удачи!
+			mixin winners_note()
 	
 	.tab_block.faq_block.winners_expert
 		.title
@@ -159,16 +159,14 @@ mixin winner(w)
 					.counter 2
 		
 		.text
-			.congratz.adorable_table
-				.adorable_cell Поздравляем победителей февральского розыгрыша!
+			mixin congratz()
 			
 			.winner_list
 				.fixed_table
 					- each w, key in winners.expert
 						mixin winner(w)
 			
-			.your_prize.adorable_table
-				.adorable_cell Ваш подарок
+			mixin your_prize()
 			
 			.prize_image_container
 				.prize_image_arrow.left_arrow
@@ -177,12 +175,7 @@ mixin winner(w)
 			
 			.prize_name Детский набор: варежки, шапочка, шарфик
 			
-			.winners_note.adorable_table
-				.adorable_cell
-					div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
-					br
-					div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
-					div Возможно, в следующий раз повезет именно вам. Удачи!
+			mixin winners_note()
 	
 	.tab_block.faq_block.winners_pro
 		.title
@@ -199,16 +192,14 @@ mixin winner(w)
 					.counter 1
 		
 		.text
-			.congratz.adorable_table
-				.adorable_cell Поздравляем победителей февральского розыгрыша!
+			mixin congratz()
 			
 			.winner_list
 				.fixed_table
 					- each w, key in winners.pro
 						mixin winner(w)
 			
-			.your_prize.adorable_table
-				.adorable_cell Ваш подарок
+			mixin your_prize()
 			
 			.prize_image_container
 				.prize_image_arrow.left_arrow
@@ -217,9 +208,4 @@ mixin winner(w)
 			
 			.prize_name Детский чемодан Trunki
 			
-			.winners_note.adorable_table
-				.adorable_cell
-					div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
-					br
-					div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
-					div Возможно, в следующий раз повезет именно вам. Удачи!
+			mixin winners_note()
