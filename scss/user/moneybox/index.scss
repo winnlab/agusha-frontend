@@ -1408,11 +1408,115 @@
 				height: 124px;
 				margin: 0 auto;
 				position: relative;
+			}
+			
+			.prize_image {
+				@include rounded;
+				height: 100%;
+				display: none;
 				
-				img {
-					@include rounded;
-					width: 100%;
-					height: 100%;
+				&.active {
+					display: block;
+				}
+				
+				&.novice_1 {
+					background: url('/img/user/moneybox/slunyavchik/slunyavchik_1.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.novice_2 {
+					background: url('/img/user/moneybox/slunyavchik/slunyavchik_2.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.novice_3 {
+					background: url('/img/user/moneybox/slunyavchik/slunyavchik_3.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.novice_4 {
+					background: url('/img/user/moneybox/slunyavchik/slunyavchik_4.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.novice_5 {
+					background: url('/img/user/moneybox/slunyavchik/slunyavchik_5.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.disciple_1 {
+					background: url('/img/user/moneybox/polotenca/polotence_1.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.disciple_2 {
+					background: url('/img/user/moneybox/polotenca/polotence_2.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.disciple_3 {
+					background: url('/img/user/moneybox/polotenca/polotence_3.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.disciple_4 {
+					background: url('/img/user/moneybox/polotenca/polotence_4.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.disciple_5 {
+					background: url('/img/user/moneybox/polotenca/polotence_5.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.adept_1 {
+					background: url('/img/user/moneybox/postel/postel_1.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.adept_2 {
+					background: url('/img/user/moneybox/postel/postel_2.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.adept_3 {
+					background: url('/img/user/moneybox/postel/postel_3.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.adept_4 {
+					background: url('/img/user/moneybox/postel/postel_4.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.adept_5 {
+					background: url('/img/user/moneybox/postel/postel_5.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.expert_1 {
+					background: url('/img/user/moneybox/shapka_nabor/shapka1.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.expert_2 {
+					background: url('/img/user/moneybox/shapka_nabor/shapka2.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.pro_1 {
+					background: url('/img/user/moneybox/chemodan/chemodan_1.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.pro_2 {
+					background: url('/img/user/moneybox/chemodan/chemodan_2.jpg') center no-repeat;
+					background-size: cover;
+				}
+				
+				&.pro_3 {
+					background: url('/img/user/moneybox/chemodan/chemodan_3.jpg') center no-repeat;
+					background-size: cover;
 				}
 			}
 			
