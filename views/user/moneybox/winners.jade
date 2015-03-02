@@ -1,3 +1,10 @@
+- var gender = ['', 'мальчик', 'девочка']
+
+mixin winner_child(c, key, length)
+	span #{gender[c]}
+	if (key + 1) != length
+		span , 
+
 mixin winner(w)
 	.table_item
 		.winner_image
@@ -7,7 +14,8 @@ mixin winner(w)
 		if w.children && w.children.length
 			.children
 				span Детки: 
-				span #{w.children}
+				- each c, key in w.children
+					mixin winner_child(c, key, w.children.length)
 
 mixin congratz()
 	.congratz.adorable_table
