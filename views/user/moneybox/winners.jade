@@ -3,9 +3,11 @@ mixin winner(w)
 		.winner_image
 			img(src=(w.image && w.image.medium ? w.image.medium : '/img/agushaAvatar.png'))
 		.winner_name #{w.profile.first_name} #{w.profile.middle_name} #{w.profile.last_name}
-		.children
-			span Детки: 
-			span #{w.children}
+		
+		if w.children && w.children.length
+			.children
+				span Детки: 
+				span #{w.children}
 
 mixin congratz()
 	.congratz.adorable_table
