@@ -99,6 +99,11 @@ $large: 1600px;
 	vertical-align: top;
 }
 
+@mixin middle_inline_block {
+	display: inline-block;
+	vertical-align: middle;
+}
+
 @mixin rounded {
 	@include border_radius(99999em);
 }
