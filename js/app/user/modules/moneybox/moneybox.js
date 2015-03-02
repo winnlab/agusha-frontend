@@ -20,6 +20,8 @@ export default Controller.extend(
 			this.tab_blocks = this.element.find('.tab_block');
 
 			this.prizes_buttons = this.element.find('.all_prizes button');
+			
+			this.prize_image_containers = this.element.find('.prize_image_container');
 
 			this.modal = this.element.find('.modal');
 			this.modal_bg = this.modal.find('.modal_bg');
@@ -261,6 +263,38 @@ export default Controller.extend(
 
 			card_selectors.removeClass(this.active);
 			card_selectors.filter('.card_image_' + index).addClass(this.active);
+		},
+		
+		'.prize_image_container .left_arrow click': function(el) {
+			var prize_image_container = el.parent(),
+				prize_images = prize_image_container.find('.prize_image'),
+				current_image = prize_image_container.data('image');
+			
+			if(current_image == 1) {
+				current_image = prize_images.length;
+			} else {
+				current_image--;
+			}
+			
+			prize_image_container.data('image', current_image);
+			prize_images.removeClass(this.active);
+			prize_images.filter('.prize_image_' + current_image).addClass(this.active);
+		},
+		
+		'.prize_image_container .right_arrow click': function(el) {
+			var prize_image_container = el.parent(),
+				prize_images = prize_image_container.find('.prize_image'),
+				current_image = prize_image_container.data('image');
+			
+			if(current_image == prize_images.length) {
+				current_image = 1;
+			} else {
+				current_image++;
+			}
+			
+			prize_image_container.data('image', current_image);
+			prize_images.removeClass(this.active);
+			prize_images.filter('.prize_image_' + current_image).addClass(this.active);
 		},
 
 		'.tab_block .title click': function(el) {
