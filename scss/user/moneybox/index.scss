@@ -1345,6 +1345,12 @@
 			.winner_list {
 				margin-top: 30px;
 				padding: 0 30px;
+				text-align: center;
+			}
+			
+			.winner_item {
+				@include middle_inline_block;
+				width: 160px;
 			}
 			
 			.winner_image {
