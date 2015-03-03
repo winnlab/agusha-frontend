@@ -41,7 +41,7 @@
 							<td>
 								<div class="hello">
 									<div>
-										Здравствуйте, {{ client.login|title }}!
+										Здравствуйте, {{ client.first_name|title }}!
 									</div>
 									
 									<div>
@@ -68,13 +68,15 @@
 						<div class="button_container">
 							
 							<div class="button_left_whitespace">
+								<img src="http://agusha.com.ua/img/user/helpers/email/winner/button_left_whitespace.png" />
 							</div>
 							
 							<a href="http://www.agusha.com.ua/profile" target="_blank">
-								<img src="http://agusha.com.ua/img/user/helpers/email/winner/button.png" />
+								<img class="button" src="http://agusha.com.ua/img/user/helpers/email/winner/button.png" />
 							</a>
 							
 							<div class="button_right_whitespace">
+								<img src="http://agusha.com.ua/img/user/helpers/email/winner/button_right_whitespace.png" />
 							</div>
 							
 						</div>
@@ -84,13 +86,35 @@
 						</div>
 						
 						<table class="join">
-							<td>
+							<td class="join_left">
 								<div>
-									Присоединяйтесь к нам в социальных сетях
+									Присоединяйтесь к нам в
+								</div>
+								
+								<div>
+									социальных сетях
 								</div>
 								
 								<div>
 									и рассказывайте о нас друзьям!
+								</div>
+							</td>
+							
+							<td class="join_knot">
+								<img src="http://agusha.com.ua/img/user/helpers/email/winner/knot_bottom.jpg" />
+							</td>
+							
+							<td class="join_right">
+								<div>
+									<sup>*</sup><span>Подарок может отличаться</span>
+								</div>
+								
+								<div>
+									по цвету от изображения
+								</div>
+								
+								<div>
+									на картинке.
 								</div>
 							</td>
 						</table>

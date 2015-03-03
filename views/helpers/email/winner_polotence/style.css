@@ -164,18 +164,28 @@ table {
 }
 
 .button_left_whitespace {
-	width: 137px;
-	height: 80px;
-	float: left;
-}
-
-.button_right_whitespace {
 	width: 136px;
 	height: 80px;
 	float: left;
 }
 
-.button_container img {
+.button_left_whitespace img {
+	width: 136px;
+	height: 80px;
+}
+
+.button_right_whitespace {
+	width: 137px;
+	height: 80px;
+	float: left;
+}
+
+.button_right_whitespace img {
+	width: 137px;
+	height: 80px;
+}
+
+.button {
 	width: 343px;
 	height: 80px;
 	float: left;
@@ -197,6 +207,28 @@ table {
 	color: #404040;
 	line-height: 24px;
 	background-color: #fefefe;
+}
+
+.join_left {
+	padding-left: 41px;
+	width: 181px;
+	height: 96px;
+}
+
+.join_knot {
+	width: 148px;
+	height: 96px;
+}
+
+.join_knot img {
+	width: 148px;
+	height: 96px;
+}
+
+.join_right {
+	width: 205px;
+	padding-right: 41px;
+	height: 96px;
 }
 
 .bottom_shadow {
