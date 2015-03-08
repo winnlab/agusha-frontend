@@ -113,6 +113,10 @@
 			&.lightblue {
 				color: #13abea;
 			}
+			
+			&.pink {
+				color: #db6ba3;
+			}
 		}
 		
 		.carousel_button {
@@ -154,6 +158,9 @@
 		
 		&.banner_image_new_year {
 			background: url('/img/user/main/new_year_banner.jpg') no-repeat center;
+		}
+		&.banner_image_8_marta {
+			background: url('/img/user/main/banner_8_marta.jpg') no-repeat center;
 		}
 		
 		&.banner_image_moneybox {

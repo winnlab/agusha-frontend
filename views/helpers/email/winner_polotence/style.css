@@ -205,14 +205,16 @@ table {
 	font-family: sans-serif;
 	font-style: italic;
 	color: #404040;
-	line-height: 24px;
-	background-color: #fefefe;
+	line-height: 18px;
+	background-color: #eaf3f4;
 }
 
 .join_left {
-	padding-left: 41px;
-	width: 181px;
+	padding-left: 35px;
+	width: 187px;
 	height: 96px;
+	text-align: left;
+	background-color: #f5f9fa;
 }
 
 .join_knot {
@@ -226,9 +228,10 @@ table {
 }
 
 .join_right {
-	width: 205px;
-	padding-right: 41px;
+	width: 211px;
+	padding-right: 35px;
 	height: 96px;
+	text-align: right;
 }
 
 .bottom_shadow {
