@@ -165,11 +165,11 @@ export default Controller.extend(
 			}
 
 			data = this.data;
-
+			
 			can.ajax({
 				url: '/login?ajax=true',
 				method: 'POST',
-				data: data.serialize(),
+				data: form.serialize(),
 				success: function(response) {
 					var user = appState.attr('user');
 
