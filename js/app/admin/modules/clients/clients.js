@@ -6,6 +6,7 @@ import _ from 'lodash';
 import 'pagination';
 import moment from 'js/plugins/moment/min/moment.min';
 import 'swal';
+import 'daterangepicker';
 
 import ClientModel from 'js/app/admin/modules/clients/clientModel';
 import Client from 'js/app/admin/modules/clients/client';
@@ -32,7 +33,9 @@ export default List.extend(
 
       parentData: '.client',
 
-      limit: 100
+      limit: 100,
+
+			momentFormat: 'DD/MM/YYYY HH:mm'
     }
 	},
   {
@@ -52,6 +55,23 @@ export default List.extend(
           self.populateModel();
         }
       });
+
+			self.element.find('#t-export-range').daterangepicker({
+				timePicker: true,
+				timePickerIncrement: 5,
+				format: self.options.momentFormat,
+				timePicker12Hour: true,
+				startDate: moment().subtract('months', 1),
+				endDate: moment(),
+				maxDate: moment()
+		});
+
+		self.element.find('#t-export-range')
+			.val(
+				moment().subtract('months', 1).format(self.options.momentFormat) +
+				' - ' +
+				moment().format(self.options.momentFormat)
+			);
     },
 
     populateModel: function () {
