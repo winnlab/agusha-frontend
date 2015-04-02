@@ -17,6 +17,7 @@ System.config({
 		'sortable': 'js/plugins/html5sortable/jquery.sortable.js',
 		'cropper': 'js/plugins/cropper/dist/cropper.min.js',
 		'datepicker': 'js/plugins/datepicker/bootstrap-datepicker.js',
+		'daterangepicker': 'js/plugins/adminlte/js/plugins/daterangepicker/daterangepicker.js',
 
 		'adminlte-css/*': 'js/plugins/adminlte/css/*css',
 
@@ -109,6 +110,13 @@ System.config({
 				'adminlte-css/AdminLTE.css!',
 				'adminlte-css/ionicons.min.css!',
 				'adminlte-css/bootstrap.min.css!'
+			]
+		},
+		daterangepicker: {
+			format: 'global',
+			deps: [
+				'jquery',
+				'js/plugins/adminlte/css/daterangepicker/daterangepicker-bs3.css!'
 			]
 		}
 	}

@@ -33,17 +33,17 @@ var showSuccessmessgae = function () {
 		not_registered = reg_box_inside.filter('.not_registered'),
 		active = 'active',
 		bounce = 'bounce';
-	
+
 	registration_inline.addClass('drop');
-	
+
 	setTimeout(function(){
 		registration_inline.addClass(bounce);
 	}, 1000);
-	
+
 	setTimeout(function(){
 		registration_inline.removeClass(bounce);
 	}, 1200);
-	
+
 	setTimeout(function(){
 		not_registered.removeClass(active);
 		registered.addClass(active);
@@ -53,7 +53,7 @@ var showSuccessmessgae = function () {
 export default Controller.extend(
 	{
 		defaults: {
-			
+
 		}
 	}, {
 		after_init: function(data) {
@@ -127,7 +127,7 @@ export default Controller.extend(
 			        $(element).removeClass(errorClass).addClass(validClass);
 			    }
 			});
-			
+
 			this.element.find('.registration_form').validate({
 				rules: {
 					firstName: {
@@ -172,7 +172,7 @@ export default Controller.extend(
 			ev.preventDefault();
 			window.location.href = '/registration/ok';
 		},
-		
+
 		'.registration_form .done click': function(el, ev) {
 			var user, that = this, isErr, form = el.parents('form');
 			ev.preventDefault();
@@ -186,7 +186,7 @@ export default Controller.extend(
 			} else {
 				this.tooltip.tooltipster('hide');
 			}
-			
+
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'Registration', 'Usual');
 
@@ -204,6 +204,8 @@ export default Controller.extend(
 					});
 
 					showSuccessmessgae.call(that);
+
+					can.route.attr({module: 'registration', id: 'success'}, true);
 				},
 				error: function (resp) {
 					that.tooltip.tooltipster('content', resp.responseJSON.err);

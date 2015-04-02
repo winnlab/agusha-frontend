@@ -17,6 +17,31 @@
                 </span>
             </div>
         </div>
+        <div class="panel panel-default pull-left">
+          <div class="panel-heading">Экспорт данных в Excel (.xlsx формат)</div>
+          <div class="panel-body">
+            <form id="export-form" role="form" enctype="multipart/form-data" method="post" action="/admin/clients/export">
+              <div class="form-group">
+                <input type="radio" name="type" value="created_at" checked="checked"/>
+                <label for="created_at"> Выборка по дате регистрации</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" name="type" value="activated_at"/>
+                <label for="activated_at"> Выборка по дате активации</label>
+              </div>
+              <div class="form-group">
+                <label for="range">Диапазон выборки:</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
+                  <input id="t-export-range" type="text" name="range" class="form-control pull-right"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <input id="t-export" type="submit" value="Экспортировать" class="btn btn-success"/>
+              </div>
+            </form>
+          </div>
+        </div>
         <pagination count="{count}" limit="{limit}" page="{currentPage}"></pagination>
         {{#if clients.isResolved}}
             <table class="table table-hover">

@@ -22,7 +22,7 @@ export default can.Control.extend({
 				});
 
 			$(options.modulesContainer).prepend(html);
-			
+
 			if (can.route.bindings.pushstate) {
 				can.route.bindings.pushstate.root = options.base;
 			} else {
@@ -60,6 +60,13 @@ export default can.Control.extend({
 		':module/:id route': 'routeChanged',
 		':module/:id/:param2 route': 'routeChanged',
 
+		getModuleId: function (data) {
+			if (data.module === 'registration') {
+				return data.module;
+			}
+			return data.module + (data.id ? '-' + data.id : '') + (data.param2 ? '-' + data.param2 : '');
+		},
+
 		routeChanged: function (data) {
 			var moduleName,
 				id,
@@ -71,7 +78,7 @@ export default can.Control.extend({
 
 			moduleName = data.module;
 
-			id = moduleName + (data.id ? '-' + data.id : '') + (data.param2 ? '-' + data.param2 : '');
+			id = this.getModuleId(data);
 
 			if(this.route === id) {
 				return;
