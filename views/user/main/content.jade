@@ -1,6 +1,20 @@
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
+			.item.active
+				.banner_image.banner_image_moneybox_2
+				.content
+					.top_label
+						div Копилка:
+						div.small_label Второй розыгрыш подарков
+						div.small_label для вашего малыша
+						div.small_label
+							span уже 
+							span.bold_small_label 6 апреля
+					
+					a.new_module(href="/moneybox")
+						button.carousel_button.orange Узнать больше
+			
 			//- .item
 				.banner_image.banner_image_new_year
 				.content
@@ -34,7 +48,7 @@
 					a.new_module(href="/moneybox")
 						button.carousel_button.blue Подробнее
 			
-			.item.active
+			.item
 				.banner_image.banner_image_1
 				.content
 					.top_label
@@ -82,7 +96,7 @@
 			li.active(data-target="#main_carousel" data-slide-to="0")
 			li(data-target="#main_carousel" data-slide-to="1")
 			li(data-target="#main_carousel" data-slide-to="2")
-			//- li(data-target="#main_carousel" data-slide-to="3")
+			li(data-target="#main_carousel" data-slide-to="3")
 		
 		.content
 			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
