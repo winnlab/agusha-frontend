@@ -14,6 +14,8 @@ export default Controller.extend(
 			this.base_url = window.location.protocol + '//' + window.location.host;
 
 			this.left_menu = $('#left_menu');
+			
+			this.winner_selectors = this.element.find('.winner_selector');
 
 			this.tab_selectors = this.element.find('.tab_selector');
 
@@ -360,6 +362,13 @@ export default Controller.extend(
 		'.registration_link click': function() {
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'Registration', 'Moneybox');
+		},
+		
+		'.calendar.winner_selector click': function(el) {
+			var index = el.data('index');
+			
+			this.winner_selectors.removeClass(this.active);
+			this.winner_selectors.filter('.winner_selector_' + index).addClass(this.active);
 		},
 
 		'{window} custom_resize': 'custom_resize',

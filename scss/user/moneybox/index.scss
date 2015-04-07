@@ -1206,12 +1206,30 @@
 				}
 			}
 			
-			.calendar {
+			.calendars_container {
 				position: absolute;
 				top: 0;
 				bottom: 0;
-				right: 60px;
+				right: 0;
 				margin: auto;
+				height: 70px;
+				text-align: right;
+			}
+			
+			.calendar {
+				@include my_inline_block;
+				margin: 0 0 0 20px;
+				cursor: pointer;
+				
+				&:not(.active) {
+					.topper {
+						background: url('/img/user/moneybox/calendar_topper_prev.png') repeat-x;
+					}
+					
+					.number {
+						color: #ddd2ca;
+					}
+				}
 			}
 			
 			.winners_topper {
@@ -1236,6 +1254,14 @@
 				
 				&.count {
 					width: 130px;
+				}
+			}
+			
+			.winner_block {
+				display: none;
+				
+				&.active {
+					display: block;
 				}
 			}
 			
