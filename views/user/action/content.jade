@@ -1,0 +1,114 @@
+mixin counter
+	.left_label До конца розыгрыша осталось всего:
+	
+	.counter
+		.fixed_table
+			.table_item.left
+				- each d, key in duration.days
+					.number=d
+				
+				.number_label дней
+			
+			.table_item
+				- each d, key in duration.hours
+					.number=d
+				
+				.number_label часов
+			
+			.table_item.right
+				- each d, key in duration.minutes
+					.number=d
+				
+				.number_label минут
+
+.topper_container
+	.content
+		include ../helpers/breadcrumbs
+		
+		.form_container
+			.top_label Весенняя регистрация
+			
+			.bottom_label
+				div 
+					span Зарегистрируйтесь на сайте 
+					span.orange до 10.05
+					span  и станьте участником 
+				
+				div розыгрыша полезных и вкусных подарков для вашего малыша 
+				div от «Агуша»!
+			
+			form.registration_form
+				.form_block
+					input.name(type="text", name="firstName", placeholder="Ваше имя")
+				
+				.form_block
+					.half.left
+						input.email(type="email", name="email", placeholder="E-Mail")
+					
+					.half.right
+						input.password(type="password", name="password", placeholder="Пароль")
+				
+				.form_block
+					a.new_module(href="/registration")
+						button Зарегистрироваться
+			
+			mixin counter
+
+.action_container
+	.content
+		.action_content
+			.top_label
+				div Регистрируйтесь и получайте
+				div подарок от «Агуша»!
+			
+			.prizes
+			
+			.prizes_desc
+				div Фруктовое пюре «Агуша» в удобном дой-паке позволит вашему малышу кушать любимое лакомство, не проливая
+				div ни капельки. А еще такое пюре в мягкой непроливайке можно брать на прогулку, в садик и на отдых!
+			
+			.details Детали акции
+			
+			.time_left_block
+				.half.left
+					mixin counter
+				
+				.half.right
+					.adorable_table
+						.adorable_cell
+							.spring_reg_label Весенняя регистрация
+							
+							a.new_module(href="/registration")
+								button Зарегистрироваться
+			
+			.already_reg_label Уже зарегистрированы?
+			.already_reg_text
+				div Не беда! Отправляйте приглашение своим друзьям, у которых тоже есть детки. Они смогут поучаствовать в акции,
+				div а вы – получить дополнительные баллы в вашу Копилку. Собирайте баллы, принимайте участие в розыгрышах и
+				div выигрывайте подарки для вашей крохи. Больше баллов - интереснее подарки!
+			
+			form.invite_form
+				.form_block
+					input.name(type="text", name="firstName", placeholder="Имя друга")
+				
+				.form_block
+					input.email(type="email", name="email", placeholder="E-Mail друга")
+				
+				.form_block
+					button Отправить приглашение
+			
+			.footer_block
+				.footer_left_side
+					.adorable_table
+						.adorable_cell
+							.spring_reg_label Весенняя регистрация
+								
+							a.new_module(href="/registration")
+								button Зарегистрироваться
+				
+				.footer_center_side
+					.adorable_table
+						.adorable_cell.left
+							span Зарегистрируйтесь на сайте 
+							span.orange до 10.05
+							span  и станьте участником розыгрыша  полезных и вкусных подарков для вашего малыша от «Агуша»!

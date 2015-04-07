@@ -21,6 +21,7 @@ textarea {
 }
 
 .half {
+	@include border_boxed;
 	float: left;
 	width: 50%;
 	height: 100%;
@@ -134,4 +135,12 @@ textarea {
 	text-align: center;
 	height: 100%;
 	vertical-align: top;
+	
+	&.left {
+		text-align: left;
+	}
+	
+	&.right {
+		text-align: right;
+	}
 }

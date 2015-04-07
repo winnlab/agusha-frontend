@@ -142,6 +142,13 @@ var config = {
 					client: 'modules/download/download',
 					server: ':name'
 				}
+			},
+			{
+				name: 'action',
+				path: {
+					client: 'modules/action/action',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'
