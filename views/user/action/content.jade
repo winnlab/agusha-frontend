@@ -1,25 +1,4 @@
-mixin counter
-	.left_label До конца розыгрыша осталось всего:
-	
-	.counter
-		.fixed_table
-			.table_item.left
-				- each d, key in duration.days
-					.number=d
-				
-				.number_label дней
-			
-			.table_item
-				- each d, key in duration.hours
-					.number=d
-				
-				.number_label часов
-			
-			.table_item.right
-				- each d, key in duration.minutes
-					.number=d
-				
-				.number_label минут
+include ../helpers/counter
 
 .topper_container
 	.content
@@ -51,7 +30,8 @@ mixin counter
 				.form_block
 					button Зарегистрироваться
 			
-			mixin counter
+			- var server = true
+			mixin counter(server)
 
 .action_container
 	.content
@@ -71,7 +51,8 @@ mixin counter
 			
 			.time_left_block
 				.half.left
-					mixin counter
+					- var server = true
+					mixin counter(server)
 				
 				.half.right
 					.adorable_table

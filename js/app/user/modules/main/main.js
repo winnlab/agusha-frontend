@@ -21,6 +21,8 @@ export default Controller.extend(
 			this.icons = this.element.find('.icon');
 
 			this.carousel = this.element.find('#main_carousel');
+			
+			this.counter_block = this.element.find('.counter_block');
 		},
 
 		plugins: function() {
@@ -148,6 +150,37 @@ export default Controller.extend(
 			this.items_container.html(can.view('mainArticlesView', this.data, encyclopediaHelpers));
 			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
 			this.initPlugins();
+			
+			this.counter_mustache();
+		},
+		
+		counter_mustache: function() {
+			if(!this.counter_block.length) {
+				return;
+			}
+			
+			var	counter_mustache = $('#counter_mustache'),
+				html, ViewModel;
+			
+			if(!counter_mustache.length) {
+				html = jadeTemplate.get('user/helpers/counter_mustache');
+			} else {
+				html = counter_mustache.html();
+			}
+			
+			can.view.mustache('counter_mustache', html);
+			
+			ViewModel = can.Map.extend({
+				define: {
+					duration: {
+						value: appState.attr('counter')
+					}
+				}
+			});
+			
+			this.data = new ViewModel();
+			
+			this.counter_block.html(can.view('counter_mustache', this.data));
 		},
 
 		updateSubscribe: function () {

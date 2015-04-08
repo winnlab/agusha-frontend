@@ -1,3 +1,5 @@
+include ../helpers/counter
+
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
@@ -17,28 +19,8 @@
 								div и станьте участником розыгрыша полезных и вкусных
 								div подарков для вашего малыша от «Агуша»!
 							
-							.counter_block
-								.left_label До конца розыгрыша осталось всего:
-								
-								.counter
-									.fixed_table
-										.table_item.left
-											- each d, key in duration.days
-												.number=d
-											
-											.number_label дней
-										
-										.table_item
-											- each d, key in duration.hours
-												.number=d
-											
-											.number_label часов
-										
-										.table_item.right
-											- each d, key in duration.minutes
-												.number=d
-											
-											.number_label минут
+							- var server = true
+							mixin counter(server)
 							
 							.button_block.adorable_table
 								.adorable_cell

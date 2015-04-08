@@ -1,11 +1,14 @@
 import Controller from 'controller'
 
+import appState from 'core/appState';
 import 'tooltipster';
 import 'jquery-validation';
 
 export default Controller.extend({}, {
 	variables: function() {
 		this.tooltip = this.element.find('.form_container');
+		
+		this.counter_block = this.element.find('.counter_block');
 	},
 	
 	plugins: function() {
@@ -93,7 +96,32 @@ export default Controller.extend({}, {
 	},
 	
 	after_init: function() {
+		this.counter_mustache();
+	},
+	
+	counter_mustache: function() {
+		var	counter_mustache = $('#counter_mustache'),
+			html, ViewModel;
 		
+		if(!counter_mustache.length) {
+			html = jadeTemplate.get('user/helpers/counter_mustache');
+		} else {
+			html = counter_mustache.html();
+		}
+		
+		can.view.mustache('counter_mustache', html);
+		
+		ViewModel = can.Map.extend({
+			define: {
+				duration: {
+					value: appState.attr('counter')
+				}
+			}
+		});
+		
+		this.data = new ViewModel();
+		
+		this.counter_block.html(can.view('counter_mustache', this.data));
 	},
 	
 	'.registration_form submit': function(el, ev) {

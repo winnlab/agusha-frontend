@@ -43,6 +43,11 @@ window.requestAnimFrame = (function() {
 		};
 })();
 
+window.leftPad = function(value, length) {
+	var value = value.toString();
+	return (value.length < length) ? leftPad("0" + value, length) : value;
+};
+
 // facebook
 
 window.fbAsyncInit = function() {

@@ -1,0 +1,38 @@
+mixin counter(server)
+	.counter_block
+		.left_label До конца розыгрыша осталось всего:
+		
+		.counter
+			.fixed_table
+				.table_item.left
+					if server
+						- each d, key in duration.days
+							.number=d
+					else
+						='{{#each duration.days}}'
+						.number {{.}}
+						='{{/each}}'
+					
+					.number_label дней
+				
+				.table_item
+					if server
+						- each d, key in duration.hours
+							.number=d
+					else
+						='{{#each duration.hours}}'
+						.number {{.}}
+						='{{/each}}'
+					
+					.number_label часов
+				
+				.table_item.right
+					if server
+						- each d, key in duration.minutes
+							.number=d
+					else
+						='{{#each duration.minutes}}'
+						.number {{.}}
+						='{{/each}}'
+					
+					.number_label минут
