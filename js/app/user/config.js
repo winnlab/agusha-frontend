@@ -73,7 +73,6 @@
 			'ratings': 'js/app/user/lib/commentaries/ratings.js',
 
 			'lodash': 'js/plugins/lodash/dist/lodash.js',
-			'underscore': 'js/plugins/underscore/underscore-min.js',
 			'cropper': 'js/plugins/cropper/dist/cropper.js',
 
 			'custom-scrollbar': 'js/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',

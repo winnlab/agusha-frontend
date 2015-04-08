@@ -1,11 +1,11 @@
 'use strict';
 import can from 'can/';
+import helpers from 'helpers';
 import appState from 'core/appState';
 import Like from 'like';
 import Watch from 'js/app/user/lib/watcher/';
 import Router from 'router';
 import config from 'rConfig';
-import helpers from 'helpers';
 import Commentaries from 'commentaries';
 import 'jquery-validation';
 import 'tooltipster';

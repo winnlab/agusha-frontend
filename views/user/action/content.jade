@@ -30,8 +30,9 @@ include ../helpers/counter
 				.form_block
 					button Зарегистрироваться
 			
-			- var server = true
-			mixin counter(server)
+			.counter_block
+				- var server = true
+				mixin counter(server)
 
 .action_container
 	.content
@@ -51,8 +52,9 @@ include ../helpers/counter
 			
 			.time_left_block
 				.half.left
-					- var server = true
-					mixin counter(server)
+					.counter_block
+						- var server = true
+						mixin counter(server)
 				
 				.half.right
 					.adorable_table

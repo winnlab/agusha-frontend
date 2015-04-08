@@ -96,12 +96,12 @@ export default Controller.extend({}, {
 	},
 	
 	after_init: function() {
-		// this.counter_mustache();
+		this.counter_mustache();
 	},
 	
 	counter_mustache: function() {
 		var	counter_mustache = $('#counter_mustache'),
-			html, ViewModel;
+			html, ViewModel, i, counter_block;
 		
 		if(!counter_mustache.length) {
 			html = jadeTemplate.get('user/helpers/counter_mustache');
@@ -121,7 +121,11 @@ export default Controller.extend({}, {
 		
 		this.data = new ViewModel();
 		
-		this.counter_block.html(can.view('counter_mustache', this.data));
+		for(i = this.counter_block.length; i--;) {
+			counter_block = $(this.counter_block[i]);
+			counter_block.html(can.view('counter_mustache', this.data));
+		}
+		
 	},
 	
 	'.registration_form submit': function(el, ev) {
