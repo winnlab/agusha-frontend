@@ -8,4 +8,6 @@ block content
 		include content
 
 block append scripts
-	
+	script#counter_mustache(type="text/mustache")
+		- var server = false
+		mixin counter(server)

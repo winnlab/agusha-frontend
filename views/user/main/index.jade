@@ -25,3 +25,6 @@ block prepend scripts
 		| {{/each}}
 	script#feed_mustache(type="text/mustache")
 		mixin feed()
+	script#counter_mustache(type="text/mustache")
+		- var server = false
+		mixin counter(server)
