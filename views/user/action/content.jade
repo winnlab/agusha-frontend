@@ -38,10 +38,10 @@ mixin counter
 				div от «Агуша»!
 			
 			form.registration_form
-				.form_block
+				//- .form_block
 					input.name(type="text", name="firstName", placeholder="Ваше имя")
 				
-				.form_block
+				//- .form_block
 					.half.left
 						input.email(type="email", name="email", placeholder="E-Mail")
 					
@@ -67,7 +67,8 @@ mixin counter
 				div Фруктовое пюре «Агуша» в удобном дой-паке позволит вашему малышу кушать любимое лакомство, не проливая
 				div ни капельки. А еще такое пюре в мягкой непроливайке можно брать на прогулку, в садик и на отдых!
 			
-			.details Детали акции
+			.details
+				a._blank(href="/doc/official_rules_spring_registration_2015_approved.doc") Детали акции
 			
 			.time_left_block
 				.half.left
@@ -88,13 +89,13 @@ mixin counter
 				div выигрывайте подарки для вашей крохи. Больше баллов - интереснее подарки!
 			
 			form.invite_form
-				.form_block
+				//- .form_block
 					input.name(type="text", name="firstName", placeholder="Имя друга")
 				
-				.form_block
+				//- .form_block
 					input.email(type="email", name="email", placeholder="E-Mail друга")
 				
-				.form_block
+				//- .form_block
 					button Отправить приглашение
 			
 			.footer_block

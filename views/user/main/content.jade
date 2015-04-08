@@ -1,7 +1,51 @@
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
-			.item.active
+			if duration.diff > 0
+				.item.duration.active
+					.banner_image.banner_image_spring_registration
+					.content
+						.action_box
+							.we_have_action А у нас акция!
+							
+							.action_title Весенняя регистрация
+							
+							.action_desc
+								div
+									span Спешите зарегистрироваться на сайте 
+									span.orange до 10.05
+								div и станьте участником розыгрыша полезных и вкусных
+								div подарков для вашего малыша от «Агуша»!
+							
+							.counter_block
+								.left_label До конца розыгрыша осталось всего:
+								
+								.counter
+									.fixed_table
+										.table_item.left
+											- each d, key in duration.days
+												.number=d
+											
+											.number_label дней
+										
+										.table_item
+											- each d, key in duration.hours
+												.number=d
+											
+											.number_label часов
+										
+										.table_item.right
+											- each d, key in duration.minutes
+												.number=d
+											
+											.number_label минут
+							
+							.button_block.adorable_table
+								.adorable_cell
+									a.new_module(href="/action")
+										button.action_button Участвовать в розыгрыше 
+			
+			.item(class = (duration.diff > 0 ? '' : 'active'))
 				.banner_image.banner_image_moneybox_2
 				.content
 					.top_label
@@ -98,8 +142,10 @@
 			li(data-target="#main_carousel" data-slide-to="1")
 			li(data-target="#main_carousel" data-slide-to="2")
 			li(data-target="#main_carousel" data-slide-to="3")
+			if duration.diff > 0
+				li(data-target="#main_carousel" data-slide-to="4")
 		
-		.content
+		.content.arrows_content
 			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
 			a.right.carousel-control(href="#main_carousel" role="button" data-slide="next")
 		
