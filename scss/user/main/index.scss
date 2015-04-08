@@ -25,6 +25,15 @@
 		.content {
 			width: 1220px;
 		}
+		
+		.carousel-control.left {
+			left: -635px;
+		}
+		
+		.carousel-control.right {
+			right: -635px;
+			background-position: -29px 0;
+		}
 	}
 
 	.module .mainModuleWrap {
