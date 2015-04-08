@@ -96,7 +96,7 @@ export default Controller.extend({}, {
 	},
 	
 	after_init: function() {
-		this.counter_mustache();
+		// this.counter_mustache();
 	},
 	
 	counter_mustache: function() {

@@ -151,7 +151,7 @@ export default Controller.extend(
 			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
 			this.initPlugins();
 			
-			this.counter_mustache();
+			// this.counter_mustache();
 		},
 		
 		counter_mustache: function() {
