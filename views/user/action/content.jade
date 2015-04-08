@@ -38,10 +38,10 @@ mixin counter
 				div от «Агуша»!
 			
 			form.registration_form
-				//- .form_block
+				.form_block
 					input.name(type="text", name="firstName", placeholder="Ваше имя")
 				
-				//- .form_block
+				.form_block
 					.half.left
 						input.email(type="email", name="email", placeholder="E-Mail")
 					
@@ -49,8 +49,7 @@ mixin counter
 						input.password(type="password", name="password", placeholder="Пароль")
 				
 				.form_block
-					a.new_module(href="/registration")
-						button Зарегистрироваться
+					button Зарегистрироваться
 			
 			mixin counter
 

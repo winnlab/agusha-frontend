@@ -5,26 +5,26 @@ import appState from 'core/appState';
 import 'tooltipster';
 import 'jquery-validation';
 
-var ViewModel = can.Map.extend({
-	define: {
-		errors: {
-			value: new can.Map({
-				email: null,
-				firstname: null,
-				password: null
-			})
-		},
-		email: {
-			value: null,
-		},
-		firstName: {
-			value: null,
-		},
-		password: {
-			value: null
-		}
-	}
-});
+// var ViewModel = can.Map.extend({
+	// define: {
+		// errors: {
+			// value: new can.Map({
+				// email: null,
+				// firstname: null,
+				// password: null
+			// })
+		// },
+		// email: {
+			// value: null,
+		// },
+		// firstName: {
+			// value: null,
+		// },
+		// password: {
+			// value: null
+		// }
+	// }
+// });
 
 var showSuccessmessgae = function () {
 	var registration_inline = this.element.find('.registration_inline'),
@@ -57,35 +57,35 @@ export default Controller.extend(
 		}
 	}, {
 		after_init: function(data) {
-			var registration = $('#registration'), html,
-				that = this, isOpenedError = false, auth, isAuth;
+			// var registration = $('#registration'), html,
+			var	that = this, isOpenedError = false, auth, isAuth;
+			
+			// if(!registration.length) {
+				// html = jadeTemplate.get('user/registration/content');
+			// } else {
+				// html = registration.html();
+			// }
 
-			if(!registration.length) {
-				html = jadeTemplate.get('user/registration/content');
-			} else {
-				html = registration.html();
-			}
+			// can.view.mustache('reg', html);
 
-			can.view.mustache('reg', html);
-
-			this.data = new ViewModel();
+			// this.data = new ViewModel();
 
 			auth = appState.attr('user').auth;
 
-            if(auth && auth.isAuth) {
-                can.route.attr({module: 'profile'});
-                return;
-            }
+			if(auth && auth.isAuth) {
+				can.route.attr({module: 'profile'});
+				return;
+			}
 
-			$('#registration').html(can.view('reg', this.data));
+			// $('#registration').html(can.view('reg', this.data));
 
 			this.tooltip = this.element.find('.reg_box');
 			this.tooltip.tooltipster({
 				position: 'right',
-                theme: 'tooltipster-error',
-                trigger: 'custom'
+				theme: 'tooltipster-error',
+				trigger: 'custom'
 			});
-
+			
 			jQuery.validator.setDefaults({
 				errorPlacement: function() {},
 				showErrors: function(errors, errorsArr) {
@@ -122,12 +122,12 @@ export default Controller.extend(
 				},
 				highlight: function(element, errorClass, validClass) {
 					$(element).addClass(errorClass).removeClass(validClass);
-			    },
-			    unhighlight: function(element, errorClass, validClass) {
-			        $(element).removeClass(errorClass).addClass(validClass);
-			    }
+				},
+				unhighlight: function(element, errorClass, validClass) {
+					$(element).removeClass(errorClass).addClass(validClass);
+				}
 			});
-
+			
 			this.element.find('.registration_form').validate({
 				rules: {
 					firstName: {
@@ -153,7 +153,7 @@ export default Controller.extend(
 						required: "Почта должна быть"
 					},
 					password: {
-						minlength: "Пароль должен быть не менее 6 символо",
+						minlength: "Пароль должен быть не менее 6 символов",
 						required: "Пароль должен быть"
 					}
 				}
@@ -173,13 +173,15 @@ export default Controller.extend(
 			window.location.href = '/registration/ok';
 		},
 
-		'.registration_form .done click': function(el, ev) {
-			var user, that = this, isErr, form = el.parents('form');
+		'.registration_form submit': function(el, ev) {
 			ev.preventDefault();
-
-			if (!form.valid()) {
+			
+			// var user,
+			var	that = this;
+			
+			if (!el.valid()) {
 				this.tooltip
-					.tooltipster('content', "Форма заполнена не верно");
+					.tooltipster('content', "Форма заполнена неверно");
 
 				this.tooltip.tooltipster('show');
 				return;
@@ -190,24 +192,24 @@ export default Controller.extend(
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'Registration', 'Usual');
 
-			user = this.data;
+			// user = this.data;
 
 			can.ajax({
 				url: '/registration?ajax=true',
 				method: 'POST',
-				data: user.serialize(),
+				data: el.serialize(),
 				success: function(data) {
-					user.attr({
-						email: null,
-						firstName: null,
-						password: null
-					});
-
+					// user.attr({
+						// email: null,
+						// firstName: null,
+						// password: null
+					// });
+					
 					showSuccessmessgae.call(that);
 
 					can.route.attr({module: 'registration', id: 'success'}, true);
 				},
-				error: function (resp) {
+				error: function(resp) {
 					that.tooltip.tooltipster('content', resp.responseJSON.err);
 					that.tooltip.tooltipster('show', function() {
 						setTimeout(function() {
@@ -218,5 +220,5 @@ export default Controller.extend(
 				}
 			});
 		}
-    }
+	}
 );
