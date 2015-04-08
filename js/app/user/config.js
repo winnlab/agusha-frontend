@@ -136,7 +136,7 @@
 			stache: "js/plugins/CanJS/view/stache/system"
 		},
 		bundle: [
-			"modules/action/action",
+			"modules/springregistration/springregistration",
 			"modules/article/article",
 			"modules/consultation/consultation",
 			"modules/contacts/contacts",

@@ -144,10 +144,10 @@ var config = {
 				}
 			},
 			{
-				name: 'action',
+				name: 'springregistration',
 				path: {
-					client: 'modules/action/action',
-					server: ':name'
+					client: 'modules/springregistration/springregistration',
+					server: ':name/:entity_id'
 				}
 			}
 		],
