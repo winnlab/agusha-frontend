@@ -41,6 +41,7 @@
 			'tooltipster': 'js/plugins/tooltipster/js/jquery.tooltipster.min.js',
 			'bx-slider': 'js/plugins/bx-slider/jquery.bxslider.min.js',
 			'validate': 'js/plugins/validate/jquery.validate.js',
+			'swal': 'js/plugins/sweetalert/lib/sweet-alert.min.js',
 
 			'jade': 'js/plugins/jade/runtime.js',
 			'select2': 'js/plugins/select2/select2.js',
@@ -97,6 +98,13 @@
 					'vk_share',
 					'odnoklasniki',
 					'google'
+				]
+			},
+			swal: {
+				exports: 'swal',
+				format: 'global',
+				deps: [
+					'js/plugins/sweetalert/lib/sweet-alert.css!'
 				]
 			},
 			'custom-scrollbar': {

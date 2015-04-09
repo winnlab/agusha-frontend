@@ -3,6 +3,7 @@ import Controller from 'controller'
 import appState from 'core/appState';
 import 'tooltipster';
 import 'jquery-validation';
+import 'swal'
 
 export default Controller.extend({}, {
 	variables: function() {
@@ -124,6 +125,10 @@ export default Controller.extend({}, {
 	
 	after_init: function() {
 		this.counter_mustache();
+		
+		if(this.options.entity_id) {
+			swal('Вы успешно зарегистрировались', 'Мы отправили письмо-подтверждение на ваш e-mail', 'success');
+		}
 	},
 	
 	counter_mustache: function() {
@@ -181,13 +186,9 @@ export default Controller.extend({}, {
 				el.find('input').val('');
 				can.route.attr({module: 'springregistration', id: 'success'}, true);
 			},
-			error: function(resp) {
-				that.tooltip.tooltipster('content', resp.responseJSON.err);
-				that.tooltip.tooltipster('show', function() {
-					setTimeout(function() {
-						that.tooltip.tooltipster('hide');
-					}, 5000);
-				});
+			error: function(jqXHR, textStatus, errorThrown) {
+				var error = jqXHR.responseJSON.err || errorThrown;
+				swal('', error, 'error');
 			}
 		});
 	},
@@ -207,6 +208,7 @@ export default Controller.extend({}, {
 			data: el.serialize(),
 			success: function(data) {
 				if(data.err) {
+					swal('', data.err, "error");
 					return;
 				}
 				
@@ -215,7 +217,7 @@ export default Controller.extend({}, {
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				var error = jqXHR.responseJSON.err || errorThrown;
-				alert(error);
+				swal('', error, 'error');
 			}
 		});
 	},
