@@ -17,7 +17,7 @@ export default can.Map.extend({
 					self.addModule(module);
 					self.activateModule(module.id);
 					new Module['default']('#' + module.id, module);
-					self.moduleActivated(module.id);
+					self.moduleActivated(module);
 				} else {
 					msg = module.path.client
 						? 'Please check the constructor of ' + module.path.client + '.js'
@@ -37,7 +37,7 @@ export default can.Map.extend({
 		}
 	},
 
-	checkModule: function (id) {
+	checkModule: function(id) {
 		var module = _.find(this.modules, function(module){
 				return module.id === id;
 			}),
@@ -48,27 +48,27 @@ export default can.Map.extend({
 
 			$(window).trigger('custom_resize');
 
-			this.moduleActivated(id);
+			this.moduleActivated(module);
 		}
 
 		return exists;
 	},
 
-	moduleActivated: function(id) {
+	moduleActivated: function(module) {
 		var classname = 'active',
 			moduleTabs = $('.module_tab');
-
+		
 		moduleTabs.removeClass(classname);
-		moduleTabs.filter('.module_tab_' + id).addClass(classname);
-
+		moduleTabs.filter('.module_tab_' + module.name).addClass(classname);
+		
 		window.core.animate_left_inner_menu();
 
-		if (id === 'encyclopedia') {
+		if(module.id === 'encyclopedia') {
 			window.core.hide_left_menu();
 			window.core.hide_right_menu();
 		}
 
-		if(id === 'login' || id === 'registration') {
+		if(module.id === 'login' || module.id === 'registration') {
 			this.footer.hide();
 		} else {
 			this.footer.show();

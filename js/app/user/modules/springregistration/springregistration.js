@@ -178,7 +178,8 @@ export default Controller.extend({}, {
 			method: 'POST',
 			data: el.serialize(),
 			success: function(data) {
-				can.route.attr({module: 'registration', id: 'success'}, true);
+				el.find('input').val('');
+				can.route.attr({module: 'springregistration', id: 'success'}, true);
 			},
 			error: function(resp) {
 				that.tooltip.tooltipster('content', resp.responseJSON.err);
