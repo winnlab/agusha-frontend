@@ -9,6 +9,10 @@ export default Controller.extend({}, {
 		this.tooltip = this.element.find('.form_container');
 		
 		this.counter_block = this.element.find('.counter_block');
+		
+		this.success_invite = this.element.find('.success_invite');
+		
+		this.active = 'active';
 	},
 	
 	plugins: function() {
@@ -93,6 +97,29 @@ export default Controller.extend({}, {
 				}
 			}
 		});
+		
+		this.element.find('.invite_form').validate({
+			rules: {
+				firstName: {
+					minlength: 3,
+					required: true
+				},
+				email: {
+					email: true,
+					required: true
+				}
+			},
+			messages: {
+				firstName: {
+					minlength: "Имя должно быть человеческим",
+					required: "Имя должно быть"
+				},
+				email: {
+					email: "Почта введена неверно",
+					required: "Почта должна быть"
+				}
+			}
+		});
 	},
 	
 	after_init: function() {
@@ -133,10 +160,10 @@ export default Controller.extend({}, {
 		
 		var	that = this;
 		
-		if (!el.valid()) {
+		if(!el.valid()) {
 			this.tooltip
 				.tooltipster('content', "Форма заполнена неверно");
-
+			
 			this.tooltip.tooltipster('show');
 			return;
 		} else {
@@ -166,5 +193,33 @@ export default Controller.extend({}, {
 	
 	'.invite_form submit': function(el, ev) {
 		ev.preventDefault();
+		
+		var	that = this;
+		
+		if(!el.valid()) {
+			return;
+		}
+		
+		can.ajax({
+			url: '/registration/spring_invite',
+			method: 'POST',
+			data: el.serialize(),
+			success: function(data) {
+				if(data.err) {
+					return;
+				}
+				
+				that.success_invite.addClass(that.active);
+				el.find('input').val('');
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				var error = jqXHR.responseJSON.err || errorThrown;
+				alert(error);
+			}
+		});
+	},
+	
+	'.success_invite .close click': function() {
+		this.success_invite.removeClass(this.active);
 	}
 });
