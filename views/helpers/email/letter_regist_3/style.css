@@ -54,12 +54,13 @@ table {
 .frame_table {
 	width: 770px;
 	height: 1238px;
-	background-color: #73b6e5;
+	background-color: #69a5d0;
 }
 
 .top_border {
 	height: 89px;
 	text-align: center;
+	background-color: #73b6e5;
 }
 
 .top_border_logo_left_whitespace {
