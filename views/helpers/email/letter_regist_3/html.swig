@@ -6,7 +6,7 @@
 				</td>
 				
 				<td class="logo_part">
-					<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=springinvitation&utm_campaign=2015spring_invite" target="_blank">
+					<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=springactivatation&utm_campaign=2015spring_email" target="_blank">
 						<img class="logo_part" src="http://agusha.com.ua/img/user/helpers/email/moneybox_1/top_logo_part.png" />
 					</a>
 				</td>
@@ -33,7 +33,7 @@
 							<div class="bottom_logo_left_whitespace">
 							</div>
 							
-							<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=springinvitation&utm_campaign=2015spring_invite" target="_blank">
+							<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=springactivatation&utm_campaign=2015spring_email" target="_blank">
 								<img class="logo_part" src="http://agusha.com.ua/img/user/helpers/email/moneybox_1/bottom_logo_part.png" />
 							</a>
 							
@@ -44,7 +44,7 @@
 						<table class="top_text">
 							<td>
 								<div class="hello">
-									<div>Здравствуйте, {{ client.login|title }}!</div>
+									<div>Здравствуйте, {{ user.profile.first_name|title }}!</div>
 									<div>Ура! Вы успешно зарегистрировались и участвуете в акции «Весенняя регистрация»!</div>
 								</div>
 							</td>
@@ -60,7 +60,7 @@
 								
 							</div>
 							
-							<a href="http://www.agusha.com.ua/registration/activate/{{ user._id }}?utm_source=email&utm_medium=email&utm_content=springinvitation&utm_campaign=2015spring_invite" target="_blank">
+							<a href="http://www.agusha.com.ua/registration/activate/{{ user._id.toString() }}?utm_source=email&utm_medium=email&utm_content=springactivatation&utm_campaign=2015spring_email" target="_blank">
 								<img class="button" src="http://agusha.com.ua/img/user/helpers/email/letter_regist_3/button.png" />
 							</a>
 							
