@@ -188,7 +188,19 @@ export default Controller.extend({}, {
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				var error = jqXHR.responseJSON.err || errorThrown;
-				swal('', error, 'error');
+				
+				swal({
+					title: '',
+					text: error,
+					type: 'error',
+					showCancelButton: true,
+					cancelButtonText: "Войти"
+				},
+				function(isConfirm){
+					if(!isConfirm) {
+						can.route.attr({module: 'login'}, true);
+					}
+				});
 			}
 		});
 	},
