@@ -28,7 +28,7 @@ include ../helpers/counter
 									a.new_module(href="/springregistration")
 										button.action_button Участвовать в розыгрыше 
 			
-			.item(class = (duration.diff > 0 ? '' : 'active'))
+			//- .item(class = (duration.diff > 0 ? '' : 'active'))
 				.banner_image.banner_image_moneybox_2
 				.content
 					.top_label
@@ -76,7 +76,7 @@ include ../helpers/counter
 					a.new_module(href="/moneybox")
 						button.carousel_button.blue Подробнее
 			
-			.item
+			.item(class = (duration.diff > 0 ? '' : 'active'))
 				.banner_image.banner_image_1
 				.content
 					.top_label
@@ -124,9 +124,9 @@ include ../helpers/counter
 			li.active(data-target="#main_carousel" data-slide-to="0")
 			li(data-target="#main_carousel" data-slide-to="1")
 			li(data-target="#main_carousel" data-slide-to="2")
-			li(data-target="#main_carousel" data-slide-to="3")
 			if duration.diff > 0
-				li(data-target="#main_carousel" data-slide-to="4")
+				li(data-target="#main_carousel" data-slide-to="3")
+			//- li(data-target="#main_carousel" data-slide-to="4")
 		
 		.content.arrows_content
 			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
