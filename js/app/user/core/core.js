@@ -276,6 +276,12 @@ var Core = can.Control.extend({
 		
 		var win = window.open(el.attr('href'), '_blank');
 		win.focus();
+	},
+	
+	'.scroll_to_top click': function (el, ev) {
+		$('html, body').stop(true, false).animate({
+			scrollTop: 0
+		}, 600);
 	}
 });
 
