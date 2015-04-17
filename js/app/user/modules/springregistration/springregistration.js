@@ -176,7 +176,7 @@ export default Controller.extend({}, {
 		}
 
 		ga('set', 'page', decodeURI(document.location.href));
-		ga('send', 'event', 'Registration', 'Usual');
+		ga('send', 'event', 'SpringRegistrationSubmit', 'Submit');
 		
 		can.ajax({
 			url: '/registration?ajax=true',
@@ -213,6 +213,9 @@ export default Controller.extend({}, {
 		if(!el.valid()) {
 			return;
 		}
+		
+		ga('set', 'page', decodeURI(document.location.href));
+		ga('send', 'event', 'SpringRegistrationInvite', 'Submit');
 		
 		can.ajax({
 			url: '/registration/spring_invite',

@@ -256,7 +256,7 @@ var Core = can.Control.extend({
 	'.scrollToTop click': function (el, ev) {
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', 'ScrollToTop', 'Click');
-
+		
 		$('html, body').animate({
 			scrollTop: 0
 		}, 600);
@@ -282,6 +282,13 @@ var Core = can.Control.extend({
 		$('html, body').stop(true, false).animate({
 			scrollTop: 0
 		}, 600);
+	},
+	
+	'.ga_event click': function(el) {
+		var event = el.data('event');
+		
+		ga('set', 'page', decodeURI(document.location.href));
+		ga('send', 'event', event, 'click');
 	}
 });
 
