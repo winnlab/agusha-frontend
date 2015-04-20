@@ -75,6 +75,10 @@ export default can.Map.extend({
 		}
 
 		this.scrollToTop();
+		
+		ga('set', 'page', decodeURI(document.location.href));
+		
+		$('#' + module.id).trigger('custom_focus');
 	},
 
 	scrollToTop: function () {
