@@ -7,6 +7,19 @@ import 'datepicker'
 
 import appState from 'appState'
 
+var specialistNames = [
+  'Специалист Специалистов',
+  'Ответ Ответов',
+  'Комментарий Комментариев'
+];
+
+can.mustache.registerHelper('specialistName', function (owner_id) {
+  if (typeof owner_id === 'function') {
+    owner_id = owner_id();
+  }
+  return specialistNames[owner_id.valueOf()] || 'ОШИБКА!!';
+});
+
 export default Edit.extend({
     defaults: {
         viewpath: '/js/app/admin/modules/consultations/views/',
@@ -45,6 +58,8 @@ export default Edit.extend({
 
         self.module.attr('addingComment', null);
         self.module.attr('showComments', true);
+
+        self.module.attr('specialistNames', specialistNames);
 
         var ageValue = [],
             themeValue = [];
@@ -195,8 +210,8 @@ export default Edit.extend({
                 date: Date.now(),
                 text: commentText,
                 specialist: {
-                    _id: response.data._id,
-                    name: response.data.name
+                    owner_id: self.element.find('.t-specialist').val(),
+                    _id: response.data._id
                 }
             };
 
