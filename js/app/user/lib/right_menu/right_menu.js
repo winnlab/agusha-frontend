@@ -34,6 +34,9 @@ var RightMenu = can.Control.extend({
 		can.view.mustache('RightMenu', html);
 
 		$('#right_menu').html(can.view('RightMenu', this.data));
+		
+		// $('#right_menu').html(can.view('#right_menu_mustache', this.data));
+		
 		$("input.knob").knob({
 			bgColor: '#2998cc'
 		});
@@ -46,9 +49,11 @@ var RightMenu = can.Control.extend({
 		can.view.mustache('RightMenuSmall', html_small);
 
 		$('#right_menu_small').html(can.view('RightMenuSmall', this.data))
+		
+		// $('#right_menu').html(can.view('#right_menu_small_mustache', this.data));
 	}
 });
 
 var InstanceMenu = new RightMenu('#right_menu');
 
-export default InstanceMenu
+export default InstanceMenu;

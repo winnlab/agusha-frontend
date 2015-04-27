@@ -23,10 +23,10 @@ var ViewModel = can.Map.extend({
 
 export default Controller.extend(
 	{
-        defaults: {
+		defaults: {
 			
-        }
-    }, {
+		}
+	}, {
 		variables: function() {
 			this.reminder = 'reminder';
 		},
@@ -45,20 +45,20 @@ export default Controller.extend(
 
 			this.data = new ViewModel();
 
-            auth = appState.attr('user').auth;
+			auth = appState.attr('user').auth;
 
-            if(auth && auth.isAuth) {
-                can.route.attr({module: 'profile'});
-                return;
-            }
+			if(auth && auth.isAuth) {
+				can.route.attr({module: 'profile'});
+				return;
+			}
 
 			$('#login').html(can.view('signin', this.data));
 
 			this.tooltip = this.element.find('.reg_box');
 			this.tooltip.tooltipster({
 				position: 'right',
-                theme: 'tooltipster-error',
-                trigger: 'hover'
+				theme: 'tooltipster-error',
+				trigger: 'hover'
 			});
 
 			jQuery.validator.setDefaults({
@@ -94,10 +94,10 @@ export default Controller.extend(
 				},
 				highlight: function(element, errorClass, validClass) {
 					$(element).addClass(errorClass).removeClass(validClass);
-			    },
-			    unhighlight: function(element, errorClass, validClass) {
-			        $(element).removeClass(errorClass).addClass(validClass);
-			    }
+				},
+				unhighlight: function(element, errorClass, validClass) {
+					$(element).removeClass(errorClass).addClass(validClass);
+				}
 			});
 
 			this.element.find('.login_form').validate({
@@ -194,7 +194,9 @@ export default Controller.extend(
 						
 						return;
 					}
-
+					
+					form.find('input').val('');
+					
 					user.options.user.attr(response.message.user);
 
 					user.auth.attr('isAuth', true)

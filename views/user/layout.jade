@@ -46,11 +46,16 @@ html(xmlns:fb="http://ogp.me/ns/fb#")
 		
 		include helpers/need_help
 		
+		script.
+			console = typeof console !== 'undefined'	? console : function () {};
+		
+		script(src="/js/plugins/steal/steal.js", config-path="/js/app/user/config.js", main="js/app/user/core/")
+		// script(src="/js/plugins/steal/steal.production.js", data-env="production", main="core")
+		
 		block scripts
 			include codes
-		
-		script.
-			console = typeof console !== 'undefined'  ? console : function () {};
-		
-		// script(src="/js/plugins/steal/steal.js", config-path="/js/app/user/config.js", main="js/app/user/core/")
-		script(src="/js/plugins/steal/steal.production.js", data-env="production", main="core")
+			
+			script#right_menu_mustache(type="text/mustache")
+				include helpers/menus/right_menu_mustache
+			script#right_menu_small_mustache(type="text/mustache")
+				include helpers/menus/right_menu_small_mustache
