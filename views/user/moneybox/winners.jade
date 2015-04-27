@@ -17,9 +17,9 @@ mixin winner(w)
 				- each c, key in w.children
 					mixin winner_child(c.gender, key, w.children.length)
 
-mixin congratz()
+mixin congratz(month)
 	.congratz.adorable_table
-		.adorable_cell Поздравляем победителей февральского розыгрыша!
+		.adorable_cell='Поздравляем победителей ' + month + 'ского розыгрыша!'
 
 mixin your_prize()
 	.your_prize.adorable_table
@@ -75,7 +75,7 @@ mixin winners_note()
 							.counter=winners[0].data.novice.length
 				
 				.text
-					mixin congratz()
+					mixin congratz('февраль')
 					
 					.winner_list
 						- each w, key in winners[0].data.novice
@@ -111,7 +111,7 @@ mixin winners_note()
 							.counter=winners[0].data.disciple.length
 				
 				.text
-					mixin congratz()
+					mixin congratz('февраль')
 					
 					.winner_list
 						.fixed_table
@@ -153,7 +153,7 @@ mixin winners_note()
 							.counter=winners[0].data.adept.length
 				
 				.text
-					mixin congratz()
+					mixin congratz('февраль')
 					
 					.winner_list
 						.fixed_table
@@ -190,7 +190,7 @@ mixin winners_note()
 							.counter=winners[0].data.expert.length
 				
 				.text
-					mixin congratz()
+					mixin congratz('февраль')
 					
 					.winner_list
 						.fixed_table
@@ -224,7 +224,7 @@ mixin winners_note()
 							.counter=winners[0].data.pro.length
 				
 				.text
-					mixin congratz()
+					mixin congratz('февраль')
 					
 					.winner_list
 						.fixed_table
@@ -260,7 +260,7 @@ mixin winners_note()
 								.counter=winners[1].data.novice.length
 					
 					.text
-						mixin congratz()
+						mixin congratz('мартов')
 						
 						.winner_list
 							- each w, key in winners[1].data.novice
@@ -296,7 +296,7 @@ mixin winners_note()
 								.counter=winners[1].data.disciple.length
 					
 					.text
-						mixin congratz()
+						mixin congratz('мартов')
 						
 						.winner_list
 							.fixed_table
@@ -338,7 +338,7 @@ mixin winners_note()
 								.counter=winners[1].data.adept.length
 					
 					.text
-						mixin congratz()
+						mixin congratz('мартов')
 						
 						.winner_list
 							.fixed_table
@@ -375,7 +375,7 @@ mixin winners_note()
 								.counter=winners[1].data.expert.length
 					
 					.text
-						mixin congratz()
+						mixin congratz('мартов')
 						
 						.winner_list
 							.fixed_table
@@ -408,7 +408,7 @@ mixin winners_note()
 								.counter=winners[1].data.pro.length
 					
 					.text
-						mixin congratz()
+						mixin congratz('мартов')
 						
 						.winner_list
 							.fixed_table
