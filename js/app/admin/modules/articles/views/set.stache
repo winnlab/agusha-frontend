@@ -88,7 +88,7 @@
               <div class="form-group">
                   <label class="col-md-4 control-label">Ссылка на видео (youtube): </label>
                   <div class="col-md-8">
-                      <input class="form-control" type="url" can-value="videoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx" />
+                      <input class="form-control" type="url" can-value="article.videoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx" />
                       <div class="help help-block"></div>
                   </div>
               </div>
