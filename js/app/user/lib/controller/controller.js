@@ -57,7 +57,7 @@ export default can.Control.extend({
 	},
 	
 	pageview: function() {
-		var path = document.location.href.split(this.base_url)[1]
+		var path = document.location.href.split(this.base_url)[1];
 		
 		ga('send', 'pageview', path);
 	},

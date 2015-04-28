@@ -2,15 +2,9 @@ mixin points()
 	.points
 		.you_have
 			div У ВАС
-			| {{#if auth.isAuth}}
 			div
 				span.points_number {{points}}
 				span  б.
-			| {{else}}
-			div
-				span.points_number 0
-				soan  б.
-			| {{/if}}
 		
 		.moneybox
 			img(src="/img/user/core/moneybox.png")
@@ -19,19 +13,26 @@ mixin points()
 			div на
 			div подарки
 
-.topper
-	.subTopper
-		.top
-			| {{#if auth.isAuth}}
-			img(src="{{getProfileImage 'small' image}}")
-			| {{/if}}
-		
-		| {{#if auth.isAuth}}
-		a.new_module(href="/messages")
-			.message
-				.circle.rounded.adorable_table
-					.adorable_cell 0
-		| {{/if}}
-
-a.new_module(href="/moneybox")
-	mixin points()
+.right_menu_small_inside(class = '{{#if auth.isAuth}}{{else}}un{{/if}}authorized')
+	='{{#if auth.isAuth}}'
+	.topper
+		.subTopper
+			.top
+				img(src="{{getProfileImage 'small' image}}")
+			
+			a.new_module(href="/messages")
+				.message
+					.circle.rounded.adorable_table
+						.adorable_cell 0
+	
+	a.new_module(href="/moneybox")
+		mixin points()
+	='{{else}}'
+	.adorable_table
+		.adorable_cell.left.bold
+			div
+				a.new_module(href = "/login") Вход
+			
+			div
+				a.new_module(href = "/registration") Регистрация
+	='{{/if}}'

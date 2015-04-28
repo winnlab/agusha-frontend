@@ -79,7 +79,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label" for="volume">Объем продукта (в милиграммах или милилитрах):</label>
+                <label class="col-md-2 control-label" for="volume">Объем продукта (в граммах или милилитрах):</label>
                 <div class="col-md-10">
                     <input class="form-control" type="number" can-value="product.volume" placeholder="Объем продукта" />
                     <div class="help help-block"></div>
