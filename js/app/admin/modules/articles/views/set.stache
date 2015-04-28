@@ -84,6 +84,16 @@
                 </div>
             </div>
 
+            {{#if article.hasVideo}}
+              <div class="form-group">
+                  <label class="col-md-4 control-label">Ссылка на видео (youtube): </label>
+                  <div class="col-md-8">
+                      <input class="form-control" type="url" can-value="videoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx" />
+                      <div class="help help-block"></div>
+                  </div>
+              </div>
+            {{/if}}
+
             {{#if ages.length}}
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="age[age_id]">Возраста статьи:</label>
@@ -160,14 +170,14 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc[shorttext]">Краткое описание:</label>
                         <div class="col-md-10">
-                            <textarea maxlength="145" rows="4" class="form-control" type="text" can-value="article.desc.shorttext" placeholder="Краткое описание"></textarea>
+                            <textarea maxlength="145" rows="4" class="form-control" can-value="article.desc.shorttext" placeholder="Краткое описание"></textarea>
                             <div class="help help-block"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="desc[text]">Описание:</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" type="text" {{wysiwyg true module}} name="desc[text]">
+                            <textarea class="form-control" {{wysiwyg true module}} name="desc[text]">
                                 {{{article.desc.text}}}
                             </textarea>
                             <div class="help help-block"></div>
@@ -365,7 +375,7 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label" for="answer[{{@index}}][text]">Вариант ответа:</label>
                                         <div class="col-md-10">
-                                            <textarea class="form-control" type="text" {{! {{wysihtml5}} }} placeholder="Текст вариант ответа" can-value="text">
+                                            <textarea class="form-control" {{! {{wysihtml5}} }} placeholder="Текст вариант ответа" can-value="text">
                                             </textarea>
                                             <div class="help help-block"></div>
                                         </div>
