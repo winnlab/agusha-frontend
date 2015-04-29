@@ -369,6 +369,22 @@
 		letter-spacing: 0;
 	}
 
+	&:hover {
+		.topper_play {
+			display: none;
+		}
+	}
+
+	.topper_play {
+		@include size(72px 73px);
+		margin: -13px 0 0 -36px;
+		position: relative;
+		left: 50%;
+		z-index: 1;
+		float: left;
+		background: url('/img/user/article/play.png');
+	}
+
 	&.poll {
 		.topper_title {
 			color: #eeab00;

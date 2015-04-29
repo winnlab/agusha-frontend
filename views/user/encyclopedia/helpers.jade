@@ -53,10 +53,15 @@ mixin article(a, i)
 				
 				if a
 					if a.desc
-						.topper_text=a.desc
+						.topper_text=a.desc.shorttext
+					if a.hasVideo
+						.topper_play
 				else
 					| {{#if desc}}
 					.topper_text='{{desc.shorttext}}'
+					| {{/if}}
+					| {{#if hasVideo}}
+					.topper_play
 					| {{/if}}
 
 				- var answersAmount = 0;
@@ -83,7 +88,7 @@ mixin article(a, i)
 						span.count= '{{countAnswersAmount answer}}'
 						span.approve
 							div мамочек
-							div ответили						
+							div ответили
 					| {{/if}}
 
 			if a 

@@ -45,6 +45,9 @@ mixin feed()
                         .button_content.gold
                             button.me_too= '{{checkAnswer .}}'
                         | {{/if}}
+                    | {{#if hasVideo}}
+                    .topper_play
+                    | {{/if}}
                 | {{#is type.name 'Статья от специалиста'}}
                 .user_content
                     .avatar.medical_cap
