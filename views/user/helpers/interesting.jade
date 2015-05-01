@@ -108,8 +108,8 @@
 
 					.counters.adorable_table
 						.adorable_cell
-							img.like.liked(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
-							img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{similarArticle._id}", data-component="Article")
+							img.j-disabled.like.liked(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
+							img.j-disabled.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{similarArticle._id}", data-component="Article")
 
 							span.count.like(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
 							span.approve

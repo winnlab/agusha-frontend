@@ -13,6 +13,7 @@ export default can.Control.extend({
     },
 
     '.like click': function (el, ev) {
+        if (el.hasClass('j-disabled')) return;
         ev.preventDefault();
         ev.stopPropagation();
 

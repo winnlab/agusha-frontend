@@ -1,7 +1,7 @@
 mixin feed()
     .filters(style="{{#unless feedLength}}display: none;{{/unless}}")
         select.feed_select
-            option(data-count="{{plus themeSubs authorSubs}}" value=0) Все подписки
+            option(data-count="{{plus themeSubs consultations}}" value=0) Все подписки
             option(data-count="{{themeSubs}}" value=1)= '{{#is themeSubs 0}}Подписки на темы пока отсутствуют{{else}}Подписки на тему{{/is}}'
             option(data-count="{{consultations}}" value=3) Вопросы специалисту
         
@@ -14,16 +14,19 @@ mixin feed()
                 .adorable_table
                     .adorable_cell
                         img(src="/img/user/specialist/eye.png")
+                        img(src="/img/user/specialist/eye+.png" class="highlight")
             
             .icon.lamp(data-filter="recommended")
                 .adorable_table
                     .adorable_cell
                         img(src="/img/user/specialist/lamp.png")
+                        img(src="/img/user/specialist/lamp+.png" class="highlight")
             
             .icon.check(data-filter="spec")
                 .adorable_table
                     .adorable_cell
                         img(src="/img/user/specialist/check.png")
+                        img(src="/img/user/specialist/check+.png" class="highlight")
     .feedWrap
         | {{#each feed}}
         - var classname = '{{getClassName . @index module}} {{articleType . @index}}'
@@ -96,8 +99,8 @@ mixin feed()
                                 br
                                 | наблюдают
                             | {{else}}
-                            img.like.liked(src="/img/user/article/heart.png", data-component_id='{{_id}}', data-component="Article")
-                            img.like.not-liked(src="/img/user/article/heart-.png", data-component_id='{{_id}}', data-component="Article")
+                            img.j-disabled.like.liked(src="/img/user/article/heart.png", data-component_id='{{_id}}', data-component="Article")
+                            img.j-disabled.like.not-liked(src="/img/user/article/heart-.png", data-component_id='{{_id}}', data-component="Article")
                             span.count.like(data-component_id='{{_id}}')= '{{likes.length}}'
                             span.approve
                                 | мамочек
