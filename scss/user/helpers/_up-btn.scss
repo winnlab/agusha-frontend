@@ -1,0 +1,33 @@
+@import '../../bourbon/bourbon';
+
+.up-btn {
+  @include position(fixed, 50% 80px null null);
+  @include size(50px 7px);
+  @include transition(all 0.3s ease);
+  @include transform(translateY(100px));
+  padding: 34px 0;
+  margin-top: -38px;
+  z-index: 50;
+  cursor: pointer;
+  background-color: #ffffff;
+  box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 50px;
+  opacity: 0;
+
+  &:after {
+    @include size(12px 7px);
+    display: block;
+    margin: 0 auto;
+    content: '';
+    background: url('/img/user/helpers/upBtn/up.png');
+  }
+
+  &:hover:after {
+    background: url('/img/user/helpers/upBtn/up-hover.png');
+  }
+
+  &.visible {
+    @include transform(translateY(0));
+    opacity: 1;
+  }
+}
