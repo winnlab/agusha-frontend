@@ -57,6 +57,11 @@ export default Controller.extend(
 
 			appState.delegate('moneybox', 'set', can.proxy(self.moneyboxed, self));
 
+			if (appState.attr('moneyboxShowRanks')) {
+				this.changeTab(this.element.find('.tab_selector.rules'), null, 'ranks');
+				appState.attr('moneyboxShowRanks', false);
+			}
+
 			this.init_sliders();
 		},
 
@@ -317,9 +322,9 @@ export default Controller.extend(
 
 		'.link-tab click': 'changeTab',
 
-		changeTab: function(el) {
+		changeTab: function(el, ev, block) {
 			var tab = el.data('tab'),
-				block = el.data('block');
+				block = el.data('block') || block;
 
 			this.tab_selectors.removeClass(this.active);
 			this.tab_selectors.filter('.' + tab).addClass(this.active);
