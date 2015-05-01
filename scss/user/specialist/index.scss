@@ -215,6 +215,20 @@
 			@include box_shadow(-1px 0 0 0 #e5e5e5);
 			margin-left: 1px !important;
 			height: 100%;
+			cursor: pointer;
+
+			&.active {
+				img {
+					display: none;
+				}
+				.highlight {
+					display: inline-block;
+				}
+			}
+
+			.highlight {
+				display: none;
+			}
 		}
 	}
 
