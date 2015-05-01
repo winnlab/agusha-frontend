@@ -43,13 +43,13 @@
 					</div>
 				</div>
 				<div class="moneybox">
-					<div class="userLevel">
+					<div class="userLevel clearfix">
 						<div class="textLevel">
 							<div class="text">
 								<div class="level">{{userLevelNum user.points}}й Уровень</div>
 								<div class="mamaLevel">Мама {{userLevelText user.points}}</div>
 							</div>
-							
+
 							<div class="stars">
 								{{#each levels}}
 									<div class="star {{name}} {{isFilledStart . user.points}}"></div>
@@ -71,8 +71,8 @@
 							{{/each}}
 						</div>
 
-						<div class="levelIcon {{levelPrefix user.points}}" style="background: url(/img/user/moneybox/{{levelPrefix user.points}}_achieve.png)">
-							
+						<div class="levelIcon {{levelPrefix user.points}}" style="background-image: url(/img/user/moneybox/{{levelPrefix user.points}}_logo.png)">
+
 						</div>
 					</div>
 
@@ -101,7 +101,7 @@
 					<div class="button rounded"></div>
 					<div class="text">
 						<div>Добавить</div>
-						<div>Детеныша</div>
+						<div>ребенка</div>
 					</div>
 				</div>
 			</div>
@@ -258,7 +258,7 @@
 
 								<input class="editableInput" placeholder="Квартира" value="{{user.contacts.apartament}}" name="contacts.apartament" type="text" >
 							</div>
-							
+
 						</div>
 					</div>
 					<div class="column right">
@@ -289,7 +289,7 @@
 						<label for="user.agree"></label>
 					</div>
 					<div class="text">
-						Я покупаю качественное детское питание «Агуша» и рекомендую его 
+						Я покупаю качественное детское питание «Агуша» и рекомендую его
 						<br />
 						другим мамам. Присоединяюсь к «Агуша – одобрено мамами»!
 					</div>
