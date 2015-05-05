@@ -108,6 +108,12 @@
 				z-index: 30;
 			}
 			
+			&.moneybox_3 {
+				.top_label {
+					color: $blue3;
+				}
+			}
+			
 			.content {
 				padding: 68px 20px 0;
 				text-align: left;
@@ -278,6 +284,11 @@
 				background-color: $orange;
 				color: $white;
 			}
+			
+			&.pink {
+				background-color: $pink;
+				color: $white;
+			}
 		}
 	}
 
@@ -306,6 +317,10 @@
 		
 		&.banner_image_moneybox_2 {
 			background: url('/img/user/main/banner_moneybox_2.jpg') no-repeat center;
+		}
+		
+		&.banner_image_moneybox_3 {
+			background: url('/img/user/main/banner_moneybox_3.jpg') no-repeat center;
 		}
 
 		&.banner_image_1 {

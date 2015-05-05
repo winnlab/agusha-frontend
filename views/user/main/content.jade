@@ -3,8 +3,24 @@ include ../helpers/counter
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
+			.item.moneybox_3.active
+				.banner_image.banner_image_moneybox_3
+				.content
+					.top_label
+						div Копилка:
+						.small_part
+							div.small_label Третий розыгрыш подарков
+							div.small_label для вашего малыша уже
+							div.small_label
+								span совсем скоро - 
+								span.bold_small_label 7 мая!
+					
+					a.new_module(href="/moneybox")
+						button.carousel_button.pink Узнать больше
+			
 			if duration.diff > 0
-				.item.duration.active
+				//- .item.duration.active
+				.item.duration
 					.banner_image.banner_image_spring_registration
 					.content
 						.action_box
@@ -26,7 +42,7 @@ include ../helpers/counter
 							.button_block.adorable_table
 								.adorable_cell
 									a.new_module.ga_event(data-event="SpringRegistrationBanner" href="/springregistration")
-										button.action_button Участвовать в розыгрыше 
+										button.action_button.pink Участвовать в розыгрыше 
 			
 			//- .item(class = (duration.diff > 0 ? '' : 'active'))
 				.banner_image.banner_image_moneybox_2
