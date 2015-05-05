@@ -53,10 +53,15 @@ mixin article(a, i)
 				
 				if a
 					if a.desc
-						.topper_text=a.desc
+						.topper_text=a.desc.shorttext
+					if a.hasVideo
+						.topper_play
 				else
 					| {{#if desc}}
 					.topper_text='{{desc.shorttext}}'
+					| {{/if}}
+					| {{#if hasVideo}}
+					.topper_play
 					| {{/if}}
 
 				- var answersAmount = 0;
@@ -83,7 +88,7 @@ mixin article(a, i)
 						span.count= '{{countAnswersAmount answer}}'
 						span.approve
 							div мамочек
-							div ответили						
+							div ответили
 					| {{/if}}
 
 			if a 
@@ -136,8 +141,8 @@ mixin article(a, i)
 				.counters.adorable_table
 					.adorable_cell
 						- var component_id = a ? a._id : '{{_id}}'
-						img.like.liked(src="/img/user/article/heart.png", data-component_id=component_id, data-component="Article")
-						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id=component_id, data-component="Article")
+						img.j-disabled.like.liked(src="/img/user/article/heart.png", data-component_id=component_id, data-component="Article")
+						img.j-disabled.like.not-liked(src="/img/user/article/heart-.png", data-component_id=component_id, data-component="Article")
 						span.count.like(data-component_id=component_id)= (a ? a.likes ? a.likes.length : 0 : '{{likes.length}}')
 						span.approve
 							| мамочек

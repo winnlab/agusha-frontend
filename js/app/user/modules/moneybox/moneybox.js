@@ -14,7 +14,7 @@ export default Controller.extend(
 			this.base_url = window.location.protocol + '//' + window.location.host;
 
 			this.left_menu = $('#left_menu');
-			
+
 			this.winner_selectors = this.element.find('.winner_selector');
 
 			this.tab_selectors = this.element.find('.tab_selector');
@@ -22,7 +22,7 @@ export default Controller.extend(
 			this.tab_blocks = this.element.find('.tab_block');
 
 			this.prizes_buttons = this.element.find('.all_prizes button');
-			
+
 			this.prize_image_containers = this.element.find('.prize_image_container');
 
 			this.modal = this.element.find('.modal');
@@ -57,6 +57,11 @@ export default Controller.extend(
 
 			appState.delegate('moneybox', 'set', can.proxy(self.moneyboxed, self));
 
+			if (appState.attr('moneyboxShowRanks')) {
+				this.changeTab(this.element.find('.tab_selector.rules'), null, 'ranks');
+				appState.attr('moneyboxShowRanks', false);
+			}
+
 			this.init_sliders();
 		},
 
@@ -64,9 +69,9 @@ export default Controller.extend(
 			var prizeGroups = this.element.find('.prizeGroup'),
 				howItWorksPrizeGroup =  this.element.find('.how_it_works .prizeGroup'),
 				i, j;
-			
+
 			howItWorksPrizeGroup.data('index', prizeGroups.length - 1);
-			
+
 			this.images = [];
 
 			for(i = prizeGroups.length; i--;) {
@@ -266,34 +271,34 @@ export default Controller.extend(
 			card_selectors.removeClass(this.active);
 			card_selectors.filter('.card_image_' + index).addClass(this.active);
 		},
-		
+
 		'.prize_image_container .left_arrow click': function(el) {
 			var prize_image_container = el.parent(),
 				prize_images = prize_image_container.find('.prize_image'),
 				current_image = prize_image_container.data('image');
-			
+
 			if(current_image == 1) {
 				current_image = prize_images.length;
 			} else {
 				current_image--;
 			}
-			
+
 			prize_image_container.data('image', current_image);
 			prize_images.removeClass(this.active);
 			prize_images.filter('.prize_image_' + current_image).addClass(this.active);
 		},
-		
+
 		'.prize_image_container .right_arrow click': function(el) {
 			var prize_image_container = el.parent(),
 				prize_images = prize_image_container.find('.prize_image'),
 				current_image = prize_image_container.data('image');
-			
+
 			if(current_image == prize_images.length) {
 				current_image = 1;
 			} else {
 				current_image++;
 			}
-			
+
 			prize_image_container.data('image', current_image);
 			prize_images.removeClass(this.active);
 			prize_images.filter('.prize_image_' + current_image).addClass(this.active);
@@ -317,9 +322,9 @@ export default Controller.extend(
 
 		'.link-tab click': 'changeTab',
 
-		changeTab: function(el) {
+		changeTab: function(el, ev, block) {
 			var tab = el.data('tab'),
-				block = el.data('block');
+				block = el.data('block') || block;
 
 			this.tab_selectors.removeClass(this.active);
 			this.tab_selectors.filter('.' + tab).addClass(this.active);
@@ -363,10 +368,10 @@ export default Controller.extend(
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'Registration', 'Moneybox');
 		},
-		
+
 		'.calendar.winner_selector click': function(el) {
 			var index = el.data('index');
-			
+
 			this.winner_selectors.removeClass(this.active);
 			this.winner_selectors.filter('.winner_selector_' + index).addClass(this.active);
 		},
@@ -378,7 +383,7 @@ export default Controller.extend(
 				return;
 			}
 
-			this.modal_bg.css({
+			this.modal_bg && this.modal_bg.css({
 				left: this.left_menu.width()
 			});
 		}

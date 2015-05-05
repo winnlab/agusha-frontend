@@ -1,6 +1,8 @@
+import can from 'can/';
 import Controller from 'controller';
 import appState from 'core/appState';
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
+import upBtn from 'lib/up-btn/';
 import 'select2';
 import 'carousel';
 
@@ -18,10 +20,10 @@ export default Controller.extend(
 			this.userTitle = this.element.find('.userTitle');
 			this.items_container = this.element.find('.items_container');
 			this.feed_container = this.element.find('.feed_container');
-			this.icons = this.element.find('.icon');
+			this.registration_block = this.element.find('.registration_block');
 
 			this.carousel = this.element.find('#main_carousel');
-			
+
 			this.counter_block = this.element.find('.counter_block');
 		},
 
@@ -30,12 +32,22 @@ export default Controller.extend(
 		},
 
 		init_carousel: function() {
-			this.carousel.carousel();
+			this.carousel.carousel({
+				interval: false
+			});
+			this.carousel.on('slide.bs.carousel', () => {
+				this.registration_block.removeClass('animate').addClass('no-transition');
+				setTimeout(() => {
+					this.registration_block.removeClass('no-transition').addClass('animate');
+				}, 4);
+			});
 		},
 
 		initPlugins: function() {
 			var self = this;
 			this.select2();
+
+			new upBtn(this.element);
 
 			appState.delegate('subsChanged', 'set', function (el, newVal) {
 				if (newVal) {
@@ -58,6 +70,7 @@ export default Controller.extend(
 		},
 
 		toggleWatch: function (ev, id, doc) {
+
 			var userId = appState.attr('user').user().attr('_id'),
 				consIndex = _.findIndex(this.data.attr('feed'), { _id: id });
 
@@ -96,7 +109,7 @@ export default Controller.extend(
 			return html;
 		},
 
-		after_init: function(data) {			
+		after_init: function(data) {
 			var auth = appState.attr('user').auth;
 
 			this.isAuth(null, auth.attr('isAuth'));
@@ -138,9 +151,12 @@ export default Controller.extend(
 
 			if(!encyclopedia_mustache.length) {
 				encyclopediaHtml = jadeTemplate.get('user/encyclopedia/encyclopedia_mustache');
-				feedHtml = jadeTemplate.get('user/main/feed_mustache');
 			} else {
 				encyclopediaHtml = encyclopedia_mustache.html();
+			}
+			if(!feed_mustache.length) {
+				feedHtml = jadeTemplate.get('user/main/feed_mustache');
+			} else {
 				feedHtml = feed_mustache.html();
 			}
 
@@ -150,26 +166,26 @@ export default Controller.extend(
 			this.items_container.html(can.view('mainArticlesView', this.data, encyclopediaHelpers));
 			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
 			this.initPlugins();
-			
 			this.counter_mustache();
+			this.icons = this.element.find('.icon');
 		},
-		
+
 		counter_mustache: function() {
 			if(!this.counter_block.length) {
 				return;
 			}
-			
+
 			var	counter_mustache = $('#counter_mustache'),
 				html, ViewModel;
-			
+
 			if(!counter_mustache.length) {
 				html = jadeTemplate.get('user/helpers/counter_mustache');
 			} else {
 				html = counter_mustache.html();
 			}
-			
+
 			can.view.mustache('counter_mustache', html);
-			
+
 			ViewModel = can.Map.extend({
 				define: {
 					duration: {
@@ -177,10 +193,8 @@ export default Controller.extend(
 					}
 				}
 			});
-			
-			this.data = new ViewModel();
-			
-			this.counter_block.html(can.view('counter_mustache', this.data));
+
+			this.counter_block.html(can.view('counter_mustache', new ViewModel()));
 		},
 
 		updateSubscribe: function () {
@@ -265,7 +279,9 @@ export default Controller.extend(
 				feed;
 
 			this.icons.removeClass('active');
-			el.addClass('active');
+			if (this.data.attr('iconFilter') !== newFilter) {
+				el.addClass('active');
+			}
 
 			data = _.filter(dataOrigin, function (item) {
 				if (!filterIt){
@@ -360,20 +376,27 @@ export default Controller.extend(
 		'a.carousel-control click': function(el, ev) {
 			ev.preventDefault();
 		},
-		
+
 		'.carousel-control.left click': function() {
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'MainCarousel', 'Left');
 		},
-		
+
 		'.carousel-control.right click': function() {
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'MainCarousel', 'Right');
 		},
-		
+
 		'.registration_button click': function() {
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'Registration', 'MainBanner');
+		},
+
+		destroy: function() {
+			can.unbind.call(appState, "toggleWatch", can.proxy(this.toggleWatch, this));
+			appState.attr('user').user().unbind('change');
+			appState.undelegate('subsChanged', 'set');
+			can.Control.prototype.destroy.call(this);
 		}
-    }
+	}
 );

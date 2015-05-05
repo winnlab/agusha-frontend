@@ -90,11 +90,11 @@ table tr {
 	top: 0;
 	right: 0;
 	text-align: center;
-	
+
 	.right_menu_small_inside {
 		background-color: $white;
 		border-bottom-left-radius: 33px;
-		
+
 		&.unauthorized {
 			@include transition(width 0.3s ease-in-out);
 			@include box_shadow(0px 1px 4px 0px rgba(0, 0, 0, 0.12));
@@ -102,11 +102,11 @@ table tr {
 			height: 70px;
 			line-height: 18px;
 			color: $red2;
-			
+
 			&:hover {
 				width: 160px;
 			}
-			
+
 			&:before {
 				@include pseudo;
 				top: 0;
@@ -117,25 +117,25 @@ table tr {
 				height: 15px;
 				background: url('/img/user/core/unauthorized_lock.png') no-repeat;
 			}
-			
+
 			.adorable_cell {
 				padding: 0 0 0 50px;
 			}
-			
+
 			a {
 				&:hover {
 					text-decoration: underline;
 				}
 			}
 		}
-		
+
 		&.authorized {
 			padding-bottom: 22px;
 			border-bottom-right-radius: 33px;
 			width: 70px;
 		}
 	}
-	
+
 	.topper {
 		border-bottom: 1px solid #e5e5e5;
 	}
@@ -209,18 +209,18 @@ table tr {
 	color: $white;
 	width: 230px;
 	overflow: hidden;
-	
+
 	&.active {
 		right: 0;
 		overflow: visible;
-		
+
 		.topper {
 			&:before {
 				left: -10px;
 			}
 		}
 	}
-	
+
 	.topper {
 		background-color: $darkblue;
 		padding: 41px 0 14px;
@@ -349,7 +349,7 @@ table tr {
 		text-align: left;
 		line-height: 17px;
 		text-decoration: inherit;
-		
+
 		&.profile {
 			.icon {
 				&:before {
@@ -358,14 +358,14 @@ table tr {
 					background: url('/img/user/core/settings_icon.png') no-repeat;
 				}
 			}
-			
+
 			.label {
 				&:before {
 					content: 'Настройки';
 				}
 			}
 		}
-		
+
 		&.messages {
 			.label {
 				&:before {
@@ -401,14 +401,14 @@ table tr {
 				}
 			}
 		}
-		
+
 		&.action {
 			.icon {
 				&:before {
 					background-position: -80px 0;
 				}
 			}
-			
+
 			.label {
 				&:before {
 					content: 'Акции';
@@ -452,7 +452,7 @@ table tr {
 					width: 10px;
 					height: 50px;
 				}
-				
+
 				&.profile {
 					.icon:before {
 						background-position: 0 -33px;
@@ -518,7 +518,7 @@ table tr {
 		width: 144px;
 		letter-spacing: 0;
 	}
-	
+
 	.count {
 		@include border_radius(9px);
 		position: absolute;
@@ -533,7 +533,7 @@ table tr {
 		z-index: 5;
 		height: 20px;
 	}
-	
+
 	.right_footer {
 		position: absolute;
 		bottom: 0;
@@ -545,36 +545,36 @@ table tr {
 		font-size: 12px;
 		color: $darkbluefont;
 		z-index: 30;
-		
+
 		&:hover {
 			background-color: #2ba2da;
 			color: $white;
-			
+
 			.lock {
 				background-position: -13px 0;
 			}
 		}
-		
+
 		&:active {
 			background-color: #2998cd;
 			color: $white;
-			
+
 			.lock {
 				background-position: -13px 0;
 			}
 		}
-		
+
 		.adorable_cell {
 			text-align: left;
 		}
-		
+
 		.lock {
 			@include my_inline_block;
 			width: 12px;
 			height: 14px;
 			background: url('/img/user/core/right_menu_lock.png');
 		}
-		
+
 		.lock, span {
 			margin-left: 30px;
 			vertical-align: middle;
@@ -605,16 +605,16 @@ table tr {
 	&.small {
 		.close {
 			background-position: 0 0;
-			
+
 			&:hover {
 				background-position: -13px 0;
 			}
-			
+
 			&:active {
 				background-position: -26px 0;
 			}
 		}
-		
+
 		.small_logo {
 			opacity: 1;
 		}
@@ -628,24 +628,24 @@ table tr {
 			width: 27px;
 			opacity: 0;
 		}
-		
+
 		.counter {
 			opacity: 0;
 			cursor: default;
 		}
-		
+
 		.count {
 			opacity: 0;
 		}
-		
+
 		.counter_label {
 			opacity: 0;
 		}
-		
+
 		.number {
 			width: 14px;
 		}
-		
+
 		.line {
 			&:before {
 				width: 12px;
@@ -660,7 +660,7 @@ table tr {
 			.search_icon {
 				background-image: url('/img/user/core/search_small.png');
 				background-color: $blue;
-			}	
+			}
 		}
 
 		#search_input {
@@ -724,11 +724,11 @@ table tr {
 		background-position: 0 -13px;
 		cursor: pointer;
 		z-index: 11;
-		
+
 		&:hover {
 			background-position: -13px -13px;
 		}
-		
+
 		&:active {
 			background-position: -26px -13px;
 		}
@@ -764,7 +764,7 @@ table tr {
 			position: relative;
 			z-index: 1;
 		}
-		
+
 		img {
 			@include box_shadow(0 0 0 rgba(0, 0, 0, 0));
 			width: 57px;
@@ -795,7 +795,7 @@ table tr {
 		white-space: nowrap;
 		opacity: 1;
 	}
-	
+
 	.left_menu_line {
 		height: 2px;
 		background: url('/img/user/core/left_menu_line.png') repeat-x;
@@ -807,7 +807,7 @@ table tr {
 		text-align: center;
 		opacity: 1;
 		position: relative;
-		
+
 		&:hover {
 			.counter_tooltip {
 				display: block;
@@ -871,7 +871,7 @@ table tr {
 		text-transform: uppercase;
 		opacity: 1;
 	}
-	
+
 	.counter_tooltip {
 		@include border_radius(5px);
 		@include box_shadow(0px 2px 4px 0px rgba(0, 0, 0, 0.22));
@@ -885,7 +885,7 @@ table tr {
 		right: -250px;
 		color: $blue;
 		display: none;
-		
+
 		&:before {
 			@include pseudo;
 			background: url('/img/user/core/counter_tooltip_arrow.png') no-repeat;
@@ -896,7 +896,7 @@ table tr {
 			margin: auto;
 			left: -13px;
 		}
-		
+
 		.adorable_cell {
 			text-align: left;
 			padding: 0 18px;
@@ -952,7 +952,7 @@ table tr {
 				}
 			}
 		}
-		
+
 		&.moneybox {
 			.icon {
 				&:before {
@@ -1024,7 +1024,7 @@ table tr {
 						background-position: -74px -34px;
 					}
 				}
-				
+
 				&.moneybox {
 					.icon:before {
 						background-position: -80px -27px;
@@ -1072,7 +1072,7 @@ table tr {
 
 	.search_item {
 		height: 35px;
-		
+
 		.search_icon {
 			@include border_radius(5px);
 			@include transition(background-color 0.3s ease-in-out);
@@ -1101,19 +1101,19 @@ table tr {
 		white-space: nowrap;
 		position: relative;
 	}
-	
+
 	.social_block, .small_social_block {
 		cursor: pointer;
-		
+
 		&:hover {
 			background-color: #2ba2d9;
 		}
-		
+
 		&:active {
 			background-color: $darkblue;
 		}
 	}
-	
+
 	.social_block {
 		@include my_inline_block;
 		@include transition(width 0.3s ease-in-out);
@@ -1121,7 +1121,7 @@ table tr {
 		height: 100%;
 		position: relative;
 		z-index: 2;
-		
+
 		&:not(:first-child) {
 			border-left: 1px solid $blackblue;
 		}
@@ -1145,7 +1145,7 @@ table tr {
 		left: 0;
 		opacity: 0;
 		z-index: 1;
-		
+
 		&:after {
 			@include pseudo;
 			@include absolute_centered;
@@ -1154,31 +1154,31 @@ table tr {
 			background: url('/img/user/core/social.png') no-repeat;
 			background-position: -69px 0px;
 		}
-		
+
 		&:hover, &:active {
 			&:after {
 				background-position: -69px -22px;
 			}
 		}
 	}
-	
+
 	.facebook {
 		&:after {
 			background-position: 0 -22px;
 		}
-		
+
 		&:hover, &:active {
 			&:after {
 				background-position: 0 0;
 			}
 		}
 	}
-	
+
 	.vkontakte {
 		&:after {
 			background-position: -23px -22px;
 		}
-		
+
 		&:hover, &:active {
 			&:after {
 				background-position: -23px 0;
@@ -1190,7 +1190,7 @@ table tr {
 		&:after {
 			background-position: -46px -22px;
 		}
-		
+
 		&:hover, &:active {
 			&:after {
 				background-position: -46px 0;
@@ -1235,14 +1235,14 @@ table tr {
 	padding: 0 10px 0 35px;
 	position: relative;
 	opacity: 1;
-	
+
 	&:hover {
 		@include box_shadow(0 0 0 2px #5ebce7);
 	}
-	
+
 	&:active {
 		@include box_shadow(0 0 0 2px transparent);
-		
+
 		+ .search_icon {
 			background-image: url("/img/user/core/search_small.png");
 		}
@@ -1404,15 +1404,19 @@ table tr {
 }
 
 .module {
+	@include clearfix;
+	@include box-sizing(border-box);
+	padding-bottom: 211px !important;
 	display: none;
 	margin: 0 auto;
-	
+	min-height: 100%;
+
 	.content {
 		position: relative;
 		z-index: 10;
 		margin: 0 auto;
 	}
-	
+
 	&.active {
 		display: block;
 	}
@@ -1426,7 +1430,7 @@ table tr {
     top: 0;
     width: 100%;
     z-index: 100;
-	
+
 	img {
 		@include absolute_centered;
 	}
@@ -1447,12 +1451,13 @@ table tr {
 
 #footer {
 	clear: both;
-	
+	margin-top: -211px;
+
 	.footer {
 		width: 100%;
 		height: 210px;
 		border-top: 1px solid $brown;
-		color: $brownfont;
+		color: darken($brownfont, 20%);
 		background-color: #efebe9;
 
 		.content {
@@ -1472,6 +1477,10 @@ table tr {
 
 		a {
 			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 
 		.top {
@@ -1709,12 +1718,12 @@ table tr {
 	width: 70px;
 	z-index: 9;
 	color: white;
-	
+
 	&:hover {
 		text-decoration: underline;
 		height: 125px;
 	}
-	
+
 	&:before {
 		@include pseudo;
 		@include absolute_horizontal_centered;
@@ -1723,7 +1732,7 @@ table tr {
 		top: 18px;
 		background: url('/img/user/core/need_help.png') no-repeat;
 	}
-	
+
 	.label {
 		margin-top: 57px;
 		text-align: center;

@@ -28,7 +28,8 @@ export default {
         return index() == all() - 1 ? options.fn() : options.inverse();
     },
     isAchived: function (myPoints, points) {
-        return Number(myPoints()) + 200 > points() ? '_achieve' : '';
+        myPoints = computedVal(myPoints) || 0;
+        return Number(myPoints) + 200 > points() ? '_achieve' : '';
     },
     gt: function (a, b, options) {
         return computedVal(a) > computedVal(b) ? options.fn() : options.inverse();
@@ -37,14 +38,16 @@ export default {
         return computedVal(a) + 200 > computedVal(b) ? options.fn() : options.inverse();
     },
     getLvlWidth: function (myPoints, points) {
-        var diff = 200 - (+(points()) - (+myPoints()))
+        myPoints = computedVal(myPoints) || 0;
+        var diff = 200 - (+(points()) - (+myPoints));
         return (diff > 0 && diff < 200) ? 'width: ' + (diff / 200 * 100) + '%;' : '';
     },
     minus: function (a, b) {
         return (computedVal(a) - computedVal(b)).toString();
     },
     myPoints: function (points) {
-        var myPoints = points().toString(),
+        points = points();
+        var myPoints = points ? points.toString() : '0',
             result = '';
 
         _.each(myPoints, function (point) {

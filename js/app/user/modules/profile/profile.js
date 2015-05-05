@@ -921,6 +921,11 @@ export default Controller.extend(
                 }
 
             }
+        },
+
+        '.levelIcon click': function () {
+            appState.attr('moneyboxShowRanks', true);
+            can.route.attr({module: 'moneybox'}, true);
         }
     }
 );
