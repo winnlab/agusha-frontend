@@ -244,7 +244,7 @@ if article.image
 								span.slash / 
 								span.post_comment Комментировать
 								
-					.half.right
+					.half.right.like(data-component_id="#{article._id}", data-component="Article")
 						.adorable_table
 							div(class="adorable_cell toggleLike #{isLiked}")
 								img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")

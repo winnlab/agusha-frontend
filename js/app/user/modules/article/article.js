@@ -16,47 +16,47 @@ export default Controller.extend(
 	}, {
 		variables: function() {
 			this.base_url = window.location.protocol + '//' + window.location.host;
-			
+
 			this.id = this.options.id != "article" ? this.options.id : "undefined";
 		},
-		
+
 		plugins: function(data) {
 			this.article = null;
-			
+
 			if(data) {
 				this.article = data.article;
 			} else {
 				this.article = app.article;
 			}
-			
+
 			var	url = decodeURI(document.location.href) + '?utm_source=vkontakte&utm_medium=share&utm_campaign=site_articleshare',
 				vk_options = {
 					url: url,
 					title: this.article.title
 				},
 				ok_options = "{width:145, height:20, st:'rounded', sz:20, ck:1}";
-			
+
 			if(this.article.image && this.article.image.SOCIAL) {
 				vk_options.image = this.base_url + '/img/uploads/' + this.article.image.SOCIAL;
 			}
-			
+
 			var vk_top = $('#vk_top_' + this.id);
 			if(vk_top.length) {
 				vk_top.html(VK.Share.button(vk_options));
 			}
-			
+
 			var vk_bottom = $('#vk_bottom_' + this.id);
 			if(vk_bottom.length) {
 				vk_bottom.html(VK.Share.button(vk_options));
 			}
-			
+
 			var ok_url = decodeURI(document.location.href) + '?utm_source=Odnoklassniki&utm_medium=share&utm_campaign=site_articleshare';
-			
+
 			var ok_top = $('#ok_top_' + this.id);
 			if(ok_top.length) {
 				OK.CONNECT.insertShareWidget("ok_top_" + this.id, ok_url, ok_options);
 			}
-			
+
 			var ok_bottom = $('#ok_bottom_' + this.id);
 			if (ok_bottom.length) {
 				OK.CONNECT.insertShareWidget("ok_bottom_" + this.id, ok_url, ok_options);
@@ -66,7 +66,7 @@ export default Controller.extend(
 				FB.XFBML.parse(this.element[0]);
 			}
 		},
-		
+
 		after_init: function(data) {
 			var id = this.id.split('-')[1];
 
@@ -86,9 +86,8 @@ export default Controller.extend(
 			$('.interesting_content', self.element).bxSlider({
 			    slideWidth: 280,
 			    minSlides: 2,
-			    maxSlides: 3,
-			    moveSlides: 1,
-			    slideMargin: 10
+			    maxSlides: 4,
+			    moveSlides: 1
 			});
 		},
 
@@ -126,23 +125,23 @@ export default Controller.extend(
 
 		'.slideRight click': function(el, ev) {
 			$('.bx-wrapper .bx-next', this.element).trigger('click');
-			
+
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'ArticleCarousel', 'Right');
 		},
 
 		'.slideLeft click': function(el, ev) {
 			$('.bx-wrapper .bx-prev', this.element).trigger('click');
-			
+
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'ArticleCarousel', 'Left');
 		},
-		
+
 		'.registration_link click': function() {
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'Registration', 'ArticleComment');
 		},
-		
+
 		'{window} scroll': function (el, ev) {
 			if (this.element.hasClass('active')) {
 				this.moveBackground();

@@ -132,10 +132,12 @@ export default Controller.extend(
 		},
 
 		'.icon click': function (el) {
-			this.icons.removeClass('active');
-			el.addClass('active');
 			var oldFilter = this.data.attr('filter'),
 				newFilter = el.data('filter');
+			this.icons.removeClass('active');
+			if (oldFilter !== newFilter) {
+				el.addClass('active');
+			}
 			this.data.attr('filter', oldFilter == newFilter ? '' : newFilter);
 		},
 
@@ -193,7 +195,7 @@ export default Controller.extend(
 				});
 			});
 		},
-		
+
 		'.registration_link click': function() {
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'Registration', 'Specialist');

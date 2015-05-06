@@ -59,7 +59,7 @@ export default Controller.extend(
 		after_init: function(data) {
 			// var registration = $('#registration'), html,
 			var	that = this, isOpenedError = false, auth, isAuth;
-			
+
 			// if(!registration.length) {
 				// html = jadeTemplate.get('user/registration/content');
 			// } else {
@@ -85,7 +85,7 @@ export default Controller.extend(
 				theme: 'tooltipster-error',
 				trigger: 'custom'
 			});
-			
+
 			jQuery.validator.setDefaults({
 				errorPlacement: function() {},
 				showErrors: function(errors, errorsArr) {
@@ -101,7 +101,7 @@ export default Controller.extend(
 									isOpenedError = true;
 
 									setTimeout(function() {
-										that.tooltip.tooltipster('disable');
+										that.tooltip.tooltipster('hide');
 									}, 5000);
 								});
 						}
@@ -110,7 +110,6 @@ export default Controller.extend(
 							that.tooltip
 								.tooltipster('hide', function() {
 									isOpenedError = false;
-
 									setTimeout(function() {
 										that.tooltip.tooltipster('hide');
 									}, 5000);
@@ -127,7 +126,7 @@ export default Controller.extend(
 					$(element).removeClass(errorClass).addClass(validClass);
 				}
 			});
-			
+
 			this.element.find('.registration_form').validate({
 				rules: {
 					firstName: {
@@ -175,10 +174,10 @@ export default Controller.extend(
 
 		'.registration_form submit': function(el, ev) {
 			ev.preventDefault();
-			
+
 			// var user,
 			var	that = this;
-			
+
 			if (!el.valid()) {
 				this.tooltip
 					.tooltipster('content', "Форма заполнена неверно");
@@ -204,7 +203,7 @@ export default Controller.extend(
 						// firstName: null,
 						// password: null
 					// });
-					
+
 					showSuccessmessgae.call(that);
 
 					can.route.attr({module: 'registration', id: 'success'}, true);

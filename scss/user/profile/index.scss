@@ -70,7 +70,7 @@ span.deleteicon {
 		padding: 0px;
 		display: inline-block;
 		width: 290px;
-		
+
 		&.middle {
 			margin: 0 auto;
 			@include gridle(6);
@@ -85,7 +85,7 @@ span.deleteicon {
 				@include gridle(6);
 				padding: 0px;
 				float: none;
-			}			
+			}
 		}
 
 		&.right {
@@ -109,7 +109,7 @@ span.deleteicon {
 
 		.inner {
 			width: 280px;
-			
+
 			.input_row {
 				margin-bottom: 20px;
 				// width: 100%;
@@ -120,7 +120,7 @@ span.deleteicon {
 				}
 			}
 
-			
+
 		}
 	}
 }
@@ -210,7 +210,7 @@ span.deleteicon {
 
 #profile {
 	height: auto !important;
-	
+
 	// @include gridle ( 6 );
 	padding: 0px;
 	width: 100%;
@@ -350,7 +350,7 @@ span.deleteicon {
 
 		.profileHead {
 			@include gridle(4);
-			@include gridle_push ( 1 ); 
+			@include gridle_push ( 1 );
 			margin: 0 auto;
 			margin-top: 45px;
 
@@ -608,7 +608,9 @@ span.deleteicon {
 			}
 
 			.moneybox {
+				@include user-select(none);
 				@include gridle(2);
+				position: relative;
 				float: none;
 				display: inline-block;
 				margin-left: 0px;
@@ -653,28 +655,35 @@ span.deleteicon {
 					display: inline-block;
 					width: 100px;
 					height: 100px;
-					background-size: cover !important;
-					right: -40px;
-					top: -10px;
-					position: relative;
+					background-size: contain;
+					background-repeat: no-repeat;
+					top: 0px;
+					right: 12px;
+					position: absolute;
+					cursor: pointer;
 
 					&.novice {
 						width: 85px;
 					}
 
+					&.disciple {
+						right: 0;
+					}
+
 					&.adept {
-						top: -40px;
+						top: -27px;
 						width: 100px;
 						height: 124px;
 					}
 
 					&.expert {
-						top: -40px;
+						top: -21px;
 						height: 115px;
 					}
 
 					&.pro {
-						top: -60px;
+						top: -46px;
+						right: 0;
 						height: 141px;
 					}
 
@@ -817,7 +826,7 @@ span.deleteicon {
 					}
 
 					&.vk {
-						background-color: #fff;	
+						background-color: #fff;
 
 						&:after {
 							@include sprite($vk-inactive);
@@ -873,7 +882,7 @@ span.deleteicon {
 						}
 					}
 
-					
+
 				}
 			}
 
@@ -1100,7 +1109,7 @@ span.deleteicon {
 			max-width: 880px;
 			float: none;
 			padding: 30px 0px 50px 0px;
-			
+
 			.title {
 				h1 {
 					margin-top: 0px;
@@ -1133,7 +1142,7 @@ span.deleteicon {
 						margin-top: 42px;
 					}
 				}
-				
+
 				.button {
 					display: inline-block;
 					float: left;
@@ -1265,7 +1274,7 @@ span.deleteicon {
 				.button {
 					background: #36a8de;
 					color: white;
-				}				
+				}
 			}
 		}
 	}
@@ -1279,7 +1288,7 @@ span.deleteicon {
 // 	float: right;
 // 	right: -120px;
 // 	top: -60px;
-	
+
 // 	.adorable_cell {
 // 		padding: 20px 20px 20px 35px;
 // 		color: $white;
@@ -1387,7 +1396,7 @@ span.deleteicon {
 	height: 30px;
 	color: $white;
 	font-size: 14px;
-	
+
 	&.sended {
 		background-color: #cccccc !important;
 	}
@@ -1401,7 +1410,7 @@ span.deleteicon {
 	font-family: 'PT_Sans_Bold';
 	@include gridle(6);
 	float: right;
-	padding: 0px;	
+	padding: 0px;
 
 	.icon {
 		// background: url('/img/user/moneybox/grey_bar.png') repeat-x;

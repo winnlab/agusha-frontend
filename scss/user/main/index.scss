@@ -6,6 +6,7 @@
 @import 'CSS:../../../js/plugins/select2/select2';
 @import '../helpers/select2';
 @import '../helpers/carousel';
+@import '../helpers/up-btn';
 @import '../../bourbon/bourbon';
 
 @media all and (min-width: $min-width) and (max-width: $extend) {
@@ -25,11 +26,11 @@
 		.content {
 			width: 1220px;
 		}
-		
+
 		.carousel-control.left {
 			left: -635px;
 		}
-		
+
 		.carousel-control.right {
 			right: -635px;
 			background-position: -29px 0;
@@ -96,7 +97,7 @@
 			padding: 0 20px;
 			top: 0;
 		}
-		
+
 		.arrows_content {
 			z-index: 35;
 			width: 0;
@@ -106,6 +107,12 @@
 		.item {
 			&.duration {
 				z-index: 30;
+			}
+			
+			&.moneybox_3 {
+				.top_label {
+					color: $blue3;
+				}
 			}
 			
 			.content {
@@ -120,7 +127,7 @@
 			line-height: 60px;
 			font-family: 'PT_Sans_Narrow_Bold';
 			color: $blue;
-			
+
 			&.green {
 				color: $green;
 			}
@@ -132,29 +139,29 @@
 			&.lightblue {
 				color: #13abea;
 			}
-			
+
 			&.pink {
 				color: #db6ba3;
 			}
-			
+
 			.small_part {
 				margin-top: 20px;
 				text-transform: none;
 			}
-			
+
 			.small_label {
 				font-size: 40px;
 				line-height: 40px;
 				font-family: 'PT_Sans_Narrow';
 			}
-			
+
 			.bold_small_label {
 				font-size: 48px;
 				line-height: 48px;
 				font-family: 'PT_Sans_Narrow_Bold';
 			}
 		}
-		
+
 		.action_box {
 			@include border_radius(8px);
 			position: absolute;
@@ -165,7 +172,7 @@
 			text-align: center;
 			color: $grey2;
 		}
-		
+
 		.we_have_action {
 			font-size: 24px;
 			font-family: 'PT_Sans_Bold';
@@ -173,7 +180,7 @@
 			margin-top: 27px;
 			text-transform: uppercase;
 		}
-		
+
 		.action_title {
 			font-family: 'PT_Sans_Narrow_Bold';
 			font-size: 50px;
@@ -182,34 +189,34 @@
 			text-transform: uppercase;
 			line-height: 50px;
 		}
-		
+
 		.action_desc {
 			font-size: 20px;
 			margin-top: 14px;
 			letter-spacing: -1.5px;
 		}
-		
+
 		.orange {
 			font-family: 'PT_Sans_Bold';
 			color: $orange2;
 		}
-		
+
 		.counter_block {
 			@include box_shadow(inset 0 1px 0 $grey3, inset 0 -1px 0 $grey3);
 			margin-top: 13px;
 			padding-bottom: 12px;
 		}
-		
+
 		.left_label {
 			font-size: 16px;
 			font-family: 'PT_Sans_Italic';
 			padding-top: 16px;
 		}
-		
+
 		.counter {
 			padding: 14px 20px 12px;
 		}
-		
+
 		.number {
 			@include my_inline_block;
 			@include border_radius(7px);
@@ -220,12 +227,12 @@
 			font-size: 70px;
 			color: white;
 			text-align: center;
-			
+
 			&:first-child {
 				margin: 0 10px 0 0;
 			}
 		}
-		
+
 		.number_label {
 			@include my_inline_block;
 			margin-top: 3px;
@@ -234,18 +241,18 @@
 			text-align: center;
 			width: 120px;
 		}
-		
+
 		.button_block {
 			height: 124px;
 		}
-		
+
 		.action_button {
 			background-color: $red_title;
 			color: white;
 			width: 337px;
 			height: 64px;
 		}
-		
+
 		.carousel_button {
 			background-color: $white;
 			color: #2998cd;
@@ -273,9 +280,14 @@
 				background-color: $blue;
 				color: $white;
 			}
-			
+
 			&.orange {
 				background-color: $orange;
+				color: $white;
+			}
+			
+			&.pink {
+				background-color: $pink;
 				color: $white;
 			}
 		}
@@ -287,25 +299,29 @@
 		height: 100%;
 		top: 0;
 		left: 0;
-		
+
 		&.banner_image_spring_registration {
 			background: url('/img/user/main/spring_registration_banner.jpg') no-repeat center;
 		}
-		
+
 		&.banner_image_new_year {
 			background: url('/img/user/main/new_year_banner.jpg') no-repeat center;
 		}
-		
+
 		&.banner_image_8_marta {
 			background: url('/img/user/main/banner_8_marta.jpg') no-repeat center;
 		}
-		
+
 		&.banner_image_moneybox {
 			background: url('/img/user/main/banner_moneybox.jpg') no-repeat center;
 		}
-		
+
 		&.banner_image_moneybox_2 {
 			background: url('/img/user/main/banner_moneybox_2.jpg') no-repeat center;
+		}
+		
+		&.banner_image_moneybox_3 {
+			background: url('/img/user/main/banner_moneybox_3.jpg') no-repeat center;
 		}
 
 		&.banner_image_1 {
@@ -336,11 +352,21 @@
 	}
 
 	.registration_block {
+		@include transition(all 0.5s ease);
+		@include transform(translateX(100px));
 		@include border_radius(23px);
 		height: 100%;
 		width: 280px;
 		background-color: rgba(255, 255, 255, 0.8);
 		color: $titlegrey;
+
+		&.no-transition {
+			@include transition(none);
+		}
+
+		&.animate {
+			@include transform(translateX(0));
+		}
 
 		&:before {
 			@include pseudo;
@@ -570,6 +596,20 @@
 			@include box_shadow(-1px 0 0 0 #e5e5e5);
 			margin-left: 1px !important;
 			height: 100%;
+			cursor: pointer;
+
+			&.active {
+				img {
+					display: none;
+				}
+				.highlight {
+					display: inline-block;
+				}
+			}
+
+			.highlight {
+				display: none;
+			}
 		}
 	}
 

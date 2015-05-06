@@ -4,6 +4,7 @@ import select2 from 'select2';
 import appState from 'core/appState';
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 import Sub from 'lib/subscribe/';
+import upBtn from 'lib/up-btn/';
 import 'custom-scrollbar';
 
 var Theme = can.Model.extend({
@@ -40,6 +41,7 @@ export default Controller.extend(
 		plugins: function() {
 			this.setFilterHeight();
 			this.select2();
+			new upBtn(this.element);
 		},
 
 		select2: function() {

@@ -58,7 +58,7 @@ export default {
     // Sorting articles functions
     sortArticles: function (sourceData, order, isXL, byMain) {
         order = order || 'desc';
-        if (!sourceData.length)
+        if (!sourceData || (sourceData && !sourceData.length))
             return [];
         var data = _.clone(sourceData, true);
         data = _.sortBy(data, function (item) {
