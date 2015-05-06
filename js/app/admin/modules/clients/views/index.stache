@@ -20,7 +20,7 @@
         <div class="panel panel-default pull-left">
           <div class="panel-heading">Экспорт данных в Excel (.xlsx формат)</div>
           <div class="panel-body">
-            <form id="export-form" role="form" enctype="multipart/form-data" method="post" action="/admin/clients/export">
+            <form id="export-form" role="form">
               <div class="form-group">
                 <input type="radio" name="type" value="created_at" checked="checked"/>
                 <label for="created_at"> Выборка по дате регистрации</label>
@@ -38,6 +38,7 @@
               </div>
               <div class="form-group">
                 <input id="t-export" type="submit" value="Экспортировать" class="btn btn-success"/>
+                <input id="t-export-last" type="button" value="Запросить последний экспорт" class="btn btn-primary"/>
               </div>
             </form>
           </div>
