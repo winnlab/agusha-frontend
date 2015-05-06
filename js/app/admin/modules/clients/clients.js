@@ -211,7 +211,9 @@ export default List.extend(
 						_.delay(_.bind(this.waitForExport, this), 2000);
 					}
 				}, this))
-				.fail(this.processError);
+				.fail(_.bind(function () {
+					_.delay(_.bind(this.waitForExport, this), 2000);
+				}, this));
 		},
 
 		'#export-form submit': function (el, ev) {
