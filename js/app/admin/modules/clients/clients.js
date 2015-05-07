@@ -246,11 +246,7 @@ export default List.extend(
 		},
 
 		'#t-export-last click': function () {
-			swal({
-				title: ":(",
-				text: "Данный функционал пока не реализован.",
-				type: "info"
-			});
+			this.download('/admin/clients/downloadFile', 'last');
 		}
   }
 );
