@@ -115,6 +115,20 @@
 				}
 			}
 			
+			&.mama {
+				.top_label {
+					color: #00b5d9;
+				}
+				
+				.small_part {
+					margin-top: 13px;
+				}
+				
+				.small_label {
+					line-height: 45px;
+				}
+			}
+			
 			.content {
 				padding: 68px 20px 0;
 				text-align: left;
@@ -299,7 +313,11 @@
 		height: 100%;
 		top: 0;
 		left: 0;
-
+		
+		&.banner_image_mama {
+			background: url('/img/user/main/banner_mama.jpg') no-repeat center;
+		}
+		
 		&.banner_image_spring_registration {
 			background: url('/img/user/main/spring_registration_banner.jpg') no-repeat center;
 		}
