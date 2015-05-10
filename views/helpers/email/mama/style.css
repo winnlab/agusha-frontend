@@ -175,14 +175,6 @@ table {
 	width: 100%;
 }
 
-.join {
-	height: 81px;
-	font-size: 14px;
-	font-family: sans-serif;
-	font-style: italic;
-	color: #404040;
-}
-
 .bottom_shadow {
 	height: 3px;
 	width: 612px;
@@ -192,7 +184,7 @@ table {
 
 .bottom_text {
 	height: 80px;
-	color: #477392;
+	color: white;
 }
 
 .social {

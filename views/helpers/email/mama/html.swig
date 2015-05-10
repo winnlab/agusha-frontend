@@ -64,13 +64,6 @@
 						<div class="bottom_image_part">
 							<img class="bottom_image_part" src="http://agusha.com.ua/img/user/helpers/email/mama/bottom_image_part.jpg" />
 						</div>
-						
-						<table class="join">
-							<td>
-								Присоединяйтесь к нам в социальных сетях и рассказывайте о нас друзьям!
-							</td>
-						</table>
-						
 					</td>
 					
 					<td class="right_border">
