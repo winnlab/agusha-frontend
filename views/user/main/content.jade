@@ -3,7 +3,28 @@ include ../helpers/counter
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
-			.item.mama.active
+			.item.baby_active.active
+				.banner_image.banner_image_baby_active
+				.content
+					.top_label
+						div
+							span.orange 16-17 мая
+							span  отдыхайте всей семьей
+						
+						div на фестивале семейного досуга
+						
+						.orange «BABY Active 2015»!
+					
+					.bottom_label
+						div Множество полезностей, интересностей и вкусностей для
+						div мам, пап и малышей ждут вас с 10.00 до 18.00 в
+						div Выставочном центре АККО «Интернешнл» на территории
+						div парка им. А.С. Пушкина. 
+					
+					a._blank(href="https://www.facebook.com/events/991034750914402/" target="_blank")
+						button.carousel_button.orange3 Узнать больше
+			
+			//- .item.mama
 				.banner_image.banner_image_mama
 				.content
 					.top_label
@@ -14,7 +35,7 @@ include ../helpers/counter
 							.small_label праздником на свете —
 							.small_label Днем матери!
 			
-			//- .item.moneybox_3.active
+			//- .item.moneybox_3
 				.banner_image.banner_image_moneybox_3
 				.content
 					.top_label
@@ -30,7 +51,7 @@ include ../helpers/counter
 						button.carousel_button.pink Узнать больше
 			
 			if duration.diff > 0
-				//- .item.duration.active
+				//- .item.duration
 				.item.duration
 					.banner_image.banner_image_spring_registration
 					.content

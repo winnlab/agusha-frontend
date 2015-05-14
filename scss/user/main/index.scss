@@ -129,6 +129,33 @@
 				}
 			}
 			
+			&.baby_active {
+				color: $darkgrey;
+				
+				.top_label {
+					font-size: 36px;
+					line-height: 40px;
+					text-transform: none;
+					color: $darkgrey;
+				}
+				
+				.orange {
+					color: $orange3;
+				}
+				
+				.bottom_label {
+					margin-top: 24px;
+					font-size: 20px;
+					line-height: 25px;
+					font-family: 'PT_Sans_Narrow';
+				}
+				
+				.carousel_button {
+					margin-top: 31px;
+					width: 230px;
+				}
+			}
+			
 			.content {
 				padding: 68px 20px 0;
 				text-align: left;
@@ -300,6 +327,11 @@
 				color: $white;
 			}
 			
+			&.orange3 {
+				background-color: $orange3;
+				color: $white;
+			}
+			
 			&.pink {
 				background-color: $pink;
 				color: $white;
@@ -313,6 +345,10 @@
 		height: 100%;
 		top: 0;
 		left: 0;
+		
+		&.banner_image_baby_active {
+			background: url('/img/user/main/banner_baby_active.jpg') no-repeat center;
+		}
 		
 		&.banner_image_mama {
 			background: url('/img/user/main/banner_mama.jpg') no-repeat center;
