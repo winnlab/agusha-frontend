@@ -98,6 +98,7 @@ if user
 
 						.item_table
 							.avatar_column
+
 								if answerItem.author && answerItem.author.author_id
 									.avatar
 										if answerItem.author.author_id.image && answerItem.author.author_id.image.small
@@ -105,47 +106,54 @@ if user
 										else
 											img.rounded(src="/img/user/helpers/stub/small.png")
 								else
-									if answerItem.specialist
-										if answerItem.specialist.owner_id
+									if answerItem.specialist && answerItem.specialist.owner_id
 
-											if answerItem.specialist.owner_id == 1
-												.avatar.medical_cap
-													img.rounded(src="/img/user/specialist/gorolevich.jpg")
-											else if answerItem.specialist.owner_id == 2
-												.avatar.medical_cap
-													img.rounded(src="/img/user/specialist/buinova.jpg")
-											else
-												.avatar.medical_cap
-													img.rounded(src="/img/user/specialist/doc_mini.jpg")
+										if answerItem.specialist.owner_id == 1
+											.avatar.medical_cap
+												img.rounded(src="/img/user/specialist/gorolevich.jpg")
+										else if answerItem.specialist.owner_id == 2
+											.avatar.medical_cap
+												img.rounded(src="/img/user/specialist/buinova.jpg")
+										else
+											.avatar.medical_cap
+												img.rounded(src="/img/user/specialist/doc_mini.jpg")
+									else
+										.avatar.medical_cap
+											img.rounded(src="/img/user/specialist/doc_mini.jpg")
 
 							.content_column
 								.info
 									if answerItem.author && answerItem.author.author_id
 										.name #{answerItem.author.author_id.profile.first_name} #{answerItem.author.author_id.profile.last_name}
 									else
-										if answerItem.specialist
-											if answerItem.specialist.owner_id
+										if answerItem.specialist && answerItem.specialist.owner_id
 
-												if answerItem.specialist.owner_id == 1
+											if answerItem.specialist.owner_id == 1
 
-													.name Светлана Горолевич
-													.level
-														span.league Врач-педиатр
-													.children Детки: девочка
+												.name Светлана Горолевич
+												.level
+													span.league Врач-педиатр
+												.children Детки: девочка
 
-												else if answerItem.specialist.owner_id == 2
+											else if answerItem.specialist.owner_id == 2
 
-													.name Виктория Буйнова
-													.level
-														span.league Врач-акушер-гинеколог
-													.children Детки: девочка
+												.name Виктория Буйнова
+												.level
+													span.league Врач-акушер-гинеколог
+												.children Детки: девочка
 
-												else
+											else
 
-													.name Ирина Матвиенко
-													.level
-														span.league Врач-педиатр
-													.children Детки: девочка
+												.name Ирина Матвиенко
+												.level
+													span.league Врач-педиатр
+												.children Детки: девочка
+
+										else
+											.name Ирина Матвиенко
+											.level
+												span.league Врач-педиатр
+											.children Детки: девочка
 
 								.text !{answerItem.text}
 
