@@ -55,6 +55,7 @@ table {
 	width: 770px;
 	height: 1345px;
 	background-color: #73b6e5;
+	font-family: sans-serif;
 }
 
 .top_border {
@@ -133,46 +134,69 @@ table {
 	height: 71px;
 }
 
-.top_image_part {
-	height: 537px;
+.top_text {
+	height: 391px;
 	width: 100%;
+	color: #4c4c4c;
+}
+
+.hello {
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 34px;
+	padding: 0 15px;
+}
+
+.orange {
+	color: #fe7211;
+}
+
+.text {
+	font-size: 16px;
+	line-height: 24px;
+	margin-top: 32px;
+	padding: 0 15px;
 }
 
 .button_container {
-	height: 61px;
+	height: 62px;
 }
 
 .button_left_whitespace {
 	width: 175px;
-	height: 61px;
+	height: 62px;
 	float: left;
 }
 
 .button_left_whitespace img {
 	width: 175px;
-	height: 61px;
+	height: 62px;
 }
 
 .button_right_whitespace {
 	width: 175px;
-	height: 61px;
+	height: 62px;
 	float: left;
 }
 
 .button_right_whitespace img {
 	width: 175px;
-	height: 61px;
+	height: 62px;
 }
 
 .button {
 	width: 266px;
-	height: 61px;
+	height: 62px;
 	float: left;
 }
 
 .bottom_image_part {
-	height: 383px;
+	height: 528px;
 	width: 100%;
+}
+
+.bottom_image_part img {
+	float: left;
 }
 
 .bottom_shadow {
@@ -180,6 +204,10 @@ table {
 	width: 612px;
 	margin: 0 auto;
 	background-color: #5484a6;
+}
+
+.bottom_border {
+	background-color: #69a5d0;
 }
 
 .bottom_text {

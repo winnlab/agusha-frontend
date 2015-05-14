@@ -23,7 +23,7 @@
 			<table class="center_table">
 				<tr>
 					<td class="left_border">
-						
+						<img src="http://agusha.com.ua/img/user/helpers/email/baby_active/left_border.png" />
 					</td>
 					
 					<td class="content">
@@ -41,33 +41,77 @@
 							</div>
 						</div>
 						
-						<div class="top_image_part">
-							<img class="top_image_part" src="http://agusha.com.ua/img/user/helpers/email/mama/top_image_part.png" />
-						</div>
+						<table class="top_text">
+							<td>
+								<div class="hello">
+									<div>
+										Здравствуйте, {{ client.first_name|title }}!
+									</div>
+									
+									<div>
+										<span class="orange">16-17 мая</span><span> приглашаем вас и вашего</span>
+									</div>
+									
+									<div>
+										малыша на выставку-фестиваль
+									</div>
+									
+									<div>
+										<span>семейного досуга </span><span class="orange">«BABY Active 2015»</span><span>!</span>
+									</div>
+								</div>
+								
+								<div class="text">
+									<div>
+										Каждый день с 10.00 до 18.00 в Выставочном центре АККО «Интернешнл»
+									</div>
+									
+									<div>
+										на территории парка им. А.С. Пушкина вы и ваш карапуз сможете посетить
+									</div>
+									
+									<div>
+										ярмарку, семинары для будущих мам, школу молодых родителей,
+									</div>
+									
+									<div>
+										различные мастер-классы, спортивные соревнования, а также попробовать
+									</div>
+									
+									<div>
+										замечательные детские йогурты, кефирчик и соки вкусного и полезного
+									</div>
+									
+									<div>
+										партнера фестиваля – детского питания «Агуша»! 
+									</div>
+								</div>
+							</td>
+						</table>
 						
 						<div class="button_container">
 							
 							<div class="button_left_whitespace">
-								<img src="http://agusha.com.ua/img/user/helpers/email/mama/button_left_whitespace.jpg" />
+								<img src="http://agusha.com.ua/img/user/helpers/email/baby_active/button_left_whitespace.jpg" />
 							</div>
 							
 							<a href="http://www.agusha.com.ua" target="_blank">
-								<img class="button" src="http://agusha.com.ua/img/user/helpers/email/mama/button.png" />
+								<img class="button" src="http://agusha.com.ua/img/user/helpers/email/baby_active/button.png" />
 							</a>
 							
 							<div class="button_right_whitespace">
-								<img src="http://agusha.com.ua/img/user/helpers/email/mama/button_right_whitespace.jpg" />
+								<img src="http://agusha.com.ua/img/user/helpers/email/baby_active/button_right_whitespace.jpg" />
 							</div>
 							
 						</div>
 						
 						<div class="bottom_image_part">
-							<img class="bottom_image_part" src="http://agusha.com.ua/img/user/helpers/email/mama/bottom_image_part.jpg" />
+							<img class="bottom_image_part" src="http://agusha.com.ua/img/user/helpers/email/baby_active/bottom_image_part.jpg" />
 						</div>
 					</td>
 					
 					<td class="right_border">
-						
+						<img src="http://agusha.com.ua/img/user/helpers/email/baby_active/right_border.jpg" />
 					</td>
 				</tr>
 			</table>
