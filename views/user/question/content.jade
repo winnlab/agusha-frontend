@@ -21,25 +21,25 @@ if user
 
 	.topper_title
 		| #{consultation.theme.name}
-	
+
 	.social
 		.adorable_table
 			.adorable_cell
 				.social_button.fb
 					.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
-				
+
 				//.social_button
 				//	a(href="https://twitter.com/share" class="twitter-share-button") Tweet
-				
+
 				.social_button.vk
 					div(id="vk_top_question_" + params.alias)
-				
+
 				.social_button.ok
 					div(id="ok_top_question_" + params.alias)
-				
+
 				.social_button.gp
 					.g-plusone(data-size="medium")
-	
+
 	.question_container
 		.column.double.left
 			.question_items
@@ -85,7 +85,7 @@ if user
 
 								.text
 									| !{consultation.text}
-				
+
 				- each answerItem, answerKey in consultation.answer
 					.item
 						.date
@@ -95,7 +95,7 @@ if user
 							- var month = monthNames[date.getMonth()];
 
 							| #{day} #{month}
-						
+
 						.item_table
 							.avatar_column
 								if answerItem.author && answerItem.author.author_id
@@ -105,21 +105,48 @@ if user
 										else
 											img.rounded(src="/img/user/helpers/stub/small.png")
 								else
-									.avatar.medical_cap
-										img.rounded(src="/img/user/specialist/doc_mini.jpg")
-							
+									if answerItem.specialist
+										if answerItem.specialist.owner_id
+
+											if answerItem.specialist.owner_id == 1
+												.avatar.medical_cap
+													img.rounded(src="/img/user/specialist/gorolevich.jpg")
+											else if answerItem.specialist.owner_id == 2
+												.avatar.medical_cap
+													img.rounded(src="/img/user/specialist/buinova.jpg")
+											else
+												.avatar.medical_cap
+													img.rounded(src="/img/user/specialist/doc_mini.jpg")
+
 							.content_column
 								.info
 									if answerItem.author && answerItem.author.author_id
 										.name #{answerItem.author.author_id.profile.first_name} #{answerItem.author.author_id.profile.last_name}
 									else
-										.name Ирина Матвиенко
+										if answerItem.specialist
+											if answerItem.specialist.owner_id
 
-										.level
-											span.league Врач педиатр
+												if answerItem.specialist.owner_id == 1
 
-										.children Детки: девочка
-								
+													.name Светлана Горолевич
+													.level
+														span.league Врач-педиатр
+													.children Детки: девочка
+
+												else if answerItem.specialist.owner_id == 2
+
+													.name Виктория Буйнова
+													.level
+														span.league Врач-акушер-гинеколог
+													.children Детки: девочка
+
+												else
+
+													.name Ирина Матвиенко
+													.level
+														span.league Врач-педиатр
+													.children Детки: девочка
+
 								.text !{answerItem.text}
 
 			if user && consultation.author && consultation.author.author_id && consultation.author.author_id._id && consultation.author.author_id._id.toString() == user._id.toString()
@@ -148,30 +175,70 @@ if user
 
 						span.count.like(data-component_id="#{consultation._id}")
 							| #{likesAmount}
-						span.slash / 
+						span.slash /
 						span.post_like Одобрить
-		
+
 		.column.right
 			.author
 				.adorable_table
 					.adorable_cell
 						.label На вопрос отвечает
-						
-						.avatar
-							img.rounded(src="/img/user/specialist/doc_mini.jpg")
-						
-						.author_name
-							div Матвиенко
-							div Ирина Николаевна
-						
-						.desc Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем  здорового ребенка и преморбидных состояний.
-						
+
+						if consultation.answer && consultation.answer[0] && consultation.answer[0].specialist && consultation.answer[0].specialist.owner_id
+
+							-console.log(consultation.answer[0].specialist);
+
+							if consultation.answer[0].specialist.owner_id == 1
+
+								.avatar
+									img.rounded(src="/img/user/specialist/gorolevich.jpg")
+								.author_name
+									div Горолевич
+									div Светлана Николаевна
+								.desc Приоритетные направления практической деятельности: вопросы ухода, вскармливания, профилактики заболеваний у детей раннего возраста и часто длительно болеющих детей. Вакцинация детей.
+
+							else if consultation.answer[0].specialist.owner_id == 2
+
+								.avatar
+									img.rounded(src="/img/user/specialist/buinova.jpg")
+								.author_name
+									div Буйнова
+									div Виктория Анатольевна
+								.desc
+									| Приоритетные направления практической деятельности:
+									br
+									| - ведение физиологической беременности, беременности с экстрагенитальной патологией и после экстракорпорального оплодотворения;
+									br
+									| - диагностика и лечение воспалительных заболеваний органов малого таза, шейки матки
+									br
+									| - ультразвуковая диагностика беременных на всех сроках, в том числе пренатальные УЗ-скрининги, доплерометрия маточно-плацентарно-плодового кровотока, цервикометрия, оценка антенатального состояния плода;
+
+							else
+
+								.avatar
+									img.rounded(src="/img/user/specialist/doc_mini.jpg")
+								.author_name
+									div Матвиенко
+									div Ирина Николаевна
+								.desc Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем  здорового ребенка и преморбидных состояний.
+
+
+						else
+							.avatar
+								img.rounded(src="/img/user/specialist/doc_mini.jpg")
+
+							.author_name
+								div Матвиенко
+								div Ирина Николаевна
+
+							.desc Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем  здорового ребенка и преморбидных состояний.
+
 						button.author_button Задать вопрос
-			
+
 			//- .meta
 			//- 	div Тема:
 			//- 	div Планирование беременности
-			//- 	div Возраст: 
+			//- 	div Возраст:
 			//- 	div Беременность / Планирование / До 1 годика
 			//- 	div Теги:
 			//- 	.tags
@@ -184,23 +251,23 @@ if user
 			//- 		.tag для будущих мам
 			//- 		.tag вызывает у вас
 			//- 		.tag сомнений
-	
+
 	.social.socialWrapper
 		.adorable_table
 			.adorable_cell
 				.social_button
 					.fb-like(data-href = current_url, data-layout="button_count", data-action="like", data-show-faces="false", data-share="false")
-				
+
 				.social_button
 					a(href="https://twitter.com/share" class="twitter-share-button") Tweet
-				
+
 				.social_button
 					div(id="vk_bottom_question_" + params.alias)
-				
+
 				.social_button
 					div(id="ok_bottom_question_" + params.alias)
-				
+
 				.social_button
 					.g-plusone(data-size="medium")
-	
+
 	include ../helpers/interesting
