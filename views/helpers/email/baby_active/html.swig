@@ -6,7 +6,7 @@
 				</td>
 				
 				<td class="logo_part">
-					<a class="logo_part" href="http://agusha.com.ua" target="_blank">
+					<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=babyactive&utm_campaign=newsletter_2015.05.14 " target="_blank">
 						<img class="logo_part" src="http://agusha.com.ua/img/user/helpers/email/moneybox_1/top_logo_part.png" />
 					</a>
 				</td>
@@ -23,7 +23,7 @@
 			<table class="center_table">
 				<tr>
 					<td class="left_border">
-						<img src="http://agusha.com.ua/img/user/helpers/email/baby_active/left_border.png" />
+						<img src="http://agusha.com.ua/img/user/helpers/email/baby_active/left_border.jpg" />
 					</td>
 					
 					<td class="content">
@@ -33,7 +33,7 @@
 							<div class="bottom_logo_left_whitespace">
 							</div>
 							
-							<a class="logo_part" href="http://agusha.com.ua" target="_blank">
+							<a class="logo_part" href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=babyactive&utm_campaign=newsletter_2015.05.14 " target="_blank">
 								<img class="logo_part" src="http://agusha.com.ua/img/user/helpers/email/moneybox_1/bottom_logo_part.png" />
 							</a>
 							
@@ -95,7 +95,7 @@
 								<img src="http://agusha.com.ua/img/user/helpers/email/baby_active/button_left_whitespace.jpg" />
 							</div>
 							
-							<a href="http://www.agusha.com.ua" target="_blank">
+							<a href="http://agusha.com.ua?utm_source=email&utm_medium=email&utm_content=babyactive&utm_campaign=newsletter_2015.05.14 " target="_blank">
 								<img class="button" src="http://agusha.com.ua/img/user/helpers/email/baby_active/button.png" />
 							</a>
 							
