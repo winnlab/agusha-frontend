@@ -60,12 +60,19 @@ export default Controller.extend(
 				specHtml,
 				html;
 
+			this.articlesNextId = data ? data.articles.nextAnchorId : app.consultations.nextAnchorId;
+
 			this.data = new ViewModel({
-				articles: data ? data.articles : app.consultations,
+				articles: data ? data.articles.documents : app.consultations.documents,
 				ages: data ? data.ages : app.ages,
 				ageId: data ? data.ages[0]._id : app.ages[0]._id,
 				themes: data ? data.themes : app.themes
 			});
+
+			if (this.data.attr('articles.length') < 24 || this.articlesNextId == 1 || !this.articlesNextId) {
+				this.noMoreArts = true;
+				this.element.find('.loadMore').hide()
+			}
 
 			var consultation_mustache = $('#consultation_mustache'),
 				specialist_mustache = $('#specialist_mustache');
@@ -199,6 +206,38 @@ export default Controller.extend(
 		'.registration_link click': function() {
 			ga('set', 'page', decodeURI(document.location.href));
 			ga('send', 'event', 'Registration', 'Specialist');
+		},
+
+		'.loadMore img click': function (el) {
+			var self = this,
+				data = {
+					lastId: self.articlesNextId
+				},
+				articles = self.data.attr('articles');
+
+			if (self.noMoreArts) {
+				return;
+			}
+
+			can.ajax({
+				url: '/consultations',
+				method: 'get',
+				dataType: 'json',
+				data: data
+			}).done(function (data) {
+				self.articlesNextId = data.nextAnchorId;
+
+				can.batch.start();
+				_.each(data.documents, function (article) {
+					articles.push(article);
+				});
+				can.batch.stop();
+
+				if (data.documents.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+					self.noMoreArts = true;
+					el.parent().hide();
+				}
+			});
 		},
 
 		validate: function (form) {

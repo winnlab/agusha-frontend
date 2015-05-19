@@ -57,5 +57,8 @@ include helpers
 						img(src="/img/user/specialist/check+.png" class="highlight")
 	
 	.items_container.clearfix
-		- each a, i in articles
+		- each a, i in articles.documents
 			mixin article(a, i)
+	if (articles.nextAnchorId)
+		.loadMore
+			img(src="/img/user/main/icon_book.gif")

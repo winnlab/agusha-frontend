@@ -41,7 +41,7 @@ mixin feed()
                     .topper_text= '{{desc.shorttext}}'
                         | {{#if is_quiz}}
                         .topper_approve
-                            span.count= '{{answer.length}}'
+                            span.count= '{{counter.answer}}'
                             span.approve
                                 div мамочек
                                 div ответили
@@ -93,7 +93,7 @@ mixin feed()
                             | {{#is type.name "Статья от пользователя"}}
                             img.watch.watched(src="/img/user/helpers/cards/red_eye.png", data-component_id='{{_id}}')
                             img.watch.not-watched(src="/img/user/helpers/cards/eye.png", data-component_id='{{_id}}')
-                            span.count.watch(data-component_id='{{_id}}')= '{{watchers.length}}'
+                            span.count.watch(data-component_id='{{_id}}')= '{{counter.watch}}'
                             span.approve
                                 | мамочек
                                 br
@@ -101,16 +101,16 @@ mixin feed()
                             | {{else}}
                             img.j-disabled.like.liked(src="/img/user/article/heart.png", data-component_id='{{_id}}', data-component="Article")
                             img.j-disabled.like.not-liked(src="/img/user/article/heart-.png", data-component_id='{{_id}}', data-component="Article")
-                            span.count.like(data-component_id='{{_id}}')= '{{likes.length}}'
+                            span.count.like(data-component_id='{{_id}}')= '{{counter.like}}'
                             span.approve
                                 | мамочек
                                 br
                                 | одобряют
                             | {{/is}}
                             img.comment(src="/img/user/article/comment.png")
-                            span.count.commentariesCount= '{{commentaries.length}}'
-                                |{{#is type.name "Статья от специалиста"}}{{answer.length}}{{/is}}
-                                |{{#is type.name "Статья от пользователя"}}{{answer.length}}{{/is}}
+                            span.count.commentariesCount= '{{counter.comment}}'
+                                |{{#is type.name "Статья от специалиста"}}{{counter.answer}}{{/is}}
+                                |{{#is type.name "Статья от пользователя"}}{{counter.answer}}{{/is}}
 
         | {{/each}}
     | {{#unless feedLength}}

@@ -127,7 +127,7 @@ mixin article(a, i)
                         - var component_id = a ? a._id : '{{_id}}'
                         img.watch.watched(src="/img/user/helpers/cards/red_eye.png", data-component_id=component_id)
                         img.watch.not-watched(src="/img/user/helpers/cards/eye.png", data-component_id=component_id)
-                        span.count.watch(data-component_id=component_id)= (a ? (a.likes ? a.likes.length : 0) : '{{watchers.length}}')
+                        span.count.watch(data-component_id=component_id)= (a ? (a.counter ? a.counter.watch : 0) : '{{counter.watch}}')
                         span.approve
                             | мамочек
                             br
