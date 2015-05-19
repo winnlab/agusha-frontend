@@ -80,7 +80,8 @@ mixin article(a, i)
                 .topper_title= (a ? a.name : '{{name}}')
 
             .user_content
-                if a 
+                if a
+
                     if a.author && a.author.name
                         .user
                             .avatar
@@ -89,6 +90,36 @@ mixin article(a, i)
                                     - img = a.author.author_id.image.medium
                                 img.rounded(src='#{img}')
                             .name= a.author.name
+
+                    if a.answer && a.answer[0]
+
+                        if a.answer[0].specialist
+
+                            if a.answer[0].specialist.owner_id == 1
+                                .user.doctor
+                                    .avatar.medical_cap
+                                        img.rounded(src='/img/user/specialist/gorolevich.jpg')
+                                    .name врач-педиатр
+                                    .name Светлана Николаевна
+                            else if a.answer[0].specialist.owner_id == 2
+                                .user.doctor
+                                    .avatar.medical_cap
+                                        img.rounded(src='/img/user/specialist/buinova.jpg')
+                                    .name врач-акушер-гинеколог
+                                    .name Виктория Анатольевна
+                            else
+                                .user.doctor
+                                    .avatar.medical_cap
+                                        img.rounded(src='/img/user/specialist/doc_mini.jpg')
+                                    .name врач-педиатр
+                                    .name Ирина Матвиенко
+                        else
+                            .user.doctor
+                                .avatar.medical_cap
+                                    img.rounded(src='/img/user/specialist/doc_mini.jpg')
+                                .name врач-педиатр
+                                .name Ирина Матвиенко
+
                 else
                     | {{#if author.name}}
                     .user
@@ -96,11 +127,13 @@ mixin article(a, i)
                             img.rounded(src='{{getUserImg .}}')
                         .name= '{{autor.name}}'
                     | {{/if}}
-                .user.doctor
-                    .avatar.medical_cap
-                        img.rounded(src='/img/user/specialist/doc_mini.jpg')
-                    .name врач-педиатр
-                    .name Ирина Матвиенко
+
+                    .user.doctor
+                        .avatar.medical_cap
+                            img.rounded(src='/img/user/specialist/doc_mini.jpg')
+                        .name врач-педиатр
+                        .name Ирина Матвиенко
+
             div(class="footer toggleWatch " + (a ? '' : '{{isWatched .}}'))
                 .heart
                     img.watched(src="/img/user/helpers/cards/red_eye.png")

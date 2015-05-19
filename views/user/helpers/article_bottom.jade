@@ -60,7 +60,7 @@
 						.topper.bg
 							.topper_label
 								.adorable_table
-									.adorable_cell= similarArticle.theme[0].name
+									.adorable_cell=(similarArticle.theme[0] && similarArticle.theme[0].name ? similarArticle.theme[0].name : '')
 							.topper_title= similarArticle.title
 							.topper_text= similarArticle.desc.shorttext
 							if similarArticle.hasVideo
