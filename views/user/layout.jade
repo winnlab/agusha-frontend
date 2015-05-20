@@ -14,23 +14,22 @@ html(xmlns:fb="http://ogp.me/ns/fb#")
 		
 		#main_container
 			.left_menu.left_resizable
-
+			
 			.left_inner_menu.left_resizable
 			
 			#center_container
 				#modules
 					block content
 					include footer
-
+			
 			.right_menu.right_resizable
-
+			
 			.mainPopupWrapper(style="display: none")
 				.mainPopupBackground.triggerClosePopup
 				.mainPopupContent
 					.closeMainPopup.triggerClosePopup
 					h1
 					p.content
-
 		
 		#left_menu.left_menu.left_resizable
 			include left_menu
@@ -56,7 +55,6 @@ html(xmlns:fb="http://ogp.me/ns/fb#")
 				include helpers/menus/right_menu_mustache
 			script#right_menu_small_mustache(type="text/mustache")
 				include helpers/menus/right_menu_small_mustache
-
-		// script(src="/js/plugins/steal/steal.js", config-path="/js/app/user/config.js", main="js/app/user/core/")
-		script(src="/js/plugins/steal/steal.production.js", data-env="production", main="core")
 		
+		script(src="/js/plugins/steal/steal.js", config-path="/js/app/user/config.js", main="js/app/user/core/")
+		// script(src="/js/plugins/steal/steal.production.js", data-env="production", main="core")
