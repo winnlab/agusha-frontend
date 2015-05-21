@@ -166,36 +166,36 @@ export default Controller.extend(
 			this.items_container.html(can.view('mainArticlesView', this.data, encyclopediaHelpers));
 			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
 			this.initPlugins();
-			this.counter_mustache();
+			// this.counter_mustache();
 			this.icons = this.element.find('.icon');
 		},
 
-		counter_mustache: function() {
-			if(!this.counter_block.length) {
-				return;
-			}
+		// counter_mustache: function() {
+			// if(!this.counter_block.length) {
+				// return;
+			// }
 
-			var	counter_mustache = $('#counter_mustache'),
-				html, ViewModel;
+			// var	counter_mustache = $('#counter_mustache'),
+				// html, ViewModel;
 
-			if(!counter_mustache.length) {
-				html = jadeTemplate.get('user/helpers/counter_mustache');
-			} else {
-				html = counter_mustache.html();
-			}
+			// if(!counter_mustache.length) {
+				// html = jadeTemplate.get('user/helpers/counter_mustache');
+			// } else {
+				// html = counter_mustache.html();
+			// }
 
-			can.view.mustache('counter_mustache', html);
+			// can.view.mustache('counter_mustache', html);
 
-			ViewModel = can.Map.extend({
-				define: {
-					duration: {
-						value: appState.attr('counter')
-					}
-				}
-			});
+			// ViewModel = can.Map.extend({
+				// define: {
+					// duration: {
+						// value: appState.attr('counter')
+					// }
+				// }
+			// });
 
-			this.counter_block.html(can.view('counter_mustache', new ViewModel()));
-		},
+			// this.counter_block.html(can.view('counter_mustache', new ViewModel()));
+		// },
 
 		updateSubscribe: function () {
 			var self = this;

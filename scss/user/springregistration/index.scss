@@ -46,9 +46,19 @@
 		
 		.stream {
 			width: 398px;
+			position: relative;
 			
 			&:before {
 				margin-top: 62%;
+			}
+		}
+		
+		.youtube {
+			@include box_shadow(0 0 0 1px $grey3);
+			
+			&:hover {
+				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22), 0 0 0 1px $grey3);
+				background-color: $el_bg2;
 			}
 		}
 	}
@@ -81,6 +91,116 @@
 		.bottom_label {
 			font-size: 16px;
 			line-height: 24px;
+		}
+		
+		.winner_item {
+			background-color: white;
+			
+			&:hover {
+				@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
+				background-color: $el_bg2;
+			}
+			
+			&.active {
+				.social {
+					display: block;
+				}
+			}
+		}
+		
+		.winner_visible {
+			height: 110px;
+			position: relative;
+		}
+		
+		.winner_topper {
+			height: 100%;
+			cursor: pointer;
+		}
+		
+		.winner_image {
+			width: 110px;
+			float: left;
+			position: relative;
+			height: 100%;
+			
+			img {
+				@include absolute_centered;
+				@include rounded;
+				width: 70px;
+				height: 70px;
+			}
+		}
+		
+		.winner_desc {
+			float: left;
+			width: 770px;
+			height: 100%;
+			line-height: 16px;
+			color: $grey5;
+		}
+		
+		.winner_name {
+			text-decoration: underline;
+			font-weight: bold;
+			text-transform: capitalize;
+			margin-bottom: 1px;
+		}
+		
+		.winner_bottom {
+			height: 110px;
+			background: url('/img/user/springregistration/winner_bottom.jpg') no-repeat;
+			font-size: 30px;
+			font-weight: bold;
+			line-height: 32px;
+			text-transform: uppercase;
+			font-family: 'PT_Sans_Narrow_Bold';
+			color: $lightblue2;
+			
+			.adorable_cell {
+				padding: 0 0 0 51px;
+			}
+		}
+		
+		.social {
+			position: absolute;
+			height: 100%;
+			width: 440px;
+			right: 0;
+			top: 0;
+			display: none;
+		}
+		
+		.share {
+			@include middle_inline_block;
+			width: 160px;
+			font-size: 16px;
+			line-height: 18px;
+			color: $grey6;
+			letter-spacing: -0.2px;
+		}
+		
+		.icons {
+			@include middle_inline_block;
+			width: 280px;
+			text-align: center;
+		}
+		
+		.icon {
+			@include rounded;
+			@include middle_inline_block;
+			width: 60px;
+			height: 60px;
+			margin: 0 10px;
+			background: url('/img/user/springregistration/social.png') no-repeat;
+			
+			&.vk {
+				background-position: -61px 0;
+			}
+			
+			&.ok {
+				background-position: -122px 0;
+			}
 		}
 	}
 }
