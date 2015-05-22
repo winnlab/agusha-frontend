@@ -19,7 +19,7 @@ System.config({
 		'datepicker': 'js/plugins/datepicker/bootstrap-datepicker.js',
 		'daterangepicker': 'js/plugins/adminlte/js/plugins/daterangepicker/daterangepicker.js',
 
-		'adminlte-css/*': 'js/plugins/adminlte/css/*css',
+		'adminlte-css/*': 'js/plugins/adminlte/css/*',
 
 		'router': 'js/app/admin/router/router.js',
 		'placeholder': 'js/app/admin/router/placeholder.js',
