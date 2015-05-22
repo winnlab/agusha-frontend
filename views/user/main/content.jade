@@ -3,6 +3,22 @@ include ../helpers/counter
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
+			.item.spring_resitration_end.active
+				.banner_image.banner_image_spring_registration
+				.content
+					.action_box
+						.top_label Акция «Весенняя регистрация» завершена!
+						
+						.bottom_label
+							div Мы разыграли вкусные и полезные подарки для малышей
+							div среди пользователей, которые зарегистрировались
+							div на нашем сайте с 10.04 по 20.05. Вот как это было:
+						
+						.video_part
+							.stream.adorable_container
+								.adorable
+									object.youtube(frameborder="0" width="100%" height="100%" data="http://www.youtube.com/embed/TInW283YeB0" wmode="transparent" allowscriptaccess="always" allowfullscreen="true")
+			
 			//- .item.baby_active.active
 				.banner_image.banner_image_baby_active
 				.content
@@ -124,7 +140,7 @@ include ../helpers/counter
 					a.new_module(href="/moneybox")
 						button.carousel_button.blue Подробнее
 			
-			.item(class = (duration.diff > 0 ? '' : 'active'))
+			.item
 				.banner_image.banner_image_1
 				.content
 					.top_label
@@ -172,8 +188,7 @@ include ../helpers/counter
 			li.active(data-target="#main_carousel" data-slide-to="0")
 			li(data-target="#main_carousel" data-slide-to="1")
 			li(data-target="#main_carousel" data-slide-to="2")
-			if duration.diff > 0
-				li(data-target="#main_carousel" data-slide-to="3")
+			li(data-target="#main_carousel" data-slide-to="3")
 		
 		.content.arrows_content
 			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
