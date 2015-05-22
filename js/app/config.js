@@ -19,8 +19,6 @@ System.config({
 		'datepicker': 'js/plugins/datepicker/bootstrap-datepicker.js',
 		'daterangepicker': 'js/plugins/adminlte/js/plugins/daterangepicker/daterangepicker.js',
 
-		'adminlte-css/*': 'js/plugins/adminlte/css/*',
-
 		'router': 'js/app/admin/router/router.js',
 		'placeholder': 'js/app/admin/router/placeholder.js',
 
@@ -107,9 +105,9 @@ System.config({
 				'bootstrap',
 				'iCheck',
 				'slimscroll',
-				'adminlte-css/AdminLTE.css!',
-				'adminlte-css/ionicons.min.css!',
-				'adminlte-css/bootstrap.min.css!'
+				'js/plugins/adminlte/css/AdminLTE.css!',
+				'js/plugins/adminlte/css/ionicons.min.css!',
+				'js/plugins/adminlte/css/bootstrap.min.css!'
 			]
 		},
 		daterangepicker: {
