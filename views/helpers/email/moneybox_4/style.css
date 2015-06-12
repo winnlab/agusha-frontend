@@ -247,6 +247,10 @@ table {
 	width: 241px;
 }
 
+.bottom_border .social {
+	display: block !important;
+}
+
 .social_icon {
 	width: 60px;
 	height: 60px;
