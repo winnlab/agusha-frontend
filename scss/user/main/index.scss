@@ -105,6 +105,22 @@
 		}
 
 		.item {
+			&.production {
+				.top_label {
+					font-family: 'PT_Sans_Narrow_Bold';
+					font-size: 56px;
+					line-height: 56px;
+					color: white;
+				}
+				
+				.bottom_label {
+					font-size: 18px;
+					line-height: 28px;
+					color: white;
+					margin-top: 26px;
+				}
+			}
+			
 			&.spring_resitration_end {
 				z-index: 30;
 				
@@ -388,6 +404,10 @@
 		height: 100%;
 		top: 0;
 		left: 0;
+		
+		&.banner_production {
+			background: url('/img/user/main/banner_production.jpg') no-repeat center;
+		}
 		
 		&.banner_image_baby_active {
 			background: url('/img/user/main/banner_baby_active.jpg') no-repeat center;
