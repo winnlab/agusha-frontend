@@ -114,7 +114,7 @@ System.config({
 		}
 	},
 	ext: {
-		css: 'js/plugins/steal/css',
+		css: 'js/plugins/steal/ext/css',
 		mustache: "js/plugins/can/view/mustache/system",
 		stache: "js/plugins/can/view/stache/system"
 	},

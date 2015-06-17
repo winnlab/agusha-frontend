@@ -1,53 +1,6 @@
-/*!
- * CanJS - 2.2.4
- * http://canjs.com/
- * Copyright (c) 2015 Bitovi
- * Fri, 03 Apr 2015 23:27:46 GMT
- * Licensed MIT
- */
-
-/*can@2.2.4#util/string/deparam/deparam*/
-steal('can/util', 'can/util/string', function (can) {
-	// ## deparam.js  
-	// `can.deparam`  
-	// _Takes a string of name value pairs and returns a Object literal that represents those params._
-	var digitTest = /^\d+$/,
-		keyBreaker = /([^\[\]]+)|(\[\])/g,
-		paramTest = /([^?#]*)(#.*)?$/,
-		prep = function (str) {
-			return decodeURIComponent(str.replace(/\+/g, ' '));
-		};
-	can.extend(can, {
-		deparam: function (params) {
-			var data = {}, pairs, lastPart;
-			if (params && paramTest.test(params)) {
-				pairs = params.split('&');
-				can.each(pairs, function (pair) {
-					var parts = pair.split('='),
-						key = prep(parts.shift()),
-						value = prep(parts.join('=')),
-						current = data;
-					if (key) {
-						parts = key.match(keyBreaker);
-						for (var j = 0, l = parts.length - 1; j < l; j++) {
-							if (!current[parts[j]]) {
-								// If what we are pointing to looks like an `array`
-								current[parts[j]] = digitTest.test(parts[j + 1]) || parts[j + 1] === '[]' ? [] : {};
-							}
-							current = current[parts[j]];
-						}
-						lastPart = parts.pop();
-						if (lastPart === '[]') {
-							current.push(value);
-						} else {
-							current[lastPart] = value;
-						}
-					}
-				});
-			}
-			return data;
-		}
-	});
-	return can;
-});
-
+steal("can/util","can/util/string",function(t){var n=/^\d+$/,e=/([^\[\]]+)|(\[\])/g,r=/([^?#]*)(#.*)?$/,a=function(t){return decodeURIComponent(t.replace(/\+/g," "))}
+return t.extend(t,{deparam:function(i){var c,o,u={}
+return i&&r.test(i)&&(c=i.split("&"),t.each(c,function(t){var r=t.split("="),i=a(r.shift()),c=a(r.join("=")),p=u
+if(i){r=i.match(e)
+for(var s=0,f=r.length-1;f>s;s++)p[r[s]]||(p[r[s]]=n.test(r[s+1])||"[]"===r[s+1]?[]:{}),p=p[r[s]]
+o=r.pop(),"[]"===o?p.push(c):p[o]=c}})),u}}),t})

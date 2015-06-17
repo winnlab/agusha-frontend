@@ -1,48 +1,5 @@
-/*!
- * CanJS - 2.2.4
- * http://canjs.com/
- * Copyright (c) 2015 Bitovi
- * Fri, 03 Apr 2015 23:27:46 GMT
- * Licensed MIT
- */
-
-/*can@2.2.4#control/route/route*/
-steal('can/util', 'can/route', 'can/control', function (can) {
-
-	// ## control/route.js
-	// _Controller route integration._
-
-	can.Control.processors.route = function (el, event, selector, funcName, controller) {
-		selector = selector || "";
-		if (!can.route.routes[selector]) {
-			if (selector[0] === '/') {
-				selector = selector.substring(1);
-			}
-			can.route(selector);
-		}
-		var batchNum,
-			check = function (ev, attr, how) {
-				if (can.route.attr('route') === (selector) &&
-					(ev.batchNum === undefined || ev.batchNum !== batchNum)) {
-
-					batchNum = ev.batchNum;
-
-					var d = can.route.attr();
-					delete d.route;
-					if (can.isFunction(controller[funcName])) {
-						controller[funcName](d);
-					} else {
-						controller[controller[funcName]](d);
-					}
-
-				}
-			};
-		can.route.bind('change', check);
-		return function () {
-			can.route.unbind('change', check);
-		};
-	};
-
-	return can;
-});
-
+steal("can/util","can/route","can/control",function(t){return t.Control.processors.route=function(r,u,n,o,e){n=n||"",t.route.routes[n]||("/"===n[0]&&(n=n.substring(1)),t.route(n))
+var c,a=function(r){if(t.route.attr("route")===n&&(void 0===r.batchNum||r.batchNum!==c)){c=r.batchNum
+var u=t.route.attr()
+delete u.route,t.isFunction(e[o])?e[o](u):e[e[o]](u)}}
+return t.route.bind("change",a),function(){t.route.unbind("change",a)}},t})
