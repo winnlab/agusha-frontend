@@ -23,8 +23,8 @@ System.config({
 		'vk_share': 'js/plugins/social/vk.share.js',
 		'odnoklasniki': 'js/plugins/social/ok.connect.js',
 		'google': 'js/plugins/social/google.plusone.js',
-		'googlemaps_api': 'js/plugins/google/googlemaps_api.js',
-		'googlemaps_main': 'js/plugins/google/googlemaps_main.js',
+		// 'googlemaps_api': 'js/plugins/google/googlemaps_api.js',
+		// 'googlemaps_main': 'js/plugins/google/googlemaps_main.js',
 		'moment': 'js/plugins/moment/moment.js',
 
 		'router': 'js/app/user/router/router.js',
