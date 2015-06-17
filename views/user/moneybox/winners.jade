@@ -59,6 +59,13 @@ mixin winners_note()
 				
 				.number.adorable_table
 					.adorable_cell 7
+			
+			.calendar.winner_selector.winner_selector_2.active(data-index = 2)
+				.topper.adorable_table
+					.adorable_cell Июнь
+				
+				.number.adorable_table
+					.adorable_cell 17
 	
 	.winners_topper.adorable_table
 		.winners_td.level Уровень
@@ -252,371 +259,556 @@ mixin winners_note()
 					mixin winners_note()
 		
 		.winner_block.winner_selector(class = 'winner_selector_' + 1 + (1 == winners.length - 1 ? ' active' : ''))
-				.tab_block.faq_block.winners_novice
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title Новичок
-							
-							.winners_td.prize Силиконовый слюнявчик
-							
-							.winners_td.count
-								.counter=winners[1].data.novice.length
-					
-					.text
-						mixin congratz('мартов')
+			tab_block.faq_block.winners_novice
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title Новичок
 						
-						.winner_list
-							- each w, key in winners[1].data.novice
+						.winners_td.prize Силиконовый слюнявчик
+						
+						.winners_td.count
+							.counter=winners[1].data.novice.length
+				
+				.text
+					mixin congratz('мартов')
+					
+					.winner_list
+						- each w, key in winners[1].data.novice
+							mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.novice_1.active(data-image = 1)
+						.prize_image.prize_image_2.novice_2(data-image = 2)
+						.prize_image.prize_image_3.novice_3(data-image = 3)
+						.prize_image.prize_image_4.novice_4(data-image = 4)
+						.prize_image.prize_image_5.novice_5(data-image = 5)
+					
+					.prize_name Силиконовый слюнявчик
+					
+					mixin winners_note()
+			
+			tab_block.faq_block.winners_disciple
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title УЧЕНИК
+						
+						.winners_td.prize Полотенце с капюшоном
+						
+						.winners_td.count
+							.counter=winners[1].data.disciple.length
+				
+				.text
+					mixin congratz('мартов')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[1].data.disciple
 								mixin winner(w)
-						
-						mixin your_prize()
-						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.novice_1.active(data-image = 1)
-							.prize_image.prize_image_2.novice_2(data-image = 2)
-							.prize_image.prize_image_3.novice_3(data-image = 3)
-							.prize_image.prize_image_4.novice_4(data-image = 4)
-							.prize_image.prize_image_5.novice_5(data-image = 5)
-						
-						.prize_name Силиконовый слюнявчик
-						
-						mixin winners_note()
-				
-				.tab_block.faq_block.winners_disciple
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title УЧЕНИК
-							
-							.winners_td.prize Полотенце с капюшоном
-							
-							.winners_td.count
-								.counter=winners[1].data.disciple.length
 					
-					.text
-						mixin congratz('мартов')
-						
-						.winner_list
-							.fixed_table
-								- each w, key in winners[1].data.disciple
-									mixin winner(w)
-						
-						mixin your_prize()
-						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.disciple_1.active(data-image = 1)
-							.prize_image.prize_image_2.disciple_2(data-image = 2)
-							.prize_image.prize_image_3.disciple_3(data-image = 3)
-							.prize_image.prize_image_4.disciple_4(data-image = 4)
-							.prize_image.prize_image_5.disciple_5(data-image = 5)
-						
-						.prize_name Полотенце с капюшоном
-						
-						.winners_note.adorable_table
-							.adorable_cell
-								div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
-								br
-								div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
-								div Возможно, в следующий раз повезет именно вам. Удачи!
-				
-				.tab_block.faq_block.winners_adept
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title ЗНАТОК
-							
-							.winners_td.prize Детская постель
-							
-							.winners_td.count
-								.counter=winners[1].data.adept.length
+					mixin your_prize()
 					
-					.text
-						mixin congratz('мартов')
-						
-						.winner_list
-							.fixed_table
-								- each w, key in winners[1].data.adept
-									mixin winner(w)
-						
-						mixin your_prize()
-						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.adept_1.active(data-image = 1)
-							.prize_image.prize_image_2.adept_2(data-image = 2)
-							.prize_image.prize_image_3.adept_3(data-image = 3)
-							.prize_image.prize_image_4.adept_4(data-image = 4)
-							.prize_image.prize_image_5.adept_5(data-image = 5)
-						
-						.prize_name Детская постель
-						
-						mixin winners_note()
-				
-				.tab_block.faq_block.winners_expert
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title ЭКСПЕРТ
-							
-							.winners_td.prize Детский рюкзак Trunki
-							
-							.winners_td.count
-								.counter=winners[1].data.expert.length
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.disciple_1.active(data-image = 1)
+						.prize_image.prize_image_2.disciple_2(data-image = 2)
+						.prize_image.prize_image_3.disciple_3(data-image = 3)
+						.prize_image.prize_image_4.disciple_4(data-image = 4)
+						.prize_image.prize_image_5.disciple_5(data-image = 5)
 					
-					.text
-						mixin congratz('мартов')
-						
-						.winner_list
-							.fixed_table
-								- each w, key in winners[1].data.expert
-									mixin winner(w)
-						
-						mixin your_prize()
-						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.expert_03.active(data-image = 1)
-							.prize_image.prize_image_2.expert_04(data-image = 2)
-						
-						.prize_name Детский рюкзак Trunki
-						
-						mixin winners_note()
-				
-				.tab_block.faq_block.winners_pro
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title ПРОФИ
-							
-							.winners_td.prize Детский чемодан Trunki
-							
-							.winners_td.count
-								.counter=winners[1].data.pro.length
+					.prize_name Полотенце с капюшоном
 					
-					.text
-						mixin congratz('мартов')
+					.winners_note.adorable_table
+						.adorable_cell
+							div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
+							br
+							div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
+							div Возможно, в следующий раз повезет именно вам. Удачи!
+			
+			tab_block.faq_block.winners_adept
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ЗНАТОК
 						
-						.winner_list
-							.fixed_table
-								- each w, key in winners[1].data.pro
-									mixin winner(w)
+						.winners_td.prize Детская постель
 						
-						mixin your_prize()
+						.winners_td.count
+							.counter=winners[1].data.adept.length
+				
+				.text
+					mixin congratz('мартов')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[1].data.adept
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.adept_1.active(data-image = 1)
+						.prize_image.prize_image_2.adept_2(data-image = 2)
+						.prize_image.prize_image_3.adept_3(data-image = 3)
+						.prize_image.prize_image_4.adept_4(data-image = 4)
+						.prize_image.prize_image_5.adept_5(data-image = 5)
+					
+					.prize_name Детская постель
+					
+					mixin winners_note()
+			
+			tab_block.faq_block.winners_expert
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ЭКСПЕРТ
 						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.pro_1.active(data-image = 1)
-							.prize_image.prize_image_2.pro_2(data-image = 2)
-							.prize_image.prize_image_3.pro_3(data-image = 3)
+						.winners_td.prize Детский рюкзак Trunki
 						
-						.prize_name Детский чемодан Trunki
+						.winners_td.count
+							.counter=winners[1].data.expert.length
+				
+				.text
+					mixin congratz('мартов')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[1].data.expert
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.expert_03.active(data-image = 1)
+						.prize_image.prize_image_2.expert_04(data-image = 2)
+					
+					.prize_name Детский рюкзак Trunki
+					
+					mixin winners_note()
+			
+			tab_block.faq_block.winners_pro
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ПРОФИ
 						
-						mixin winners_note()
+						.winners_td.prize Детский чемодан Trunki
+						
+						.winners_td.count
+							.counter=winners[1].data.pro.length
+				
+				.text
+					mixin congratz('мартов')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[1].data.pro
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.pro_1.active(data-image = 1)
+						.prize_image.prize_image_2.pro_2(data-image = 2)
+						.prize_image.prize_image_3.pro_3(data-image = 3)
+					
+					.prize_name Детский чемодан Trunki
+					
+					mixin winners_note()
 		
 		.winner_block.winner_selector(class = 'winner_selector_' + 2 + (2 == winners.length - 1 ? ' active' : ''))
-				.tab_block.faq_block.winners_novice
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title Новичок
-							
-							.winners_td.prize Силиконовый слюнявчик
-							
-							.winners_td.count
-								.counter=winners[2].data.novice.length
-					
-					.text
-						mixin congratz('апрель')
+			.tab_block.faq_block.winners_novice
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title Новичок
 						
-						.winner_list
-							- each w, key in winners[2].data.novice
+						.winners_td.prize Силиконовый слюнявчик
+						
+						.winners_td.count
+							.counter=winners[2].data.novice.length
+				
+				.text
+					mixin congratz('апрель')
+					
+					.winner_list
+						- each w, key in winners[2].data.novice
+							mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.novice_1.active(data-image = 1)
+						.prize_image.prize_image_2.novice_2(data-image = 2)
+						.prize_image.prize_image_3.novice_3(data-image = 3)
+						.prize_image.prize_image_4.novice_4(data-image = 4)
+						.prize_image.prize_image_5.novice_5(data-image = 5)
+					
+					.prize_name Силиконовый слюнявчик
+					
+					mixin winners_note()
+			
+			.tab_block.faq_block.winners_disciple
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title УЧЕНИК
+						
+						.winners_td.prize Полотенце с капюшоном
+						
+						.winners_td.count
+							.counter=winners[2].data.disciple.length
+				
+				.text
+					mixin congratz('апрель')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[2].data.disciple
 								mixin winner(w)
-						
-						mixin your_prize()
-						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.novice_1.active(data-image = 1)
-							.prize_image.prize_image_2.novice_2(data-image = 2)
-							.prize_image.prize_image_3.novice_3(data-image = 3)
-							.prize_image.prize_image_4.novice_4(data-image = 4)
-							.prize_image.prize_image_5.novice_5(data-image = 5)
-						
-						.prize_name Силиконовый слюнявчик
-						
-						mixin winners_note()
-				
-				.tab_block.faq_block.winners_disciple
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title УЧЕНИК
-							
-							.winners_td.prize Полотенце с капюшоном
-							
-							.winners_td.count
-								.counter=winners[2].data.disciple.length
 					
-					.text
-						mixin congratz('апрель')
-						
-						.winner_list
-							.fixed_table
-								- each w, key in winners[2].data.disciple
-									mixin winner(w)
-						
-						mixin your_prize()
-						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.disciple_1.active(data-image = 1)
-							.prize_image.prize_image_2.disciple_2(data-image = 2)
-							.prize_image.prize_image_3.disciple_3(data-image = 3)
-							.prize_image.prize_image_4.disciple_4(data-image = 4)
-							.prize_image.prize_image_5.disciple_5(data-image = 5)
-						
-						.prize_name Полотенце с капюшоном
-						
-						.winners_note.adorable_table
-							.adorable_cell
-								div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
-								br
-								div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
-								div Возможно, в следующий раз повезет именно вам. Удачи!
-				
-				.tab_block.faq_block.winners_adept
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title ЗНАТОК
-							
-							.winners_td.prize Детская постель
-							
-							.winners_td.count
-								.counter=winners[2].data.adept.length
+					mixin your_prize()
 					
-					.text
-						mixin congratz('апрель')
-						
-						.winner_list
-							.fixed_table
-								- each w, key in winners[2].data.adept
-									mixin winner(w)
-						
-						mixin your_prize()
-						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.adept_1.active(data-image = 1)
-							.prize_image.prize_image_2.adept_2(data-image = 2)
-							.prize_image.prize_image_3.adept_3(data-image = 3)
-							.prize_image.prize_image_4.adept_4(data-image = 4)
-							.prize_image.prize_image_5.adept_5(data-image = 5)
-						
-						.prize_name Детская постель
-						
-						mixin winners_note()
-				
-				.tab_block.faq_block.winners_expert
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title ЭКСПЕРТ
-							
-							.winners_td.prize Детский рюкзак Trunki
-							
-							.winners_td.count
-								.counter=winners[2].data.expert.length
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.disciple_1.active(data-image = 1)
+						.prize_image.prize_image_2.disciple_2(data-image = 2)
+						.prize_image.prize_image_3.disciple_3(data-image = 3)
+						.prize_image.prize_image_4.disciple_4(data-image = 4)
+						.prize_image.prize_image_5.disciple_5(data-image = 5)
 					
-					.text
-						mixin congratz('апрель')
-						
-						.winner_list
-							.fixed_table
-								- each w, key in winners[2].data.expert
-									mixin winner(w)
-						
-						mixin your_prize()
-						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.expert_03.active(data-image = 1)
-							.prize_image.prize_image_2.expert_04(data-image = 2)
-						
-						.prize_name Детский рюкзак Trunki
-						
-						mixin winners_note()
-				
-				.tab_block.faq_block.winners_pro
-					.title
-						.adorable_table
-							.winners_td.level
-								.level_content
-									.adorable_table
-										.adorable_cell.left
-											.rank_title ПРОФИ
-							
-							.winners_td.prize Детский чемодан Trunki
-							
-							.winners_td.count
-								.counter=winners[2].data.pro.length
+					.prize_name Полотенце с капюшоном
 					
-					.text
-						mixin congratz('апрель')
+					.winners_note.adorable_table
+						.adorable_cell
+							div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
+							br
+							div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
+							div Возможно, в следующий раз повезет именно вам. Удачи!
+			
+			.tab_block.faq_block.winners_adept
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ЗНАТОК
 						
-						.winner_list
-							.fixed_table
-								- each w, key in winners[2].data.pro
-									mixin winner(w)
+						.winners_td.prize Детская постель
 						
-						mixin your_prize()
+						.winners_td.count
+							.counter=winners[2].data.adept.length
+				
+				.text
+					mixin congratz('апрель')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[2].data.adept
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.adept_1.active(data-image = 1)
+						.prize_image.prize_image_2.adept_2(data-image = 2)
+						.prize_image.prize_image_3.adept_3(data-image = 3)
+						.prize_image.prize_image_4.adept_4(data-image = 4)
+						.prize_image.prize_image_5.adept_5(data-image = 5)
+					
+					.prize_name Детская постель
+					
+					mixin winners_note()
+			
+			.tab_block.faq_block.winners_expert
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ЭКСПЕРТ
 						
-						.prize_image_container(data-image = 1)
-							.prize_image_arrow.left_arrow
-							.prize_image_arrow.right_arrow
-							.prize_image.prize_image_1.pro_1.active(data-image = 1)
-							.prize_image.prize_image_2.pro_2(data-image = 2)
-							.prize_image.prize_image_3.pro_3(data-image = 3)
+						.winners_td.prize Детский рюкзак Trunki
 						
-						.prize_name Детский чемодан Trunki
+						.winners_td.count
+							.counter=winners[2].data.expert.length
+				
+				.text
+					mixin congratz('апрель')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[2].data.expert
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.expert_03.active(data-image = 1)
+						.prize_image.prize_image_2.expert_04(data-image = 2)
+					
+					.prize_name Детский рюкзак Trunki
+					
+					mixin winners_note()
+			
+			.tab_block.faq_block.winners_pro
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ПРОФИ
 						
-						mixin winners_note()
+						.winners_td.prize Детский чемодан Trunki
+						
+						.winners_td.count
+							.counter=winners[2].data.pro.length
+				
+				.text
+					mixin congratz('апрель')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[2].data.pro
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.pro_1.active(data-image = 1)
+						.prize_image.prize_image_2.pro_2(data-image = 2)
+						.prize_image.prize_image_3.pro_3(data-image = 3)
+					
+					.prize_name Детский чемодан Trunki
+					
+					mixin winners_note()
+		
+		.winner_block.winner_selector(class = 'winner_selector_' + 3 + (3 == winners.length - 1 ? ' active' : ''))
+			.tab_block.faq_block.winners_novice
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title Новичок
+						
+						.winners_td.prize Силиконовый слюнявчик
+						
+						.winners_td.count
+							.counter=winners[3].data.novice.length
+				
+				.text
+					mixin congratz('май')
+					
+					.winner_list
+						- each w, key in winners[3].data.novice
+							mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.novice_1.active(data-image = 1)
+						.prize_image.prize_image_2.novice_2(data-image = 2)
+						.prize_image.prize_image_3.novice_3(data-image = 3)
+						.prize_image.prize_image_4.novice_4(data-image = 4)
+						.prize_image.prize_image_5.novice_5(data-image = 5)
+					
+					.prize_name Силиконовый слюнявчик
+					
+					mixin winners_note()
+			
+			.tab_block.faq_block.winners_disciple
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title УЧЕНИК
+						
+						.winners_td.prize Полотенце с капюшоном
+						
+						.winners_td.count
+							.counter=winners[3].data.disciple.length
+				
+				.text
+					mixin congratz('май')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[3].data.disciple
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.disciple_1.active(data-image = 1)
+						.prize_image.prize_image_2.disciple_2(data-image = 2)
+						.prize_image.prize_image_3.disciple_3(data-image = 3)
+						.prize_image.prize_image_4.disciple_4(data-image = 4)
+						.prize_image.prize_image_5.disciple_5(data-image = 5)
+					
+					.prize_name Полотенце с капюшоном
+					
+					.winners_note.adorable_table
+						.adorable_cell
+							div Победители были выбраны случайным образом среди всех пользователей данного уровня. 
+							br
+							div Мы разыгрываем полезные и интересные подарки для ваших малышей каждый месяц.
+							div Возможно, в следующий раз повезет именно вам. Удачи!
+			
+			.tab_block.faq_block.winners_adept
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ЗНАТОК
+						
+						.winners_td.prize Детская постель
+						
+						.winners_td.count
+							.counter=winners[3].data.adept.length
+				
+				.text
+					mixin congratz('май')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[3].data.adept
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.adept_1.active(data-image = 1)
+						.prize_image.prize_image_2.adept_2(data-image = 2)
+						.prize_image.prize_image_3.adept_3(data-image = 3)
+						.prize_image.prize_image_4.adept_4(data-image = 4)
+						.prize_image.prize_image_5.adept_5(data-image = 5)
+					
+					.prize_name Детская постель
+					
+					mixin winners_note()
+			
+			.tab_block.faq_block.winners_expert
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ЭКСПЕРТ
+						
+						.winners_td.prize Детский рюкзак Trunki
+						
+						.winners_td.count
+							.counter=winners[3].data.expert.length
+				
+				.text
+					mixin congratz('май')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[3].data.expert
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.expert_03.active(data-image = 1)
+						.prize_image.prize_image_2.expert_04(data-image = 2)
+					
+					.prize_name Детский рюкзак Trunki
+					
+					mixin winners_note()
+			
+			.tab_block.faq_block.winners_pro
+				.title
+					.adorable_table
+						.winners_td.level
+							.level_content
+								.adorable_table
+									.adorable_cell.left
+										.rank_title ПРОФИ
+						
+						.winners_td.prize Детский чемодан Trunki
+						
+						.winners_td.count
+							.counter=winners[3].data.pro.length
+				
+				.text
+					mixin congratz('май')
+					
+					.winner_list
+						.fixed_table
+							- each w, key in winners[3].data.pro
+								mixin winner(w)
+					
+					mixin your_prize()
+					
+					.prize_image_container(data-image = 1)
+						.prize_image_arrow.left_arrow
+						.prize_image_arrow.right_arrow
+						.prize_image.prize_image_1.pro_1.active(data-image = 1)
+						.prize_image.prize_image_2.pro_2(data-image = 2)
+						.prize_image.prize_image_3.pro_3(data-image = 3)
+					
+					.prize_name Детский чемодан Trunki
+					
+					mixin winners_note()
