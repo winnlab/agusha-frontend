@@ -21,119 +21,188 @@
 			ol.carousel-indicators
 				li.active(data-target="#production_carousel" data-slide-to="0")
 
-.white_title.arrowed
+.tabs
+	.content
+		.tabs_flex
+			.tab.tab_selector.advantages(data-tab="advantages")
+				.tab_selector_inside
+					.title Преимущества
+			
+			.tab.tab_selector.production.active(data-tab="production")
+				.tab_selector_inside
+					.title Как производят агушу
+
+//- .white_title.arrowed
 	.content
 		.label.adorable_table
 			.adorable_cell Как производят агушу
 
-.items_container
-	.content
-		.column.item.item_1
-			.title.adorable_table
-				.adorable_cell Молоко экстра-класса
+.tab_contents
+	.tab_content.tab_selector.advantages
+		.advantages_container
+			.top_label
+				div Вот почему «Агуша» – лучшее
+				div для малыша:
 			
-			.number.adorable_table
-				.adorable_cell 1
-			.text Получаем с молочных ферм, в подавляющем большинстве с «Агроэкологии» Полтавской области и «Песковского» Черниговской области
+			.advantages_info
+				.content
+					.advantage.advantage_1
+						.advantage_number 1
+						
+						.advantage_title
+							div Молоко
+							div экстра-класса
+						
+						.advantage_desc
+							div Продукция изготавливается
+							div из натурального молока
+							div высшего качества
+					
+					.advantage.advantage_2
+						.advantage_number 2
+						
+						.advantage_title
+							div Полезные
+							div бактерии
+						
+						.advantage_desc
+							div Не содержит красителей,
+							div консервантов и стабилизаторов
+					
+					.advantage.advantage_3
+						.advantage_number 3
+						
+						.advantage_title Оборудование
+						
+						.advantage_desc
+							div Современное оборудование
+							div позволяет сохранить ценные
+							div аминокислоты
+					
+					.advantage.advantage_4
+						.advantage_number 4
+						
+						.advantage_title
+							div Ягоды
+							div и фрукты
+						
+						.advantage_desc
+							div Фруктовые наполнители
+							div производятся специально для
+							div детского питания
+					
+					a.new_module(href = "/products")
+						button.to_catalog В каталог
+	
+	.tab_content.tab_selector.production.active
+		.items_container
+			.content
+				.column.item.item_1
+					.title.adorable_table
+						.adorable_cell Молоко экстра-класса
+					
+					.number.adorable_table
+						.adorable_cell 1
+					.text Получаем с молочных ферм, в подавляющем большинстве с «Агроэкологии» Полтавской области и «Песковского» Черниговской области
+				
+				.column.item.item_2
+					.title.adorable_table
+						.adorable_cell Контроль качества
+					
+					.number.adorable_table
+						.adorable_cell 2
+					
+					.text Тщательно проверяем молоко в собственной лаборатории, технически оснащенной и отвечающей современным требованиям
+				
+				.column.item.item_3
+					.title.adorable_table
+						.adorable_cell Охлаждение
+					
+					.number.adorable_table
+						.adorable_cell 3
+				
+				.column.item.item_6
+					.title.adorable_table
+						.adorable_cell Пастеризация
+					
+					.number.adorable_table
+						.adorable_cell 6
+					
+					.text + 98 С
+					
+				.column.item.item_5
+					.title.adorable_table
+						.adorable_cell Гомогенизация
+					
+					.number.adorable_table
+						.adorable_cell 5
+					
+					.text Придаем молоку однородности для предотвращения отделения сливок
+				
+				.column.item.item_4
+					.title.adorable_table
+						.adorable_cell Бактофуга
+					
+					.number.adorable_table
+						.adorable_cell 4
+					
+					.text С помощью новейшего оборудования механическим способом удаляем вредные бактерии и споры
+				
+				.column.item.item_7
+					.title.adorable_table
+						.adorable_cell Деаэрация
+					
+					.number.adorable_table
+						.adorable_cell 7
+					
+					.text Удаляем растворенный воздух и мелкие пузырьки из молока
+				
+				.column.item.item_8
+					.title.adorable_table
+						.adorable_cell Полезные бактерии
+					
+					.number.adorable_table
+						.adorable_cell 8
+					
+					.text Добавляем в молоко «живые» закваски, содержащие полезные бактерии
+				
+				.column.item.item_9
+					.title.adorable_table
+						.adorable_cell Ягоды и фрукты
+					
+					.number.adorable_table
+						.adorable_cell 9
+					
+					.text Используем только качественное фруктовое пюре компании «Аграна», г. Винница
+				
+				.column.item.item_12
+					.title.adorable_table
+						.adorable_cell Отправка
+					
+					.number.adorable_table
+						.adorable_cell 12
+					
+					.text Перед отправкой продукции в магазин тщательно проверяем ее качество в лаборатории
+				
+				.column.item.item_11
+					.title.adorable_table
+						.adorable_cell Расфасовка
+					
+					.number.adorable_table
+						.adorable_cell 11
+					
+					.text Всю продукцию фасуем уже охлажденной в продезинфици- рованные бутылочки и стаканчики и маркируем.
+				
+				.column.item.item_10
+					.title.adorable_table
+						.adorable_cell Упаковка
+					
+					.number.adorable_table
+						.adorable_cell 10
+					
+					.text Мы производим упаковку на современном оборудовании с высоким уровнем гигиены
 		
-		.column.item.item_2
-			.title.adorable_table
-				.adorable_cell Контроль качества
-			
-			.number.adorable_table
-				.adorable_cell 2
-			
-			.text Тщательно проверяем молоко в собственной лаборатории, технически оснащенной и отвечающей современным требованиям
-		
-		.column.item.item_3
-			.title.adorable_table
-				.adorable_cell Охлаждение
-			
-			.number.adorable_table
-				.adorable_cell 3
-		
-		.column.item.item_6
-			.title.adorable_table
-				.adorable_cell Пастеризация
-			
-			.number.adorable_table
-				.adorable_cell 6
-			
-			.text + 98 С
-			
-		.column.item.item_5
-			.title.adorable_table
-				.adorable_cell Гомогенизация
-			
-			.number.adorable_table
-				.adorable_cell 5
-			
-			.text Придаем молоку однородности для предотвращения отделения сливок
-		
-		.column.item.item_4
-			.title.adorable_table
-				.adorable_cell Бактофуга
-			
-			.number.adorable_table
-				.adorable_cell 4
-			
-			.text С помощью новейшего оборудования механическим способом удаляем вредные бактерии и споры
-		
-		.column.item.item_7
-			.title.adorable_table
-				.adorable_cell Деаэрация
-			
-			.number.adorable_table
-				.adorable_cell 7
-			
-			.text Удаляем растворенный воздух и мелкие пузырьки из молока
-		
-		.column.item.item_8
-			.title.adorable_table
-				.adorable_cell Полезные бактерии
-			
-			.number.adorable_table
-				.adorable_cell 8
-			
-			.text Добавляем в молоко «живые» закваски, содержащие полезные бактерии
-		
-		.column.item.item_9
-			.title.adorable_table
-				.adorable_cell Ягоды и фрукты
-			
-			.number.adorable_table
-				.adorable_cell 9
-			
-			.text Используем только качественное фруктовое пюре компании «Аграна», г. Винница
-		
-		.column.item.item_12
-			.title.adorable_table
-				.adorable_cell Отправка
-			
-			.number.adorable_table
-				.adorable_cell 12
-			
-			.text Перед отправкой продукции в магазин тщательно проверяем ее качество в лаборатории
-		
-		.column.item.item_11
-			.title.adorable_table
-				.adorable_cell Расфасовка
-			
-			.number.adorable_table
-				.adorable_cell 11
-			
-			.text Всю продукцию фасуем уже охлажденной в продезинфици- рованные бутылочки и стаканчики и маркируем.
-		
-		.column.item.item_10
-			.title.adorable_table
-				.adorable_cell Упаковка
-			
-			.number.adorable_table
-				.adorable_cell 10
-			
-			.text Мы производим упаковку на современном оборудовании с высоким уровнем гигиены
-
-.child
+		.child
 
 .video
 	.player_bg
