@@ -255,7 +255,7 @@ var Core = can.Control.extend({
 		
 		this.left_inner_menu.css({
 			width: left_inner_menu_width,
-			'margin-left': -left_inner_menu_width
+			'margin-left': -left_inner_menu_width - 10
 		});
 	},
 

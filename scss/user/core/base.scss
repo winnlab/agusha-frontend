@@ -1268,7 +1268,7 @@ table tr {
 	z-index: 10;
 	top: 0;
 	left: 230px;
-	margin-left: -160px;
+	margin-left: -170px;
 	color: $white;
 	background: black;
 	
@@ -1350,6 +1350,14 @@ table tr {
 	}
 	
 	.table_row {
+		&:before {
+			@include pseudo;
+			width: 11px;
+			height: 100%;
+			right: -10px;
+			display: none;
+		}
+		
 		&:after {
 			@include pseudo;
 			width: 100%;
@@ -1364,11 +1372,22 @@ table tr {
 				display: none;
 			}
 		}
+		
+		&.active {
+			&:before {
+				display: block;
+			}
+		}
 	}
 	
 	.module_tab_products {
 		background: url('/img/user/core/left_inner_menu_products.jpg') no-repeat;
 		@include background_cover;
+		
+		&:before {
+			background: url('/img/user/core/left_inner_menu_products_arrow.png') no-repeat left;
+			@include background_contain;
+		}
 		
 		.item_label {
 			color: $darkgrey;
@@ -1378,11 +1397,21 @@ table tr {
 	.module_tab_news {
 		background: url('/img/user/core/left_inner_menu_news.jpg') no-repeat;
 		@include background_cover;
+		
+		&:before {
+			background: url('/img/user/core/left_inner_menu_news_arrow.png') no-repeat left;
+			@include background_contain;
+		}
 	}
 	
 	.module_tab_production {
 		background: url('/img/user/core/left_inner_menu_production.jpg') no-repeat;
 		@include background_cover;
+		
+		&:before {
+			background: url('/img/user/core/left_inner_menu_production_arrow.png') no-repeat left;
+			@include background_contain;
+		}
 		
 		.item_label {
 			color: $darkgrey;
@@ -1392,11 +1421,21 @@ table tr {
 	.module_tab_download {
 		background: url('/img/user/core/left_inner_menu_download.jpg') no-repeat;
 		@include background_cover;
+		
+		&:before {
+			background: url('/img/user/core/left_inner_menu_download_arrow.png') no-repeat left;
+			@include background_contain;
+		}
 	}
 	
 	.module_tab_contacts {
 		background: url('/img/user/core/left_inner_menu_contacts.jpg') no-repeat;
 		@include background_cover;
+		
+		&:before {
+			background: url('/img/user/core/left_inner_menu_contacts_arrow.png') no-repeat left;
+			@include background_contain;
+		}
 	}
 	
 	.item_label {
