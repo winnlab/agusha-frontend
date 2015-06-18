@@ -1,0 +1,46 @@
+<div class='panel panel-default {{#is display 'set'}}hidden{{/is}}'>
+    <div class='panel-heading'>
+        <div class='panel-title'>
+            Список партнеров
+        </div>
+        <div class='row'>
+            <div class='col-md-4'>
+                <button class='btn btn-primary addPartner'>
+                    <i class="fa fa-plus"></i>
+                    &nbsp;
+                    <span>Добавить</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {{#if partners.isResolved}}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Активен?</th>
+                </tr>
+            </thead>
+            <tbody id='partnersList'>
+            {{#if partners.length}}
+                {{#sortedBy partners 'title'}}
+                <tr class="partners" {{data "partners"}}>
+                    <td>{{title}}</td>
+                    <td>{{#if active}}Да{{else}}Нет{{/if}}</td>
+                    <td>
+                        <div class="btn btn-default editPartner" title="Редактировать">
+                            <i class="fa fa-edit"></i>
+                        </div>
+                        <div class="btn btn-danger removePartner" title="Удалить">
+                            <i class="fa fa-trash-o"></i>
+                        </div>
+                    </td>
+                </tr>
+                {{/sortedBy}}
+            {{/if}}
+            </tbody>
+        </table>
+    {{/if}}
+</div>
+
+<div class="partnerForm {{#is display 'list'}}hidden{{/is}}"></div>

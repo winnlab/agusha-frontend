@@ -58,7 +58,11 @@ var config = {
 			{
 				name: 'stats',
 				path: 'js/app/admin/modules/stats/'
-			}
+			},
+			{
+				name: 'partners',
+				path: 'js/app/admin/modules/partners/'
+			},
 		]
 	}
 };
