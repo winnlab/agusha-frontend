@@ -41,7 +41,7 @@ System.config({
 		'$': 'jquery'
 	},
 	ext: {
-		css: 'js/plugins/steal/css',
+		css: 'js/plugins/steal/ext/css',
 		stache: 'can/view/stache/system'
 	},
 	meta: {
