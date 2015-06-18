@@ -1269,12 +1269,12 @@ table tr {
 	top: 0;
 	left: 230px;
 	margin-left: -160px;
-	display: table;
 	color: $white;
-
+	background: black;
+	
 	&.show {
-		margin-left: 0;
-
+		margin-left: 0 !important;
+		
 		.item {
 			overflow-x: visible;
 		}
@@ -1347,6 +1347,51 @@ table tr {
 			text-align: left;
 			padding: 0 20px;
 		}
+	}
+	
+	.module_tab_products {
+		background: url('/img/user/core/left_inner_menu_products.jpg') no-repeat;
+		@include background_cover;
+		
+		.item_label {
+			color: $darkgrey;
+		}
+	}
+	
+	.module_tab_news {
+		background: url('/img/user/core/left_inner_menu_news.jpg') no-repeat;
+		@include background_cover;
+	}
+	
+	.module_tab_production {
+		background: url('/img/user/core/left_inner_menu_production.jpg') no-repeat;
+		@include background_cover;
+		
+		.item_label {
+			color: $darkgrey;
+		}
+	}
+	
+	.module_tab_download {
+		background: url('/img/user/core/left_inner_menu_download.jpg') no-repeat;
+		@include background_cover;
+	}
+	
+	.module_tab_contacts {
+		background: url('/img/user/core/left_inner_menu_contacts.jpg') no-repeat;
+		@include background_cover;
+	}
+	
+	.item_label {
+		position: absolute;
+		width: 100%;
+		font-size: 16px;
+		font-family: 'PT_Sans_Narrow_Bold';
+		line-height: 18px;
+		bottom: 6.25%;
+		left: 0;
+		text-transform: uppercase;
+		height: 36px;
 	}
 }
 

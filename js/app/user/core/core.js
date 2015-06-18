@@ -244,13 +244,19 @@ var Core = can.Control.extend({
 
 	resize: function() {
 		var	height = this.window.height(),
-			func = 'show';
+			func = 'show',
+			left_inner_menu_width = (height / 5) | 0;
 
 		if(height < 690) {
 			func = 'hide';
 		}
 
 		this.left_menu_line[func]();
+		
+		this.left_inner_menu.css({
+			width: left_inner_menu_width,
+			'margin-left': -left_inner_menu_width
+		});
 	},
 
 	'.scrollToTop click': function (el, ev) {
