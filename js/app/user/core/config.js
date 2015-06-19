@@ -149,6 +149,13 @@ var config = {
 					client: 'modules/springregistration/springregistration',
 					server: ':name/:entity_id'
 				}
+			},
+			{
+				name: 'partners',
+				path: {
+					client: 'modules/partners/partners',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'

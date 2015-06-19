@@ -139,7 +139,8 @@ System.config({
 		"modules/registration/registration",
 		"modules/search/search",
 		"modules/specialist/specialist",
-		"modules/subscriptions/subscriptions"
+		"modules/subscriptions/subscriptions",
+		"modules/partners/partners"
 	],
 	buildConfig: {
 		map: {

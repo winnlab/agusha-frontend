@@ -1557,7 +1557,9 @@ table tr {
 #footer {
 	clear: both;
 	margin-top: -211px;
-
+	z-index: 999;
+    position: relative;
+	
 	.footer {
 		width: 100%;
 		height: 210px;

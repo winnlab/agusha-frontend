@@ -1,0 +1,171 @@
+@charset "UTF-8";
+
+@import '../dynamic/dynamic';
+@import '../helpers/breadcrumbs';
+@import '../helpers/topper_title';
+@import 'CSS:../../../js/plugins/select2/select2';
+@import '../helpers/select2';
+
+.module.partners {
+	text-align: left;
+	width: 100%;
+	
+	.content {
+		width: 920px;
+		padding: 0 0 100px;
+	}
+	
+	.topper_title {
+		height: 80px;
+		color: $lightblue3;
+	}
+	
+	.filters {
+		@include border_boxed;
+		background-color: white;
+		height: 70px;
+		margin: 0 20px;
+	}
+	
+	.sort_select {
+		@include box_shadow(1px 0 0 $grey3);
+		width: 280px;
+		float: left;
+		
+		&.select2-dropdown-open {
+			@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22));
+			
+			.select2-arrow {
+				background-position: -8px 0;
+			}
+		}
+		
+		.select2-arrow {
+			background-image: url('/img/user/partners/select2_arrow.png') !important;
+			right: 20px !important;
+		}
+	}
+	
+	.pages {
+		width: 600px;
+		height: 100%;
+		float: left;
+		text-align: right;
+		
+		.page_title {
+			@include my_inline_block;
+			width: 460px;
+			height: 100%;
+			color: $titlegrey;
+			
+			span {
+				margin: 0 20px;
+			}
+		}
+		
+		.current_page {
+			@include border_radius(0);
+			border: 1px solid $grey3;
+			height: 48px;
+			width: 72px;
+			font-family: PT_Sans_Regular !important;
+			color: $titlegrey;
+			text-align: center;
+			font-size: 18px;
+			background-color: $el_bg;
+			
+			&:hover {
+				border: 1px solid $darkblue;
+			}
+		}
+		
+		.page {
+			@include box_shadow(-1px 0 0 $grey3);
+			@include my_inline_block;
+			width: 70px;
+			height: 100%;
+			position: relative;
+			cursor: pointer;
+			
+			&:hover {
+				background-color: $el_bg;
+				
+				&.prev_page {
+					&:after {
+						background-position: 0 -8px;
+					}
+				}
+				
+				&.next_page {
+					&:after {
+						background-position: -5px -8px;
+					}
+				}
+			}
+			
+			&:after {
+				@include pseudo;
+				@include absolute_centered;
+				width: 4px;
+				height: 7px;
+				background: url('/img/user/partners/page_arrow.png') no-repeat;
+			}
+		}
+		
+		.prev_page {
+			
+		}
+		
+		.next_page {
+			&:after {
+				background-position: -5px 0;
+			}
+		}
+	}
+	
+	.items_container {
+		padding: 10px;
+		overflow: hidden;
+	}
+	
+	.partner_block {
+		float: left;
+		width: 130px;
+		margin: 10px;
+		height: 170px;
+		background-color: white;
+	}
+	
+	.partner_img {
+		height: 130px;
+		position: relative;
+		
+		img {
+			@include absolute_centered;
+			max-width: 90%;
+			max-height: 90%;
+		}
+	}
+	
+	.partner_title {
+		height: 40px;
+		background-color: $darkblue;
+		color: white;
+		font-size: 16px;
+	}
+}
+
+.partners_select_text {
+	padding: 0 47px 0 30px;
+	color: $titlegrey;
+}
+
+.select2-drop {
+	.partners_select_text {
+		background-color: $el_bg;
+		
+		&:hover {
+			background-color: $grey3;
+		}
+	}
+}
