@@ -140,7 +140,8 @@ System.config({
 		"modules/search/search",
 		"modules/specialist/specialist",
 		"modules/subscriptions/subscriptions",
-		"modules/partners/partners"
+		"modules/partners/partners",
+		"modules/news/news"
 	],
 	buildConfig: {
 		map: {

@@ -156,6 +156,13 @@ var config = {
 					client: 'modules/partners/partners',
 					server: ':name'
 				}
+			},
+			{
+				name: 'news',
+				path: {
+					client: 'modules/news/news',
+					server: ':name'
+				}
 			}
 		],
 		defaultModule: 'main'
