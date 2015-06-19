@@ -4,7 +4,7 @@ mixin partner_block(mustache, p)
 			if p
 				img(src = '/img/' + (p.image ? '/uploads/' + p.image : 'no_photo.png'))
 			else
-				img(src = mustache ? '/img/{{#if image}}/uploads/{{image}}{{else}}no-photo.png{{/if}}' : '')
+				img(src = mustache ? '/img/{{#if image}}/uploads/{{image}}{{else}}no_photo.png{{/if}}' : '')
 		
 		.partner_title
 			.adorable_table
@@ -33,7 +33,7 @@ mixin partners_filters(server)
 	.filters
 		select.sort_select
 			option(value = 1) По алфавиту от А до Я
-			option(value = -1) По алфавиту от Я до А
+			option(value = 0) По алфавиту от Я до А
 		
 		.pages
 			.page_title

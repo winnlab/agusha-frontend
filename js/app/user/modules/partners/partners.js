@@ -51,7 +51,7 @@ export default Controller.extend(
 									sort_by_alphabet: this.attr('sort_by_alphabet')
 								},
 								starting_index = (options.current_page - 1) * options.per_page,
-								sorted = _.sortByOrder(options.all_partners, 'title', options.sort_by_alphabet),
+								sorted = _.sortByOrder(options.all_partners, 'title', options.sort_by_alphabet == true),
 								result = sorted.slice(starting_index, options.per_page);
 							
 							return result;
