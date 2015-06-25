@@ -256,13 +256,13 @@ include ../helpers/counter
 		
 		include ../helpers/auth_box
 
+	
 	include ../registered/content
 	
-	- if (!user)
-		.content.itemsWrap.commonFeed
-			.items_container
-				- each a, i in articles.documents
-					mixin article(a, i)
-			if (articles.nextAnchorId)
-				.loadMore
-					img(src="/img/user/main/icon_book.gif")
+	.content.itemsWrap.commonFeed
+		.items_container
+			- each a, i in articles.documents
+				mixin article(a, i)
+		if (articles.nextAnchorId)
+			.loadMore
+				img(src="/img/user/main/icon_book.gif")

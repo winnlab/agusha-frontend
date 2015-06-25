@@ -4,6 +4,7 @@
 @import '../helpers/donut';
 @import '../helpers/popup';
 @import '../helpers/cropper';
+@import '../helpers/up-btn';
 @import '../../bourbon/bourbon';
 @import "placeholders";
 
@@ -1271,10 +1272,10 @@ table tr {
 	margin-left: -170px;
 	color: $white;
 	background: black;
-	
+
 	&.show {
 		margin-left: 0 !important;
-		
+
 		.item {
 			overflow-x: visible;
 		}
@@ -1348,12 +1349,12 @@ table tr {
 			padding: 0 20px;
 		}
 	}
-	
+
 	.item_row {
 		height: 20%;
 		position: relative;
 		display: block;
-		
+
 		&:before {
 			@include pseudo;
 			width: 11px;
@@ -1361,7 +1362,7 @@ table tr {
 			right: -10px;
 			display: none;
 		}
-		
+
 		&:after {
 			@include pseudo;
 			width: 100%;
@@ -1370,78 +1371,78 @@ table tr {
 			left: 0;
 			background: rgba(0, 0, 0, 0.5);
 		}
-		
+
 		&:hover, &.active {
 			&:after {
 				display: none;
 			}
 		}
-		
+
 		&.active {
 			&:before {
 				display: block;
 			}
 		}
 	}
-	
+
 	.module_tab_products {
 		background: url('/img/user/core/left_inner_menu_products.jpg') no-repeat;
 		@include background_cover;
-		
+
 		&:before {
 			background: url('/img/user/core/left_inner_menu_products_arrow.png') no-repeat left;
 			@include background_contain;
 		}
-		
+
 		.item_label {
 			color: $darkgrey;
 		}
 	}
-	
+
 	.module_tab_news {
 		background: url('/img/user/core/left_inner_menu_news.jpg') no-repeat;
 		@include background_cover;
-		
+
 		&:before {
 			background: url('/img/user/core/left_inner_menu_news_arrow.png') no-repeat left;
 			@include background_contain;
 		}
 	}
-	
+
 	.module_tab_production {
 		background: url('/img/user/core/left_inner_menu_production.jpg') no-repeat;
 		@include background_cover;
-		
+
 		&:before {
 			background: url('/img/user/core/left_inner_menu_production_arrow.png') no-repeat left;
 			@include background_contain;
 		}
-		
+
 		.item_label {
 			color: $darkgrey;
 		}
 	}
-	
+
 	.module_tab_download {
 		background: url('/img/user/core/left_inner_menu_download.jpg') no-repeat;
 		@include background_cover;
-		
+
 		&:before {
 			background: url('/img/user/core/left_inner_menu_download_arrow.png') no-repeat left;
 			@include background_contain;
 		}
 	}
-	
+
 	.module_tab_contacts {
 		background: url('/img/user/core/left_inner_menu_contacts.jpg') no-repeat;
 		@include background_cover;
-		
+
 		&:before {
 			background: url('/img/user/core/left_inner_menu_contacts_arrow.png') no-repeat left;
 			@include background_contain;
 		}
 	}
-	
+
 	.item_label {
 		position: absolute;
 		width: 100%;
@@ -1557,9 +1558,9 @@ table tr {
 #footer {
 	clear: both;
 	margin-top: -211px;
-	z-index: 999;
-    position: relative;
-	
+	z-index: 0;
+	position: relative;
+
 	.footer {
 		width: 100%;
 		height: 210px;

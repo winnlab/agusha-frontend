@@ -4,7 +4,7 @@ import select2 from 'select2';
 import appState from 'core/appState';
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
 import Sub from 'lib/subscribe/';
-import upBtn from 'lib/up-btn/';
+import pagination from 'lib/helpers/pagination';
 import 'custom-scrollbar';
 
 var Theme = can.Model.extend({
@@ -41,7 +41,6 @@ export default Controller.extend(
 		plugins: function() {
 			this.setFilterHeight();
 			this.select2();
-			new upBtn(this.element);
 		},
 
 		select2: function() {
@@ -158,6 +157,7 @@ export default Controller.extend(
 			this.items_container.html(can.view('encyclopedia_view', this.data, encyclopediaHelpers));
 
 			this.first_call = false;
+			pagination.on(can.proxy(this.loadMore, this));
 		},
 
 		isXL: function (themes) {
@@ -211,8 +211,8 @@ export default Controller.extend(
 
 		setScroll: function () {
 			$('.filterContent', this.element).mCustomScrollbar({
-                scrollInertia: 0
-            });
+				scrollInertia: 0
+			});
 		},
 
 		'.book click': function (el) {
@@ -256,7 +256,7 @@ export default Controller.extend(
 			});
 		},
 
-		'.loadMore img click': function (el) {
+		loadMore: function () {
 			var self = this,
 				articles = self.data.attr('articles'),
 				data = {
@@ -302,9 +302,15 @@ export default Controller.extend(
 
 				if (data.documents.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
 					self.noMoreArts = true;
-					el.parent().hide();
+					$('.loadMore').hide();
 				}
 			});
+		},
+
+		destroy: function() {
+			pagination.off()
+
+			can.Control.prototype.destroy.call(this);
 		}
 	}
 );

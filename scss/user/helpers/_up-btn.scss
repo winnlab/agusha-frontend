@@ -1,7 +1,7 @@
 @import '../../bourbon/bourbon';
 
 .up-btn {
-  @include position(fixed, 50% 80px null null);
+  @include position(absolute, 400px 10px null null);
   @include size(50px 7px);
   @include transition(all 0.3s ease);
   @include transform(translateY(100px));

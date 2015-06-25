@@ -7,6 +7,7 @@ import Watch from 'js/app/user/lib/watcher/';
 import Router from 'router';
 import config from 'rConfig';
 import Commentaries from 'commentaries';
+import upBtn from 'lib/up-btn/';
 import 'jquery-validation';
 import 'tooltipster';
 import 'select2';
@@ -18,6 +19,10 @@ import 'can/map/delegate/';
 import 'can/map/define/';
 import 'core/viewHelpers';
 import 'lib/right_menu/';
+
+if (steal.System.env === 'production' && console) {
+	console.warn = function() {};
+}
 
 var Core = can.Control.extend({
 	init: function() {
@@ -39,6 +44,9 @@ var Core = can.Control.extend({
 		VK.init({
 			apiId: 4699559
 		});
+
+		new upBtn($('#right_menu_small'));
+
 	},
 
 	moneyboxed: function (ev, newVal) {
@@ -252,7 +260,7 @@ var Core = can.Control.extend({
 		}
 
 		this.left_menu_line[func]();
-		
+
 		this.left_inner_menu.css({
 			width: left_inner_menu_width,
 			'margin-left': -left_inner_menu_width - 10
@@ -262,7 +270,7 @@ var Core = can.Control.extend({
 	'.scrollToTop click': function (el, ev) {
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', 'ScrollToTop', 'Click');
-		
+
 		$('html, body').animate({
 			scrollTop: 0
 		}, 600);
@@ -276,23 +284,23 @@ var Core = can.Control.extend({
 			$mainPopupWrapper.find('p').html('');
 		});
 	},
-	
+
 	'a._blank click': function(el, ev) {
 		ev.preventDefault();
-		
+
 		var win = window.open(el.attr('href'), '_blank');
 		win.focus();
 	},
-	
+
 	'.scroll_to_top click': function (el, ev) {
 		$('html, body').stop(true, false).animate({
 			scrollTop: 0
 		}, 600);
 	},
-	
+
 	'.ga_event click': function(el) {
 		var event = el.data('event');
-		
+
 		ga('set', 'page', decodeURI(document.location.href));
 		ga('send', 'event', event, 'click');
 	}
