@@ -50,6 +50,7 @@ export default Edit.extend({
 		};
 
 		self.ensureObject(options.doc, 'desc');
+    self.ensureObject(options.doc, 'meta');
 		self.ensureObject(options.doc, 'age', []);
 		self.ensureObject(options.doc, 'theme', []);
 		self.ensureObject(options.doc, 'type');
