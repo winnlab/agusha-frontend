@@ -1,5 +1,5 @@
 System.config({
-	baseURL: '',
+	baseURL: '/',
 	main: 'js/app/user/core/core',
 	map: {
 		'can/util/util': 'can/util/jquery/jquery',
