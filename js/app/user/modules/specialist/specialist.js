@@ -1,6 +1,7 @@
 import Controller from 'controller';
 import select2 from 'select2';
 import appState from 'core/appState';
+import pagination from 'lib/helpers/pagination';
 import 'jquery-validation';
 
 var ViewModel = can.Map.extend({
@@ -124,6 +125,7 @@ export default Controller.extend(
 				that.element.find('select.specialist_theme_select, select.specialist_age_select').select2(that.select2Options);
 			});
 			can.bind.call(appState, "toggleWatch", can.proxy(that.toggleWatch, that))
+			pagination.on(can.proxy(this.loadMore, this));
 		},
 
 		toggleWatch: function (ev, id) {
@@ -208,7 +210,7 @@ export default Controller.extend(
 			ga('send', 'event', 'Registration', 'Specialist');
 		},
 
-		'.loadMore img click': function (el) {
+		loadMore: function () {
 			var self = this,
 				data = {
 					lastId: self.articlesNextId
@@ -235,7 +237,7 @@ export default Controller.extend(
 
 				if (data.documents.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
 					self.noMoreArts = true;
-					el.parent().hide();
+					$('.loadMore').hide();
 				}
 			});
 		},
@@ -270,6 +272,14 @@ export default Controller.extend(
 					});
 				}
 			});
+		},
+
+		destroy: function() {
+			appState.attr('user').auth.undelegate('isAuth')
+			can.unbind.call(appState, "toggleWatch")
+			pagination.off()
+
+			can.Control.prototype.destroy.call(this);
 		}
-    }
+	}
 );
