@@ -16,6 +16,10 @@ var config = {
 				path: 'js/app/admin/modules/articles/'
 			},
 			{
+				name: 'news',
+				path: 'js/app/admin/modules/news/'
+			},
+			{
 				name: 'encyclopedia-articleType',
 				path: 'js/app/admin/modules/articleTypes/'
 			},
