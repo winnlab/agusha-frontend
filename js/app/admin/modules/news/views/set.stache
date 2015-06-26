@@ -224,8 +224,8 @@
                         <upload
                             class="col-md-12"
                             name="image.background"
-                            url="/admin/new/img"
-                            delete-url="/admin/new/img"
+                            url="/admin/news/img"
+                            delete-url="/admin/news/img"
                             entity="{new}"
                             uploaded="{new.image.background}"
                             accept="image/*"
@@ -238,8 +238,8 @@
                             <upload
                                 class="col-md-12"
                                 name="image.backgroundAlt"
-                                url="/admin/new/img"
-                                delete-url="/admin/new/img"
+                                url="/admin/news/img"
+                                delete-url="/admin/news/img"
                                 entity="{new}"
                                 uploaded="{new.image.backgroundAlt}"
                                 accept="image/*"
