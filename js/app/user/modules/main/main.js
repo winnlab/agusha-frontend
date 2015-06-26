@@ -345,7 +345,6 @@ export default Controller.extend(
 		},
 
 		loadMore: function () {
-			console.info('loadMore')
 			var self = this,
 				articles = self.data.attr('articles');
 

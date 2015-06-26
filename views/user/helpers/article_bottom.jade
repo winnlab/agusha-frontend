@@ -1,25 +1,25 @@
 .article_bottom
-	.interesting_title
-		.half.left
-			.adorable_table
-				.adorable_cell
-					| Вам будет интересно
+	if similarArticles.length
+		.interesting_title
+			.half.left
+				.adorable_table
+					.adorable_cell= news ? "Похожие новости" : "Вам будет интересно"
 
-		.half.right
-			.adorable_table
-				.adorable_cell
-					span.slideLeft
-						img.left_arrow(src="/img/user/article/left_arrow.png")
+			.half.right
+				.adorable_table
+					.adorable_cell
+						span.slideLeft
+							img.left_arrow(src="/img/user/article/left_arrow.png")
 
-					- var similarArticlesAmount = 3
-					if similarArticles && similarArticles.length
-						- similarArticlesAmount = similarArticles.length
-					- var displayedAmount = 3
-						if similarArticlesAmount < 3
-							- displayedAmount = similarArticlesAmount
-					span #{displayedAmount} / #{similarArticlesAmount}
-					span.slideRight
-						img.right_arrow(src="/img/user/article/right_arrow.png")
+						- var similarArticlesAmount = 3
+						if similarArticles && similarArticles.length
+							- similarArticlesAmount = similarArticles.length
+						- var displayedAmount = 3
+							if similarArticlesAmount < 3
+								- displayedAmount = similarArticlesAmount
+						span #{displayedAmount} / #{similarArticlesAmount}
+						span.slideRight
+							img.right_arrow(src="/img/user/article/right_arrow.png")
 	.slider-wrap
 		.interesting_content
 
@@ -48,14 +48,12 @@
 				else
 					- articleType = 'author'
 
-
-
 				- classname += (!similarArticle.image || !similarArticle.image.background ? ' no-image' : '')
 				- classname += similarArticle.is_quiz ? ' poll' : '';
 
 				- classname += ' ' + articleType
 
-				a(class="new_module card #{classname}" href="/article/" + similarArticle.transliterated)
+				a(class="new_module card #{classname}" href="/article/" + similarArticle.transliterated + (news ? "/news" : ""))
 					.inner(style=( similarArticle && similarArticle.image && similarArticle.image['S'] ? "background-image: url(/img/uploads/" + similarArticle.image['S'] + ");" : ''))
 						.topper.bg
 							.topper_label
@@ -186,7 +184,7 @@
 				.form_container
 					form.comment_form
 						input(type='hidden', name='_id', value='#{article._id}')
-						input(type='hidden', name='model', value='Article')
+						input(type='hidden', name='model', value=(news ? 'News' : 'Article'))
 						textarea(name="content", placeholder="А что Вы думаете по этому поводу?")
 						.bottom.adorable_table
 							.adorable_cell
