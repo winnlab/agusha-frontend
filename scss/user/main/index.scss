@@ -105,6 +105,16 @@
 		}
 
 		.item {
+			&.juice {
+				.top_label {
+					font-family: 'PT_Sans_Narrow_Bold';
+					color: $darkblue2;
+					font-size: 56px;
+					font-weight: 700;
+					line-height: 56px;
+				}
+			}
+			
 			&.production {
 				.top_label {
 					font-family: 'PT_Sans_Narrow_Bold';
@@ -395,6 +405,11 @@
 				background-color: $pink;
 				color: $white;
 			}
+			
+			&.red {
+				background-color: $red3;
+				color: white;
+			}
 		}
 	}
 
@@ -404,6 +419,10 @@
 		height: 100%;
 		top: 0;
 		left: 0;
+		
+		&.banner_juice {
+			background: url('/img/user/main/banner_juice.jpg') no-repeat center;
+		}
 
 		&.banner_production {
 			background: url('/img/user/main/banner_production.jpg') no-repeat center;

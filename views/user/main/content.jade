@@ -3,7 +3,18 @@ include ../helpers/counter
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
-			.item.production.active
+			.item.juice.active
+				.banner_image.banner_juice
+				.content
+					.top_label
+						div Соки, 
+						div що зроблені 
+						div в Україні!
+					
+					a.new_module(href="/article/Uliubleni_dytiachi_soky_Agusha_teper_vyrobliaiutsia_v_Ukraini/news")
+						button.carousel_button.red Узнать больше
+			
+			.item.production
 				.banner_image.banner_production
 				.content
 					.top_label
@@ -219,7 +230,7 @@ include ../helpers/counter
 			li(data-target="#main_carousel" data-slide-to="1")
 			li(data-target="#main_carousel" data-slide-to="2")
 			li(data-target="#main_carousel" data-slide-to="3")
-			//- li(data-target="#main_carousel" data-slide-to="4")
+			li(data-target="#main_carousel" data-slide-to="4")
 		
 		.content.arrows_content
 			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
