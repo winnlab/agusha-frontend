@@ -64,28 +64,17 @@ mixin article(a, i)
 					.topper_play
 					| {{/if}}
 
-				- var answersAmount = 0;
-				if a
-					- each ans, ind in a.answer
-						if ans.clients
-							answersAmount = answersAmount + ans.clients.length
-				else
-					if answer
-						- each ans, ind in answer
-							if ans.clients
-								answersAmount = answersAmount + ans.clients.length
-
 				if a 
 					if a.is_quiz
 						.topper_approve
-							span.count= (answersAmount)
+							span.count= (a.counter.answer)
 							span.approve
 								div мамочек
 								div ответили
 				else 
 					| {{#if is_quiz}}
 					.topper_approve
-						span.count= '{{countAnswersAmount answer}}'
+						span.count= '{{counter.answer}}'
 						span.approve
 							div мамочек
 							div ответили
@@ -125,9 +114,10 @@ mixin article(a, i)
 						if a.recommended
 							img(src="/img/user/helpers/cards/lamp.png")
 						- var answer = false;
-						each ans, i in a.answer
-							if ans.specialist
-								- answer = true;
+						if a.answer
+							each ans, i in a.answer
+								if ans.specialist
+									- answer = true;
 						if answer
 							img(src="/img/user/helpers/cards/check.png")
 					else
@@ -143,11 +133,11 @@ mixin article(a, i)
 						- var component_id = a ? a._id : '{{_id}}'
 						img.j-disabled.like.liked(src="/img/user/article/heart.png", data-component_id=component_id, data-component="Article")
 						img.j-disabled.like.not-liked(src="/img/user/article/heart-.png", data-component_id=component_id, data-component="Article")
-						span.count.like(data-component_id=component_id)= (a ? a.likes ? a.likes.length : 0 : '{{likes.length}}')
+						span.count.like(data-component_id=component_id)= (a ? a.counter ? a.counter.like : 0 : '{{counter.like}}')
 						span.approve
 							| мамочек
 							br
 							| одобряют
 						
 						img.comment(src="/img/user/article/comment.png")
-						span.count.commentariesCount= (a ? (a.commentaries ? a.commentaries.length : 0) : '{{#if commentaries.length}}{{commentaries.length}}{{else}}0{{/if}}')
+						span.count.commentariesCount= (a ? (a.counter ? a.counter.comment : 0) : '{{#if counter.comment}}{{counter.comment}}{{else}}0{{/if}}')

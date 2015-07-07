@@ -1,0 +1,36 @@
+include helpers
+
+.bg
+
+.center
+	.content
+		include ../helpers/breadcrumbs
+		
+		.topper_title Новости от «Агуша»
+
+		.items_filter
+			select.author_select
+				
+				option(value = 0) Все авторы
+				option(value = "Статья от редакции") От редакции
+				option(value = "Статья от специалиста") Мнение специалиста
+				option(value = "Тема недели") Тема недели
+			
+			select.order_select
+				option(value = 'date') Сначала новые
+				option(value = '-date') Сначала старые
+			
+			//- .subscribe
+				.adorable_table
+					.adorable_cell
+						button(class="subscribeIt" style=(subscription ? 'display: none;' : '') )
+							span Подписаться на тему
+						button(class="unSubscribeIt"  style=(subscription ? '' : 'display: none;') )
+							span Отписаться от темы
+
+		.items_container
+			- each a, i in articles.documents
+				mixin article(a, i)
+		if (articles.nextAnchorId)
+			.loadMore
+				img(src="/img/user/main/icon_book.gif")

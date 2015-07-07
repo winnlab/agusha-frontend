@@ -1,0 +1,12 @@
+steal(function(){var e="undefined"!=typeof window?window:global,o={};("undefined"==typeof GLOBALCAN||GLOBALCAN!==!1)&&(e.can=o),o.global=e,o.k=function(){},o.isDeferred=o.isPromise=function(e){return e&&"function"==typeof e.then&&"function"==typeof e.pipe},o.isMapLike=function(e){return o.Map&&(e instanceof o.Map||e&&e.__get)}
+var n=0
+return o.cid=function(e,o){return e._cid||(n++,e._cid=(o||"")+n),e._cid},o.VERSION="2.2.4",o.simpleExtend=function(e,o){for(var n in o)e[n]=o[n]
+return e},o.last=function(e){return e&&e[e.length-1]},o.frag=function(e){var n
+return e&&"string"!=typeof e?11===e.nodeType?e:"number"==typeof e.nodeType?(n=document.createDocumentFragment(),n.appendChild(e),n):"number"==typeof e.length?(n=document.createDocumentFragment(),o.each(e,function(e){n.appendChild(o.frag(e))}),n):(n=o.buildFragment(""+e,document.body),n.childNodes.length||n.appendChild(document.createTextNode("")),n):(n=o.buildFragment(null==e?"":""+e,document.body),n.childNodes.length||n.appendChild(document.createTextNode("")),n)},o.scope=o.viewModel=function(e,n,t){e=o.$(e)
+var r=o.data(e,"scope")||o.data(e,"viewModel")
+switch(r||(r=new o.Map,o.data(e,"scope",r),o.data(e,"viewModel",r)),arguments.length){case 0:case 1:return r
+case 2:return r.attr(n)
+default:return r.attr(n,t),e}},o["import"]=function(e){var n=new o.Deferred
+return"object"==typeof window.System&&o.isFunction(window.System["import"])?window.System["import"](e).then(o.proxy(n.resolve,n),o.proxy(n.reject,n)):window.define&&window.define.amd?window.require([e],function(e){n.resolve(e)}):window.steal?steal.steal(e,function(e){n.resolve(e)}):window.require?n.resolve(window.require(e)):n.resolve(),n.promise()},o.__reading=function(){},o.dev={warnTimeout:5e3,logLevel:0,warn:function(e){var o=this.logLevel
+2>o&&(Array.prototype.unshift.call(arguments,"WARN:"),void 0!==typeof window&&window.console&&console.warn?this._logger("warn",Array.prototype.slice.call(arguments)):window.console&&console.log?this._logger("log",Array.prototype.slice.call(arguments)):window.opera&&window.opera.postError&&window.opera.postError("steal.js WARNING: "+e))},log:function(e){var o=this.logLevel
+1>o&&(window.console&&console.log?(Array.prototype.unshift.call(arguments,"Info:"),this._logger("log",Array.prototype.slice.call(arguments))):window.opera&&window.opera.postError&&window.opera.postError("steal.js INFO: "+e))},_logger:function(e,o){console.log.apply?console[e].apply(console,o):console[e](o)}},o})

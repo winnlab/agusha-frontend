@@ -1,0 +1,51 @@
+{{#if showList}}
+<div class="well">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Статистика</div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <th>Название</th>
+          <th>Действия</th>
+        </thead>
+        <tbody>
+          {{#each items}}
+          <tr>
+            <td>{{name}}</td>
+            <td>
+              <button type="button" class="btn btn-success {{className}}">Рассчитать</button>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{{else}}
+<div class="well">
+  <button type="button" class="btn btn-primary t-back">Назад</button><br/><br/>
+  <div class="panel panel-primary">
+    <div class="panel-heading">{{data.title}}</div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          {{#each data.th}}
+            <th>{{.}}</th>
+          {{/each}}
+        </thead>
+        <tbody>
+          {{#each data.rows}}
+          <tr>
+            {{#each .}}
+              <td>{{.}}</td>
+            {{/each}}
+          {{/each}}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary t-back">Назад</button>
+</div>
+{{/if}}

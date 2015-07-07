@@ -16,6 +16,10 @@ var config = {
 				path: 'js/app/admin/modules/articles/'
 			},
 			{
+				name: 'news',
+				path: 'js/app/admin/modules/news/'
+			},
+			{
 				name: 'encyclopedia-articleType',
 				path: 'js/app/admin/modules/articleTypes/'
 			},
@@ -54,7 +58,15 @@ var config = {
 			{
 				name: 'tmpRemoveUser',
 				path: 'js/app/admin/modules/tmpRemoveUser/'
-			}
+			},
+			{
+				name: 'stats',
+				path: 'js/app/admin/modules/stats/'
+			},
+			{
+				name: 'partners',
+				path: 'js/app/admin/modules/partners/'
+			},
 		]
 	}
 };

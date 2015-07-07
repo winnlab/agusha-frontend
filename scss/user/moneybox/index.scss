@@ -9,13 +9,13 @@
 	width: 100%;
 	color: $grey;
 	overflow: hidden;
-	
+
 	.module_inner {
 		width: 920px;
 		text-align: left;
 		margin: 0 auto;
 	}
-	
+
 	.content {
 		.images_container {
 			@include my_inline_block;
@@ -23,27 +23,27 @@
 			width: 600px;
 			white-space: nowrap;
 			overflow: hidden;
-			
+
 			.column {
 				height: 360px;
 			}
 		}
-		
+
 		.images_inside {
 			height: 100%;
 			position: relative;
 		}
-		
+
 		.moneybox_card {
 			background: url('/img/user/moneybox/moneybox_card_bg.png') top no-repeat;
 			position: relative;
 			height: 100%;
 		}
-		
+
 		.card_image {
 			display: none;
 			cursor: pointer;
-			
+
 			&.active {
 				display: block;
 			}
@@ -100,7 +100,7 @@
 				bottom: 0;
 				cursor: pointer;
 				z-index: 2;
-				
+
 				&.left {
 					left: 12px;
 				}
@@ -124,13 +124,13 @@
 				height: 6px;
 				background-color: $white;
 				margin: 0 5px;
-				
+
 				&.active {
 					background-color: #45b4e8;
 				}
 			}
 		}
-		
+
 		.calendar {
 			float: left;
 			width: 70px;
@@ -157,34 +157,37 @@
 			}
 		}
 	}
-	
+
 	.link-tab {
 		cursor: pointer;
 	}
-	
+
 	.bg {
 		@include absolute_horizontal_centered;
 		width: 100%;
 		height: 450px;
 		top: 0;
-		
+
 		&:before {
 			@include pseudo;
 			@include absolute_horizontal_centered;
 			top: 0;
 			left: 0;
-			background: url('/img/user/moneybox/moneybox_topper_bg.jpg') center no-repeat;
+			background-image: url('/img/user/moneybox/moneybox_topper_bg.jpg');
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: right bottom;
 			width: 100%;
 			height: 100%;
 			z-index: 5;
 		}
 	}
-	
+
 	.topper_text {
 		height: 320px;
 		padding: 0 20px;
 	}
-	
+
 	.topper_title {
 		box-sizing: border-box;
 		color: #2381bd;
@@ -197,7 +200,7 @@
 		text-transform: uppercase;
 		color: $blue;
 	}
-	
+
 	.topper_button {
 		margin: 35px 0 0;
 		height: 50px;
@@ -205,7 +208,7 @@
 		color: $blue;
 		width: 259px;
 		background: url('/img/user/moneybox/topper_button_bg.png')no-repeat;
-		
+
 		&:hover, &:active {
 			background-color: $blue;
 			color: white;
@@ -417,7 +420,7 @@
 					background-color: #c0bbb2;
 					top: 13px;
 					right: 16px;
-					
+
 					&.filled {
 						background-color: #45b4e8;
 					}
@@ -455,7 +458,7 @@
 
 			.prizes_topper {
 				margin: 59px 10px 0;
-				
+
 				.title {
 					font-size: 55px;
 					line-height: 55px;
@@ -576,11 +579,11 @@
 					&:hover {
 						opacity: 1;
 					}
-					
+
 					&.active {
 						display: block;
 					}
-					
+
 					&.hide_title {
 						background-color: #ccbfb8;
 						color: $white;
@@ -595,7 +598,7 @@
 				table {
 					margin-top: 0px;
 					font-size: 14px;
-					
+
 					&.blueTable {
 						&.active {
 							.thead_label {
@@ -603,34 +606,34 @@
 									display: block;
 								}
 							}
-							
+
 							thead {
 								background-color: #47B2E4;
 							}
-							
+
 							th.total {
 								color: #7FD4FF;
 							}
-							
+
 							tbody {
 								display: table-row-group;
 							}
 						}
-						
+
 						thead {
 							cursor: pointer;
 							background-color: #cec1b9;
 						}
-						
+
 						th.total {
 							color: $white;
 						}
-						
+
 						.thead_label {
 							position: relative;
 							width: 100%;
 							height: 100%;
-							
+
 							&:after {
 								@include pseudo;
 								width: 43px;
@@ -641,7 +644,7 @@
 								display: none;
 							}
 						}
-						
+
 						tbody {
 							display: none;
 						}
@@ -743,7 +746,7 @@
 
 		&.how_it_works {
 			text-align: center;
-			
+
 			.simple {
 				font-size: 55px;
 				line-height: 55px;
@@ -757,11 +760,11 @@
 				font-family: 'PT_Sans_Italic';
 				margin-top: 35px;
 			}
-			
+
 			.new_steps {
 				height: 470px;
 				position: relative;
-				
+
 				&:after {
 					@include pseudo;
 					height: 1px;
@@ -771,7 +774,7 @@
 					left: -50%;
 				}
 			}
-			
+
 			.new_step {
 				&.new_step_1 {
 					.step_image {
@@ -780,7 +783,7 @@
 						}
 					}
 				}
-				
+
 				&.new_step_2 {
 					.step_image {
 						&:before {
@@ -788,7 +791,7 @@
 						}
 					}
 				}
-				
+
 				&.new_step_3 {
 					.step_image {
 						&:before {
@@ -796,7 +799,7 @@
 						}
 					}
 				}
-				
+
 				&.new_step_4 {
 					.step_image {
 						&:before {
@@ -804,7 +807,7 @@
 						}
 					}
 				}
-				
+
 				.top_label {
 					@include bold;
 					font-size: 18px;
@@ -814,16 +817,16 @@
 					height: 65px;
 					padding: 0 22px;
 				}
-				
+
 				.bottom_label {
 					padding: 0 18px;
 				}
 			}
-			
+
 			.step_image {
 				height: 240px;
 				position: relative;
-				
+
 				&:before {
 					@include pseudo;
 					width: 100%;
@@ -832,7 +835,7 @@
 					left: 0;
 				}
 			}
-			
+
 			.about_levels_label, .about_prizes_label, .now_you_know_label {
 				@include border_boxed;
 				height: 120px;
@@ -843,7 +846,7 @@
 				color: #ccbfb8;
 				text-transform: uppercase;
 			}
-			
+
 			.about_levels_desc, .about_prizes_desc, .now_you_know_desc {
 				@include border_boxed;
 				height: 90px;
@@ -852,11 +855,11 @@
 				line-height: 24px;
 				font-family: 'PT_Sans_Italic';
 			}
-			
+
 			.levels {
 				height: 383px;
 				position: relative;
-				
+
 				&:before {
 					@include pseudo;
 					height: 1px;
@@ -866,23 +869,23 @@
 					left: -50%;
 					z-index: 5;
 				}
-				
+
 				.fixed_table {
 					position: relative;
 					z-index: 10;
 				}
 			}
-			
+
 			.level_item {
 				@include border_radius(1px);
 				height: 100%;
 				width: 100%;
-				
+
 				&:hover, &.active {
 					@include box_shadow(0 0 0 12px white, 0px 2px 6px 12px rgba(0, 0, 0, 0.22));
 					background-color: white;
 					z-index: 10;
-					
+
 					&.level_1 {
 						.level_image {
 							&:before {
@@ -890,7 +893,7 @@
 							}
 						}
 					}
-					
+
 					&.level_2 {
 						.level_image {
 							&:before {
@@ -898,7 +901,7 @@
 							}
 						}
 					}
-					
+
 					&.level_3 {
 						.level_image {
 							&:before {
@@ -906,7 +909,7 @@
 							}
 						}
 					}
-					
+
 					&.level_4 {
 						.level_image {
 							&:before {
@@ -914,7 +917,7 @@
 							}
 						}
 					}
-					
+
 					&.level_5 {
 						.level_image {
 							&:before {
@@ -922,22 +925,22 @@
 							}
 						}
 					}
-					
+
 					.level_label {
 						div {
 							display: block;
 						}
 					}
-					
+
 					.level_points {
 						display: block;
 					}
-					
+
 					.level_desc {
 						display: block;
 					}
 				}
-				
+
 				&.level_1 {
 					.level_image {
 						&:before {
@@ -947,7 +950,7 @@
 						}
 					}
 				}
-				
+
 				&.level_2 {
 					.level_image {
 						&:before {
@@ -957,7 +960,7 @@
 						}
 					}
 				}
-				
+
 				&.level_3 {
 					.level_image {
 						&:before {
@@ -967,7 +970,7 @@
 						}
 					}
 				}
-				
+
 				&.level_4 {
 					.level_image {
 						&:before {
@@ -977,7 +980,7 @@
 						}
 					}
 				}
-				
+
 				&.level_5 {
 					.level_image {
 						&:before {
@@ -988,7 +991,7 @@
 					}
 				}
 			}
-			
+
 			.level_label {
 				@include border_boxed;
 				height: 24px;
@@ -996,55 +999,55 @@
 				color: $titlegrey;
 				position: relative;
 				z-index: 10;
-				
+
 				div {
 					display: none;
 				}
 			}
-			
+
 			.level_image {
 				height: 162px;
 				position: relative;
 				margin-top: -15px;
-				
+
 				&:before {
 					@include pseudo;
 					@include absolute_horizontal_centered;
 					bottom: 0;
 				}
 			}
-			
+
 			.level_title {
 				@include bold;
 				margin-top: 25px;
 				color: $titlegrey;
 				text-transform: uppercase;
 			}
-			
+
 			.level_points {
 				display: none;
 				margin-top: 15px;
 			}
-			
+
 			.level_desc {
 				display: none;
 				margin-top: 20px;
 			}
-			
+
 			.prizes {
 				height: 380px;
-				
+
 				.images_container {
 					width: 100%;
 				}
 			}
-			
+
 			.prizes_labels {
 				@include bold;
 				font-size: 18px;
 				padding-bottom: 40px;
 				position: relative;
-				
+
 				&:not(:last-child) {
 					&:before {
 						@include pseudo;
@@ -1057,7 +1060,7 @@
 					}
 				}
 			}
-			
+
 			.now_you_know_button {
 				@include border_radius(5px);
 				height: 86px;
@@ -1067,9 +1070,9 @@
 				font-size: 30px;
 				margin-bottom: 80px;
 			}
-			
+
 			/*
-			
+
 			.steps {
 				margin-top: 140px;
 				position: relative;
@@ -1182,22 +1185,22 @@
 					opacity: 1;
 				}
 			}
-			
+
 			*/
 		}
-		
+
 		&.rules {
 			padding: 0 10px 80px;
 		}
-		
+
 		&.winners {
 			padding: 0 10px 80px;
-			
+
 			.winner_title {
 				height: 139px;
 				margin-top: -50px;
 				position: relative;
-				
+
 				> .adorable_table {
 					font-size: 55px;
 					text-transform: uppercase;
@@ -1205,7 +1208,7 @@
 					font-family: 'PT_Sans_Narrow_Bold';
 				}
 			}
-			
+
 			.calendars_container {
 				position: absolute;
 				top: 0;
@@ -1215,56 +1218,56 @@
 				height: 70px;
 				text-align: right;
 			}
-			
+
 			.calendar {
 				@include my_inline_block;
 				margin: 0 0 0 20px;
 				cursor: pointer;
-				
+
 				&:not(.active) {
 					.topper {
 						background: url('/img/user/moneybox/calendar_topper_prev.png') repeat-x;
 					}
-					
+
 					.number {
 						color: #ddd2ca;
 					}
 				}
 			}
-			
+
 			.winners_topper {
 				height: 71px;
 				background-color: #e9e4e0;
 			}
-			
+
 			.winners_td {
 				@include border_boxed;
 				display: table-cell;
 				vertical-align: middle;
 				height: 100%;
-				
+
 				&.level {
 					width: 300px;
 					padding: 0 0 0 30px;
 				}
-				
+
 				&.prize {
 					width: 450px;
 				}
-				
+
 				&.count {
 					width: 130px;
 				}
 			}
-			
+
 			.winner_block {
 				display: none;
-				
+
 				&.active {
 					display: block;
 				}
 			}
-			
+
 			.tab_block {
 				&.winners_novice {
 					.level_content {
@@ -1273,7 +1276,7 @@
 						}
 					}
 				}
-				
+
 				&.winners_disciple {
 					.level_content {
 						&:after {
@@ -1281,7 +1284,7 @@
 						}
 					}
 				}
-				
+
 				&.winners_adept {
 					.level_content {
 						&:after {
@@ -1289,7 +1292,7 @@
 						}
 					}
 				}
-				
+
 				&.winners_expert {
 					.level_content {
 						&:after {
@@ -1297,7 +1300,7 @@
 						}
 					}
 				}
-				
+
 				&.winners_pro {
 					.level_content {
 						&:after {
@@ -1305,31 +1308,31 @@
 						}
 					}
 				}
-				
+
 				.title {
 					background-color: white;
-					
+
 					.adorable_cell {
 						padding: 0;
 					}
 				}
-				
+
 				.prize {
 					font-size: 14px;
 					font-family: 'PT_Sans_Regular';
 					color: $base;
 					text-transform: none;
 				}
-				
+
 				.text {
 					padding: 30px 0 0;
 				}
 			}
-			
+
 			.level_content {
 				height: 100%;
 				position: relative;
-				
+
 				&:after {
 					@include pseudo;
 					top: 0;
@@ -1341,13 +1344,13 @@
 					z-index: 1;
 				}
 			}
-			
+
 			.rank_title {
 				font-size: 18px;
 				font-family: 'PT_Sans_Narrow_Bold';
 				color: #595959;
 			}
-			
+
 			.counter {
 				@include rounded;
 				width: 34px;
@@ -1359,7 +1362,7 @@
 				font-family: 'PT_Sans_Narrow_Bold';
 				text-align: center;
 			}
-			
+
 			.congratz {
 				height: 30px;
 				font-size: 18px;
@@ -1367,25 +1370,25 @@
 				color: #595959;
 				text-transform: uppercase;
 			}
-			
+
 			.winner_list {
 				padding: 0 30px;
 				text-align: center;
 			}
-			
+
 			.winner_item {
 				@include my_inline_block;
 				width: 160px;
 				margin-top: 30px;
 			}
-			
+
 			.winner_image {
 				@include rounded;
 				width: 70px;
 				height: 70px;
 				margin: 0 auto;
 				position: relative;
-				
+
 				&.crown {
 					&:before {
 						@include pseudo;
@@ -1397,7 +1400,7 @@
 						background: url('/img/user/moneybox/crown.png') no-repeat;
 					}
 				}
-				
+
 				img {
 					@include rounded;
 					height: 100%;
@@ -1406,7 +1409,7 @@
 					z-index: 20;
 				}
 			}
-			
+
 			.winner_name {
 				@include bold;
 				color: #404040;
@@ -1414,13 +1417,13 @@
 				text-decoration: underline;
 				text-transform: capitalize;
 			}
-			
+
 			.children {
 				font-size: 12px;
 				color: $titlegrey;
 				margin-top: 4px;
 			}
-			
+
 			.your_prize {
 				height: 80px;
 				font-size: 18px;
@@ -1428,7 +1431,7 @@
 				text-transform: uppercase;
 				color: #595959;
 			}
-			
+
 			.prize_image_container {
 				@include rounded;
 				width: 124px;
@@ -1436,132 +1439,132 @@
 				margin: 0 auto;
 				position: relative;
 			}
-			
+
 			.prize_image {
 				@include rounded;
 				height: 100%;
 				display: none;
-				
+
 				&.active {
 					display: block;
 				}
-				
+
 				&.novice_1 {
 					background: url('/img/user/moneybox/slunyavchik/slunyavchik_1.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.novice_2 {
 					background: url('/img/user/moneybox/slunyavchik/slunyavchik_2.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.novice_3 {
 					background: url('/img/user/moneybox/slunyavchik/slunyavchik_3.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.novice_4 {
 					background: url('/img/user/moneybox/slunyavchik/slunyavchik_4.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.novice_5 {
 					background: url('/img/user/moneybox/slunyavchik/slunyavchik_5.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.disciple_1 {
 					background: url('/img/user/moneybox/polotenca/polotence_1.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.disciple_2 {
 					background: url('/img/user/moneybox/polotenca/polotence_2.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.disciple_3 {
 					background: url('/img/user/moneybox/polotenca/polotence_3.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.disciple_4 {
 					background: url('/img/user/moneybox/polotenca/polotence_4.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.disciple_5 {
 					background: url('/img/user/moneybox/polotenca/polotence_5.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.adept_1 {
 					background: url('/img/user/moneybox/postel/postel_1.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.adept_2 {
 					background: url('/img/user/moneybox/postel/postel_2.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.adept_3 {
 					background: url('/img/user/moneybox/postel/postel_3.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.adept_4 {
 					background: url('/img/user/moneybox/postel/postel_4.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.adept_5 {
 					background: url('/img/user/moneybox/postel/postel_5.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.expert_1 {
 					background: url('/img/user/moneybox/shapka_nabor/shapka1.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.expert_2 {
 					background: url('/img/user/moneybox/shapka_nabor/shapka2.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.expert_11 {
 					background: url('/img/user/moneybox/rukzak/rukzak_11.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.expert_03 {
 					background: url('/img/user/moneybox/rukzak/rukzak_03.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.expert_04 {
 					background: url('/img/user/moneybox/rukzak/rukzak_04.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.pro_1 {
 					background: url('/img/user/moneybox/chemodan/chemodan_1.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.pro_2 {
 					background: url('/img/user/moneybox/chemodan/chemodan_2.jpg') center no-repeat;
 					background-size: cover;
 				}
-				
+
 				&.pro_3 {
 					background: url('/img/user/moneybox/chemodan/chemodan_3.jpg') center no-repeat;
 					background-size: cover;
 				}
 			}
-			
+
 			.prize_image_arrow {
 				bottom: 0;
 				cursor: pointer;
@@ -1572,24 +1575,24 @@
 				width: 18px;
 				z-index: 2;
 			}
-			
+
 			.left_arrow {
 				background: url('/img/user/article/left_arrow.png') no-repeat;
 				left: -50px;
 			}
-			
+
 			.right_arrow {
 				background: url('/img/user/article/right_arrow.png') no-repeat;
 				right: -50px;
 			}
-			
+
 			.prize_name {
 				@include box_shadow(inset 0 -1px 0 0 $bg);
 				padding: 9px 0 38px;
 				text-align: center;
 				color: $titlegrey;
 			}
-			
+
 			.winners_note {
 				height: 145px;
 				font-size: 12px;
@@ -1691,17 +1694,17 @@
 			font-family: 'PT_Sans_Italic';
 		}
 	}
-	
+
 	.modal_group_card {
 		@include absolute_centered;
 		width: 445px;
 		height: 500px;
 		display: none;
-		
+
 		&.active {
 			display: block;
 		}
-		
+
 		.card_images, .img_container, .bottom {
 			position: absolute;
 			height: 100%;
@@ -1709,20 +1712,20 @@
 			left: 0;
 			top: 0;
 		}
-		
+
 		.img_container {
 			img {
 				@include absolute_centered;
 				display: none;
 				max-width: 100%;
 				max-height: 100%;
-				
+
 				&.active {
 					display: block;
 				}
 			}
 		}
-		
+
 		.arrow {
 			position: absolute;
 			width: 18px;
@@ -1733,11 +1736,11 @@
 			bottom: 0;
 			cursor: pointer;
 			z-index: 2;
-			
+
 			&.left {
 				left: -98px;
 			}
-			
+
 			&.right {
 				background: url('/img/user/article/right_arrow.png') no-repeat;
 				right: -98px;

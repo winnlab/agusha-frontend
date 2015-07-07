@@ -1,7 +1,7 @@
 import Controller from 'controller'
 
-import googlemaps_api from 'googlemaps_api'
-import googlemaps_main from 'googlemaps_main'
+// import googlemaps_api from 'googlemaps_api'
+// import googlemaps_main from 'googlemaps_main'
 
 export default Controller.extend(
 	{
@@ -35,7 +35,7 @@ export default Controller.extend(
 			new google.maps.Marker({
 				position: this.vishnevoeLatLng,
 				map: this.map,
-				icon: this.base_url + '/img/user/help/agusha_marker.png'
+				icon: this.base_url + '/img/user/help/agusha_marker_2.png'
 			});
 		},
 		

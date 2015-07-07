@@ -7,16 +7,13 @@
  * ES6 global Promise shim
  */
 var unhandledRejections = require('../lib/decorators/unhandledRejection');
-var PromiseConstructor = module.exports = unhandledRejections(require('../lib/Promise'));
+var PromiseConstructor = unhandledRejections(require('../lib/Promise'));
 
-var g = typeof global !== 'undefined' && global
-	|| typeof self !== 'undefined' && self;
+module.exports = typeof global != 'undefined' ? (global.Promise = PromiseConstructor)
+	           : typeof self   != 'undefined' ? (self.Promise   = PromiseConstructor)
+	           : PromiseConstructor;
 
-if(typeof g !== 'undefined' && typeof g.Promise === 'undefined') {
-	g['Promise'] = PromiseConstructor;
-}
-
-},{"../lib/Promise":2,"../lib/decorators/unhandledRejection":5}],2:[function(require,module,exports){
+},{"../lib/Promise":2,"../lib/decorators/unhandledRejection":4}],2:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -25,8 +22,8 @@ if(typeof g !== 'undefined' && typeof g.Promise === 'undefined') {
 define(function (require) {
 
 	var makePromise = require('./makePromise');
-	var Scheduler = require('./scheduler');
-	var async = require('./async');
+	var Scheduler = require('./Scheduler');
+	var async = require('./env').asap;
 
 	return makePromise({
 		scheduler: new Scheduler(async)
@@ -35,74 +32,84 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./async":4,"./makePromise":6,"./scheduler":7}],3:[function(require,module,exports){
+},{"./Scheduler":3,"./env":5,"./makePromise":7}],3:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
 
 (function(define) { 'use strict';
 define(function() {
+
+	// Credit to Twisol (https://github.com/Twisol) for suggesting
+	// this type of extensible queue + trampoline approach for next-tick conflation.
+
 	/**
-	 * Circular queue
-	 * @param {number} capacityPow2 power of 2 to which this queue's capacity
-	 *  will be set initially. eg when capacityPow2 == 3, queue capacity
-	 *  will be 8.
+	 * Async task scheduler
+	 * @param {function} async function to schedule a single async function
 	 * @constructor
 	 */
-	function Queue(capacityPow2) {
-		this.head = this.tail = this.length = 0;
-		this.buffer = new Array(1 << capacityPow2);
+	function Scheduler(async) {
+		this._async = async;
+		this._running = false;
+
+		this._queue = this;
+		this._queueLen = 0;
+		this._afterQueue = {};
+		this._afterQueueLen = 0;
+
+		var self = this;
+		this.drain = function() {
+			self._drain();
+		};
 	}
 
-	Queue.prototype.push = function(x) {
-		if(this.length === this.buffer.length) {
-			this._ensureCapacity(this.length * 2);
+	/**
+	 * Enqueue a task
+	 * @param {{ run:function }} task
+	 */
+	Scheduler.prototype.enqueue = function(task) {
+		this._queue[this._queueLen++] = task;
+		this.run();
+	};
+
+	/**
+	 * Enqueue a task to run after the main task queue
+	 * @param {{ run:function }} task
+	 */
+	Scheduler.prototype.afterQueue = function(task) {
+		this._afterQueue[this._afterQueueLen++] = task;
+		this.run();
+	};
+
+	Scheduler.prototype.run = function() {
+		if (!this._running) {
+			this._running = true;
+			this._async(this.drain);
 		}
-
-		this.buffer[this.tail] = x;
-		this.tail = (this.tail + 1) & (this.buffer.length - 1);
-		++this.length;
-		return this.length;
 	};
 
-	Queue.prototype.shift = function() {
-		var x = this.buffer[this.head];
-		this.buffer[this.head] = void 0;
-		this.head = (this.head + 1) & (this.buffer.length - 1);
-		--this.length;
-		return x;
-	};
-
-	Queue.prototype._ensureCapacity = function(capacity) {
-		var head = this.head;
-		var buffer = this.buffer;
-		var newBuffer = new Array(capacity);
+	/**
+	 * Drain the handler queue entirely, and then the after queue
+	 */
+	Scheduler.prototype._drain = function() {
 		var i = 0;
-		var len;
-
-		if(head === 0) {
-			len = this.length;
-			for(; i<len; ++i) {
-				newBuffer[i] = buffer[i];
-			}
-		} else {
-			capacity = buffer.length;
-			len = this.tail;
-			for(; head<capacity; ++i, ++head) {
-				newBuffer[i] = buffer[head];
-			}
-
-			for(head=0; head<len; ++i, ++head) {
-				newBuffer[i] = buffer[head];
-			}
+		for (; i < this._queueLen; ++i) {
+			this._queue[i].run();
+			this._queue[i] = void 0;
 		}
 
-		this.buffer = newBuffer;
-		this.head = 0;
-		this.tail = this.length;
+		this._queueLen = 0;
+		this._running = false;
+
+		for (i = 0; i < this._afterQueueLen; ++i) {
+			this._afterQueue[i].run();
+			this._afterQueue[i] = void 0;
+		}
+
+		this._afterQueueLen = 0;
 	};
 
-	return Queue;
+	return Scheduler;
 
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
@@ -115,83 +122,27 @@ define(function() {
 (function(define) { 'use strict';
 define(function(require) {
 
-	// Sniff "best" async scheduling option
-	// Prefer process.nextTick or MutationObserver, then check for
-	// vertx and finally fall back to setTimeout
-
-	/*jshint maxcomplexity:6*/
-	/*global process,document,setTimeout,MutationObserver,WebKitMutationObserver*/
-	var nextTick, MutationObs;
-
-	if (typeof process !== 'undefined' && process !== null &&
-		typeof process.nextTick === 'function') {
-		nextTick = function(f) {
-			process.nextTick(f);
-		};
-
-	} else if (MutationObs =
-		(typeof MutationObserver === 'function' && MutationObserver) ||
-		(typeof WebKitMutationObserver === 'function' && WebKitMutationObserver)) {
-		nextTick = (function (document, MutationObserver) {
-			var scheduled;
-			var el = document.createElement('div');
-			var o = new MutationObserver(run);
-			o.observe(el, { attributes: true });
-
-			function run() {
-				var f = scheduled;
-				scheduled = void 0;
-				f();
-			}
-
-			return function (f) {
-				scheduled = f;
-				el.setAttribute('class', 'x');
-			};
-		}(document, MutationObs));
-
-	} else {
-		nextTick = (function(cjsRequire) {
-			try {
-				// vert.x 1.x || 2.x
-				return cjsRequire('vertx').runOnLoop || cjsRequire('vertx').runOnContext;
-			} catch (ignore) {}
-
-			// capture setTimeout to avoid being caught by fake timers
-			// used in time based tests
-			var capturedSetTimeout = setTimeout;
-			return function (t) {
-				capturedSetTimeout(t, 0);
-			};
-		}(require));
-	}
-
-	return nextTick;
-});
-}(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
-
-},{}],5:[function(require,module,exports){
-/** @license MIT License (c) copyright 2010-2014 original author or authors */
-/** @author Brian Cavalier */
-/** @author John Hann */
-
-(function(define) { 'use strict';
-define(function(require) {
-
-	var timer = require('../timer');
+	var setTimer = require('../env').setTimer;
+	var format = require('../format');
 
 	return function unhandledRejection(Promise) {
+
 		var logError = noop;
 		var logInfo = noop;
+		var localConsole;
 
 		if(typeof console !== 'undefined') {
-			logError = typeof console.error !== 'undefined'
-				? function (e) { console.error(e); }
-				: function (e) { console.log(e); };
+			// Alias console to prevent things like uglify's drop_console option from
+			// removing console.log/error. Unhandled rejections fall into the same
+			// category as uncaught exceptions, and build tools shouldn't silence them.
+			localConsole = console;
+			logError = typeof localConsole.error !== 'undefined'
+				? function (e) { localConsole.error(e); }
+				: function (e) { localConsole.log(e); };
 
-			logInfo = typeof console.info !== 'undefined'
-				? function (e) { console.info(e); }
-				: function (e) { console.log(e); };
+			logInfo = typeof localConsole.info !== 'undefined'
+				? function (e) { localConsole.info(e); }
+				: function (e) { localConsole.log(e); };
 		}
 
 		Promise.onPotentiallyUnhandledRejection = function(rejection) {
@@ -208,12 +159,12 @@ define(function(require) {
 
 		var tasks = [];
 		var reported = [];
-		var running = false;
+		var running = null;
 
 		function report(r) {
 			if(!r.handled) {
 				reported.push(r);
-				logError('Potentially unhandled rejection [' + r.id + '] ' + formatError(r.value));
+				logError('Potentially unhandled rejection [' + r.id + '] ' + format.formatError(r.value));
 			}
 		}
 
@@ -221,20 +172,19 @@ define(function(require) {
 			var i = reported.indexOf(r);
 			if(i >= 0) {
 				reported.splice(i, 1);
-				logInfo('Handled previous rejection [' + r.id + '] ' + formatObject(r.value));
+				logInfo('Handled previous rejection [' + r.id + '] ' + format.formatObject(r.value));
 			}
 		}
 
 		function enqueue(f, x) {
 			tasks.push(f, x);
-			if(!running) {
-				running = true;
-				running = timer.set(flush, 0);
+			if(running === null) {
+				running = setTimer(flush, 0);
 			}
 		}
 
 		function flush() {
-			running = false;
+			running = null;
 			while(tasks.length > 0) {
 				tasks.shift()(tasks.shift());
 			}
@@ -242,28 +192,6 @@ define(function(require) {
 
 		return Promise;
 	};
-
-	function formatError(e) {
-		var s = typeof e === 'object' && e.stack ? e.stack : formatObject(e);
-		return e instanceof Error ? s : s + ' (WARNING: non-Error used)';
-	}
-
-	function formatObject(o) {
-		var s = String(o);
-		if(s === '[object Object]' && typeof JSON !== 'undefined') {
-			s = tryStringify(o, s);
-		}
-		return s;
-	}
-
-	function tryStringify(e, defaultValue) {
-		try {
-			return JSON.stringify(e);
-		} catch(e) {
-			// Ignore. Cannot JSON.stringify e, stick with String(e)
-			return defaultValue;
-		}
-	}
 
 	function throwit(e) {
 		throw e;
@@ -274,7 +202,140 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../timer":8}],6:[function(require,module,exports){
+},{"../env":5,"../format":6}],5:[function(require,module,exports){
+/** @license MIT License (c) copyright 2010-2014 original author or authors */
+/** @author Brian Cavalier */
+/** @author John Hann */
+
+/*global process,document,setTimeout,clearTimeout,MutationObserver,WebKitMutationObserver*/
+(function(define) { 'use strict';
+define(function(require) {
+	/*jshint maxcomplexity:6*/
+
+	// Sniff "best" async scheduling option
+	// Prefer process.nextTick or MutationObserver, then check for
+	// setTimeout, and finally vertx, since its the only env that doesn't
+	// have setTimeout
+
+	var MutationObs;
+	var capturedSetTimeout = typeof setTimeout !== 'undefined' && setTimeout;
+
+	// Default env
+	var setTimer = function(f, ms) { return setTimeout(f, ms); };
+	var clearTimer = function(t) { return clearTimeout(t); };
+	var asap = function (f) { return capturedSetTimeout(f, 0); };
+
+	// Detect specific env
+	if (isNode()) { // Node
+		asap = function (f) { return process.nextTick(f); };
+
+	} else if (MutationObs = hasMutationObserver()) { // Modern browser
+		asap = initMutationObserver(MutationObs);
+
+	} else if (!capturedSetTimeout) { // vert.x
+		var vertxRequire = require;
+		var vertx = vertxRequire('vertx');
+		setTimer = function (f, ms) { return vertx.setTimer(ms, f); };
+		clearTimer = vertx.cancelTimer;
+		asap = vertx.runOnLoop || vertx.runOnContext;
+	}
+
+	return {
+		setTimer: setTimer,
+		clearTimer: clearTimer,
+		asap: asap
+	};
+
+	function isNode () {
+		return typeof process !== 'undefined' && process !== null &&
+			typeof process.nextTick === 'function';
+	}
+
+	function hasMutationObserver () {
+		return (typeof MutationObserver === 'function' && MutationObserver) ||
+			(typeof WebKitMutationObserver === 'function' && WebKitMutationObserver);
+	}
+
+	function initMutationObserver(MutationObserver) {
+		var scheduled;
+		var node = document.createTextNode('');
+		var o = new MutationObserver(run);
+		o.observe(node, { characterData: true });
+
+		function run() {
+			var f = scheduled;
+			scheduled = void 0;
+			f();
+		}
+
+		var i = 0;
+		return function (f) {
+			scheduled = f;
+			node.data = (i ^= 1);
+		};
+	}
+});
+}(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
+
+},{}],6:[function(require,module,exports){
+/** @license MIT License (c) copyright 2010-2014 original author or authors */
+/** @author Brian Cavalier */
+/** @author John Hann */
+
+(function(define) { 'use strict';
+define(function() {
+
+	return {
+		formatError: formatError,
+		formatObject: formatObject,
+		tryStringify: tryStringify
+	};
+
+	/**
+	 * Format an error into a string.  If e is an Error and has a stack property,
+	 * it's returned.  Otherwise, e is formatted using formatObject, with a
+	 * warning added about e not being a proper Error.
+	 * @param {*} e
+	 * @returns {String} formatted string, suitable for output to developers
+	 */
+	function formatError(e) {
+		var s = typeof e === 'object' && e !== null && e.stack ? e.stack : formatObject(e);
+		return e instanceof Error ? s : s + ' (WARNING: non-Error used)';
+	}
+
+	/**
+	 * Format an object, detecting "plain" objects and running them through
+	 * JSON.stringify if possible.
+	 * @param {Object} o
+	 * @returns {string}
+	 */
+	function formatObject(o) {
+		var s = String(o);
+		if(s === '[object Object]' && typeof JSON !== 'undefined') {
+			s = tryStringify(o, s);
+		}
+		return s;
+	}
+
+	/**
+	 * Try to return the result of JSON.stringify(x).  If that fails, return
+	 * defaultValue
+	 * @param {*} x
+	 * @param {*} defaultValue
+	 * @returns {String|*} JSON.stringify(x) or defaultValue
+	 */
+	function tryStringify(x, defaultValue) {
+		try {
+			return JSON.stringify(x);
+		} catch(e) {
+			return defaultValue;
+		}
+	}
+
+});
+}(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
+
+},{}],7:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -285,6 +346,7 @@ define(function() {
 	return function makePromise(environment) {
 
 		var tasks = environment.scheduler;
+		var emitRejection = initEmitRejection();
 
 		var objectCreate = Object.create ||
 			function(proto) {
@@ -306,10 +368,10 @@ define(function() {
 		/**
 		 * Run the supplied resolver
 		 * @param resolver
-		 * @returns {makePromise.DeferredHandler}
+		 * @returns {Pending}
 		 */
 		function init(resolver) {
-			var handler = new DeferredHandler();
+			var handler = new Pending();
 
 			try {
 				resolver(promiseResolve, promiseReject, promiseNotify);
@@ -337,6 +399,7 @@ define(function() {
 			}
 
 			/**
+			 * @deprecated
 			 * Issue a progress event, notifying all progress listeners
 			 * @param {*} x progress event payload to pass to all listeners
 			 */
@@ -352,6 +415,7 @@ define(function() {
 		Promise.never = never;
 
 		Promise._defer = defer;
+		Promise._handler = getHandler;
 
 		/**
 		 * Returns a trusted promise. If x is already a trusted promise, it is
@@ -361,7 +425,7 @@ define(function() {
 		 */
 		function resolve(x) {
 			return isPromise(x) ? x
-				: new Promise(Handler, new AsyncHandler(getHandler(x)));
+				: new Promise(Handler, new Async(getHandler(x)));
 		}
 
 		/**
@@ -370,7 +434,7 @@ define(function() {
 		 * @returns {Promise} rejected promise
 		 */
 		function reject(x) {
-			return new Promise(Handler, new AsyncHandler(new RejectedHandler(x)));
+			return new Promise(Handler, new Async(new Rejected(x)));
 		}
 
 		/**
@@ -387,7 +451,7 @@ define(function() {
 		 * @returns {Promise}
 		 */
 		function defer() {
-			return new Promise(Handler, new DeferredHandler());
+			return new Promise(Handler, new Pending());
 		}
 
 		// Transformation and flow control
@@ -399,29 +463,23 @@ define(function() {
 		 * this promise's fulfillment.
 		 * @param {function=} onFulfilled fulfillment handler
 		 * @param {function=} onRejected rejection handler
-		 * @deprecated @param {function=} onProgress progress handler
+		 * @param {function=} onProgress @deprecated progress handler
 		 * @return {Promise} new promise
 		 */
-		Promise.prototype.then = function(onFulfilled, onRejected) {
+		Promise.prototype.then = function(onFulfilled, onRejected, onProgress) {
 			var parent = this._handler;
+			var state = parent.join().state();
 
-			if (typeof onFulfilled !== 'function' && parent.join().state() > 0) {
+			if ((typeof onFulfilled !== 'function' && state > 0) ||
+				(typeof onRejected !== 'function' && state < 0)) {
 				// Short circuit: value will not change, simply share handler
-				return new Promise(Handler, parent);
+				return new this.constructor(Handler, parent);
 			}
 
 			var p = this._beget();
 			var child = p._handler;
 
-			parent.when({
-				resolve: child.resolve,
-				notify: child.notify,
-				context: child,
-				receiver: parent.receiver,
-				fulfilled: onFulfilled,
-				rejected: onRejected,
-				progress: arguments.length > 2 ? arguments[2] : void 0
-			});
+			parent.chain(child, parent.receiver, onFulfilled, onRejected, onProgress);
 
 			return p;
 		};
@@ -437,48 +495,24 @@ define(function() {
 		};
 
 		/**
-		 * Private function to bind a thisArg for this promise's handlers
-		 * @private
-		 * @param {object} thisArg `this` value for all handlers attached to
-		 *  the returned promise.
-		 * @returns {Promise}
-		 */
-		Promise.prototype._bindContext = function(thisArg) {
-			return new Promise(Handler, new BoundHandler(this._handler, thisArg));
-		};
-
-		/**
 		 * Creates a new, pending promise of the same type as this promise
 		 * @private
 		 * @returns {Promise}
 		 */
 		Promise.prototype._beget = function() {
-			var parent = this._handler;
-			var child = new DeferredHandler(parent.receiver, parent.join().context);
-			return new this.constructor(Handler, child);
+			return begetFrom(this._handler, this.constructor);
 		};
 
-		/**
-		 * Check if x is a rejected promise, and if so, delegate to handler._fatal
-		 * @private
-		 * @param {*} x
-		 */
-		Promise.prototype._maybeFatal = function(x) {
-			if(!maybeThenable(x)) {
-				return;
-			}
-
-			var handler = getHandler(x);
-			var context = this._handler.context;
-			handler.catchError(function() {
-				this._fatal(context);
-			}, handler);
-		};
+		function begetFrom(parent, Promise) {
+			var child = new Pending(parent.receiver, parent.join().context);
+			return new Promise(Handler, child);
+		}
 
 		// Array combinators
 
 		Promise.all = all;
 		Promise.race = race;
+		Promise._traverse = traverse;
 
 		/**
 		 * Return a promise that will fulfill when all promises in the
@@ -488,13 +522,28 @@ define(function() {
 		 * @returns {Promise} promise for array of fulfillment values
 		 */
 		function all(promises) {
-			/*jshint maxcomplexity:8*/
-			var resolver = new DeferredHandler();
+			return traverseWith(snd, null, promises);
+		}
+
+		/**
+		 * Array<Promise<X>> -> Promise<Array<f(X)>>
+		 * @private
+		 * @param {function} f function to apply to each promise's value
+		 * @param {Array} promises array of promises
+		 * @returns {Promise} promise for transformed values
+		 */
+		function traverse(f, promises) {
+			return traverseWith(tryCatch2, f, promises);
+		}
+
+		function traverseWith(tryMap, f, promises) {
+			var handler = typeof f === 'function' ? mapAt : settleAt;
+
+			var resolver = new Pending();
 			var pending = promises.length >>> 0;
 			var results = new Array(pending);
 
-			var i, h, x, s;
-			for (i = 0; i < promises.length; ++i) {
+			for (var i = 0, x; i < promises.length && !resolver.resolved; ++i) {
 				x = promises[i];
 
 				if (x === void 0 && !(i in promises)) {
@@ -502,40 +551,64 @@ define(function() {
 					continue;
 				}
 
-				if (maybeThenable(x)) {
-					h = isPromise(x)
-						? x._handler.join()
-						: getHandlerUntrusted(x);
-
-					s = h.state();
-					if (s === 0) {
-						resolveOne(resolver, results, h, i);
-					} else if (s > 0) {
-						results[i] = h.value;
-						--pending;
-					} else {
-						resolver.become(h);
-						break;
-					}
-
-				} else {
-					results[i] = x;
-					--pending;
-				}
+				traverseAt(promises, handler, i, x, resolver);
 			}
 
 			if(pending === 0) {
-				resolver.become(new FulfilledHandler(results));
+				resolver.become(new Fulfilled(results));
 			}
 
 			return new Promise(Handler, resolver);
-			function resolveOne(resolver, results, handler, i) {
-				handler.map(function(x) {
-					results[i] = x;
-					if(--pending === 0) {
-						this.become(new FulfilledHandler(results));
-					}
-				}, resolver);
+
+			function mapAt(i, x, resolver) {
+				if(!resolver.resolved) {
+					traverseAt(promises, settleAt, i, tryMap(f, x, i), resolver);
+				}
+			}
+
+			function settleAt(i, x, resolver) {
+				results[i] = x;
+				if(--pending === 0) {
+					resolver.become(new Fulfilled(results));
+				}
+			}
+		}
+
+		function traverseAt(promises, handler, i, x, resolver) {
+			if (maybeThenable(x)) {
+				var h = getHandlerMaybeThenable(x);
+				var s = h.state();
+
+				if (s === 0) {
+					h.fold(handler, i, void 0, resolver);
+				} else if (s > 0) {
+					handler(i, h.value, resolver);
+				} else {
+					resolver.become(h);
+					visitRemaining(promises, i+1, h);
+				}
+			} else {
+				handler(i, x, resolver);
+			}
+		}
+
+		Promise._visitRemaining = visitRemaining;
+		function visitRemaining(promises, start, handler) {
+			for(var i=start; i<promises.length; ++i) {
+				markAsHandled(getHandler(promises[i]), handler);
+			}
+		}
+
+		function markAsHandled(h, handler) {
+			if(h === handler) {
+				return;
+			}
+
+			var s = h.state();
+			if(s === 0) {
+				h.visit(h, void 0, h._unreport);
+			} else if(s < 0) {
+				h._unreport();
 			}
 		}
 
@@ -554,28 +627,43 @@ define(function() {
 		 * is empty, returns a promise that will never settle.
 		 */
 		function race(promises) {
-			// Sigh, race([]) is untestable unless we return *something*
-			// that is recognizable without calling .then() on it.
-			if(Object(promises) === promises && promises.length === 0) {
-				return never();
+			if(typeof promises !== 'object' || promises === null) {
+				return reject(new TypeError('non-iterable passed to race()'));
 			}
 
-			var h = new DeferredHandler();
-			var i, x;
+			// Sigh, race([]) is untestable unless we return *something*
+			// that is recognizable without calling .then() on it.
+			return promises.length === 0 ? never()
+				 : promises.length === 1 ? resolve(promises[0])
+				 : runRace(promises);
+		}
+
+		function runRace(promises) {
+			var resolver = new Pending();
+			var i, x, h;
 			for(i=0; i<promises.length; ++i) {
 				x = promises[i];
-				if (x !== void 0 && i in promises) {
-					getHandler(x).chain(h, h.resolve, h.reject);
+				if (x === void 0 && !(i in promises)) {
+					continue;
+				}
+
+				h = getHandler(x);
+				if(h.state() !== 0) {
+					resolver.become(h);
+					visitRemaining(promises, i+1, h);
+					break;
+				} else {
+					h.visit(resolver, resolver.resolve, resolver.reject);
 				}
 			}
-			return new Promise(Handler, h);
+			return new Promise(Handler, resolver);
 		}
 
 		// Promise internals
+		// Below this, everything is @private
 
 		/**
 		 * Get an appropriate handler for x, without checking for cycles
-		 * @private
 		 * @param {*} x
 		 * @returns {object} handler
 		 */
@@ -583,11 +671,17 @@ define(function() {
 			if(isPromise(x)) {
 				return x._handler.join();
 			}
-			return maybeThenable(x) ? getHandlerUntrusted(x) : new FulfilledHandler(x);
+			return maybeThenable(x) ? getHandlerUntrusted(x) : new Fulfilled(x);
 		}
 
-		function isPromise(x) {
-			return x instanceof Promise;
+		/**
+		 * Get a handler for thenable x.
+		 * NOTE: You must only call this if maybeThenable(x) == true
+		 * @param {object|function|Promise} x
+		 * @returns {object} handler
+		 */
+		function getHandlerMaybeThenable(x) {
+			return isPromise(x) ? x._handler.join() : getHandlerUntrusted(x);
 		}
 
 		/**
@@ -599,30 +693,26 @@ define(function() {
 			try {
 				var untrustedThen = x.then;
 				return typeof untrustedThen === 'function'
-					? new ThenableHandler(untrustedThen, x)
-					: new FulfilledHandler(x);
+					? new Thenable(untrustedThen, x)
+					: new Fulfilled(x);
 			} catch(e) {
-				return new RejectedHandler(e);
+				return new Rejected(e);
 			}
 		}
 
 		/**
 		 * Handler for a promise that is pending forever
-		 * @private
 		 * @constructor
 		 */
 		function Handler() {}
 
 		Handler.prototype.when
-			= Handler.prototype.resolve
-			= Handler.prototype.reject
-			= Handler.prototype.notify
-			= Handler.prototype._fatal
+			= Handler.prototype.become
+			= Handler.prototype.notify // deprecated
+			= Handler.prototype.fail
 			= Handler.prototype._unreport
 			= Handler.prototype._report
 			= noop;
-
-		Handler.prototype.inspect = toPendingState;
 
 		Handler.prototype._state = 0;
 
@@ -643,40 +733,43 @@ define(function() {
 			return h;
 		};
 
-		Handler.prototype.chain = function(to, fulfilled, rejected, progress) {
+		Handler.prototype.chain = function(to, receiver, fulfilled, rejected, progress) {
 			this.when({
-				resolve: noop,
-				notify: noop,
-				context: void 0,
-				receiver: to,
+				resolver: to,
+				receiver: receiver,
 				fulfilled: fulfilled,
 				rejected: rejected,
 				progress: progress
 			});
 		};
 
-		Handler.prototype.map = function(f, to) {
-			this.chain(to, f, to.reject, to.notify);
+		Handler.prototype.visit = function(receiver, fulfilled, rejected, progress) {
+			this.chain(failIfRejected, receiver, fulfilled, rejected, progress);
 		};
 
-		Handler.prototype.catchError = function(f, to) {
-			this.chain(to, to.resolve, f, to.notify);
-		};
-
-		Handler.prototype.fold = function(to, f, z) {
-			this.join().map(function(x) {
-				getHandler(z).map(function(z) {
-					this.resolve(tryCatchReject2(f, z, x, this.receiver));
-				}, this);
-			}, to);
+		Handler.prototype.fold = function(f, z, c, to) {
+			this.when(new Fold(f, z, c, to));
 		};
 
 		/**
-		 * Handler that manages a queue of consumers waiting on a pending promise
-		 * @private
+		 * Handler that invokes fail() on any handler it becomes
 		 * @constructor
 		 */
-		function DeferredHandler(receiver, inheritedContext) {
+		function FailIfRejected() {}
+
+		inherit(Handler, FailIfRejected);
+
+		FailIfRejected.prototype.become = function(h) {
+			h.fail();
+		};
+
+		var failIfRejected = new FailIfRejected();
+
+		/**
+		 * Handler that manages a queue of consumers waiting on a pending promise
+		 * @constructor
+		 */
+		function Pending(receiver, inheritedContext) {
 			Promise.createContext(this, inheritedContext);
 
 			this.consumers = void 0;
@@ -685,44 +778,43 @@ define(function() {
 			this.resolved = false;
 		}
 
-		inherit(Handler, DeferredHandler);
+		inherit(Handler, Pending);
 
-		DeferredHandler.prototype._state = 0;
+		Pending.prototype._state = 0;
 
-		DeferredHandler.prototype.inspect = function() {
-			return this.resolved ? this.join().inspect() : toPendingState();
+		Pending.prototype.resolve = function(x) {
+			this.become(getHandler(x));
 		};
 
-		DeferredHandler.prototype.resolve = function(x) {
-			if(!this.resolved) {
-				this.become(getHandler(x));
+		Pending.prototype.reject = function(x) {
+			if(this.resolved) {
+				return;
 			}
+
+			this.become(new Rejected(x));
 		};
 
-		DeferredHandler.prototype.reject = function(x) {
-			if(!this.resolved) {
-				this.become(new RejectedHandler(x));
-			}
-		};
-
-		DeferredHandler.prototype.join = function() {
-			if (this.resolved) {
-				var h = this;
-				while(h.handler !== void 0) {
-					h = h.handler;
-					if(h === this) {
-						return this.handler = new Cycle();
-					}
-				}
-				return h;
-			} else {
+		Pending.prototype.join = function() {
+			if (!this.resolved) {
 				return this;
 			}
+
+			var h = this;
+
+			while (h.handler !== void 0) {
+				h = h.handler;
+				if (h === this) {
+					return this.handler = cycle();
+				}
+			}
+
+			return h;
 		};
 
-		DeferredHandler.prototype.run = function() {
+		Pending.prototype.run = function() {
 			var q = this.consumers;
-			var handler = this.join();
+			var handler = this.handler;
+			this.handler = this.handler.join();
 			this.consumers = void 0;
 
 			for (var i = 0; i < q.length; ++i) {
@@ -730,7 +822,11 @@ define(function() {
 			}
 		};
 
-		DeferredHandler.prototype.become = function(handler) {
+		Pending.prototype.become = function(handler) {
+			if(this.resolved) {
+				return;
+			}
+
 			this.resolved = true;
 			this.handler = handler;
 			if(this.consumers !== void 0) {
@@ -742,7 +838,7 @@ define(function() {
 			}
 		};
 
-		DeferredHandler.prototype.when = function(continuation) {
+		Pending.prototype.when = function(continuation) {
 			if(this.resolved) {
 				tasks.enqueue(new ContinuationTask(continuation, this.handler));
 			} else {
@@ -754,148 +850,97 @@ define(function() {
 			}
 		};
 
-		DeferredHandler.prototype.notify = function(x) {
+		/**
+		 * @deprecated
+		 */
+		Pending.prototype.notify = function(x) {
 			if(!this.resolved) {
-				tasks.enqueue(new ProgressTask(this, x));
+				tasks.enqueue(new ProgressTask(x, this));
 			}
 		};
 
-		DeferredHandler.prototype._report = function(context) {
+		Pending.prototype.fail = function(context) {
+			var c = typeof context === 'undefined' ? this.context : context;
+			this.resolved && this.handler.join().fail(c);
+		};
+
+		Pending.prototype._report = function(context) {
 			this.resolved && this.handler.join()._report(context);
 		};
 
-		DeferredHandler.prototype._unreport = function() {
+		Pending.prototype._unreport = function() {
 			this.resolved && this.handler.join()._unreport();
-		};
-
-		DeferredHandler.prototype._fatal = function(context) {
-			var c = typeof context === 'undefined' ? this.context : context;
-			this.resolved && this.handler.join()._fatal(c);
-		};
-
-		/**
-		 * Abstract base for handler that delegates to another handler
-		 * @private
-		 * @param {object} handler
-		 * @constructor
-		 */
-		function DelegateHandler(handler) {
-			this.handler = handler;
-		}
-
-		inherit(Handler, DelegateHandler);
-
-		DelegateHandler.prototype.inspect = function() {
-			return this.join().inspect();
-		};
-
-		DelegateHandler.prototype._report = function(context) {
-			this.join()._report(context);
-		};
-
-		DelegateHandler.prototype._unreport = function() {
-			this.join()._unreport();
 		};
 
 		/**
 		 * Wrap another handler and force it into a future stack
-		 * @private
 		 * @param {object} handler
 		 * @constructor
 		 */
-		function AsyncHandler(handler) {
-			DelegateHandler.call(this, handler);
+		function Async(handler) {
+			this.handler = handler;
 		}
 
-		inherit(DelegateHandler, AsyncHandler);
+		inherit(Handler, Async);
 
-		AsyncHandler.prototype.when = function(continuation) {
-			tasks.enqueue(new ContinuationTask(continuation, this.join()));
+		Async.prototype.when = function(continuation) {
+			tasks.enqueue(new ContinuationTask(continuation, this));
 		};
 
-		/**
-		 * Handler that follows another handler, injecting a receiver
-		 * @private
-		 * @param {object} handler another handler to follow
-		 * @param {object=undefined} receiver
-		 * @constructor
-		 */
-		function BoundHandler(handler, receiver) {
-			DelegateHandler.call(this, handler);
-			this.receiver = receiver;
-		}
+		Async.prototype._report = function(context) {
+			this.join()._report(context);
+		};
 
-		inherit(DelegateHandler, BoundHandler);
-
-		BoundHandler.prototype.when = function(continuation) {
-			// Because handlers are allowed to be shared among promises,
-			// each of which possibly having a different receiver, we have
-			// to insert our own receiver into the chain if it has been set
-			// so that callbacks (f, r, u) will be called using our receiver
-			if(this.receiver !== void 0) {
-				continuation.receiver = this.receiver;
-			}
-			this.join().when(continuation);
+		Async.prototype._unreport = function() {
+			this.join()._unreport();
 		};
 
 		/**
 		 * Handler that wraps an untrusted thenable and assimilates it in a future stack
-		 * @private
 		 * @param {function} then
 		 * @param {{then: function}} thenable
 		 * @constructor
 		 */
-		function ThenableHandler(then, thenable) {
-			DeferredHandler.call(this);
+		function Thenable(then, thenable) {
+			Pending.call(this);
 			tasks.enqueue(new AssimilateTask(then, thenable, this));
 		}
 
-		inherit(DeferredHandler, ThenableHandler);
+		inherit(Pending, Thenable);
 
 		/**
 		 * Handler for a fulfilled promise
-		 * @private
 		 * @param {*} x fulfillment value
 		 * @constructor
 		 */
-		function FulfilledHandler(x) {
+		function Fulfilled(x) {
 			Promise.createContext(this);
 			this.value = x;
 		}
 
-		inherit(Handler, FulfilledHandler);
+		inherit(Handler, Fulfilled);
 
-		FulfilledHandler.prototype._state = 1;
+		Fulfilled.prototype._state = 1;
 
-		FulfilledHandler.prototype.inspect = function() {
-			return { state: 'fulfilled', value: this.value };
+		Fulfilled.prototype.fold = function(f, z, c, to) {
+			runContinuation3(f, z, this, c, to);
 		};
 
-		FulfilledHandler.prototype.when = function(cont) {
-			var x;
-
-			if (typeof cont.fulfilled === 'function') {
-				Promise.enterContext(this);
-				x = tryCatchReject(cont.fulfilled, this.value, cont.receiver);
-				Promise.exitContext();
-			} else {
-				x = this.value;
-			}
-
-			cont.resolve.call(cont.context, x);
+		Fulfilled.prototype.when = function(cont) {
+			runContinuation1(cont.fulfilled, this, cont.receiver, cont.resolver);
 		};
 
-		var id = 0;
+		var errorId = 0;
+
 		/**
 		 * Handler for a rejected promise
-		 * @private
 		 * @param {*} x rejection reason
 		 * @constructor
 		 */
-		function RejectedHandler(x) {
+		function Rejected(x) {
 			Promise.createContext(this);
 
-			this.id = ++id;
+			this.id = ++errorId;
 			this.value = x;
 			this.handled = false;
 			this.reported = false;
@@ -903,60 +948,66 @@ define(function() {
 			this._report();
 		}
 
-		inherit(Handler, RejectedHandler);
+		inherit(Handler, Rejected);
 
-		RejectedHandler.prototype._state = -1;
+		Rejected.prototype._state = -1;
 
-		RejectedHandler.prototype.inspect = function() {
-			return { state: 'rejected', reason: this.value };
+		Rejected.prototype.fold = function(f, z, c, to) {
+			to.become(this);
 		};
 
-		RejectedHandler.prototype.when = function(cont) {
-			var x;
-
-			if (typeof cont.rejected === 'function') {
+		Rejected.prototype.when = function(cont) {
+			if(typeof cont.rejected === 'function') {
 				this._unreport();
-				Promise.enterContext(this);
-				x = tryCatchReject(cont.rejected, this.value, cont.receiver);
-				Promise.exitContext();
-			} else {
-				x = new Promise(Handler, this);
 			}
-
-
-			cont.resolve.call(cont.context, x);
+			runContinuation1(cont.rejected, this, cont.receiver, cont.resolver);
 		};
 
-		RejectedHandler.prototype._report = function(context) {
-			tasks.afterQueue(reportUnhandled, this, context);
+		Rejected.prototype._report = function(context) {
+			tasks.afterQueue(new ReportTask(this, context));
 		};
 
-		RejectedHandler.prototype._unreport = function() {
+		Rejected.prototype._unreport = function() {
+			if(this.handled) {
+				return;
+			}
 			this.handled = true;
-			tasks.afterQueue(reportHandled, this);
+			tasks.afterQueue(new UnreportTask(this));
 		};
 
-		RejectedHandler.prototype._fatal = function(context) {
-			Promise.onFatalRejection(this, context);
+		Rejected.prototype.fail = function(context) {
+			this.reported = true;
+			emitRejection('unhandledRejection', this);
+			Promise.onFatalRejection(this, context === void 0 ? this.context : context);
 		};
 
-		function reportUnhandled(rejection, context) {
-			if(!rejection.handled) {
-				rejection.reported = true;
-				Promise.onPotentiallyUnhandledRejection(rejection, context);
-			}
+		function ReportTask(rejection, context) {
+			this.rejection = rejection;
+			this.context = context;
 		}
 
-		function reportHandled(rejection) {
-			if(rejection.reported) {
-				Promise.onPotentiallyUnhandledRejectionHandled(rejection);
+		ReportTask.prototype.run = function() {
+			if(!this.rejection.handled && !this.rejection.reported) {
+				this.rejection.reported = true;
+				emitRejection('unhandledRejection', this.rejection) ||
+					Promise.onPotentiallyUnhandledRejection(this.rejection, this.context);
 			}
+		};
+
+		function UnreportTask(rejection) {
+			this.rejection = rejection;
 		}
+
+		UnreportTask.prototype.run = function() {
+			if(this.rejection.reported) {
+				emitRejection('rejectionHandled', this.rejection) ||
+					Promise.onPotentiallyUnhandledRejectionHandled(this.rejection);
+			}
+		};
 
 		// Unhandled rejection hooks
 		// By default, everything is a noop
 
-		// TODO: Better names: "annotate"?
 		Promise.createContext
 			= Promise.enterContext
 			= Promise.exitContext
@@ -970,28 +1021,14 @@ define(function() {
 		var foreverPendingHandler = new Handler();
 		var foreverPendingPromise = new Promise(Handler, foreverPendingHandler);
 
-		function Cycle() {
-			RejectedHandler.call(this, new TypeError('Promise cycle'));
-		}
-
-		inherit(RejectedHandler, Cycle);
-
-		// Snapshot states
-
-		/**
-		 * Creates a pending state snapshot
-		 * @private
-		 * @returns {{state:'pending'}}
-		 */
-		function toPendingState() {
-			return { state: 'pending' };
+		function cycle() {
+			return new Rejected(new TypeError('Promise cycle'));
 		}
 
 		// Task runners
 
 		/**
 		 * Run a single consumer
-		 * @private
 		 * @constructor
 		 */
 		function ContinuationTask(continuation, handler) {
@@ -1005,10 +1042,9 @@ define(function() {
 
 		/**
 		 * Run a queue of progress handlers
-		 * @private
 		 * @constructor
 		 */
-		function ProgressTask(handler, value) {
+		function ProgressTask(value, handler) {
 			this.handler = handler;
 			this.value = value;
 		}
@@ -1018,23 +1054,15 @@ define(function() {
 			if(q === void 0) {
 				return;
 			}
-			// First progress handler is at index 1
-			for (var i = 0; i < q.length; ++i) {
-				this._notify(q[i]);
+
+			for (var c, i = 0; i < q.length; ++i) {
+				c = q[i];
+				runNotify(c.progress, this.value, this.handler, c.receiver, c.resolver);
 			}
-		};
-
-		ProgressTask.prototype._notify = function(continuation) {
-			var x = typeof continuation.progress === 'function'
-				? tryCatchReturn(continuation.progress, this.value, continuation.receiver)
-				: this.value;
-
-			continuation.notify.call(continuation.context, x);
 		};
 
 		/**
 		 * Assimilate a thenable, sending it's value to resolver
-		 * @private
 		 * @param {function} then
 		 * @param {object|function} thenable
 		 * @param {object} resolver
@@ -1063,50 +1091,121 @@ define(function() {
 			}
 		}
 
+		/**
+		 * Fold a handler value with z
+		 * @constructor
+		 */
+		function Fold(f, z, c, to) {
+			this.f = f; this.z = z; this.c = c; this.to = to;
+			this.resolver = failIfRejected;
+			this.receiver = this;
+		}
+
+		Fold.prototype.fulfilled = function(x) {
+			this.f.call(this.c, this.z, x, this.to);
+		};
+
+		Fold.prototype.rejected = function(x) {
+			this.to.reject(x);
+		};
+
+		Fold.prototype.progress = function(x) {
+			this.to.notify(x);
+		};
+
 		// Other helpers
 
 		/**
 		 * @param {*} x
-		 * @returns {boolean} false iff x is guaranteed not to be a thenable
+		 * @returns {boolean} true iff x is a trusted Promise
+		 */
+		function isPromise(x) {
+			return x instanceof Promise;
+		}
+
+		/**
+		 * Test just enough to rule out primitives, in order to take faster
+		 * paths in some code
+		 * @param {*} x
+		 * @returns {boolean} false iff x is guaranteed *not* to be a thenable
 		 */
 		function maybeThenable(x) {
 			return (typeof x === 'object' || typeof x === 'function') && x !== null;
 		}
 
+		function runContinuation1(f, h, receiver, next) {
+			if(typeof f !== 'function') {
+				return next.become(h);
+			}
+
+			Promise.enterContext(h);
+			tryCatchReject(f, h.value, receiver, next);
+			Promise.exitContext();
+		}
+
+		function runContinuation3(f, x, h, receiver, next) {
+			if(typeof f !== 'function') {
+				return next.become(h);
+			}
+
+			Promise.enterContext(h);
+			tryCatchReject3(f, x, h.value, receiver, next);
+			Promise.exitContext();
+		}
+
+		/**
+		 * @deprecated
+		 */
+		function runNotify(f, x, h, receiver, next) {
+			if(typeof f !== 'function') {
+				return next.notify(x);
+			}
+
+			Promise.enterContext(h);
+			tryCatchReturn(f, x, receiver, next);
+			Promise.exitContext();
+		}
+
+		function tryCatch2(f, a, b) {
+			try {
+				return f(a, b);
+			} catch(e) {
+				return reject(e);
+			}
+		}
+
 		/**
 		 * Return f.call(thisArg, x), or if it throws return a rejected promise for
 		 * the thrown exception
-		 * @private
 		 */
-		function tryCatchReject(f, x, thisArg) {
+		function tryCatchReject(f, x, thisArg, next) {
 			try {
-				return f.call(thisArg, x);
+				next.become(getHandler(f.call(thisArg, x)));
 			} catch(e) {
-				return reject(e);
+				next.become(new Rejected(e));
 			}
 		}
 
 		/**
 		 * Same as above, but includes the extra argument parameter.
-		 * @private
 		 */
-		function tryCatchReject2(f, x, y, thisArg) {
+		function tryCatchReject3(f, x, y, thisArg, next) {
 			try {
-				return f.call(thisArg, x, y);
+				f.call(thisArg, x, y, next);
 			} catch(e) {
-				return reject(e);
+				next.become(new Rejected(e));
 			}
 		}
 
 		/**
+		 * @deprecated
 		 * Return f.call(thisArg, x), or if it throws, *return* the exception
-		 * @private
 		 */
-		function tryCatchReturn(f, x, thisArg) {
+		function tryCatchReturn(f, x, thisArg, next) {
 			try {
-				return f.call(thisArg, x);
+				next.notify(f.call(thisArg, x));
 			} catch(e) {
-				return e;
+				next.notify(e);
 			}
 		}
 
@@ -1115,124 +1214,103 @@ define(function() {
 			Child.prototype.constructor = Child;
 		}
 
+		function snd(x, y) {
+			return y;
+		}
+
 		function noop() {}
+
+		function initEmitRejection() {
+			/*global process, self, CustomEvent*/
+			if(typeof process !== 'undefined' && process !== null
+				&& typeof process.emit === 'function') {
+				// Returning falsy here means to call the default
+				// onPotentiallyUnhandledRejection API.  This is safe even in
+				// browserify since process.emit always returns falsy in browserify:
+				// https://github.com/defunctzombie/node-process/blob/master/browser.js#L40-L46
+				return function(type, rejection) {
+					return type === 'unhandledRejection'
+						? process.emit(type, rejection.value, rejection)
+						: process.emit(type, rejection);
+				};
+			} else if(typeof self !== 'undefined' && typeof CustomEvent === 'function') {
+				return (function(noop, self, CustomEvent) {
+					var hasCustomEvent = false;
+					try {
+						var ev = new CustomEvent('unhandledRejection');
+						hasCustomEvent = ev instanceof CustomEvent;
+					} catch (e) {}
+
+					return !hasCustomEvent ? noop : function(type, rejection) {
+						var ev = new CustomEvent(type, {
+							detail: {
+								reason: rejection.value,
+								key: rejection
+							},
+							bubbles: false,
+							cancelable: true
+						});
+
+						return !self.dispatchEvent(ev);
+					};
+				}(noop, self, CustomEvent));
+			}
+
+			return noop;
+		}
 
 		return Promise;
 	};
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],7:[function(require,module,exports){
-/** @license MIT License (c) copyright 2010-2014 original author or authors */
-/** @author Brian Cavalier */
-/** @author John Hann */
-
-(function(define) { 'use strict';
-define(function(require) {
-
-	var Queue = require('./Queue');
-
-	// Credit to Twisol (https://github.com/Twisol) for suggesting
-	// this type of extensible queue + trampoline approach for next-tick conflation.
-
-	function Scheduler(enqueue) {
-		this._enqueue = enqueue;
-		this._handlerQueue = new Queue(15);
-		this._afterQueue = new Queue(5);
-		this._running = false;
-
-		var self = this;
-		this.drain = function() {
-			self._drain();
-		};
-	}
-
-	/**
-	 * Enqueue a task. If the queue is not currently scheduled to be
-	 * drained, schedule it.
-	 * @param {function} task
-	 */
-	Scheduler.prototype.enqueue = function(task) {
-		this._handlerQueue.push(task);
-		if(!this._running) {
-			this._running = true;
-			this._enqueue(this.drain);
-		}
-	};
-
-	Scheduler.prototype.afterQueue = function(f, x, y) {
-		this._afterQueue.push(f);
-		this._afterQueue.push(x);
-		this._afterQueue.push(y);
-		if(!this._running) {
-			this._running = true;
-			this._enqueue(this.drain);
-		}
-	};
-
-	/**
-	 * Drain the handler queue entirely, being careful to allow the
-	 * queue to be extended while it is being processed, and to continue
-	 * processing until it is truly empty.
-	 */
-	Scheduler.prototype._drain = function() {
-		var q = this._handlerQueue;
-		while(q.length > 0) {
-			q.shift().run();
-		}
-
-		this._running = false;
-
-		q = this._afterQueue;
-		while(q.length > 0) {
-			q.shift()(q.shift(), q.shift());
-		}
-	};
-
-	return Scheduler;
-
-});
-}(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
-
-},{"./Queue":3}],8:[function(require,module,exports){
-/** @license MIT License (c) copyright 2010-2014 original author or authors */
-/** @author Brian Cavalier */
-/** @author John Hann */
-
-(function(define) { 'use strict';
-define(function(require) {
-	/*global setTimeout,clearTimeout*/
-	var cjsRequire, vertx, setTimer, clearTimer;
-
-	cjsRequire = require;
-
-	try {
-		vertx = cjsRequire('vertx');
-		setTimer = function (f, ms) { return vertx.setTimer(ms, f); };
-		clearTimer = vertx.cancelTimer;
-	} catch (e) {
-		setTimer = function(f, ms) { return setTimeout(f, ms); };
-		clearTimer = function(t) { return clearTimeout(t); };
-	}
-
-	return {
-		set: setTimer,
-		clear: clearTimer
-	};
-
-});
-}(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
-
 },{}]},{},[1])
 (1)
 });
 ;
+(function(__global) {
+  
+$__Object$getPrototypeOf = Object.getPrototypeOf || function(obj) {
+  return obj.__proto__;
+};
+
+var $__Object$defineProperty;
+(function () {
+  try {
+    if (!!Object.defineProperty({}, 'a', {})) {
+      $__Object$defineProperty = Object.defineProperty;
+    }
+  } catch (e) {
+    $__Object$defineProperty = function (obj, prop, opt) {
+      try {
+        obj[prop] = opt.value || opt.get.call(obj);
+      }
+      catch(e) {}
+    }
+  }
+}());
+
+$__Object$create = Object.create || function(o, props) {
+  function F() {}
+  F.prototype = o;
+
+  if (typeof(props) === "object") {
+    for (prop in props) {
+      if (props.hasOwnProperty((prop))) {
+        F[prop] = props[prop];
+      }
+    }
+  }
+  return new F();
+};
+
 /*
 *********************************************************************************************
 
-  Loader Polyfill
+  Dynamic Module Loader Polyfill
 
-    - Implemented exactly to the 2014-05-22 Specification Draft.
+    - Implemented exactly to the former 2014-08-24 ES6 Specification Draft Rev 27, Section 15
+      http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts#august_24_2014_draft_rev_27
 
     - Functions are commented with their spec numbers, with spec differences commented.
 
@@ -1242,8 +1320,6 @@ define(function(require) {
       commented.
 
     - Realm implementation is entirely omitted.
-
-    - Loader module table iteration currently not yet implemented.
 
 *********************************************************************************************
 */
@@ -1332,306 +1408,190 @@ function logloads(loads) {
 } */
 
 
-(function (__global) {
-  (function() {
-    var Promise = __global.Promise || require('when/es6-shim/Promise');
-
-    var traceur;
-
-    var defineProperty;
-    (function () {
-      try {
-        if (!!Object.defineProperty({}, 'a', {})) {
-          defineProperty = Object.defineProperty;
-        }
-      } catch (e) {
-        defineProperty = function (obj, prop, opt) {
-          try {
-            obj[prop] = opt.value || opt.get.call(obj);
-          }
-          catch(e) {}
-        }
-      }
-    }());
-
+(function() {
+  var Promise = __global.Promise || require('when/es6-shim/Promise');
+  if (__global.console)
     console.assert = console.assert || function() {};
 
-    // IE8 support
-    var indexOf = Array.prototype.indexOf || function(item) {
-      for (var i = 0, thisLen = this.length; i < thisLen; i++) {
-        if (this[i] === item) {
-          return i;
-        }
+  // IE8 support
+  var indexOf = Array.prototype.indexOf || function(item) {
+    for (var i = 0, thisLen = this.length; i < thisLen; i++) {
+      if (this[i] === item) {
+        return i;
       }
-      return -1;
+    }
+    return -1;
+  };
+  var defineProperty = $__Object$defineProperty;
+
+  // 15.2.3 - Runtime Semantics: Loader State
+
+  // 15.2.3.11
+  function createLoaderLoad(object) {
+    return {
+      // modules is an object for ES5 implementation
+      modules: {},
+      loads: [],
+      loaderObj: object
     };
+  }
 
-    // --- <Specific Traceur Parsing Code> ---
-    // parse function is used to parse a load record
-    // tree traversal, NB should use visitor pattern here
-    function traverse(object, iterator, parent, parentProperty) {
-      var key, child;
-      if (iterator(object, parent, parentProperty) === false)
-        return;
-      for (key in object) {
-        if (!object.hasOwnProperty(key))
-          continue;
-        if (key == 'location' || key == 'type')
-          continue;
-        child = object[key];
-        if (typeof child == 'object' && child !== null)
-          traverse(child, iterator, object, key);
-      }
-    }
-    // given a syntax tree, return the import list
-    function getImports(moduleTree) {
-      var imports = [];
+  // 15.2.3.2 Load Records and LoadRequest Objects
 
-      function addImport(name) {
-        if (indexOf.call(imports, name) == -1)
-          imports.push(name);
-      }
+  // 15.2.3.2.1
+  function createLoad(name) {
+    return {
+      status: 'loading',
+      name: name,
+      linkSets: [],
+      dependencies: [],
+      metadata: {}
+    };
+  }
 
-      traverse(moduleTree, function(node) {
-        // import {} from 'foo';
-        // export * from 'foo';
-        // export { ... } from 'foo';
-        // module x from 'foo';
-        if (node.type == 'EXPORT_DECLARATION') {
-          if (node.declaration.moduleSpecifier)
-            addImport(node.declaration.moduleSpecifier.token.processedValue);
-        }
-        else if (node.type == 'IMPORT_DECLARATION')
-          addImport(node.moduleSpecifier.token.processedValue);
-        else if (node.type == 'MODULE_DECLARATION')
-          addImport(node.expression.token.processedValue);
-      });
-      return imports;
-    }
-    // Returns an array of ModuleSpecifiers
-    function parse(load) {
-      if (!traceur) {
-        if (typeof window == 'undefined')
-          traceur = require('traceur');
-        else if (__global.traceur)
-          traceur = __global.traceur;
-        else
-          throw new TypeError('Include Traceur for module syntax support');
-      }
+  // 15.2.3.2.2 createLoadRequestObject, absorbed into calling functions
 
-      console.assert(load.source, 'Non-empty source');
+  // 15.2.4
 
-      var depsList, curRegister, curSystem, oldSourceMaps, oldModules;
-      (function () {
-        try {
-          var parser = new traceur.syntax.Parser(new traceur.syntax.SourceFile(load.address, load.source));
-          var body = parser.parseModule();
+  // 15.2.4.1
+  function loadModule(loader, name, options) {
+    return new Promise(asyncStartLoadPartwayThrough({
+      step: options.address ? 'fetch' : 'locate',
+      loader: loader,
+      moduleName: name,
+      // allow metadata for import https://bugs.ecmascript.org/show_bug.cgi?id=3091
+      moduleMetadata: options && options.metadata || {},
+      moduleSource: options.source,
+      moduleAddress: options.address
+    }));
+  }
 
-          load.kind = 'declarative';
-          depsList = getImports(body);
-
-          oldSourceMaps = traceur.options.sourceMaps;
-          oldModules = traceur.options.modules;
-
-          traceur.options.sourceMaps = true;
-          traceur.options.modules = 'instantiate';
-
-          var reporter = new traceur.util.ErrorReporter();
-
-          reporter.reportMessageInternal = function(location, kind, format, args) {
-            throw new SyntaxError(kind, location.start && location.start.line_, location.start && location.start.column_);
-          }
-
-          // traceur expects its version of System
-          curSystem = __global.System;
-          __global.System = __global.traceurSystem;
-
-          var tree = (new traceur.codegeneration.module.AttachModuleNameTransformer(load.name)).transformAny(body);
-          tree = (new traceur.codegeneration.FromOptionsTransformer(reporter)).transform(tree);
-
-          var sourceMapGenerator = new traceur.outputgeneration.SourceMapGenerator({ file: load.address });
-          var options = { sourceMapGenerator: sourceMapGenerator };
-
-          var source = traceur.outputgeneration.TreeWriter.write(tree, options);
-
-          if (__global.btoa)
-            source += '\n//# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(options.sourceMap))) + '\n';
-
-          // now run System.register
-          curRegister = System.register;
-
-          System.register = function(name, deps, declare) {
-            // store the registered declaration as load.declare
-            load.declare = typeof name == 'string' ? declare : deps;
-          }
-
-          __eval(source, __global, load.name);
-        }
-        catch(e) {
-          if (e.name == 'SyntaxError' || e.name == 'TypeError')
-            e.message = 'Evaluating ' + (load.name || load.address) + '\n\t' + e.message;
-          if (curRegister)
-            System.register = curRegister;
-          if (curSystem)
-            __global.System = curSystem;
-          if (oldSourceMaps)
-            traceur.options.sourceMaps = oldSourceMaps;
-          if (oldModules)
-            traceur.options.modules = oldModules;
-          throw e;
-        }
-      }());
-      System.register = curRegister;
-      __global.System = curSystem;
-      traceur.options.sourceMaps = oldSourceMaps;
-      traceur.options.modules = oldModules;
-      return depsList;
-    }
-    // --- </Specific Traceur Parsing Code> ---
-
-    // 15.2.3 - Runtime Semantics: Loader State
-
-    // 15.2.3.11
-    function createLoaderLoad(object) {
-      return {
-        // modules is an object for ES5 implementation
-        modules: {},
-        loads: [],
-        loaderObj: object
-      };
-    }
-
-    // 15.2.3.2 Load Records and LoadRequest Objects
-
-    // 15.2.3.2.1
-    function createLoad(name) {
-      return {
-        status: 'loading',
-        name: name,
-        linkSets: [],
-        dependencies: [],
-        metadata: {}
-      };
-    }
-
-    // 15.2.3.2.2 createLoadRequestObject, absorbed into calling functions
-
-    // 15.2.4
-
-    // 15.2.4.1
-    function loadModule(loader, name, options) {
-      return new Promise(asyncStartLoadPartwayThrough({
-        step: options.address ? 'fetch' : 'locate',
-        loader: loader,
-        moduleName: name,
-        moduleMetadata: {},
-        moduleSource: options.source,
-        moduleAddress: options.address
-      }));
-    }
-
-    // 15.2.4.2
-    function requestLoad(loader, request, refererName, refererAddress) {
-      // 15.2.4.2.1 CallNormalize
-      return new Promise(function(resolve, reject) {
-        resolve(loader.loaderObj.normalize(request, refererName, refererAddress));
-      })
-      // 15.2.4.2.2 GetOrCreateLoad
-      .then(function(name) {
-        var load;
-        if (loader.modules[name]) {
-          load = createLoad(name);
-          load.status = 'linked';
-          // https://bugs.ecmascript.org/show_bug.cgi?id=2795
-          // load.module = loader.modules[name];
-          return load;
-        }
-
-        for (var i = 0, l = loader.loads.length; i < l; i++) {
-          load = loader.loads[i];
-          if (load.name != name)
-            continue;
-          console.assert(load.status == 'loading' || load.status == 'loaded', 'loading or loaded');
-          return load;
-        }
-
+  // 15.2.4.2
+  function requestLoad(loader, request, refererName, refererAddress) {
+    // 15.2.4.2.1 CallNormalize
+    return new Promise(function(resolve, reject) {
+      resolve(loader.loaderObj.normalize(request, refererName, refererAddress));
+    })
+    // 15.2.4.2.2 GetOrCreateLoad
+    .then(function(name) {
+      var load;
+      if (loader.modules[name]) {
         load = createLoad(name);
-        loader.loads.push(load);
-
-        proceedToLocate(loader, load);
-
+        load.status = 'linked';
+        // https://bugs.ecmascript.org/show_bug.cgi?id=2795
+        load.module = loader.modules[name];
         return load;
-      });
-    }
+      }
 
-    // 15.2.4.3
-    function proceedToLocate(loader, load) {
-      proceedToFetch(loader, load,
-        Promise.resolve()
-        // 15.2.4.3.1 CallLocate
-        .then(function() {
-          return loader.loaderObj.locate({ name: load.name, metadata: load.metadata });
-        })
-      );
-    }
+      for (var i = 0, l = loader.loads.length; i < l; i++) {
+        load = loader.loads[i];
+        if (load.name != name)
+          continue;
+        console.assert(load.status == 'loading' || load.status == 'loaded', 'loading or loaded');
+        return load;
+      }
 
-    // 15.2.4.4
-    function proceedToFetch(loader, load, p) {
-      proceedToTranslate(loader, load,
-        p
-        // 15.2.4.4.1 CallFetch
-        .then(function(address) {
-          // adjusted, see https://bugs.ecmascript.org/show_bug.cgi?id=2602
-          if (load.status != 'loading')
-            return;
-          load.address = address;
+      load = createLoad(name);
+      loader.loads.push(load);
 
-          return loader.loaderObj.fetch({ name: load.name, metadata: load.metadata, address: address });
-        })
-      );
-    }
+      proceedToLocate(loader, load);
 
-    var anonCnt = 0;
+      return load;
+    });
+  }
 
-    // 15.2.4.5
-    function proceedToTranslate(loader, load, p) {
+  // 15.2.4.3
+  function proceedToLocate(loader, load) {
+    proceedToFetch(loader, load,
+      Promise.resolve()
+      // 15.2.4.3.1 CallLocate
+      .then(function() {
+        return loader.loaderObj.locate({ name: load.name, metadata: load.metadata });
+      })
+    );
+  }
+
+  // 15.2.4.4
+  function proceedToFetch(loader, load, p) {
+    proceedToTranslate(loader, load,
       p
-      // 15.2.4.5.1 CallTranslate
-      .then(function(source) {
+      // 15.2.4.4.1 CallFetch
+      .then(function(address) {
+        // adjusted, see https://bugs.ecmascript.org/show_bug.cgi?id=2602
         if (load.status != 'loading')
           return;
-        return loader.loaderObj.translate({ name: load.name, metadata: load.metadata, address: load.address, source: source });
+        load.address = address;
+
+        return loader.loaderObj.fetch({ name: load.name, metadata: load.metadata, address: address });
       })
+    );
+  }
+
+  var anonCnt = 0;
+
+  // 15.2.4.5
+  function proceedToTranslate(loader, load, p) {
+    p
+    // 15.2.4.5.1 CallTranslate
+    .then(function(source) {
+      if (load.status != 'loading')
+        return;
+
+      return Promise.resolve(loader.loaderObj.translate({ name: load.name, metadata: load.metadata, address: load.address, source: source }))
 
       // 15.2.4.5.2 CallInstantiate
       .then(function(source) {
-        if (load.status != 'loading')
+        if(load.status != 'loading') {
           return;
+        }
         load.source = source;
         return loader.loaderObj.instantiate({ name: load.name, metadata: load.metadata, address: load.address, source: source });
       })
 
       // 15.2.4.5.3 InstantiateSucceeded
       .then(function(instantiateResult) {
-        if (load.status != 'loading')
+        if(load.status != 'loading') {
           return;
-
-        var depsList;
+        }
         if (instantiateResult === undefined) {
-          load.address = load.address || 'anon' + ++anonCnt;
-          depsList = parse(load);
+          load.address = load.address || '<Anonymous Module ' + ++anonCnt + '>';
+
+          // instead of load.kind, use load.isDeclarative
+          load.isDeclarative = true;
+          return loader.loaderObj.transpile(load)
+          .then(function(transpiled) {
+            // Hijack System.register to set declare function
+            var curSystem = __global.System;
+            var curRegister = curSystem.register;
+            curSystem.register = function(name, deps, declare) {
+              if (typeof name != 'string') {
+                declare = deps;
+                deps = name;
+              }
+              // store the registered declaration as load.declare
+              // store the deps as load.deps
+              load.declare = declare;
+              load.depsList = deps;
+            }            
+            __eval(transpiled, __global, load);
+            curSystem.register = curRegister;
+          });
         }
         else if (typeof instantiateResult == 'object') {
-          depsList = instantiateResult.deps || [];
+          load.depsList = instantiateResult.deps || [];
           load.execute = instantiateResult.execute;
-          load.kind = 'dynamic';
+          load.isDeclarative = false;
         }
         else
           throw TypeError('Invalid instantiate return value');
-
-        // 15.2.4.6 ProcessLoadDependencies
+      })
+      // 15.2.4.6 ProcessLoadDependencies
+      .then(function() {
+        if(load.status != 'loading') {
+          return;
+        }
         load.dependencies = [];
-        load.depsList = depsList;
+        var depsList = load.depsList;
 
         var loadPromises = [];
         for (var i = 0, l = depsList.length; i < l; i++) (function(request, index) {
@@ -1640,10 +1600,6 @@ function logloads(loads) {
 
             // 15.2.4.6.1 AddDependencyLoad (load is parentLoad)
             .then(function(depLoad) {
-
-              console.assert(!load.dependencies.some(function(dep) {
-                return dep.key == request;
-              }), 'not already a dependency');
 
               // adjusted from spec to maintain dependency order
               // this is due to the System.register internal implementation needs
@@ -1671,6 +1627,9 @@ function logloads(loads) {
       .then(function() {
         // console.log('LoadSucceeded ' + load.name);
         // snapshot(loader);
+        if(load.status != 'loading') {
+          return;
+        }
 
         console.assert(load.status == 'loading', 'is loading');
 
@@ -1679,695 +1638,876 @@ function logloads(loads) {
         var linkSets = load.linkSets.concat([]);
         for (var i = 0, l = linkSets.length; i < l; i++)
           updateLinkSetOnLoad(linkSets[i], load);
-      })
-
-      // 15.2.4.5.4 LoadFailed
-      ['catch'](function(exc) {
-        console.assert(load.status == 'loading', 'is loading on fail');
-        load.status = 'failed';
-        load.exception = exc;
-
-        var linkSets = load.linkSets.concat([]);
-        for (var i = 0, l = linkSets.length; i < l; i++)
-          linkSetFailed(linkSets[i], exc);
-
-        console.assert(load.linkSets.length == 0, 'linkSets not removed');
       });
-    }
+    })
+    // 15.2.4.5.4 LoadFailed
+    ['catch'](function(exc) {
+      load.status = 'failed';
+      load.exception = exc;
 
-    // 15.2.4.7 PromiseOfStartLoadPartwayThrough absorbed into calling functions
-
-    // 15.2.4.7.1
-    function asyncStartLoadPartwayThrough(stepState) {
-      return function(resolve, reject) {
-        var loader = stepState.loader;
-        var name = stepState.moduleName;
-        var step = stepState.step;
-
-        if (loader.modules[name])
-          throw new TypeError('"' + name + '" already exists in the module table');
-
-        // NB this still seems wrong for LoadModule as we may load a dependency
-        // of another module directly before it has finished loading.
-        // see https://bugs.ecmascript.org/show_bug.cgi?id=2994
-        for (var i = 0, l = loader.loads.length; i < l; i++)
-          if (loader.loads[i].name == name)
-            throw new TypeError('"' + name + '" already loading');
-
-        var load = createLoad(name);
-
-        load.metadata = stepState.moduleMetadata;
-
-        var linkSet = createLinkSet(loader, load);
-
-        loader.loads.push(load);
-
-        resolve(linkSet.done);
-
-        if (step == 'locate')
-          proceedToLocate(loader, load);
-
-        else if (step == 'fetch')
-          proceedToFetch(loader, load, Promise.resolve(stepState.moduleAddress));
-
-        else {
-          console.assert(step == 'translate', 'translate step');
-          load.address = stepState.moduleAddress;
-          proceedToTranslate(loader, load, Promise.resolve(stepState.moduleSource));
-        }
-      }
-    }
-
-    // Declarative linking functions run through alternative implementation:
-    // 15.2.5.1.1 CreateModuleLinkageRecord not implemented
-    // 15.2.5.1.2 LookupExport not implemented
-    // 15.2.5.1.3 LookupModuleDependency not implemented
-
-    // 15.2.5.2.1
-    function createLinkSet(loader, startingLoad) {
-      var linkSet = {
-        loader: loader,
-        loads: [],
-        startingLoad: startingLoad, // added see spec bug https://bugs.ecmascript.org/show_bug.cgi?id=2995
-        loadingCount: 0
-      };
-      linkSet.done = new Promise(function(resolve, reject) {
-        linkSet.resolve = resolve;
-        linkSet.reject = reject;
-      });
-      addLoadToLinkSet(linkSet, startingLoad);
-      return linkSet;
-    }
-    // 15.2.5.2.2
-    function addLoadToLinkSet(linkSet, load) {
-      console.assert(load.status == 'loading' || load.status == 'loaded', 'loading or loaded on link set');
-
-      for (var i = 0, l = linkSet.loads.length; i < l; i++)
-        if (linkSet.loads[i] == load)
-          return;
-
-      linkSet.loads.push(load);
-      load.linkSets.push(linkSet);
-
-      // adjustment, see https://bugs.ecmascript.org/show_bug.cgi?id=2603
-      if (load.status != 'loaded') {
-        linkSet.loadingCount++;
+      var linkSets = load.linkSets.concat([]);
+      for (var i = 0, l = linkSets.length; i < l; i++) {
+        linkSetFailed(linkSets[i], load, exc);
       }
 
-      var loader = linkSet.loader;
-
-      for (var i = 0, l = load.dependencies.length; i < l; i++) {
-        var name = load.dependencies[i].value;
-
-        if (loader.modules[name])
-          continue;
-
-        for (var j = 0, d = loader.loads.length; j < d; j++) {
-          if (loader.loads[j].name != name)
-            continue;
-
-          addLoadToLinkSet(linkSet, loader.loads[j]);
-          break;
-        }
-      }
-      // console.log('add to linkset ' + load.name);
-      // snapshot(linkSet.loader);
-    }
-
-    function doLink(linkSet) {
-      try {
-        link(linkSet);
-      }
-      catch(exc) {
-        linkSetFailed(linkSet, exc);
-        return true;
-      }
-    }
-
-    // 15.2.5.2.3
-    function updateLinkSetOnLoad(linkSet, load) {
-      // console.log('update linkset on load ' + load.name);
-      // snapshot(linkSet.loader);
-
-      console.assert(load.status == 'loaded' || load.status == 'linked', 'loaded or linked');
-
-      linkSet.loadingCount--;
-
-      if (linkSet.loadingCount > 0)
-        return;
-
-      // adjusted for spec bug https://bugs.ecmascript.org/show_bug.cgi?id=2995
-      var startingLoad = linkSet.startingLoad;
-
-      // non-executing link variation for loader tracing
-      // on the server. Not in spec.
-      /***/
-      if (linkSet.loader.loaderObj.execute === false) {
-        var loads = [].concat(linkSet.loads);
-        for (var i = 0; i < loads.length; i++) {
-          var load = loads[i];
-          load.module = load.kind == 'dynamic' ? {
-            module: _newModule({})
-          } : {
-            name: load.name,
-            module: _newModule({}),
-            evaluated: true
-          };
-          load.status = 'linked';
-          finishLoad(linkSet.loader, load);
-        }
-        return linkSet.resolve(startingLoad);
-      }
-      /***/
-
-      var abrupt = doLink(linkSet);
-
-      if (abrupt)
-        return;
-
-      console.assert(linkSet.loads.length == 0, 'loads cleared');
-
-      linkSet.resolve(startingLoad);
-    }
-
-    // 15.2.5.2.4
-    function linkSetFailed(linkSet, exc) {
-      var loader = linkSet.loader;
-      var loads = linkSet.loads.concat([]);
-      for (var i = 0, l = loads.length; i < l; i++) {
-        var load = loads[i];
-
-        // store all failed load records
-        loader.loaderObj.failed = loader.loaderObj.failed || [];
-        if (indexOf.call(loader.loaderObj.failed, load) == -1)
-          loader.loaderObj.failed.push(load);
-
-        var linkIndex = indexOf.call(load.linkSets, linkSet);
-        console.assert(linkIndex != -1, 'link not present');
-        load.linkSets.splice(linkIndex, 1);
-        if (load.linkSets.length == 0) {
-          var globalLoadsIndex = indexOf.call(linkSet.loader.loads, load);
-          if (globalLoadsIndex != -1)
-            linkSet.loader.loads.splice(globalLoadsIndex, 1);
-        }
-      }
-      linkSet.reject(exc);
-    }
-
-    // 15.2.5.2.5
-    function finishLoad(loader, load) {
-      // add to global trace if tracing
-      if (loader.loaderObj.trace) {
-        if (!loader.loaderObj.loads)
-          loader.loaderObj.loads = {};
-        var depMap = {};
-        load.dependencies.forEach(function(dep) {
-          depMap[dep.key] = dep.value;
-        });
-        loader.loaderObj.loads[load.name] = {
-          name: load.name,
-          deps: load.dependencies.map(function(dep){ return dep.key }),
-          depMap: depMap,
-          address: load.address,
-          metadata: load.metadata,
-          source: load.source,
-          kind: load.kind
-        };
-      }
-      // if not anonymous, add to the module table
-      if (load.name) {
-        console.assert(!loader.modules[load.name], 'load not in module table');
-        loader.modules[load.name] = load.module;
-      }
-      var loadIndex = indexOf.call(loader.loads, load);
-      if (loadIndex != -1)
-        loader.loads.splice(loadIndex, 1);
-      for (var i = 0, l = load.linkSets.length; i < l; i++) {
-        loadIndex = indexOf.call(load.linkSets[i].loads, load);
-        if (loadIndex != -1)
-          load.linkSets[i].loads.splice(loadIndex, 1);
-      }
-      load.linkSets.splice(0, load.linkSets.length);
-    }
-
-    // 15.2.5.3 Module Linking Groups
-
-    // 15.2.5.3.2 BuildLinkageGroups alternative implementation
-    // Adjustments (also see https://bugs.ecmascript.org/show_bug.cgi?id=2755)
-    // 1. groups is an already-interleaved array of group kinds
-    // 2. load.groupIndex is set when this function runs
-    // 3. load.groupIndex is the interleaved index ie 0 declarative, 1 dynamic, 2 declarative, ... (or starting with dynamic)
-    function buildLinkageGroups(load, loads, groups, loader) {
-      groups[load.groupIndex] = groups[load.groupIndex] || [];
-
-      // if the load already has a group index and its in its group, its already been done
-      // this logic naturally handles cycles
-      if (indexOf.call(groups[load.groupIndex], load) != -1)
-        return;
-
-      // now add it to the group to indicate its been seen
-      groups[load.groupIndex].push(load);
-
-      for (var i = 0; i < loads.length; i++) {
-        var loadDep = loads[i];
-
-        // dependencies not found are already linked
-        for (var j = 0; j < load.dependencies.length; j++) {
-          if (loadDep.name == load.dependencies[j].value) {
-            // by definition all loads in linkset are loaded, not linked
-            console.assert(loadDep.status == 'loaded', 'Load in linkSet not loaded!');
-
-            // if it is a group transition, the index of the dependency has gone up
-            // otherwise it is the same as the parent
-            var loadDepGroupIndex = load.groupIndex + (loadDep.kind != load.kind);
-
-            // the group index of an entry is always the maximum
-            if (loadDep.groupIndex === undefined || loadDep.groupIndex < loadDepGroupIndex) {
-
-              // if already in a group, remove from the old group
-              if (loadDep.groupIndex) {
-                groups[loadDep.groupIndex].splice(indexOf.call(groups[loadDep.groupIndex], loadDep), 1);
-
-                // if the old group is empty, then we have a mixed depndency cycle
-                if (groups[loadDep.groupIndex].length == 0)
-                  throw new TypeError("Mixed dependency cycle detected");
-              }
-
-              loadDep.groupIndex = loadDepGroupIndex;
-            }
-
-            buildLinkageGroups(loadDep, loads, groups, loader);
-          }
-        }
-      }
-    }
-
-    // 15.2.5.4
-    function link(linkSet) {
-
-      var loader = linkSet.loader;
-
-      if (!linkSet.loads.length)
-        return;
-
-      // console.log('linking {' + logloads(linkSet.loads) + '}');
-      // snapshot(loader);
-
-      // 15.2.5.3.1 LinkageGroups alternative implementation
-
-      // build all the groups
-      // because the first load represents the top of the tree
-      // for a given linkset, we can work down from there
-      var groups = [];
-      var startingLoad = linkSet.loads[0];
-      startingLoad.groupIndex = 0;
-      buildLinkageGroups(startingLoad, linkSet.loads, groups, loader);
-
-      // determine the kind of the bottom group
-      var curGroupDeclarative = (startingLoad.kind == 'declarative') == groups.length % 2;
-
-      // run through the groups from bottom to top
-      for (var i = groups.length - 1; i >= 0; i--) {
-        var group = groups[i];
-        for (var j = 0; j < group.length; j++) {
-          var load = group[j];
-
-          // 15.2.5.5 LinkDeclarativeModules adjusted
-          if (curGroupDeclarative) {
-            linkDeclarativeModule(load, linkSet.loads, loader);
-          }
-          // 15.2.5.6 LinkDynamicModules adjusted
-          else {
-            var module = load.execute();
-            if (!module || !(module instanceof Module))
-              throw new TypeError('Execution must define a Module instance');
-            load.module = {
-              module: module
-            };
-            load.status = 'linked';
-          }
-          finishLoad(loader, load);
-        }
-
-        // alternative current kind for next loop
-        curGroupDeclarative = !curGroupDeclarative;
-      }
-    }
-
-    // custom declarative linking function
-    function linkDeclarativeModule(load, loads, loader) {
-      if (load.module)
-        return;
-
-      // declare the module with an empty depMap
-      var depMap = [];
-
-      var registryEntry = load.declare.call(__global, depMap);
-
-      var moduleDependencies = [];
-
-      // module is just a plain object, until we evaluate it
-      var module = registryEntry.exports;
-
-      console.assert(!load.module, 'Load module already declared!');
-
-      load.module = {
-        name: load.name,
-        dependencies: moduleDependencies,
-        execute: registryEntry.execute,
-        exports: module,
-        evaluated: false
-      };
-
-      // now link all the module dependencies
-      // amending the depMap as we go
-      for (var i = 0; i < load.dependencies.length; i++) {
-        var depName = load.dependencies[i].value;
-        var depModule;
-        // if dependency already a module, use that
-        if (loader.modules[depName]) {
-          depModule = loader.modules[depName];
-        }
-        else {
-          for (var j = 0; j < loads.length; j++) {
-            if (loads[j].name != depName)
-              continue;
-
-            // only link if already not already started linking (stops at circular / dynamic)
-            if (!loads[j].module)
-              linkDeclarativeModule(loads[j], loads, loader);
-
-            depModule = loads[j].module;
-          }
-        }
-
-        var depModuleModule = depModule.exports || depModule.module;
-
-        console.assert(depModule, 'Dependency module not found!');
-
-        if (registryEntry.exportStar && indexOf.call(registryEntry.exportStar, load.dependencies[i].key) != -1) {
-          // we are exporting * from this dependency
-          (function(depModuleModule) {
-            for (var p in depModuleModule) (function(p) {
-              // if the property is already defined throw?
-              defineProperty(module, p, {
-                enumerable: true,
-                get: function() {
-                  return depModuleModule[p];
-                },
-                set: function(value) {
-                  depModuleModule[p] = value;
-                }
-              });
-            })(p);
-          })(depModuleModule);
-        }
-
-        moduleDependencies.push(depModule);
-        depMap[i] = depModuleModule;
-      }
-
-      load.status = 'linked';
-    }
-
-
-
-    // 15.2.5.5.1 LinkImports not implemented
-    // 15.2.5.7 ResolveExportEntries not implemented
-    // 15.2.5.8 ResolveExports not implemented
-    // 15.2.5.9 ResolveExport not implemented
-    // 15.2.5.10 ResolveImportEntries not implemented
-
-    // 15.2.6.1
-    function evaluateLoadedModule(loader, load) {
-      console.assert(load.status == 'linked', 'is linked ' + load.name);
-
-      doEnsureEvaluated(load.module, [], loader);
-      return load.module.module;
-    }
-
-    /*
-     * Module Object non-exotic for ES5:
-     *
-     * module.module        bound module object
-     * module.execute       execution function for module
-     * module.dependencies  list of module objects for dependencies
-     *
-     */
-    function doExecute(module) {
-      try {
-        module.execute.call(__global);
-      }
-      catch(e) {
-        return e;
-      }
-    }
-
-    // propogate execution errors
-    // see https://bugs.ecmascript.org/show_bug.cgi?id=2993
-    function doEnsureEvaluated(module, seen, loader) {
-      var err = ensureEvaluated(module, seen, loader);
-      if (err)
-        throw err;
-    }
-    // 15.2.6.2 EnsureEvaluated adjusted
-    function ensureEvaluated(module, seen, loader) {
-      if (module.evaluated || !module.dependencies)
-        return;
-
-      seen.push(module);
-
-      var deps = module.dependencies;
-      var err;
-
-      for (var i = 0; i < deps.length; i++) {
-        var dep = deps[i];
-        if (indexOf.call(seen, dep) == -1) {
-          err = ensureEvaluated(dep, seen, loader);
-          // stop on error, see https://bugs.ecmascript.org/show_bug.cgi?id=2996
-          if (err)
-            return err + '\n  in module ' + dep.name;
-        }
-      }
-
-      if (module.failed)
-        return new Error('Module failed execution.');
-
-      if (module.evaluated)
-        return;
-
-      module.evaluated = true;
-      err = doExecute(module);
-      if (err)
-        module.failed = true;
-      module.module = _newModule(module.exports);
-      module.execute = undefined;
-      return err;
-    }
-
-    // 26.3 Loader
-
-    // 26.3.1.1
-    function Loader(options) {
-      if (typeof options != 'object')
-        throw new TypeError('Options must be an object');
-
-      if (options.normalize)
-        this.normalize = options.normalize;
-      if (options.locate)
-        this.locate = options.locate;
-      if (options.fetch)
-        this.fetch = options.fetch;
-      if (options.translate)
-        this.translate = options.translate;
-      if (options.instantiate)
-        this.instantiate = options.instantiate;
-
-      this._loader = {
-        loaderObj: this,
-        loads: [],
-        modules: {}
-      };
-
-      // 26.3.3.6
-      defineProperty(this, 'global', {
-        get: function() {
-          return __global;
-        }
-      });
-
-      // 26.3.3.13 realm not implemented
-    }
-
-    function Module() {}
-
-    // importPromises adds ability to import a module twice without error - https://bugs.ecmascript.org/show_bug.cgi?id=2601
-    var importPromises = {};
-    function createImportPromise(name, promise) {
-      importPromises[name] = promise;
-      promise.then(function() {
-        importPromises[name] = undefined;
-      });
-      promise['catch'](function() {
-        importPromises[name] = undefined;
-      });
-      return promise;
-    }
-
-    Loader.prototype = {
-      // 26.3.3.1
-      constructor: Loader,
-      // 26.3.3.2
-      define: function(name, source, options) {
-        // check if already defined
-        if (importPromises[name])
-          throw new TypeError('Module is already loading.');
-        return createImportPromise(name, new Promise(asyncStartLoadPartwayThrough({
-          step: 'translate',
-          loader: this._loader,
-          moduleName: name,
-          moduleMetadata: options && options.metadata || {},
-          moduleSource: source,
-          moduleAddress: options && options.address
-        })));
-      },
-      // 26.3.3.3
-      'delete': function(name) {
-        return this._loader.modules[name] ? delete this._loader.modules[name] : false;
-      },
-      // 26.3.3.4 entries not implemented
-      // 26.3.3.5
-      get: function(key) {
-        if (!this._loader.modules[key])
-          return;
-        doEnsureEvaluated(this._loader.modules[key], [], this);
-        return this._loader.modules[key].module;
-      },
-      // 26.3.3.7
-      has: function(name) {
-        return !!this._loader.modules[name];
-      },
-      // 26.3.3.8
-      'import': function(name, options) {
-        // run normalize first
-        var loaderObj = this;
-
-        // added, see https://bugs.ecmascript.org/show_bug.cgi?id=2659
-        return Promise.resolve(loaderObj.normalize(name, options && options.name, options && options.address))
-        .then(function(name) {
-          var loader = loaderObj._loader;
-
-          if (loader.modules[name]) {
-            doEnsureEvaluated(loader.modules[name], [], loader._loader);
-            return loader.modules[name].module;
-          }
-
-          return importPromises[name] || createImportPromise(name, 
-            loadModule(loader, name, options || {})
-            .then(function(load) {
-              delete importPromises[name];
-              return evaluateLoadedModule(loader, load);
-            }));
-        });
-      },
-      // 26.3.3.9 keys not implemented
-      // 26.3.3.10
-      load: function(name, options) {
-        if (this._loader.modules[name]) {
-          doEnsureEvaluated(this._loader.modules[name], [], this._loader);
-          return Promise.resolve(this._loader.modules[name].module);
-        }
-        return importPromises[name] || createImportPromise(name, loadModule(this._loader, name, {}));
-      },
-      // 26.3.3.11
-      module: function(source, options) {
-        var load = createLoad();
-        load.address = options && options.address;
-        var linkSet = createLinkSet(this._loader, load);
-        var sourcePromise = Promise.resolve(source);
-        var loader = this._loader;
-        var p = linkSet.done.then(function() {
-          return evaluateLoadedModule(loader, load);
-        });
-        proceedToTranslate(loader, load, sourcePromise);
-        return p;
-      },
-      // 26.3.3.12
-      newModule: function (obj) {
-        if (typeof obj != 'object')
-          throw new TypeError('Expected object');
-
-        // we do this to be able to tell if a module is a module privately in ES5
-        // by doing m instanceof Module
-        var m = new Module();
-
-        for (var key in obj) {
-          (function (key) {
-            defineProperty(m, key, {
-              configurable: false,
-              enumerable: true,
-              get: function () {
-                return obj[key];
-              }
-            });
-          })(key);
-        }
-
-        if (Object.preventExtensions)
-          Object.preventExtensions(m);
-
-        return m;
-      },
-      // 26.3.3.14
-      set: function(name, module) {
-        if (!(module instanceof Module))
-          throw new TypeError('Set must be a module');
-        this._loader.modules[name] = {
-          module: module
-        };
-      },
-      // 26.3.3.15 values not implemented
-      // 26.3.3.16 @@iterator not implemented
-      // 26.3.3.17 @@toStringTag not implemented
-
-      // 26.3.3.18.1
-      normalize: function(name, referrerName, referrerAddress) {
-        return name;
-      },
-      // 26.3.3.18.2
-      locate: function(load) {
-        return load.name;
-      },
-      // 26.3.3.18.3
-      fetch: function(load) {
-        throw new TypeError('Fetch not implemented');
-      },
-      // 26.3.3.18.4
-      translate: function(load) {
-        return load.source;
-      },
-      // 26.3.3.18.5
-      instantiate: function(load) {
-      }
-    };
-
-    var _newModule = Loader.prototype.newModule;
-
-    if (typeof exports === 'object')
-      module.exports = Loader;
-
-    __global.Reflect = __global.Reflect || {};
-    __global.Reflect.Loader = __global.Reflect.Loader || Loader;
-    __global.LoaderPolyfill = Loader;
-
-  })();
-
-  function __eval(__source, __global, __moduleName) {
-    eval('var __moduleName = "' + (__moduleName || '').replace('"', '\"') + '"; (function() { ' + __source + ' \n }).call(__global);');
+      console.assert(load.linkSets.length == 0, 'linkSets not removed');
+    });
   }
 
-})(typeof global !== 'undefined' ? global : this);
+  // 15.2.4.7 PromiseOfStartLoadPartwayThrough absorbed into calling functions
 
+  // 15.2.4.7.1
+  function asyncStartLoadPartwayThrough(stepState) {
+    return function(resolve, reject) {
+      var loader = stepState.loader;
+      var name = stepState.moduleName;
+      var step = stepState.step;
+
+      if (loader.modules[name])
+        throw new TypeError('"' + name + '" already exists in the module table');
+
+      // adjusted to pick up existing loads
+      var existingLoad;
+      for (var i = 0, l = loader.loads.length; i < l; i++) {
+        if (loader.loads[i].name == name) {
+          existingLoad = loader.loads[i];
+
+          if(step == 'translate' && !existingLoad.source) {
+            existingLoad.address = stepState.moduleAddress;
+            proceedToTranslate(loader, existingLoad, Promise.resolve(stepState.moduleSource));
+          }
+
+          return existingLoad.linkSets[0].done.then(function() {
+            resolve(existingLoad);
+          });
+        }
+      }
+
+      var load = createLoad(name);
+
+      load.metadata = stepState.moduleMetadata;
+
+      var linkSet = createLinkSet(loader, load);
+
+      loader.loads.push(load);
+
+      resolve(linkSet.done);
+
+      if (step == 'locate')
+        proceedToLocate(loader, load);
+
+      else if (step == 'fetch')
+        proceedToFetch(loader, load, Promise.resolve(stepState.moduleAddress));
+
+      else {
+        console.assert(step == 'translate', 'translate step');
+        load.address = stepState.moduleAddress;
+        proceedToTranslate(loader, load, Promise.resolve(stepState.moduleSource));
+      }
+    }
+  }
+
+  // Declarative linking functions run through alternative implementation:
+  // 15.2.5.1.1 CreateModuleLinkageRecord not implemented
+  // 15.2.5.1.2 LookupExport not implemented
+  // 15.2.5.1.3 LookupModuleDependency not implemented
+
+  // 15.2.5.2.1
+  function createLinkSet(loader, startingLoad) {
+    var linkSet = {
+      loader: loader,
+      loads: [],
+      startingLoad: startingLoad, // added see spec bug https://bugs.ecmascript.org/show_bug.cgi?id=2995
+      loadingCount: 0
+    };
+    linkSet.done = new Promise(function(resolve, reject) {
+      linkSet.resolve = resolve;
+      linkSet.reject = reject;
+    });
+    addLoadToLinkSet(linkSet, startingLoad);
+    return linkSet;
+  }
+  // 15.2.5.2.2
+  function addLoadToLinkSet(linkSet, load) {
+    console.assert(load.status == 'loading' || load.status == 'loaded', 'loading or loaded on link set');
+
+    for (var i = 0, l = linkSet.loads.length; i < l; i++)
+      if (linkSet.loads[i] == load)
+        return;
+
+    linkSet.loads.push(load);
+    load.linkSets.push(linkSet);
+
+    // adjustment, see https://bugs.ecmascript.org/show_bug.cgi?id=2603
+    if (load.status != 'loaded') {
+      linkSet.loadingCount++;
+    }
+
+    var loader = linkSet.loader;
+
+    for (var i = 0, l = load.dependencies.length; i < l; i++) {
+      var name = load.dependencies[i].value;
+
+      if (loader.modules[name])
+        continue;
+
+      for (var j = 0, d = loader.loads.length; j < d; j++) {
+        if (loader.loads[j].name != name)
+          continue;
+
+        addLoadToLinkSet(linkSet, loader.loads[j]);
+        break;
+      }
+    }
+    // console.log('add to linkset ' + load.name);
+    // snapshot(linkSet.loader);
+  }
+
+  // linking errors can be generic or load-specific
+  // this is necessary for debugging info
+  function doLink(linkSet) {
+    var error = false;
+    try {
+      link(linkSet, function(load, exc) {
+        linkSetFailed(linkSet, load, exc);
+        error = true;
+      });
+    }
+    catch(e) {
+      linkSetFailed(linkSet, null, e);
+      error = true;
+    }
+    return error;
+  }
+
+  // 15.2.5.2.3
+  function updateLinkSetOnLoad(linkSet, load) {
+    // console.log('update linkset on load ' + load.name);
+    // snapshot(linkSet.loader);
+
+    console.assert(load.status == 'loaded' || load.status == 'linked', 'loaded or linked');
+
+    linkSet.loadingCount--;
+
+    if (linkSet.loadingCount > 0)
+      return;
+
+    // adjusted for spec bug https://bugs.ecmascript.org/show_bug.cgi?id=2995
+    var startingLoad = linkSet.startingLoad;
+
+    // non-executing link variation for loader tracing
+    // on the server. Not in spec.
+    /***/
+    if (linkSet.loader.loaderObj.execute === false) {
+      var loads = [].concat(linkSet.loads);
+      for (var i = 0, l = loads.length; i < l; i++) {
+        var load = loads[i];
+        load.module = !load.isDeclarative ? {
+          module: _newModule({})
+        } : {
+          name: load.name,
+          module: _newModule({}),
+          evaluated: true
+        };
+        load.status = 'linked';
+        finishLoad(linkSet.loader, load);
+      }
+      return linkSet.resolve(startingLoad);
+    }
+    /***/
+
+    var abrupt = doLink(linkSet);
+
+    if (abrupt)
+      return;
+
+    console.assert(linkSet.loads.length == 0, 'loads cleared');
+
+    linkSet.resolve(startingLoad);
+  }
+
+  // 15.2.5.2.4
+  function linkSetFailed(linkSet, load, exc) {
+    var loader = linkSet.loader;
+
+    if (linkSet.loads[0].name != load.name)
+      exc = addToError(exc, 'Error loading "' + load.name + '" from "' + linkSet.loads[0].name + '" at ' + (linkSet.loads[0].address || '<unknown>') + '\n');
+
+    exc = addToError(exc, 'Error loading "' + load.name + '" at ' + (load.address || '<unknown>') + '\n');
+
+    var loads = linkSet.loads.concat([]);
+    for (var i = 0, l = loads.length; i < l; i++) {
+      var load = loads[i];
+
+      // store all failed load records
+      loader.loaderObj.failed = loader.loaderObj.failed || [];
+      if (indexOf.call(loader.loaderObj.failed, load) == -1)
+        loader.loaderObj.failed.push(load);
+
+      var linkIndex = indexOf.call(load.linkSets, linkSet);
+      console.assert(linkIndex != -1, 'link not present');
+      load.linkSets.splice(linkIndex, 1);
+      if (load.linkSets.length == 0) {
+        var globalLoadsIndex = indexOf.call(linkSet.loader.loads, load);
+        if (globalLoadsIndex != -1)
+          linkSet.loader.loads.splice(globalLoadsIndex, 1);
+      }
+    }
+    linkSet.reject(exc);
+  }
+
+  // 15.2.5.2.5
+  function finishLoad(loader, load) {
+    // add to global trace if tracing
+    if (loader.loaderObj.trace) {
+      if (!loader.loaderObj.loads)
+        loader.loaderObj.loads = {};
+      var depMap = {};
+      load.dependencies.forEach(function(dep) {
+        depMap[dep.key] = dep.value;
+      });
+      loader.loaderObj.loads[load.name] = {
+        name: load.name,
+        deps: load.dependencies.map(function(dep){ return dep.key }),
+        depMap: depMap,
+        address: load.address,
+        metadata: load.metadata,
+        source: load.source,
+        kind: load.isDeclarative ? 'declarative' : 'dynamic'
+      };
+    }
+    // if not anonymous, add to the module table
+    if (load.name) {
+      console.assert(!loader.modules[load.name], 'load not in module table');
+      loader.modules[load.name] = load.module;
+    }
+    var loadIndex = indexOf.call(loader.loads, load);
+    if (loadIndex != -1)
+      loader.loads.splice(loadIndex, 1);
+    for (var i = 0, l = load.linkSets.length; i < l; i++) {
+      loadIndex = indexOf.call(load.linkSets[i].loads, load);
+      if (loadIndex != -1)
+        load.linkSets[i].loads.splice(loadIndex, 1);
+    }
+    load.linkSets.splice(0, load.linkSets.length);
+  }
+
+  // 15.2.5.3 Module Linking Groups
+
+  // 15.2.5.3.2 BuildLinkageGroups alternative implementation
+  // Adjustments (also see https://bugs.ecmascript.org/show_bug.cgi?id=2755)
+  // 1. groups is an already-interleaved array of group kinds
+  // 2. load.groupIndex is set when this function runs
+  // 3. load.groupIndex is the interleaved index ie 0 declarative, 1 dynamic, 2 declarative, ... (or starting with dynamic)
+  function buildLinkageGroups(load, loads, groups) {
+    groups[load.groupIndex] = groups[load.groupIndex] || [];
+
+    // if the load already has a group index and its in its group, its already been done
+    // this logic naturally handles cycles
+    if (indexOf.call(groups[load.groupIndex], load) != -1)
+      return;
+
+    // now add it to the group to indicate its been seen
+    groups[load.groupIndex].push(load);
+
+    for (var i = 0, l = loads.length; i < l; i++) {
+      var loadDep = loads[i];
+
+      // dependencies not found are already linked
+      for (var j = 0; j < load.dependencies.length; j++) {
+        if (loadDep.name == load.dependencies[j].value) {
+          // by definition all loads in linkset are loaded, not linked
+          console.assert(loadDep.status == 'loaded', 'Load in linkSet not loaded!');
+
+          // if it is a group transition, the index of the dependency has gone up
+          // otherwise it is the same as the parent
+          var loadDepGroupIndex = load.groupIndex + (loadDep.isDeclarative != load.isDeclarative);
+
+          // the group index of an entry is always the maximum
+          if (loadDep.groupIndex === undefined || loadDep.groupIndex < loadDepGroupIndex) {
+
+            // if already in a group, remove from the old group
+            if (loadDep.groupIndex !== undefined) {
+              groups[loadDep.groupIndex].splice(indexOf.call(groups[loadDep.groupIndex], loadDep), 1);
+
+              // if the old group is empty, then we have a mixed depndency cycle
+              if (groups[loadDep.groupIndex].length == 0)
+                throw new TypeError("Mixed dependency cycle detected");
+            }
+
+            loadDep.groupIndex = loadDepGroupIndex;
+          }
+
+          buildLinkageGroups(loadDep, loads, groups);
+        }
+      }
+    }
+  }
+
+  function doDynamicExecute(linkSet, load, linkError) {
+    try {
+      var module = load.execute();
+    }
+    catch(e) {
+      linkError(load, e);
+      return;
+    }
+    if (!module || !(module instanceof Module))
+      linkError(load, new TypeError('Execution must define a Module instance'));
+    else
+      return module;
+  }
+
+  // 15.2.5.4
+  function link(linkSet, linkError) {
+
+    var loader = linkSet.loader;
+
+    if (!linkSet.loads.length)
+      return;
+
+    // console.log('linking {' + logloads(linkSet.loads) + '}');
+    // snapshot(loader);
+
+    // 15.2.5.3.1 LinkageGroups alternative implementation
+
+    // build all the groups
+    // because the first load represents the top of the tree
+    // for a given linkset, we can work down from there
+    var groups = [];
+    var startingLoad = linkSet.loads[0];
+    startingLoad.groupIndex = 0;
+    buildLinkageGroups(startingLoad, linkSet.loads, groups);
+
+    // determine the kind of the bottom group
+    var curGroupDeclarative = startingLoad.isDeclarative == groups.length % 2;
+
+    // run through the groups from bottom to top
+    for (var i = groups.length - 1; i >= 0; i--) {
+      var group = groups[i];
+      for (var j = 0; j < group.length; j++) {
+        var load = group[j];
+
+        // 15.2.5.5 LinkDeclarativeModules adjusted
+        if (curGroupDeclarative) {
+          linkDeclarativeModule(load, linkSet.loads, loader);
+        }
+        // 15.2.5.6 LinkDynamicModules adjusted
+        else {
+          var module = doDynamicExecute(linkSet, load, linkError);
+          if (!module)
+            return;
+          load.module = {
+            name: load.name,
+            module: module
+          };
+          load.status = 'linked';
+        }
+        finishLoad(loader, load);
+      }
+
+      // alternative current kind for next loop
+      curGroupDeclarative = !curGroupDeclarative;
+    }
+  }
+
+
+  // custom module records for binding graph
+  // store linking module records in a separate table
+  function getOrCreateModuleRecord(name, loader) {
+    var moduleRecords = loader.moduleRecords;
+    return moduleRecords[name] || (moduleRecords[name] = {
+      name: name,
+      dependencies: [],
+      module: new Module(), // start from an empty module and extend
+      importers: []
+    });
+  }
+
+  // custom declarative linking function
+  function linkDeclarativeModule(load, loads, loader) {
+    if (load.module)
+      return;
+
+    var module = load.module = getOrCreateModuleRecord(load.name, loader);
+    var moduleObj = load.module.module;
+
+    var registryEntry = load.declare.call(__global, function(name, value) {
+      // NB This should be an Object.defineProperty, but that is very slow.
+      //    By disaling this module write-protection we gain performance.
+      //    It could be useful to allow an option to enable or disable this.
+      module.locked = true;
+      moduleObj[name] = value;
+
+      for (var i = 0, l = module.importers.length; i < l; i++) {
+        var importerModule = module.importers[i];
+        if (!importerModule.locked) {
+          var importerIndex = indexOf.call(importerModule.dependencies, module);
+          importerModule.setters[importerIndex](moduleObj);
+        }
+      }
+
+      module.locked = false;
+      return value;
+    });
+
+    // setup our setters and execution function
+    module.setters = registryEntry.setters;
+    module.execute = registryEntry.execute;
+
+    // now link all the module dependencies
+    // amending the depMap as we go
+    for (var i = 0, l = load.dependencies.length; i < l; i++) {
+      var depName = load.dependencies[i].value;
+      var depModule = loader.modules[depName];
+
+      // if dependency not already in the module registry
+      // then try and link it now
+      if (!depModule) {
+        // get the dependency load record
+        for (var j = 0; j < loads.length; j++) {
+          if (loads[j].name != depName)
+            continue;
+
+          // only link if already not already started linking (stops at circular / dynamic)
+          if (!loads[j].module) {
+            linkDeclarativeModule(loads[j], loads, loader);
+            depModule = loads[j].module;
+          }
+          // if circular, create the module record
+          else {
+            depModule = getOrCreateModuleRecord(depName, loader);
+          }
+        }
+      }
+
+      // only declarative modules have dynamic bindings
+      if (depModule.importers) {
+        module.dependencies.push(depModule);
+        depModule.importers.push(module);
+      }
+      else {
+        // track dynamic records as null module records as already linked
+        module.dependencies.push(null);
+      }
+
+      // run the setter for this dependency
+      if (module.setters[i])
+        module.setters[i](depModule.module);
+    }
+
+    load.status = 'linked';
+  }
+
+
+
+  // 15.2.5.5.1 LinkImports not implemented
+  // 15.2.5.7 ResolveExportEntries not implemented
+  // 15.2.5.8 ResolveExports not implemented
+  // 15.2.5.9 ResolveExport not implemented
+  // 15.2.5.10 ResolveImportEntries not implemented
+
+  // 15.2.6.1
+  function evaluateLoadedModule(loader, load) {
+    console.assert(load.status == 'linked', 'is linked ' + load.name);
+
+    doEnsureEvaluated(load.module, [], loader);
+    return load.module.module;
+  }
+
+  /*
+   * Module Object non-exotic for ES5:
+   *
+   * module.module        bound module object
+   * module.execute       execution function for module
+   * module.dependencies  list of module objects for dependencies
+   * See getOrCreateModuleRecord for all properties
+   *
+   */
+  function doExecute(module) {
+    try {
+      module.execute.call(__global);
+    }
+    catch(e) {
+      return e;
+    }
+  }
+
+  // propogate execution errors
+  // see https://bugs.ecmascript.org/show_bug.cgi?id=2993
+  function doEnsureEvaluated(module, seen, loader) {
+    var err = ensureEvaluated(module, seen, loader);
+    if (err)
+      throw err;
+  }
+  // 15.2.6.2 EnsureEvaluated adjusted
+  function ensureEvaluated(module, seen, loader) {
+    if (module.evaluated || !module.dependencies)
+      return;
+
+    seen.push(module);
+
+    var deps = module.dependencies;
+    var err;
+
+    for (var i = 0, l = deps.length; i < l; i++) {
+      var dep = deps[i];
+      // dynamic dependencies are empty in module.dependencies
+      // as they are already linked
+      if (!dep)
+        continue;
+      if (indexOf.call(seen, dep) == -1) {
+        err = ensureEvaluated(dep, seen, loader);
+        // stop on error, see https://bugs.ecmascript.org/show_bug.cgi?id=2996
+        if (err) {
+          err = addToError(err, 'Error evaluating ' + dep.name + '\n');
+          return err;
+        }
+      }
+    }
+
+    if (module.failed)
+      return new Error('Module failed execution.');
+
+    if (module.evaluated)
+      return;
+
+    module.evaluated = true;
+    err = doExecute(module);
+    if (err) {
+      module.failed = true;
+    }
+    else if (Object.preventExtensions) {
+      // spec variation
+      // we don't create a new module here because it was created and ammended
+      // we just disable further extensions instead
+      Object.preventExtensions(module.module);
+    }
+
+    module.execute = undefined;
+    return err;
+  }
+
+  function addToError(err, msg) {
+    if (err instanceof Error)
+      err.message = msg + err.message;
+    else
+      err = msg + err;
+    return err;
+  }
+
+  // 26.3 Loader
+
+  // 26.3.1.1
+  function Loader(options) {
+    if (typeof options != 'object')
+      throw new TypeError('Options must be an object');
+
+    if (options.normalize)
+      this.normalize = options.normalize;
+    if (options.locate)
+      this.locate = options.locate;
+    if (options.fetch)
+      this.fetch = options.fetch;
+    if (options.translate)
+      this.translate = options.translate;
+    if (options.instantiate)
+      this.instantiate = options.instantiate;
+
+    this._loader = {
+      loaderObj: this,
+      loads: [],
+      modules: {},
+      importPromises: {},
+      moduleRecords: {}
+    };
+
+    // 26.3.3.6
+    defineProperty(this, 'global', {
+      get: function() {
+        return __global;
+      }
+    });
+
+    // 26.3.3.13 realm not implemented
+  }
+
+  function Module() {}
+
+  // importPromises adds ability to import a module twice without error - https://bugs.ecmascript.org/show_bug.cgi?id=2601
+  function createImportPromise(loader, name, promise) {
+    var importPromises = loader._loader.importPromises;
+    return importPromises[name] = promise.then(function(m) {
+      importPromises[name] = undefined;
+      return m;
+    }, function(e) {
+      importPromises[name] = undefined;
+      throw e;
+    });
+  }
+
+  Loader.prototype = {
+    // 26.3.3.1
+    constructor: Loader,
+    // 26.3.3.2
+    define: function(name, source, options) {
+      // check if already defined
+      if (this._loader.importPromises[name])
+        throw new TypeError('Module is already loading.');
+      return createImportPromise(this, name, new Promise(asyncStartLoadPartwayThrough({
+        step: 'translate',
+        loader: this._loader,
+        moduleName: name,
+        moduleMetadata: options && options.metadata || {},
+        moduleSource: source,
+        moduleAddress: options && options.address
+      })));
+    },
+    // 26.3.3.3
+    'delete': function(name) {
+      var loader = this._loader;
+      delete loader.importPromises[name];
+      delete loader.moduleRecords[name];
+      return loader.modules[name] ? delete loader.modules[name] : false;
+    },
+    // 26.3.3.4 entries not implemented
+    // 26.3.3.5
+    get: function(key) {
+      if (!this._loader.modules[key])
+        return;
+      doEnsureEvaluated(this._loader.modules[key], [], this);
+      return this._loader.modules[key].module;
+    },
+    // 26.3.3.7
+    has: function(name) {
+      return !!this._loader.modules[name];
+    },
+    // 26.3.3.8
+    'import': function(name, options) {
+      // run normalize first
+      var loaderObj = this;
+
+      // added, see https://bugs.ecmascript.org/show_bug.cgi?id=2659
+      return Promise.resolve(loaderObj.normalize(name, options && options.name, options && options.address))
+      .then(function(name) {
+        var loader = loaderObj._loader;
+
+        if (loader.modules[name]) {
+          doEnsureEvaluated(loader.modules[name], [], loader._loader);
+          return loader.modules[name].module;
+        }
+
+        return loader.importPromises[name] || createImportPromise(loaderObj, name,
+          loadModule(loader, name, options || {})
+          .then(function(load) {
+            delete loader.importPromises[name];
+            return evaluateLoadedModule(loader, load);
+          }));
+      });
+    },
+    // 26.3.3.9 keys not implemented
+    // 26.3.3.10
+    load: function(name, options) {
+      if (this._loader.modules[name]) {
+        doEnsureEvaluated(this._loader.modules[name], [], this._loader);
+        return Promise.resolve(this._loader.modules[name].module);
+      }
+      return this._loader.importPromises[name] || createImportPromise(this, name, loadModule(this._loader, name, {}));
+    },
+    // 26.3.3.11
+    module: function(source, options) {
+      var load = createLoad();
+      load.address = options && options.address;
+      var linkSet = createLinkSet(this._loader, load);
+      var sourcePromise = Promise.resolve(source);
+      var loader = this._loader;
+      var p = linkSet.done.then(function() {
+        return evaluateLoadedModule(loader, load);
+      });
+      proceedToTranslate(loader, load, sourcePromise);
+      return p;
+    },
+    // 26.3.3.12
+    newModule: function (obj) {
+      if (typeof obj != 'object')
+        throw new TypeError('Expected object');
+
+      // we do this to be able to tell if a module is a module privately in ES5
+      // by doing m instanceof Module
+      var m = new Module();
+
+      var pNames;
+      if (Object.getOwnPropertyNames && obj != null) {
+        pNames = Object.getOwnPropertyNames(obj);
+      }
+      else {
+        pNames = [];
+        for (var key in obj)
+          pNames.push(key);
+      }
+
+      for (var i = 0; i < pNames.length; i++) (function(key) {
+        defineProperty(m, key, {
+          configurable: false,
+          enumerable: true,
+          get: function () {
+            return obj[key];
+          }
+        });
+      })(pNames[i]);
+
+      if (Object.preventExtensions)
+        Object.preventExtensions(m);
+
+      return m;
+    },
+    // 26.3.3.14
+    set: function(name, module) {
+      if (!(module instanceof Module))
+        throw new TypeError('Loader.set(' + name + ', module) must be a module');
+      this._loader.modules[name] = {
+        module: module
+      };
+    },
+    // 26.3.3.15 values not implemented
+    // 26.3.3.16 @@iterator not implemented
+    // 26.3.3.17 @@toStringTag not implemented
+
+    // 26.3.3.18.1
+    normalize: function(name, referrerName, referrerAddress) {
+      return name;
+    },
+    // 26.3.3.18.2
+    locate: function(load) {
+      return load.name;
+    },
+    // 26.3.3.18.3
+    fetch: function(load) {
+      throw new TypeError('Fetch not implemented');
+    },
+    // 26.3.3.18.4
+    translate: function(load) {
+      return load.source;
+    },
+    // 26.3.3.18.5
+    instantiate: function(load) {
+    }
+  };
+
+  var _newModule = Loader.prototype.newModule;
+
+  if (typeof exports === 'object')
+    module.exports = Loader;
+
+  __global.Reflect = __global.Reflect || {};
+  __global.Reflect.Loader = __global.Reflect.Loader || Loader;
+  __global.Reflect.global = __global.Reflect.global || __global;
+  __global.LoaderPolyfill = Loader;
+
+})();
+
+/*
+ * Traceur and Babel transpile hook for Loader
+ */
+(function(Loader) {
+  var g = __global;
+
+  function getTranspilerModule(loader, globalName) {
+    return loader.newModule({ 'default': g[globalName], __useDefault: true });
+  }
+
+  // use Traceur by default
+  Loader.prototype.transpiler = 'traceur';
+
+  Loader.prototype.transpile = function(load) {
+    var self = this;
+
+    // pick up Transpiler modules from existing globals on first run if set
+    if (!self.transpilerHasRun) {
+      if (g.traceur && !self.has('traceur'))
+        self.set('traceur', getTranspilerModule(self, 'traceur'));
+      if (g.babel && !self.has('babel'))
+        self.set('babel', getTranspilerModule(self, 'babel'));
+      self.transpilerHasRun = true;
+    }
+    
+    return self['import'](self.transpiler).then(function(transpiler) {
+      if (transpiler.__useDefault)
+        transpiler = transpiler['default'];
+      return 'var __moduleAddress = "' + load.address + '";' + (transpiler.Compiler ? traceurTranspile : babelTranspile).call(self, load, transpiler);
+    });
+  };
+
+  Loader.prototype.instantiate = function(load) {
+    var self = this;
+    return Promise.resolve(self.normalize(self.transpiler))
+    .then(function(transpilerNormalized) {
+      // load transpiler as a global (avoiding System clobbering)
+      if (load.name === transpilerNormalized) {
+        return {
+          deps: [],
+          execute: function() {
+            var curSystem = g.System;
+            var curLoader = g.Reflect.Loader;
+            // ensure not detected as CommonJS
+            __eval('(function(require,exports,module){' + load.source + '})();', g, load);
+            g.System = curSystem;
+            g.Reflect.Loader = curLoader;
+            return getTranspilerModule(self, load.name);
+          }
+        };
+      }
+    });
+  };
+
+  function traceurTranspile(load, traceur) {
+    var options = this.traceurOptions || {};
+    options.modules = 'instantiate';
+    options.script = false;
+    options.sourceMaps = 'inline';
+    options.filename = load.address;
+    options.inputSourceMap = load.metadata.sourceMap;
+    options.moduleName = false;
+
+    var compiler = new traceur.Compiler(options);
+    var source = doTraceurCompile(load.source, compiler, options.filename);
+
+    // add "!eval" to end of Traceur sourceURL
+    // I believe this does something?
+    source += '!eval';
+
+    return source;
+  }
+  function doTraceurCompile(source, compiler, filename) {
+    try {
+      return compiler.compile(source, filename);
+    }
+    catch(e) {
+      // traceur throws an error array
+      throw e[0];
+    }
+  }
+
+  function babelTranspile(load, babel) {
+    var options = this.babelOptions || {};
+    options.modules = 'system';
+    options.sourceMap = 'inline';
+    options.filename = load.address;
+    options.code = true;
+    options.ast = false;
+    
+    if (!options.blacklist)
+      options.blacklist = ['react'];
+
+    var source = babel.transform(load.source, options).code;
+
+    // add "!eval" to end of Babel sourceURL
+    // I believe this does something?
+    return source + '\n//# sourceURL=' + load.address + '!eval';
+  }
+
+
+})(__global.LoaderPolyfill);
 /*
 *********************************************************************************************
 
@@ -2380,15 +2520,18 @@ function logloads(loads) {
 *********************************************************************************************
 */
 
-(function (global) {
-  var isBrowser = typeof window != 'undefined';
-  var Loader = global.Reflect && global.Reflect.Loader || require('./loader');
-  var Promise = global.Promise || require('es6-promise').Promise;
+
+
+(function() {
+  var isWorker = typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
+  var isBrowser = typeof window != 'undefined' && !isWorker;
+  var isWindows = typeof process != 'undefined' && !!process.platform.match(/^win/);
+  var Promise = __global.Promise || require('when/es6-shim/Promise');
 
   // Helpers
   // Absolute URL parsing, from https://gist.github.com/Yaffle/1088850
   function parseURI(url) {
-    var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+    var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@\/?#]*(?::[^:@\/?#]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
     // authority = '//' + user + ':' + pass '@' + hostname + ':' port
     return (m ? {
       href     : m[0] || '',
@@ -2402,6 +2545,7 @@ function logloads(loads) {
       hash     : m[8] || ''
     } : null);
   }
+
   function removeDotSegments(input) {
     var output = [];
     input.replace(/^(\.\.?(\/|$))+/, '')
@@ -2415,7 +2559,11 @@ function logloads(loads) {
     });
     return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
   }
+
   function toAbsoluteURL(base, href) {
+
+    if (isWindows)
+      href = href.replace(/\\/g, '/');
 
     href = parseURI(href || '');
     base = parseURI(base || '');
@@ -2428,10 +2576,12 @@ function logloads(loads) {
   }
 
   var fetchTextFromURL;
-  if (isBrowser) {
+
+  if (typeof XMLHttpRequest != 'undefined') {
     fetchTextFromURL = function(url, fulfill, reject) {
       var xhr = new XMLHttpRequest();
       var sameDomain = true;
+      var doTimeout = false;
       if (!('withCredentials' in xhr)) {
         // check if same domain
         var domainCheck = /^(\w+:)?\/\/([^\/]+)/.exec(url);
@@ -2441,11 +2591,14 @@ function logloads(loads) {
             sameDomain &= domainCheck[1] === window.location.protocol;
         }
       }
-      if (!sameDomain) {
+      if (!sameDomain && typeof XDomainRequest != 'undefined') {
         xhr = new XDomainRequest();
         xhr.onload = load;
         xhr.onerror = error;
         xhr.ontimeout = error;
+        xhr.onprogress = function() {};
+        xhr.timeout = 0;
+        doTimeout = true;
       }
       function load() {
         fulfill(xhr.responseText);
@@ -2464,13 +2617,24 @@ function logloads(loads) {
         }
       };
       xhr.open("GET", url, true);
+
+      if (doTimeout)
+        setTimeout(function() {
+          xhr.send();
+        }, 0);
+
       xhr.send(null);
     }
   }
-  else {
+  else if (typeof require != 'undefined') {
     var fs;
     fetchTextFromURL = function(url, fulfill, reject) {
+      if (url.substr(0, 5) != 'file:')
+        throw 'Only file URLs of the form file: allowed running in Node.';
       fs = fs || require('fs');
+      url = url.substr(5);
+      if (isWindows)
+        url = url.replace(/\//g, '\\');
       return fs.readFile(url, function(err, data) {
         if (err)
           return reject(err);
@@ -2479,123 +2643,185 @@ function logloads(loads) {
       });
     }
   }
+  else {
+    throw new TypeError('No environment fetch API available.');
+  }
 
-  var System = new Loader({
-    global: isBrowser ? window : global,
-    strict: true,
-    normalize: function(name, parentName, parentAddress) {
-      if (typeof name != 'string')
-        throw new TypeError('Module name must be a string');
+  var SystemLoader = function($__super) {
+    function SystemLoader(options) {
+      $__super.call(this, options || {});
 
-      var segments = name.split('/');
-
-      if (segments.length == 0)
-        throw new TypeError('No module name provided');
-
-      // current segment
-      var i = 0;
-      // is the module name relative
-      var rel = false;
-      // number of backtracking segments
-      var dotdots = 0;
-      if (segments[0] == '.') {
-        i++;
-        if (i == segments.length)
-          throw new TypeError('Illegal module name "' + name + '"');
-        rel = true;
+      // Set default baseURL and paths
+      if (typeof location != 'undefined' && location.href) {
+        var href = __global.location.href.split('#')[0].split('?')[0];
+        this.baseURL = href.substring(0, href.lastIndexOf('/') + 1);
+      }
+      else if (typeof process != 'undefined' && process.cwd) {
+        this.baseURL = 'file:' + process.cwd() + '/';
+        if (isWindows)
+          this.baseURL = this.baseURL.replace(/\\/g, '/');
       }
       else {
-        while (segments[i] == '..') {
+        throw new TypeError('No environment baseURL');
+      }
+      this.paths = { '*': '*.js' };
+    }
+
+    SystemLoader.__proto__ = ($__super !== null ? $__super : Function.prototype);
+    SystemLoader.prototype = $__Object$create(($__super !== null ? $__super.prototype : null));
+
+    $__Object$defineProperty(SystemLoader.prototype, "constructor", {
+      value: SystemLoader
+    });
+
+    $__Object$defineProperty(SystemLoader.prototype, "global", {
+      get: function() {
+        return isBrowser ? window : (isWorker ? self : __global);
+      },
+
+      enumerable: false
+    });
+
+    $__Object$defineProperty(SystemLoader.prototype, "strict", {
+      get: function() { return true; },
+      enumerable: false
+    });
+
+    $__Object$defineProperty(SystemLoader.prototype, "normalize", {
+      value: function(name, parentName, parentAddress) {
+        if (typeof name != 'string')
+          throw new TypeError('Module name must be a string');
+
+        var segments = name.split('/');
+
+        if (segments.length == 0)
+          throw new TypeError('No module name provided');
+
+        // current segment
+        var i = 0;
+        // is the module name relative
+        var rel = false;
+        // number of backtracking segments
+        var dotdots = 0;
+        if (segments[0] == '.') {
           i++;
           if (i == segments.length)
             throw new TypeError('Illegal module name "' + name + '"');
-        }
-        if (i)
           rel = true;
-        dotdots = i;
-      }
-
-      for (var j = i; j < segments.length; j++) {
-        var segment = segments[j];
-        if (segment == '' || segment == '.' || segment == '..')
-          throw new TypeError('Illegal module name "' + name + '"');
-      }
-
-      if (!rel)
-        return name;
-
-      // build the full module name
-      var normalizedParts = [];
-      var parentParts = (parentName || '').split('/');
-      var normalizedLen = parentParts.length - 1 - dotdots;
-
-      normalizedParts = normalizedParts.concat(parentParts.splice(0, parentParts.length - 1 - dotdots));
-      normalizedParts = normalizedParts.concat(segments.splice(i, segments.length - i));
-
-      return normalizedParts.join('/');
-    },
-    locate: function(load) {
-      var name = load.name;
-
-      // NB no specification provided for System.paths, used ideas discussed in https://github.com/jorendorff/js-loaders/issues/25
-
-      // most specific (longest) match wins
-      var pathMatch = '', wildcard;
-
-      // check to see if we have a paths entry
-      for (var p in this.paths) {
-        var pathParts = p.split('*');
-        if (pathParts.length > 2)
-          throw new TypeError('Only one wildcard in a path is permitted');
-
-        // exact path match
-        if (pathParts.length == 1) {
-          if (name == p && p.length > pathMatch.length)
-            pathMatch = p;
+        }
+        else {
+          while (segments[i] == '..') {
+            i++;
+            if (i == segments.length)
+              throw new TypeError('Illegal module name "' + name + '"');
+          }
+          if (i)
+            rel = true;
+          dotdots = i;
         }
 
-        // wildcard path match
-        else {
-          if (name.substr(0, pathParts[0].length) == pathParts[0] && name.substr(name.length - pathParts[1].length) == pathParts[1]) {
-            pathMatch = p;
-            wildcard = name.substr(pathParts[0].length, name.length - pathParts[1].length - pathParts[0].length);
+        for (var j = i; j < segments.length; j++) {
+          var segment = segments[j];
+          if (segment == '' || segment == '.' || segment == '..')
+            throw new TypeError('Illegal module name "' + name + '"');
+        }
+
+        if (!rel)
+          return name;
+
+        // build the full module name
+        var normalizedParts = [];
+        var parentParts = (parentName || '').split('/');
+        var normalizedLen = parentParts.length - 1 - dotdots;
+
+        normalizedParts = normalizedParts.concat(parentParts.splice(0, parentParts.length - 1 - dotdots));
+        normalizedParts = normalizedParts.concat(segments.splice(i, segments.length - i));
+
+        return normalizedParts.join('/');
+      },
+
+      enumerable: false,
+      writable: true
+    });
+
+    $__Object$defineProperty(SystemLoader.prototype, "locate", {
+      value: function(load) {
+        var name = load.name;
+
+        // NB no specification provided for System.paths, used ideas discussed in https://github.com/jorendorff/js-loaders/issues/25
+
+        // most specific (longest) match wins
+        var pathMatch = '', wildcard;
+
+        // check to see if we have a paths entry
+        for (var p in this.paths) {
+          var pathParts = p.split('*');
+          if (pathParts.length > 2)
+            throw new TypeError('Only one wildcard in a path is permitted');
+
+          // exact path match
+          if (pathParts.length == 1) {
+            if (name == p && p.length > pathMatch.length) {
+              pathMatch = p;
+              break;
+            }
+          }
+
+          // wildcard path match
+          else {
+            if (name.substr(0, pathParts[0].length) == pathParts[0] && name.substr(name.length - pathParts[1].length) == pathParts[1]) {
+              pathMatch = p;
+              wildcard = name.substr(pathParts[0].length, name.length - pathParts[1].length - pathParts[0].length);
+            }
           }
         }
-      }
 
-      var outPath = this.paths[pathMatch];
-      if (wildcard)
-        outPath = outPath.replace('*', wildcard);
+        var outPath = this.paths[pathMatch];
+        if (wildcard)
+          outPath = outPath.replace('*', wildcard);
 
-      return toAbsoluteURL(this.baseURL, outPath);
-    },
-    fetch: function(load) {
-      return new Promise(function(resolve, reject) {
-        fetchTextFromURL(toAbsoluteURL(this.baseURL, load.address), function(source) {
-          resolve(source);
-        }, reject);
-      });
-    }
-  });
+        // percent encode just '#' in module names
+        // according to https://github.com/jorendorff/js-loaders/blob/master/browser-loader.js#L238
+        // we should encode everything, but it breaks for servers that don't expect it 
+        // like in (https://github.com/systemjs/systemjs/issues/168)
+        if (isBrowser)
+          outPath = outPath.replace(/#/g, '%23');
 
-  if (isBrowser) {
-    var href = window.location.href.split('#')[0].split('?')[0];
-    System.baseURL = href.substring(0, href.lastIndexOf('/') + 1);
-  }
-  else {
-    System.baseURL = './';
-  }
-  System.paths = { '*': '*.js' };
+        return toAbsoluteURL(this.baseURL, outPath);
+      },
 
-  if (global.System && global.traceur)
-    global.traceurSystem = global.System;
+      enumerable: false,
+      writable: true
+    });
 
-  if (isBrowser)
-    global.System = System;
+    $__Object$defineProperty(SystemLoader.prototype, "fetch", {
+      value: function(load) {
+        var self = this;
+        return new Promise(function(resolve, reject) {
+          fetchTextFromURL(toAbsoluteURL(self.baseURL, load.address), function(source) {
+            resolve(source);
+          }, reject);
+        });
+      },
+
+      enumerable: false,
+      writable: true
+    });
+
+    return SystemLoader;
+  }(__global.LoaderPolyfill);
+
+  var System = new SystemLoader();
+
+  // note we have to export before runing "init" below
+  if (typeof exports === 'object')
+    module.exports = System;
+
+  __global.System = System;
 
   // <script type="module"> support
   // allow a data-init function callback once loaded
-  if (isBrowser) {
+  if (isBrowser && typeof document.getElementsByTagName != 'undefined') {
     var curScript = document.getElementsByTagName('script');
     curScript = curScript[curScript.length - 1];
 
@@ -2607,12 +2833,14 @@ function logloads(loads) {
 
     function ready() {
       var scripts = document.getElementsByTagName('script');
-
       for (var i = 0; i < scripts.length; i++) {
         var script = scripts[i];
         if (script.type == 'module') {
-          var source = script.innerHTML;
-          System.module(source)['catch'](function(err) { setTimeout(function() { throw err; }); });
+          var source = script.innerHTML.substr(1);
+          // It is important to reference the global System, rather than the one
+          // in our closure. We want to ensure that downstream users/libraries
+          // can override System w/ custom behavior.
+          __global.System.module(source)['catch'](function(err) { setTimeout(function() { throw err; }); });
         }
       }
     }
@@ -2630,38 +2858,33 @@ function logloads(loads) {
     if (curScript.getAttribute('data-init'))
       window[curScript.getAttribute('data-init')]();
   }
+})();
 
-  if (typeof exports === 'object')
-    module.exports = System;
 
-})(typeof global !== 'undefined' ? global : this);
+// Define our eval outside of the scope of any other reference defined in this
+// file to avoid adding those references to the evaluation scope.
+function __eval(__source, __global, __load) {
+  try {
+    eval('(function() { var __moduleName = "' + (__load.name || '').replace('"', '\"') + '"; ' + __source + ' \n }).call(__global);');
+  }
+  catch(e) {
+    if (e.name == 'SyntaxError' || e.name == 'TypeError')
+      e.message = 'Evaluating ' + (__load.name || load.address) + '\n\t' + e.message;
+    throw e;
+  }
+}
+
+})(typeof window != 'undefined' ? window : (typeof WorkerGlobalScope != 'undefined' ?
+                                           self : global));
 
 /*
- * SystemJS v0.6.7
- * 
- * Copyright (c) 2014 Guy Bedford
- * MIT License
+ * SystemJS v0.16.6
  */
 
-(function(__$global) {
+(function($__global) {
 
-  var extend = function(d, s){
-    for(var prop in s) {
-      d[prop] = s[prop];
-    }
-    return d;
-  };
-
-  var cloneSystemLoader = function(System){
-    var Loader = __$global.Loader || __$global.LoaderPolyfill;
-    var loader = new Loader(System);
-    loader.baseURL = System.baseURL;
-    loader.paths = extend({}, System.paths);
-    loader.originalSystem = extend({}, System);
-    return loader;
-  };
-
-var __upgradeSystemLoader = function(baseLoader) {
+$__global.upgradeSystemLoader = function() {
+  $__global.upgradeSystemLoader = undefined;
 
   // indexOf polyfill for IE
   var indexOf = Array.prototype.indexOf || function(item) {
@@ -2669,11 +2892,13 @@ var __upgradeSystemLoader = function(baseLoader) {
       if (this[i] === item)
         return i;
     return -1;
-  };
+  }
+
+  var isWindows = typeof process != 'undefined' && !!process.platform.match(/^win/);
 
   // Absolute URL parsing, from https://gist.github.com/Yaffle/1088850
   function parseURI(url) {
-    var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+    var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@\/?#]*(?::[^:@\/?#]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
     // authority = '//' + user + ':' + pass '@' + hostname + ':' port
     return (m ? {
       href     : m[0] || '',
@@ -2702,6 +2927,9 @@ var __upgradeSystemLoader = function(baseLoader) {
       return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
     }
 
+    if (isWindows)
+      href = href.replace(/\\/g, '/');
+
     href = parseURI(href || '');
     base = parseURI(base || '');
 
@@ -2712,12 +2940,142 @@ var __upgradeSystemLoader = function(baseLoader) {
       href.hash;
   }
 
-  var System = cloneSystemLoader(baseLoader);
+  // clone the original System loader
+  var System;
+  (function() {
+    var originalSystem = $__global.System;
+    System = $__global.System = new LoaderPolyfill(originalSystem);
+    System.baseURL = originalSystem.baseURL;
+    System.paths = { '*': '*.js' };
+    System.originalSystem = originalSystem;
+  })();
 
   System.noConflict = function() {
-    __$global.SystemJS = System;
-    __$global.System = System.originalSystem;
+    $__global.SystemJS = System;
+    $__global.System = System.originalSystem;
+  }
+
+  
+/*
+ * SystemJS Core
+ * Code should be vaguely readable
+ * 
+ */
+var originalSystem = $__global.System.originalSystem;
+function core(loader) {
+  /*
+    __useDefault
+    
+    When a module object looks like:
+    newModule(
+      __useDefault: true,
+      default: 'some-module'
+    })
+
+    Then importing that module provides the 'some-module'
+    result directly instead of the full module.
+
+    Useful for eg module.exports = function() {}
+  */
+  var loaderImport = loader['import'];
+  loader['import'] = function(name, options) {
+    return loaderImport.call(this, name, options).then(function(module) {
+      return module.__useDefault ? module['default'] : module;
+    });
   };
+
+  // support the empty module, as a concept
+  loader.set('@empty', loader.newModule({}));
+
+  // include the node require since we're overriding it
+  if (typeof require != 'undefined')
+    loader._nodeRequire = require;
+
+  /*
+    Config
+    Extends config merging one deep only
+
+    loader.config({
+      some: 'random',
+      config: 'here',
+      deep: {
+        config: { too: 'too' }
+      }
+    });
+
+    <=>
+
+    loader.some = 'random';
+    loader.config = 'here'
+    loader.deep = loader.deep || {};
+    loader.deep.config = { too: 'too' };
+  */
+  loader.config = function(cfg) {
+    for (var c in cfg) {
+      var v = cfg[c];
+      if (typeof v == 'object' && !(v instanceof Array)) {
+        this[c] = this[c] || {};
+        for (var p in v)
+          this[c][p] = v[p];
+      }
+      else
+        this[c] = v;
+    }
+  };
+
+  // override locate to allow baseURL to be document-relative
+  var baseURI;
+  if (typeof window == 'undefined' &&
+      typeof WorkerGlobalScope == 'undefined') {
+    baseURI = 'file:' + process.cwd() + '/';
+    if (isWindows)
+      baseURI = baseURI.replace(/\\/g, '/');
+  }
+  // Inside of a Web Worker
+  else if(typeof window == 'undefined') {
+    baseURI = loader.global.location.href;
+  }
+  else {
+    baseURI = document.baseURI;
+    if (!baseURI) {
+      var bases = document.getElementsByTagName('base');
+      baseURI = bases[0] && bases[0].href || window.location.href;
+    }
+  }
+
+  var loaderLocate = loader.locate;
+  var normalizedBaseURL;
+  loader.locate = function(load) {
+    if (this.baseURL != normalizedBaseURL) {
+      normalizedBaseURL = toAbsoluteURL(baseURI, this.baseURL);
+
+      if (normalizedBaseURL.substr(normalizedBaseURL.length - 1, 1) != '/')
+        normalizedBaseURL += '/';
+      this.baseURL = normalizedBaseURL;
+    }
+
+    return Promise.resolve(loaderLocate.call(this, load));
+  };
+
+  function applyExtensions(extensions, loader) {
+    loader._extensions = [];
+    for(var i = 0, len = extensions.length; i < len; i++) {
+      extensions[i](loader);
+    }
+  }
+
+  loader._extensions = loader._extensions || [];
+  loader._extensions.push(core);
+
+  loader.clone = function() {
+    var originalLoader = this;
+    var loader = new LoaderPolyfill(originalSystem);
+    loader.baseURL = originalLoader.baseURL;
+    loader.paths = { '*': '*.js' };
+    applyExtensions(originalLoader._extensions, loader);
+    return loader;
+  };
+}
 /*
  * Meta Extension
  *
@@ -2739,7 +3097,7 @@ var __upgradeSystemLoader = function(baseLoader) {
  *   console.log('this is my/module');
  *
  * The benefit of inline meta is that coniguration doesn't need
- * to be known in advanced, which is useful for modularising
+ * to be known in advance, which is useful for modularising
  * configuration and avoiding the need for configuration injection.
  *
  *
@@ -2762,6 +3120,8 @@ function meta(loader) {
   var metaPartRegEx = /\/\*.*\*\/|\/\/[^\n]*|"[^"]+"\s*;?|'[^']+'\s*;?/g;
 
   loader.meta = {};
+  loader._extensions = loader._extensions || [];
+  loader._extensions.push(meta);
 
   function setConfigMeta(loader, load) {
     var meta = loader.meta && loader.meta[load.name];
@@ -2801,7 +3161,7 @@ function meta(loader) {
 
           if (load.metadata[metaName] instanceof Array)
             load.metadata[metaName].push(metaValue);
-          else
+          else if (!load.metadata[metaName])
             load.metadata[metaName] = metaValue;
         }
       }
@@ -2811,7 +3171,8 @@ function meta(loader) {
     
     return loaderTranslate.call(this, load);
   }
-}/*
+}
+/*
  * Instantiate registry extension
  *
  * Supports Traceur System.register 'instantiate' output for loading ES6 as ES5.
@@ -2832,17 +3193,17 @@ function meta(loader) {
 function register(loader) {
   if (typeof indexOf == 'undefined')
     indexOf = Array.prototype.indexOf;
-  if (typeof __eval == 'undefined')
+  if (typeof __eval == 'undefined' || typeof document != 'undefined' && !document.addEventListener)
     __eval = 0 || eval; // uglify breaks without the 0 ||
+
+  loader._extensions = loader._extensions || [];
+  loader._extensions.push(register);
 
   // define exec for easy evaluation of a load record (load.name, load.source, load.address)
   // main feature is source maps support handling
   var curSystem;
   function exec(load) {
     var loader = this;
-    if (load.name == '@traceur') {
-      curSystem = System;
-    }
     // support sourceMappingURL (efficiently)
     var sourceMappingURL;
     var lastLineIndex = load.source.lastIndexOf('\n');
@@ -2854,38 +3215,34 @@ function register(loader) {
       }
     }
 
-    __eval(load.source, loader.global, load.address, sourceMappingURL);
-
-    // traceur overwrites System and Module - write them back
-    if (load.name == '@traceur') {
-      loader.global.traceurSystem = loader.global.System;
-      loader.global.System = curSystem;
-    }
+    __eval(load.source, load.address, sourceMappingURL);
   }
   loader.__exec = exec;
 
   function dedupe(deps) {
     var newDeps = [];
-    for (var i = 0; i < deps.length; i++)
+    for (var i = 0, l = deps.length; i < l; i++)
       if (indexOf.call(newDeps, deps[i]) == -1)
         newDeps.push(deps[i])
     return newDeps;
   }
 
-  // There are two variations of System.register:
-  // 1. System.register for ES6 conversion (2-3 params) - System.register([name, ]deps, declare)
-  //    see https://github.com/ModuleLoader/es6-module-loader/wiki/System.register-Explained
-  //
-  // 2. System.register for dynamic modules (3-4 params) - System.register([name, ]deps, executingRequire, execute)
-  // the true or false statement 
-
-  // this extension implements the linking algorithm for the two variations identical to the spec
-  // allowing compiled ES6 circular references to work alongside AMD and CJS circular references.
-
+  /*
+   * There are two variations of System.register:
+   * 1. System.register for ES6 conversion (2-3 params) - System.register([name, ]deps, declare)
+   *    see https://github.com/ModuleLoader/es6-module-loader/wiki/System.register-Explained
+   *
+   * 2. System.register for dynamic modules (3-4 params) - System.register([name, ]deps, executingRequire, execute)
+   * the true or false statement 
+   *
+   * this extension implements the linking algorithm for the two variations identical to the spec
+   * allowing compiled ES6 circular references to work alongside AMD and CJS circular references.
+   *
+   */
   // loader.register sets loader.defined for declarative modules
   var anonRegister;
   var calledRegister;
-  function register(name, deps, declare, execute) {
+  function registerModule(name, deps, declare, execute) {
     if (typeof name != 'string') {
       execute = declare;
       declare = deps;
@@ -2908,8 +3265,6 @@ function register(loader) {
     }
     else {
       // ES6 declarative
-      if (deps.length > 0 && declare.length != 1)
-        throw 'Invalid System.register form for ' + name + '. Declare function must take one argument.';
       register = {
         declarative: true,
         deps: deps,
@@ -2919,41 +3274,54 @@ function register(loader) {
     
     // named register
     if (name) {
+      register.name = name;
       // we never overwrite an existing define
-      if (!loader.defined[name])
+      if (!(name in loader.defined))
         loader.defined[name] = register; 
     }
     // anonymous register
     else if (register.declarative) {
       if (anonRegister)
-        throw 'Multiple anonymous System.register calls in the same module file.';
+        throw new TypeError('Multiple anonymous System.register calls in the same module file.');
       anonRegister = register;
     }
   }
-
-  // Registry side table - loader.defined
-  // Registry Entry Contains:
-  //    - deps 
-  //    - declare for register modules
-  //    - execute for dynamic modules, also after declare for declarative modules
-  //    - executingRequire indicates require drives execution for circularity of dynamic modules
-  //    - declarative optional boolean indicating which of the above
-  //
-  // Can preload modules directly on System.defined['my/module'] = { deps, execute, executingRequire }
-  //
-  // Then the entry gets populated with derived information during processing:
-  //    - normalizedDeps derived from deps, created in instantiate
-  //    - depMap array derived from deps, populated gradually in link
-  //    - groupIndex used by group linking algorithm
-  //    - module a raw module exports object with no wrapper
-  //    - evaluated indiciating whether evaluation has happend for declarative modules
-  // After linked and evaluated, entries are removed
+  /*
+   * Registry side table - loader.defined
+   * Registry Entry Contains:
+   *    - name
+   *    - deps 
+   *    - declare for declarative modules
+   *    - execute for dynamic modules, different to declarative execute on module
+   *    - executingRequire indicates require drives execution for circularity of dynamic modules
+   *    - declarative optional boolean indicating which of the above
+   *
+   * Can preload modules directly on System.defined['my/module'] = { deps, execute, executingRequire }
+   *
+   * Then the entry gets populated with derived information during processing:
+   *    - normalizedDeps derived from deps, created in instantiate
+   *    - groupIndex used by group linking algorithm
+   *    - evaluated indicating whether evaluation has happend
+   *    - module the module record object, containing:
+   *      - exports actual module exports
+   *      
+   *    Then for declarative only we track dynamic bindings with the records:
+   *      - name
+   *      - setters declarative setter functions
+   *      - exports actual module values
+   *      - dependencies, module records of dependencies
+   *      - importers, module records of dependents
+   *
+   * After linked and evaluated, entries are removed, declarative module records remain in separate
+   * module binding table
+   *
+   */
 
   function defineRegister(loader) {
     if (loader.register)
       return;
 
-    loader.register = register;
+    loader.register = registerModule;
 
     if (!loader.defined)
       loader.defined = {};
@@ -2966,10 +3334,10 @@ function register(loader) {
       if (anonRegister)
         load.metadata.entry = anonRegister;
       
-      if (anonRegister || calledRegister)
+      if (calledRegister) {
         load.metadata.format = load.metadata.format || 'register';
-      if (calledRegister)
         load.metadata.registered = true;
+      }
     }
   }
 
@@ -2983,7 +3351,7 @@ function register(loader) {
 
     groups[entry.groupIndex].push(entry);
 
-    for (var i = 0; i < entry.normalizedDeps.length; i++) {
+    for (var i = 0, l = entry.normalizedDeps.length; i < l; i++) {
       var depName = entry.normalizedDeps[i];
       var depEntry = loader.defined[depName];
       
@@ -2998,8 +3366,8 @@ function register(loader) {
       if (depEntry.groupIndex === undefined || depEntry.groupIndex < depGroupIndex) {
         
         // if already in a group, remove from the old group
-        if (depEntry.groupIndex) {
-          groups[depEntry.groupIndex].splice(groups[depEntry.groupIndex].indexOf(depEntry), 1);
+        if (depEntry.groupIndex !== undefined) {
+          groups[depEntry.groupIndex].splice(indexOf.call(groups[depEntry.groupIndex], depEntry), 1);
 
           // if the old group is empty, then we have a mixed depndency cycle
           if (groups[depEntry.groupIndex].length == 0)
@@ -3015,6 +3383,10 @@ function register(loader) {
 
   function link(name, loader) {
     var startEntry = loader.defined[name];
+
+    // skip if already linked
+    if (startEntry.module)
+      return;
 
     startEntry.groupIndex = 0;
 
@@ -3038,73 +3410,102 @@ function register(loader) {
     }
   }
 
+  // module binding records
+  var moduleRecords = {};
+  function getOrCreateModuleRecord(name) {
+    return moduleRecords[name] || (moduleRecords[name] = {
+      name: name,
+      dependencies: [],
+      exports: {}, // start from an empty module and extend
+      importers: []
+    })
+  }
+
   function linkDeclarativeModule(entry, loader) {
     // only link if already not already started linking (stops at circular)
     if (entry.module)
       return;
 
-    // declare the module with an empty depMap
-    var depMap = [];
+    var module = entry.module = getOrCreateModuleRecord(entry.name);
+    var exports = entry.module.exports;
 
-    var declaration = entry.declare.call(loader.global, depMap);
+    var declaration = entry.declare.call(loader.global, function(name, value) {
+      module.locked = true;
+      exports[name] = value;
+
+      for (var i = 0, l = module.importers.length; i < l; i++) {
+        var importerModule = module.importers[i];
+        if (!importerModule.locked) {
+          var importerIndex = indexOf.call(importerModule.dependencies, module);
+          importerModule.setters[importerIndex](exports);
+        }
+      }
+
+      module.locked = false;
+      return value;
+    });
     
-    entry.module = declaration.exports;
-    entry.exportStar = declaration.exportStar;
-    entry.execute = declaration.execute;
+    module.setters = declaration.setters;
+    module.execute = declaration.execute;
 
-    var module = entry.module;
+    if (!module.setters || !module.execute) {
+      throw new TypeError('Invalid System.register form for ' + entry.name);
+    }
 
     // now link all the module dependencies
-    // amending the depMap as we go
-    for (var i = 0; i < entry.normalizedDeps.length; i++) {
+    for (var i = 0, l = entry.normalizedDeps.length; i < l; i++) {
       var depName = entry.normalizedDeps[i];
       var depEntry = loader.defined[depName];
-      
-      // part of another linking group - use loader.get
-      if (!depEntry) {
-        depModule = loader.get(depName);
+      var depModule = moduleRecords[depName];
+
+      // work out how to set depExports based on scenarios...
+      var depExports;
+
+      if (depModule) {
+        depExports = depModule.exports;
       }
-      // if dependency already linked, use that
-      else if (depEntry.module) {
-        depModule = depEntry.module;
+      // dynamic, already linked in our registry
+      else if (depEntry && !depEntry.declarative) {
+        if (depEntry.module.exports && depEntry.module.exports.__esModule)
+          depExports = depEntry.module.exports;
+        else
+          depExports = { 'default': depEntry.module.exports, '__useDefault': true };
       }
-      // otherwise we need to link the dependency
+      // in the loader registry
+      else if (!depEntry) {
+        depExports = loader.get(depName);
+      }
+      // we have an entry -> link
       else {
         linkDeclarativeModule(depEntry, loader);
         depModule = depEntry.module;
+        depExports = depModule.exports;
       }
 
-      if (entry.exportStar && indexOf.call(entry.exportStar, entry.normalizedDeps[i]) != -1) {
-        // we are exporting * from this dependency
-        (function(depModule) {
-          for (var p in depModule) (function(p) {
-            // if the property is already defined throw?
-            Object.defineProperty(module, p, {
-              enumerable: true,
-              get: function() {
-                return depModule[p];
-              },
-              set: function(value) {
-                depModule[p] = value;
-              }
-            });
-          })(p);
-        })(depModule);
+      // only declarative modules have dynamic bindings
+      if (depModule && depModule.importers) {
+        depModule.importers.push(module);
+        module.dependencies.push(depModule);
+      }
+      else {
+        module.dependencies.push(null);
       }
 
-      depMap[i] = depModule;
+      // run the setter for this dependency
+      if (module.setters[i])
+        module.setters[i](depExports);
     }
   }
 
   // An analog to loader.get covering execution of all three layers (real declarative, simulated declarative, simulated dynamic)
   function getModule(name, loader) {
-    var module;
+    var exports;
     var entry = loader.defined[name];
 
     if (!entry) {
-      module = loader.get(name);
-      if (!module)
-        throw "System Register: The module requested " + name + " but this was not declared as a dependency";
+      exports = loader.get(name);
+      if (!exports)
+        throw new Error('Unable to load dependency ' + name + '.');
     }
 
     else {
@@ -3114,24 +3515,26 @@ function register(loader) {
       else if (!entry.evaluated)
         linkDynamicModule(entry, loader);
 
-      module = entry.module;
+      exports = entry.module.exports;
     }
 
-    if (!module)
-      return '';
-
-    return module.__useDefault ? module['default'] : module;
+    if ((!entry || entry.declarative) && exports && exports.__useDefault)
+      return exports['default'];
+    
+    return exports;
   }
 
   function linkDynamicModule(entry, loader) {
     if (entry.module)
       return;
 
-    entry.module = { 'default': {}, __useDefault: true };
+    var exports = {};
+
+    var module = entry.module = { exports: exports, id: entry.name };
 
     // AMD requires execute the tree first
     if (!entry.executingRequire) {
-      for (var i = 0; i < entry.normalizedDeps.length; i++) {
+      for (var i = 0, l = entry.normalizedDeps.length; i < l; i++) {
         var depName = entry.normalizedDeps[i];
         var depEntry = loader.defined[depName];
         if (depEntry)
@@ -3139,46 +3542,47 @@ function register(loader) {
       }
     }
 
-    // lookup the module name if it is in the registry
-    var moduleName;
-    for (var d in loader.defined) {
-      if (loader.defined[d] != entry)
-        continue;
-      moduleName = d;
-      break;
-    }
-
     // now execute
     entry.evaluated = true;
     var output = entry.execute.call(loader.global, function(name) {
-      for (var i = 0; i < entry.deps.length; i++) {
+      for (var i = 0, l = entry.deps.length; i < l; i++) {
         if (entry.deps[i] != name)
           continue;
         return getModule(entry.normalizedDeps[i], loader);
       }
-    }, entry.module['default'], moduleName);
-    if ( output && output.__esModule )
+      throw new TypeError('Module ' + name + ' not declared as a dependency.');
+    }, exports, module);
+    
+    if (output)
+      module.exports = output;
+      
+    /*if ( output && output.__esModule )
       entry.module = output;
     else if (output)
-      entry.module['default'] = output;
+      entry.module['default'] = output;*/
   }
 
-  // given a module, and the list of modules for this current branch,
-  // ensure that each of the dependencies of this module is evaluated
-  //  (unless one is a circular dependency already in the list of seen
-  //   modules, in which case we execute it)
-  // then evaluate the module itself
-  // depth-first left to right execution to match ES6 modules
+  /*
+   * Given a module, and the list of modules for this current branch,
+   *  ensure that each of the dependencies of this module is evaluated
+   *  (unless one is a circular dependency already in the list of seen
+   *  modules, in which case we execute it)
+   *
+   * Then we evaluate the module itself depth-first left to right 
+   * execution to match ES6 modules
+   */
   function ensureEvaluated(moduleName, seen, loader) {
     var entry = loader.defined[moduleName];
 
     // if already seen, that means it's an already-evaluated non circular dependency
-    if (entry.evaluated || !entry.declarative)
+    if (!entry || entry.evaluated || !entry.declarative)
       return;
+
+    // this only applies to declarative modules which late-execute
 
     seen.push(moduleName);
 
-    for (var i = 0; i < entry.normalizedDeps.length; i++) {
+    for (var i = 0, l = entry.normalizedDeps.length; i < l; i++) {
       var depName = entry.normalizedDeps[i];
       if (indexOf.call(seen, depName) == -1) {
         if (!loader.defined[depName])
@@ -3192,7 +3596,7 @@ function register(loader) {
       return;
 
     entry.evaluated = true;
-    entry.execute.call(loader.global);
+    entry.module.execute.call(loader.global);
   }
 
   var registerRegEx = /System\.register/;
@@ -3213,7 +3617,7 @@ function register(loader) {
 
   var loaderTranslate = loader.translate;
   loader.translate = function(load) {
-    this.register = register;
+    this.register = registerModule;
 
     this.__exec = exec;
 
@@ -3243,8 +3647,10 @@ function register(loader) {
     var entry;
 
     // first we check if this module has already been defined in the registry
-    if (loader.defined[load.name])
+    if (loader.defined[load.name]) {
       entry = loader.defined[load.name];
+      entry.deps = entry.deps.concat(load.metadata.deps);
+    }
 
     // picked up already by a script injection
     else if (load.metadata.entry)
@@ -3265,26 +3671,28 @@ function register(loader) {
       anonRegister = null;
       calledRegister = false;
 
-      var System = loader.global.System = loader.global.System || loader;
+      var curSystem = loader.global.System;
 
-      var curRegister = System.register;
-      System.register = register;
+      loader.global.System = loader;
 
       loader.__exec(load);
 
-      System.register = curRegister;
+      loader.global.System = curSystem;
 
       if (anonRegister)
         entry = anonRegister;
 
+      if (!entry && System.defined[load.name])
+        entry = System.defined[load.name];
+
       if (!calledRegister && !load.metadata.registered)
-        throw load.name + " detected as System.register but didn't execute.";
+        throw new TypeError(load.name + ' detected as System.register but didn\'t execute.');
     }
 
     // named bundles are just an empty module
     if (!entry && load.metadata.format != 'es6')
       return {
-        deps: [],
+        deps: load.metadata.deps,
         execute: function() {
           return loader.newModule({});
         }
@@ -3299,28 +3707,20 @@ function register(loader) {
       return loaderInstantiate.call(this, load);
 
     entry.deps = dedupe(entry.deps);
+    entry.name = load.name;
 
     // first, normalize all dependencies
     var normalizePromises = [];
-    for (var i = 0; i < entry.deps.length; i++)
+    for (var i = 0, l = entry.deps.length; i < l; i++)
       normalizePromises.push(Promise.resolve(loader.normalize(entry.deps[i], load.name)));
 
     return Promise.all(normalizePromises).then(function(normalizedDeps) {
 
       entry.normalizedDeps = normalizedDeps;
 
-      // create the empty dep map - this is our key deferred dependency binding object passed into declare
-      entry.depMap = [];
-
       return {
         deps: entry.deps,
         execute: function() {
-          // this avoids double duplication allowing a bundle to equal its last defined module
-          if (entry.esmodule) {
-            loader.defined[load.name] = undefined;
-            return entry.esmodule;
-          }
-
           // recursively ensure that the module and all its 
           // dependencies are linked (with dependency group handling)
           link(load.name, loader);
@@ -3331,164 +3731,108 @@ function register(loader) {
           // remove from the registry
           loader.defined[load.name] = undefined;
 
-          var module = loader.newModule(entry.module);
+          var module = entry.module.exports;
 
-          // if the entry is an alias, set the alias too
-          for (var name in loader.defined) {
-            if (!loader.defined[name])
-              continue;
-            if (entry.declarative && loader.defined[name].execute != entry.execute)
-              continue;
-            if (!entry.declarative && loader.defined[name].declare != entry.declare);
-              continue;
-            loader.defined[name].esmodule = module;
-          }
+          if (!module || !entry.declarative && module.__esModule !== true)
+            module = { 'default': module, __useDefault: true };
+
           // return the defined module object
-          return module;
+          return loader.newModule(module);
         }
       };
     });
   }
 }
 /*
- * SystemJS Core
- * Code should be vaguely readable
- * 
+ * Extension to detect ES6 and auto-load Traceur or Babel for processing
  */
-function core(loader) {
+function es6(loader) {
+  loader._extensions.push(es6);
 
-  /*
-    __useDefault
-    
-    When a module object looks like:
-    newModule({
-      __useDefault: true,
-      default: 'some-module'
-    })
+  // good enough ES6 detection regex - format detections not designed to be accurate, but to handle the 99% use case
+  var es6RegEx = /(^\s*|[}\);\n]\s*)(import\s+(['"]|(\*\s+as\s+)?[^"'\(\)\n;]+\s+from\s+['"]|\{)|export\s+\*\s+from\s+["']|export\s+(\{|default|function|class|var|const|let|async\s+function))/;
 
-    Then importing that module provides the 'some-module'
-    result directly instead of the full module.
+  var traceurRuntimeRegEx = /\$traceurRuntime\s*\./;
+  var babelHelpersRegEx = /babelHelpers\s*\./;
 
-    Useful for eg module.exports = function() {}
-  */
-  var loaderImport = loader['import'];
-  loader['import'] = function(name, options) {
-    return loaderImport.call(this, name, options).then(function(module) {
-      return module.__useDefault ? module['default'] : module;
-    });
-  };
+  var transpilerNormalized, transpilerRuntimeNormalized;
 
-  // support the empty module, as a concept
-  loader.set('@empty', loader.newModule({}));
+  var firstLoad = true;
 
-  /*
-    Config
-    Extends config merging one deep only
+  var nodeResolver = typeof process != 'undefined' && typeof require != 'undefined' && require.resolve;
 
-    loader.config({
-      some: 'random',
-      config: 'here',
-      deep: {
-        config: { too: 'too' }
+  function setConfig(loader, module, nodeModule) {
+    loader.meta[module] = {format: 'global'};
+    if (nodeResolver && !loader.paths[module]) {
+      try {
+        loader.paths[module] = require.resolve(nodeModule || module);
       }
-    });
-
-    <=>
-
-    loader.some = 'random';
-    loader.config = 'here'
-    loader.deep = loader.deep || {};
-    loader.deep.config = { too: 'too' };
-  */
-  loader.config = function(cfg) {
-    for (var c in cfg) {
-      var v = cfg[c];
-      if (typeof v == 'object') {
-        this[c] = this[c] || {};
-        for (var p in v)
-          this[c][p] = v[p];
-      }
-      else
-        this[c] = v;
-    }
-  };
-
-  // override locate to allow baseURL to be document-relative
-  var baseURI;
-  if (typeof window == 'undefined') {
-    baseURI = process.cwd() + '/';
-  }
-  else {
-    baseURI = document.baseURI;
-    if (!baseURI) {
-      var bases = document.getElementsByTagName('base');
-      baseURI = bases[0] && bases[0].href || window.location.href;
+      catch(e) {}
     }
   }
 
   var loaderLocate = loader.locate;
-  var normalizedBaseURL;
   loader.locate = function(load) {
-    if (this.baseURL != normalizedBaseURL) {
-      normalizedBaseURL = toAbsoluteURL(baseURI, this.baseURL);
-
-      if (normalizedBaseURL.substr(normalizedBaseURL.length - 1, 1) != '/')
-        normalizedBaseURL += '/';
-      this.baseURL = normalizedBaseURL;
+    var self = this;
+    if (firstLoad) {
+      if (self.transpiler == 'traceur') {
+        setConfig(self, 'traceur', 'traceur/bin/traceur.js');
+        self.meta['traceur'].exports = 'traceur';
+        setConfig(self, 'traceur-runtime', 'traceur/bin/traceur-runtime.js');
+      }
+      else if (self.transpiler == 'babel') {
+        setConfig(self, 'babel', 'babel-core/browser.js');
+        setConfig(self, 'babel-runtime', 'babel-core/external-helpers.js');
+      }
+      firstLoad = false;
     }
-
-    return Promise.resolve(loaderLocate.call(this, load));
+    return loaderLocate.call(self, load);
   };
-
-
-  // Traceur conveniences
-  var aliasRegEx = /^\s*export\s*\*\s*from\s*(?:'([^']+)'|"([^"]+)")/;
-  var es6RegEx = /(?:^\s*|[}{\(\);,\n]\s*)(import\s+['"]|(import|module)\s+[^"'\(\)\n;]+\s+from\s+['"]|export\s+(\*|\{|default|function|var|const|let|[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*))/;
 
   var loaderTranslate = loader.translate;
   loader.translate = function(load) {
     var loader = this;
 
-    if (load.name == '@traceur')
-      return loaderTranslate.call(loader, load);
+    return loaderTranslate.call(loader, load)
+    .then(function(source) {
 
-    // support ES6 alias modules ("export * from 'module';") without needing Traceur
-    var match;
-    if ((load.metadata.format == 'es6' || !load.metadata.format) && (match = load.source.match(aliasRegEx))) {
-      load.metadata.format = 'cjs';
-      load.source = 'module.exports = require("' + (match[1] || match[2]) + '");\n';
-    }
-
-    // detect ES6
-    else if (load.metadata.format == 'es6' || !load.metadata.format && load.source.match(es6RegEx)) {
-      load.metadata.format = 'es6';
-
-      // dynamically load Traceur for ES6 if necessary
-      if (!loader.global.traceur) {
-        return loader['import']('@traceur').then(function() {
-          return loaderTranslate.call(loader, load);
-        });
+      // detect ES6
+      if (load.metadata.format == 'es6' || !load.metadata.format && source.match(es6RegEx)) {
+        load.metadata.format = 'es6';
+        return source;
       }
-    }
 
-    return loaderTranslate.call(loader, load);
-  };
-
-  // always load Traceur as a global
-  var loaderInstantiate = loader.instantiate;
-  loader.instantiate = function(load) {
-    var loader = this;
-    if (load.name == '@traceur') {
-      loader.__exec(load);
-      return {
-        deps: [],
-        execute: function() {
-          return loader.newModule({});
+      if (load.metadata.format == 'register') {
+        if (!loader.global.$traceurRuntime && load.source.match(traceurRuntimeRegEx)) {
+          return loader['import']('traceur-runtime').then(function() {
+            return source;
+          });
         }
-      };
-    }
-    return loaderInstantiate.call(loader, load);
+        if (!loader.global.babelHelpers && load.source.match(babelHelpersRegEx)) {
+          return loader['import']('babel/external-helpers').then(function() {
+            return source;
+          });
+        }
+      }
+
+      // ensure Traceur doesn't clobber the System global
+      if (loader.transpiler == 'traceur')
+        return Promise.all([
+          transpilerNormalized || (transpilerNormalized = loader.normalize(loader.transpiler)),
+          transpilerRuntimeNormalized || (transpilerRuntimeNormalized = loader.normalize(loader.transpiler + '-runtime'))
+        ])
+        .then(function(normalized) {
+          if (load.name == normalized[0] || load.name == normalized[1])
+            return '(function() { var curSystem = System; ' + source + '\nSystem = curSystem; })();';
+
+          return source;
+        });
+
+      return source;
+    });
+
   };
+
 }
 /*
   SystemJS Global Format
@@ -3502,6 +3846,16 @@ function core(loader) {
   See the SystemJS readme global support section for further information.
 */
 function global(loader) {
+
+  loader._extensions.push(global);
+
+  function readGlobalProperty(p, value) {
+    var pParts = p.split('.');
+    while (pParts.length)
+      value = value[pParts.shift()];
+    return value;
+  }
+
   function createHelpers(loader) {
     if (loader.has('@@global-helpers'))
       return;
@@ -3525,8 +3879,13 @@ function global(loader) {
         // now store a complete copy of the global object
         // in order to detect changes
         curGlobalObj = {};
-        ignoredGlobalProps = ['indexedDB', 'sessionStorage', 'localStorage', 'clipboardData', 'frames'];
-        for (var g in loader.global)
+        ignoredGlobalProps = ['indexedDB', 'sessionStorage', 'localStorage',
+          'clipboardData', 'frames', 'webkitStorageInfo', 'toolbar', 'statusbar',
+          'scrollbars', 'personalbar', 'menubar', 'locationbar', 'webkitIndexedDB',
+          'screenTop', 'screenLeft'
+        ];
+        for (var g in loader.global) {
+          if (indexOf.call(ignoredGlobalProps, g) != -1) { continue; }
           if (!hasOwnProperty || loader.global.hasOwnProperty(g)) {
             try {
               curGlobalObj[g] = loader.global[g];
@@ -3534,39 +3893,37 @@ function global(loader) {
               ignoredGlobalProps.push(g);
             }
           }
+        }
       },
       retrieveGlobal: function(moduleName, exportName, init) {
         var singleGlobal;
+        var multipleExports;
         var exports = {};
 
         // run init
-        if (init) {
-          var depModules = [];
-          for (var i = 0; i < deps.length; i++)
-            depModules.push(require(deps[i]));
-          singleGlobal = init.apply(loader.global, depModules);
-        }
+        if (init)
+          singleGlobal = init.call(loader.global);
 
         // check for global changes, creating the globalObject for the module
         // if many globals, then a module object for those is created
         // if one global, then that is the module directly
-        if (exportName && !singleGlobal) {
+        else if (exportName) {
           var firstPart = exportName.split('.')[0];
-          singleGlobal = eval.call(loader.global, exportName);
+          singleGlobal = readGlobalProperty(exportName, loader.global);
           exports[firstPart] = loader.global[firstPart];
         }
 
         else {
           for (var g in loader.global) {
-            if (~ignoredGlobalProps.indexOf(g))
+            if (indexOf.call(ignoredGlobalProps, g) != -1)
               continue;
             if ((!hasOwnProperty || loader.global.hasOwnProperty(g)) && g != loader.global && curGlobalObj[g] != loader.global[g]) {
               exports[g] = loader.global[g];
               if (singleGlobal) {
                 if (singleGlobal !== loader.global[g])
-                  singleGlobal = undefined;
+                  multipleExports = true;
               }
-              else if (singleGlobal !== false) {
+              else if (singleGlobal === undefined) {
                 singleGlobal = loader.global[g];
               }
             }
@@ -3575,7 +3932,7 @@ function global(loader) {
 
         moduleGlobals[moduleName] = exports;
 
-        return typeof singleGlobal != 'undefined' ? singleGlobal : exports;
+        return multipleExports ? exports : singleGlobal;
       }
     }));
   }
@@ -3595,26 +3952,27 @@ function global(loader) {
 
     // global is a fallback module format
     if (load.metadata.format == 'global') {
-      load.metadata.execute = function(require, exports, moduleName) {
+      load.metadata.execute = function(require, exports, module) {
 
-        loader.get('@@global-helpers').prepareGlobal(moduleName, load.metadata.deps);
+        loader.get('@@global-helpers').prepareGlobal(module.id, load.metadata.deps);
 
         if (exportName)
           load.source += '\nthis["' + exportName + '"] = ' + exportName + ';';
 
-        // disable AMD detection
+        // disable module detection
         var define = loader.global.define;
+        var require = loader.global.require;
+        
         loader.global.define = undefined;
-
-        // ensure no NodeJS environment detection
         loader.global.module = undefined;
         loader.global.exports = undefined;
 
         loader.__exec(load);
 
+        loader.global.require = require;
         loader.global.define = define;
 
-        return loader.get('@@global-helpers').retrieveGlobal(moduleName, exportName, load.metadata.init);
+        return loader.get('@@global-helpers').retrieveGlobal(module.id, exportName, load.metadata.init);
       }
     }
     return loaderInstantiate.call(loader, load);
@@ -3624,64 +3982,30 @@ function global(loader) {
   SystemJS CommonJS Format
 */
 function cjs(loader) {
+  loader._extensions.push(cjs);
 
   // CJS Module Format
   // require('...') || exports[''] = ... || exports.asd = ... || module.exports = ...
-  var cjsExportsRegEx = /(?:^\s*|[}{\(\);,\n=:\?\&]\s*|module\.)(exports\s*\[\s*('[^']+'|"[^"]+")\s*\]|\exports\s*\.\s*[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*|exports\s*\=)/;
-  var cjsRequirePre = "(?:^\\s*|[}{\\(\\);,\\n=:\\?\\&]\\s*)";
-  var cjsRequirePost = "\\s*\\(\\s*(\"([^\"]+)\"|'([^']+)')\\s*\\)";
-  var cjsRequireRegEx = new RegExp(cjsRequirePre+"require"+cjsRequirePost,"g");
+  var cjsExportsRegEx = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF.]|module\.)(exports\s*\[['"]|\exports\s*\.)|(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF.])module\.exports\s*\=/;
+  // RegEx adjusted from https://github.com/jbrantly/yabble/blob/master/lib/yabble.js#L339
+  var cjsRequireRegEx = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF."'])require\s*\(\s*("[^"\\]*(?:\\.[^"\\]*)*"|'[^'\\]*(?:\\.[^'\\]*)*')\s*\)/g;
   var commentRegEx = /(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg;
 
-  function getCJSDeps(source, requireAlias) {
-    cjsExportsRegEx.lastIndex = 0;
-    
-    // If a requireAlias is given, generate the regexp; otherwise, use the cached version.
-    var requireRegEx =  requireAlias ?
-        new RegExp(cjsRequirePre+(requireAlias)+cjsRequirePost,"g") :
-        cjsRequireRegEx;
-    requireRegEx.lastIndex = 0;
+  function getCJSDeps(source) {
+    cjsRequireRegEx.lastIndex = 0;
+
     var deps = [];
 
-    // remove comments from the source first
-    var source = source.replace(commentRegEx, '');
+    // remove comments from the source first, if not minified
+    if (source.length / source.split('\n').length < 200)
+      source = source.replace(commentRegEx, '');
 
     var match;
 
-    while (match = requireRegEx.exec(source))
-      deps.push(match[2] || match[3]);
+    while (match = cjsRequireRegEx.exec(source))
+      deps.push(match[1].substr(1, match[1].length - 2));
 
     return deps;
-  }
-
-  var noop = function() {}
-  var nodeProcess = {
-    nextTick: function(f) {
-      setTimeout(f, 7);
-    },
-    browser: typeof window != 'undefined',
-    env: {},
-    argv: [],
-    on: noop,
-    once: noop,
-    off: noop,
-    emit: noop,
-    cwd: function() { return '/' }
-  };
-
-  loader._getCJSDeps = getCJSDeps;
-
-  if (!loader.has('@@nodeProcess'))
-    loader.set('@@nodeProcess', loader.newModule({ 'default': nodeProcess, __useDefault: true }));
-
-  var loaderTranslate = loader.translate;
-  loader.translate = function(load) {
-    var loader = this;
-    if (!loader.has('@@nodeProcess'))
-      loader.set('@@nodeProcess', loader.newModule({ 'default': nodeProcess, __useDefault: true }));
-    if (!loader._getCJSDeps)
-      loader._getCJSDeps = getCJSDeps;
-    return loaderTranslate.call(loader, load);
   }
 
   var loaderInstantiate = loader.instantiate;
@@ -3695,28 +4019,28 @@ function cjs(loader) {
     }
 
     if (load.metadata.format == 'cjs') {
-      load.metadata.deps = load.metadata.deps ? load.metadata.deps.concat(getCJSDeps(load.source)) : load.metadata.deps;
+      load.metadata.deps = load.metadata.deps ? load.metadata.deps.concat(getCJSDeps(load.source)) : getCJSDeps(load.source);
 
       load.metadata.executingRequire = true;
 
-      load.metadata.execute = function(require, exports, moduleName) {
-        var dirname = load.address.split('/');
+      load.metadata.execute = function(require, exports, module) {
+        var dirname = (load.address || '').split('/');
         dirname.pop();
         dirname = dirname.join('/');
+
+        // if on the server, remove the "file:" part from the dirname
+        if (System._nodeRequire)
+          dirname = dirname.substr(5);
 
         var globals = loader.global._g = {
           global: loader.global,
           exports: exports,
-          module: { exports: exports },
-          process: nodeProcess,
+          module: module,
           require: require,
-          __filename: load.address,
+          __filename: System._nodeRequire ? load.address.substr(5) : load.address,
           __dirname: dirname
         };
 
-        var glString = '';
-        for (var _g in globals)
-          glString += 'var ' + _g + ' = _g.' + _g + ';';
 
         // disable AMD detection
         var define = loader.global.define;
@@ -3724,7 +4048,8 @@ function cjs(loader) {
 
         var execLoad = {
           name: load.name,
-          source: '(function() {' + glString + '\n(function(){\n' + load.source + '\n}).call(exports);})();',
+          source: '(function() {\n(function(global, exports, module, require, __filename, __dirname){\n' + load.source + 
+                                  '\n}).call(_g.exports, _g.global, _g.exports, _g.module, _g.require, _g.__filename, _g.__dirname);})();',
           address: load.address
         };
         loader.__exec(execLoad);
@@ -3732,45 +4057,64 @@ function cjs(loader) {
         loader.global.define = define;
 
         loader.global._g = undefined;
-
-        return globals.module.exports;
       }
     }
 
     return loaderInstantiate.call(this, load);
   };
-}/*
+}
+/*
   SystemJS AMD Format
   Provides the AMD module format definition at System.format.amd
   as well as a RequireJS-style require on System.require
 */
 function amd(loader) {
-
+  // by default we only enforce AMD noConflict mode in Node
   var isNode = typeof module != 'undefined' && module.exports;
 
-  // Matches parenthesis
-  var parensRegExp = /\(([^)]+)/;
-  var commentRegEx = /(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg;
-  var argRegEx = /[\w\d]+/g;
-  function getRequireAlias(source, index){
-    var match = source.match(parensRegExp);
-    if(match){
-      var args = [];
-      match[1].replace(commentRegEx,"").replace(argRegEx, function(arg){
-        args.push(arg);
-      });
-      return args[index||0];
-    }
-  };
-  
+  loader._extensions.push(amd);
 
   // AMD Module Format Detection RegEx
   // define([.., .., ..], ...)
   // define(varName); || define(function(require, exports) {}); || define({})
-  var amdRegEx = /(?:^\s*|[}{\(\);,\n\?\&]\s*)define\s*\(\s*("[^"]+"\s*,\s*|'[^']+'\s*,\s*)?\s*(\[(\s*("[^"]+"|'[^']+')\s*,)*(\s*("[^"]+"|'[^']+')\s*,?\s*)?\]|function\s*|{|[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*\))/;
+  var amdRegEx = /(?:^\uFEFF?|[^$_a-zA-Z\xA0-\uFFFF.])define\s*\(\s*("[^"]+"\s*,\s*|'[^']+'\s*,\s*)?\s*(\[(\s*(("[^"]+"|'[^']+')\s*,|\/\/.*\r?\n|\/\*(.|\s)*?\*\/))*(\s*("[^"]+"|'[^']+')\s*,?)?(\s*(\/\/.*\r?\n|\/\*(.|\s)*?\*\/))*\s*\]|function\s*|{|[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*\))/;
+  var commentRegEx = /(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg;
+
+  var cjsRequirePre = "(?:^|[^$_a-zA-Z\\xA0-\\uFFFF.])";
+  var cjsRequirePost = "\\s*\\(\\s*(\"([^\"]+)\"|'([^']+)')\\s*\\)";
+
+  var fnBracketRegEx = /\(([^\)]*)\)/;
+
+  var wsRegEx = /^\s+|\s+$/g;
+
+  var requireRegExs = {};
+
+  function getCJSDeps(source, requireIndex) {
+
+    // remove comments
+    source = source.replace(commentRegEx, '');
+
+    // determine the require alias
+    var params = source.match(fnBracketRegEx);
+    var requireAlias = (params[1].split(',')[requireIndex] || 'require').replace(wsRegEx, '');
+
+    // find or generate the regex for this requireAlias
+    var requireRegEx = requireRegExs[requireAlias] || (requireRegExs[requireAlias] = new RegExp(cjsRequirePre + requireAlias + cjsRequirePost, 'g'));
+
+    requireRegEx.lastIndex = 0;
+
+    var deps = [];
+
+    var match;
+    while (match = requireRegEx.exec(source))
+      deps.push(match[2] || match[3]);
+
+    return deps;
+  }
+
   /*
     AMD-compatible require
-    To copy RequireJS, set window.require = window.requirejs = loader.require
+    To copy RequireJS, set window.require = window.requirejs = loader.amdRequire
   */
   function require(names, callback, errback, referer) {
     // 'this' is bound to the loader
@@ -3785,7 +4129,9 @@ function amd(loader) {
       Promise.all(names.map(function(name) {
         return loader['import'](name, referer);
       })).then(function(modules) {
-        callback.apply(null, modules);
+        if(callback) {
+          callback.apply(null, modules);
+        }
       }, errback);
 
     // commonjs require
@@ -3795,9 +4141,11 @@ function amd(loader) {
     }
 
     else
-      throw 'Invalid require';
+      throw new TypeError('Invalid require');
   };
-  loader.require = require;
+  loader.amdRequire = function() {
+    return require.apply(this, arguments);
+  };
 
   function makeRequire(parentName, staticRequire, loader) {
     return function(names, callback, errback) {
@@ -3807,26 +4155,16 @@ function amd(loader) {
     }
   }
 
-  var anonDefine;
-  // set to true of the current module turns out to be a named define bundle
-  var defineBundle;
-  function createDefine(loader) {
-    anonDefine = null;
-    defineBundle = null;
-
-    // ensure no NodeJS environment detection
-    loader.global.module = undefined;
-    loader.global.exports = undefined;
-
-    if (loader.global.define && loader.global.define.loader == loader)
-      return;
-
+  // run once per loader
+  function generateDefine(loader) {
     // script injection mode calls this function synchronously on load
     var onScriptLoad = loader.onScriptLoad;
     loader.onScriptLoad = function(load) {
       onScriptLoad(load);
-      if (anonDefine || defineBundle)
+      if (anonDefine || defineBundle) {
         load.metadata.format = 'defined';
+        load.metadata.registered = true;
+      }
 
       if (anonDefine) {
         load.metadata.deps = load.metadata.deps ? load.metadata.deps.concat(anonDefine.deps) : anonDefine.deps;
@@ -3842,7 +4180,7 @@ function amd(loader) {
       }
       if (!(deps instanceof Array)) {
         factory = deps;
-        deps = ['require','exports','module']
+        deps = ['require', 'exports', 'module'];
       }
 
       if (typeof factory != 'function')
@@ -3850,17 +4188,20 @@ function amd(loader) {
           return function() { return factory; }
         })(factory);
 
+      // in IE8, a trailing comma becomes a trailing undefined entry
+      if (deps[deps.length - 1] === undefined)
+        deps.pop();
+
       // remove system dependencies
-      var requireIndex, exportsIndex, moduleIndex
+      var requireIndex, exportsIndex, moduleIndex;
       
       if ((requireIndex = indexOf.call(deps, 'require')) != -1) {
-      	
-      	deps.splice(requireIndex, 1);
-        // CommonJS AMD form
-        if (!loader._getCJSDeps)
-          throw "AMD extension needs CJS extension for AMD CJS support";
+        
+        deps.splice(requireIndex, 1);
+
         var factoryText = factory.toString();
-        deps = deps.concat(loader._getCJSDeps(factoryText, getRequireAlias(factoryText, requireIndex)));
+
+        deps = deps.concat(getCJSDeps(factoryText, requireIndex));
       }
         
 
@@ -3872,25 +4213,27 @@ function amd(loader) {
 
       var define = {
         deps: deps,
-        execute: function(require, exports, moduleName) {
+        execute: function(require, exports, module) {
 
           var depValues = [];
           for (var i = 0; i < deps.length; i++)
             depValues.push(require(deps[i]));
 
-          var module;
+          module.uri = loader.baseURL + module.id;
+
+          module.config = function() {};
 
           // add back in system dependencies
           if (moduleIndex != -1)
-            depValues.splice(moduleIndex, 0, exports, module = { id: moduleName, uri: loader.baseURL + moduleName, config: function() { return {}; }, exports: exports });
+            depValues.splice(moduleIndex, 0, module);
           
           if (exportsIndex != -1)
             depValues.splice(exportsIndex, 0, exports);
           
           if (requireIndex != -1)
-            depValues.splice(requireIndex, 0, makeRequire(moduleName, require, loader));
+            depValues.splice(requireIndex, 0, makeRequire(module.id, require, loader));
 
-          var output = factory.apply(loader.global, depValues);
+          var output = factory.apply(global, depValues);
 
           if (typeof output == 'undefined' && module)
             output = module.exports;
@@ -3904,7 +4247,7 @@ function amd(loader) {
       if (!name) {
         // already defined anonymously -> throw
         if (anonDefine)
-          throw "Multiple defines for anonymous module";
+          throw new TypeError('Multiple defines for anonymous module');
         anonDefine = define;
       }
       // named define
@@ -3930,25 +4273,56 @@ function amd(loader) {
         loader.register(name, define.deps, false, define.execute);
       }
     };
-
+    define.amd = {};
     loader.amdDefine = define;
-    loader.global.define = define;
-    loader.global.define.amd = {};
-    loader.global.define.loader = loader;
   }
 
-  if (!isNode && loader.amdDefine !== false)
-    createDefine(loader);
+  var anonDefine;
+  // set to true if the current module turns out to be a named define bundle
+  var defineBundle;
+
+  var oldModule, oldExports, oldDefine;
+
+  // adds define as a global (potentially just temporarily)
+  function createDefine(loader) {
+    if (!loader.amdDefine)
+      generateDefine(loader);
+
+    anonDefine = null;
+    defineBundle = null;
+
+    // ensure no NodeJS environment detection
+    var global = loader.global;
+
+    oldModule = global.module;
+    oldExports = global.exports;
+    oldDefine = global.define;
+
+    global.module = undefined;
+    global.exports = undefined;
+
+    if (global.define && global.define === loader.amdDefine)
+      return;
+
+    global.define = loader.amdDefine;
+  }
+
+  function removeDefine(loader) {
+    var global = loader.global;
+    global.define = oldDefine;
+    global.module = oldModule;
+    global.exports = oldExports;
+  }
+
+  generateDefine(loader);
 
   if (loader.scriptLoader) {
     var loaderFetch = loader.fetch;
     loader.fetch = function(load) {
-      if (loader.amdDefine !== false)
-        createDefine(this);
+      createDefine(this);
       return loaderFetch.call(this, load);
     }
   }
-  
 
   var loaderInstantiate = loader.instantiate;
   loader.instantiate = function(load) {
@@ -3957,34 +4331,16 @@ function amd(loader) {
     if (load.metadata.format == 'amd' || !load.metadata.format && load.source.match(amdRegEx)) {
       load.metadata.format = 'amd';
 
-      createDefine(loader);
+      if (loader.execute !== false) {
+        createDefine(loader);
 
-      try {
         loader.__exec(load);
-      }
-      catch (e) {
-        if (loader.execute === false && isNode) {
-          // use a regular expression to pull out deps
-          var match = load.source.match(amdRegEx);
-          if (match) {
-            // named or anonymous
-            if (match[1] && match[1][0] == '[')
-              define(match[1].substr(match[1].length - 2), eval(match[2]), function() {});
-            else if (match[2] && match[2][0] == '[')
-              define(eval(match[2]), function() {});
-            else
-              define(function() {});
-          }
-        }
-        else
-          throw e;
-      }
 
-      if (isNode)
-        loader.global.define = undefined;
+        removeDefine(loader);
 
-      if (!anonDefine && !defineBundle && !isNode)
-        throw "AMD module " + load.name + " did not define";
+        if (!anonDefine && !defineBundle && !isNode)
+          throw new TypeError('AMD module ' + load.name + ' did not define');
+      }
 
       if (anonDefine) {
         load.metadata.deps = load.metadata.deps ? load.metadata.deps.concat(anonDefine.deps) : anonDefine.deps;
@@ -3994,7 +4350,8 @@ function amd(loader) {
 
     return loaderInstantiate.call(loader, load);
   }
-}/*
+}
+/*
   SystemJS map support
   
   Provides map configuration through
@@ -4019,6 +4376,8 @@ function amd(loader) {
 */
 function map(loader) {
   loader.map = loader.map || {};
+
+  loader._extensions.push(map);
 
   // return if prefix parts (separated by '/') match the name
   // eg prefixMatch('jquery/some/thing', 'jquery') -> true
@@ -4158,6 +4517,8 @@ function plugins(loader) {
   if (typeof indexOf == 'undefined')
     indexOf = Array.prototype.indexOf;
 
+  loader._extensions.push(plugins);
+
   var loaderNormalize = loader.normalize;
   loader.normalize = function(name, parentName, parentAddress) {
     var loader = this;
@@ -4201,6 +4562,10 @@ function plugins(loader) {
 
     var name = load.name;
 
+    // only fetch the plugin itself if this name isn't defined
+    if (this.defined && this.defined[name])
+      return loaderLocate.call(this, load);
+
     // plugin
     var pluginIndex = name.lastIndexOf('!');
     if (pluginIndex != -1) {
@@ -4237,7 +4602,7 @@ function plugins(loader) {
         else
           return Promise.resolve(loader.locate(load))
           .then(function(address) {
-            return address.substr(0, address.length - 3);
+            return address.replace(/\.js$/, '');
           });
       });
     }
@@ -4248,7 +4613,8 @@ function plugins(loader) {
   var loaderFetch = loader.fetch;
   loader.fetch = function(load) {
     var loader = this;
-    if (load.metadata.build === false)
+    // ignore fetching build = false unless in a plugin loader
+    if (load.metadata.build === false && loader.pluginLoader)
       return '';
     else if (load.metadata.plugin && load.metadata.plugin.fetch && !load.metadata.pluginFetchCalled) {
       load.metadata.pluginFetchCalled = true;
@@ -4263,10 +4629,9 @@ function plugins(loader) {
     var loader = this;
     if (load.metadata.plugin && load.metadata.plugin.translate)
       return Promise.resolve(load.metadata.plugin.translate.call(loader, load)).then(function(result) {
-        if (result)
-          return result;
-        else
-          return loaderTranslate.call(loader, load);
+        if (typeof result == 'string')
+          load.source = result;
+        return loaderTranslate.call(loader, load);
       });
     else
       return loaderTranslate.call(loader, load);
@@ -4296,8 +4661,10 @@ function plugins(loader) {
     }
     else
       return loaderInstantiate.call(loader, load);
-  };
-}/*
+  }
+
+}
+/*
   System bundles
 
   Allows a bundle module to be specified which will be dynamically 
@@ -4315,6 +4682,8 @@ function plugins(loader) {
 function bundles(loader) {
   if (typeof indexOf == 'undefined')
     indexOf = Array.prototype.indexOf;
+
+  loader._extensions.push(bundles);
 
   // bundles support (just like RequireJS)
   // bundle name is module name of bundle itself
@@ -4353,245 +4722,6 @@ function bundles(loader) {
       });
     }
     return loaderFetch.call(this, load);
-  };
-}/*
-  SystemJS Semver Version Addon
-  
-  1. Uses Semver convention for major and minor forms
-
-  Supports requesting a module from a package that contains a version suffix
-  with the following semver ranges:
-    module       - any version
-    module@1     - major version 1, any minor (not prerelease)
-    module@1.2   - minor version 1.2, any patch (not prerelease)
-    module@1.2.3 - exact version
-
-  It is assumed that these modules are provided by the server / file system.
-
-  First checks the already-requested packages to see if there are any packages 
-  that would match the same package and version range.
-
-  This provides a greedy algorithm as a simple fix for sharing version-managed
-  dependencies as much as possible, which can later be optimized through version
-  hint configuration created out of deeper version tree analysis.
-  
-  2. Semver-compatibility syntax (caret operator - ^)
-
-  Compatible version request support is then also provided for:
-
-    module@^1.2.3        - module@1, >=1.2.3
-    module@^1.2          - module@1, >=1.2.0
-    module@^1            - module@1
-    module@^0.5.3        - module@0.5, >= 0.5.3
-    module@^0.0.1        - module@0.0.1
-
-  The ^ symbol is always normalized out to a normal version request.
-
-  This provides comprehensive semver compatibility.
-  
-  3. System.versions version hints and version report
-
-  Note this addon should be provided after all other normalize overrides.
-
-  The full list of versions can be found at System.versions providing an insight
-  into any possible version forks.
-
-  It is also possible to create version solution hints on the System global:
-
-  System.versions = {
-    jquery: ['1.9.2', '2.0.3'],
-    bootstrap: '3.0.1'
-  };
-
-  Versions can be an array or string for a single version.
-
-  When a matching semver request is made (jquery@1.9, jquery@1, bootstrap@3)
-  they will be converted to the latest version match contained here, if present.
-
-  Prereleases in this versions list are also allowed to satisfy ranges when present.
-*/
-
-function versions(loader) {
-  if (typeof indexOf == 'undefined')
-    indexOf = Array.prototype.indexOf;
-
-  // match x, x.y, x.y.z, x.y.z-prerelease.1
-  var semverRegEx = /^(\d+)(?:\.(\d+)(?:\.(\d+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?)?)?$/;
-
-  var semverCompare = function(v1, v2) {
-    var v1Parts = v1.split('.');
-    var v2Parts = v2.split('.');
-    var prereleaseIndex;
-    if (v1Parts[2] && (prereleaseIndex = indexOf.call(v1Parts[2], '-')) != -1)
-      v1Parts.splice(2, 1, v1Parts[2].substr(0, prereleaseIndex), v1Parts[2].substr(prereleaseIndex + 1));
-    if (v2Parts[2] && (prereleaseIndex = indexOf.call(v2Parts[2], '-')) != -1)
-      v2Parts.splice(2, 1, v2Parts[2].substr(0, prereleaseIndex), v2Parts[2].substr(prereleaseIndex + 1));
-    for (var i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
-      if (!v1Parts[i])
-        return 1;
-      else if (!v2Parts[i])
-        return -1;
-      if (v1Parts[i] != v2Parts[i])
-        return parseInt(v1Parts[i]) > parseInt(v2Parts[i]) ? 1 : -1;
-    }
-    return 0;
-  }  
-  
-
-  loader.versions = loader.versions || {};
-
-  var loaderNormalize = loader.normalize;
-  loader.normalize = function(name, parentName, parentAddress) {
-    if (!loader.versions)
-      loader.versions = {};
-    var packageVersions = this.versions;
-
-    // strip the version before applying map config
-    var stripVersion, stripSubPathLength;
-    if (name.indexOf('@') > 0) {
-      var versionIndex = name.lastIndexOf('@');
-      var parts = name.substr(versionIndex + 1, name.length - versionIndex - 1).split('/');
-      stripVersion = parts[0];
-      stripSubPathLength = parts.length;
-      name = name.substr(0, versionIndex) + name.substr(versionIndex + stripVersion.length + 1, name.length - versionIndex - stripVersion.length - 1);
-    }
-
-    // run all other normalizers first
-    return Promise.resolve(loaderNormalize.call(this, name, parentName, parentAddress)).then(function(normalized) {
-      
-      var version, semverMatch, nextChar, versions;
-      var index = normalized.indexOf('@');
-
-      // if we stripped a version, and it still has no version, add it back
-      if (stripVersion && (index == -1 || index == 0)) {
-        var parts = normalized.split('/');
-        parts[parts.length - stripSubPathLength] += '@' + stripVersion;
-        normalized = parts.join('/');
-        index = normalized.indexOf('@');
-      }
-
-      // see if this module corresponds to a package already in our versioned packages list
-      
-      // no version specified - check against the list (given we don't know the package name)
-      if (index == -1 || index == 0) {
-        for (var p in packageVersions) {
-          versions = packageVersions[p];
-          if (normalized.substr(0, p.length) != p)
-            continue;
-
-          nextChar = normalized.substr(p.length, 1);
-
-          if (nextChar && nextChar != '/')
-            continue;
-
-          // match -> take latest version
-          return p + '@' + (typeof versions == 'string' ? versions : versions[versions.length - 1]) + normalized.substr(p.length);
-        }
-        return normalized;
-      }
-
-      // get the version info
-      version = normalized.substr(index + 1).split('/')[0];
-      var versionLength = version.length;
-
-      var minVersion;
-      if (version.substr(0, 1) == '^') {
-        version = version.substr(1);
-        minVersion = true;
-      }
-
-      semverMatch = version.match(semverRegEx);
-
-      // if not a semver, we cant help
-      if (!semverMatch)
-        return normalized;
-
-      // translate '^' in range to simpler range form
-      if (minVersion) {
-        // ^0 -> 0
-        // ^1 -> 1
-        if (!semverMatch[2])
-          minVersion = false;
-        
-        if (!semverMatch[3]) {
-          
-          // ^1.1 -> ^1.1.0
-          if (semverMatch[2] > 0)
-            semverMatch[3] = '0';
-
-          // ^0.1 -> 0.1
-          // ^0.0 -> 0.0
-          else
-            minVersion = false;
-        }
-      }
-
-      if (minVersion) {
-        // >= 1.0.0
-        if (semverMatch[1] > 0) {
-          if (!semverMatch[2])
-            version = semverMatch[1] + '.0.0';
-          if (!semverMatch[3])
-            version = semverMatch[1] + '.0';
-          minVersion = version;
-          semverMatch = [semverMatch[1]];
-        }
-        // >= 0.1.0
-        else if (semverMatch[2] > 0) {
-          minVersion = version;
-          semverMatch = [0, semverMatch[2]];
-        }
-        // >= 0.0.0
-        else {
-          // NB compatible with prerelease is just prelease itself?
-          minVersion = false;
-          semverMatch = [0, 0, semverMatch[3]];
-        }
-        version = semverMatch.join('.');
-      }
-
-      var packageName = normalized.substr(0, index);
-
-      versions = packageVersions[packageName] || [];
-
-      if (typeof versions == 'string')
-        versions = [versions];
-
-      // look for a version match
-      // if an exact semver, theres nothing to match, just record it
-      if (!semverMatch[3] || minVersion)
-        for (var i = versions.length - 1; i >= 0; i--) {
-          var curVersion = versions[i];
-          // if I have requested x.y, find an x.y.z-b
-          // if I have requested x, find any x.y / x.y.z-b
-          if (curVersion.substr(0, version.length) == version && curVersion.substr(version.length, 1).match(/^[\.\-]?$/)) {
-            // if a minimum version, then check too
-            if (!minVersion || minVersion && semverCompare(curVersion, minVersion) != -1)
-              return packageName + '@' + curVersion + normalized.substr(packageName.length + versionLength + 1);
-          }
-        }
-
-      // no match
-      // record the package and semver for reuse since we're now asking the server
-      // x.y and x versions will now be latest by default, so they are useful in the version list
-      if (indexOf.call(versions, version) == -1) {
-        versions.push(version);
-        versions.sort(semverCompare);
-
-        normalized = packageName + '@' + version + normalized.substr(packageName.length + versionLength + 1);
-
-        // if this is an x.y.z, remove any x.y, x
-        // if this is an x.y, remove any x
-        if (semverMatch[3] && (index = indexOf.call(versions, semverMatch[1] + '.' + semverMatch[2])) != -1)
-          versions.splice(index, 1);
-        if (semverMatch[2] && (index = indexOf.call(versions, semverMatch[1])) != -1)
-          versions.splice(index, 1);
-
-        packageVersions[packageName] = versions.length == 1 ? versions[0] : versions;
-      }
-
-      return normalized;
-    });
   }
 }
 /*
@@ -4618,7 +4748,9 @@ function versions(loader) {
 function depCache(loader) {
   loader.depCache = loader.depCache || {};
 
-  loaderLocate = loader.locate;
+  loader._extensions.push(depCache);
+
+  var loaderLocate = loader.locate;
   loader.locate = function(load) {
     var loader = this;
 
@@ -4635,83 +4767,119 @@ function depCache(loader) {
   }
 }
   
-  meta(System);
-  register(System);
-  core(System);
-  global(System);
-  cjs(System);
-  amd(System);
-  map(System);
-  plugins(System);
-  bundles(System);
-  versions(System);
-  depCache(System);
+core(System);
+meta(System);
+register(System);
+es6(System);
+global(System);
+cjs(System);
+amd(System);
+map(System);
+plugins(System);
+bundles(System);
+depCache(System);
 
-  
-  if (!System.paths['@traceur'])
-    System.paths['@traceur'] = __$curScript && __$curScript.getAttribute('data-traceur-src')
-      || (__$curScript && __$curScript.src 
-        ? __$curScript.src.substr(0, __$curScript.src.lastIndexOf('/') + 1) 
-        : System.baseURL + (System.baseURL.lastIndexOf('/') == System.baseURL.length - 1 ? '' : '/')
-        ) + 'traceur.js';
-
-  return System;
 };
 
-function __eval(__source, __global, __address, __sourceMap) {
-  try {
-    __source = (__global != __$global ? 'with(__global) { (function() { ' + __source + ' \n }).call(__global); }' : __source)
-      + '\n//# sourceURL=' + __address
-      + (__sourceMap ? '\n//# sourceMappingURL=' + __sourceMap : '');
-    eval(__source);
-  }
-  catch(e) {
-    if (e.name == 'SyntaxError')
-      e.message = 'Evaluating ' + __address + '\n\t' + e.message;
-    if (System.trace && System.execute == false)
-      e = 'Execution error for ' + __address + ': ' + e.stack || e;
-    throw e;
-  }
-}
+var $__curScript, __eval;
 
-var __$curScript;
+(function() {
 
-(function(global) {
-  global.upgradeSystemLoader = function() {
-    global.upgradeSystemLoader = undefined;
-    var originalSystem = global.System;
-    global.System = __upgradeSystemLoader(global.System);
-    global.System.clone = function() {
-      return __upgradeSystemLoader(originalSystem);
-    };
+  var doEval;
+
+  __eval = function(source, address, sourceMap) {
+    source += '\n//# sourceURL=' + address + (sourceMap ? '\n//# sourceMappingURL=' + sourceMap : '');
+
+    try {
+      doEval(source);
+    }
+    catch(e) {
+      var msg = 'Error evaluating ' + address + '\n';
+      if (e instanceof Error)
+        e.message = msg + e.message;
+      else
+        e = msg + e;
+      throw e;
+    }
   };
 
-  if (typeof window != 'undefined') {
-    var scripts = document.getElementsByTagName('script');
-    __$curScript = scripts[scripts.length - 1];
+  if (typeof document != 'undefined') {
+    var head;
 
-    if (!global.System || !global.LoaderPolyfill) {
+    var scripts = document.getElementsByTagName('script');
+    $__curScript = scripts[scripts.length - 1];
+
+    // globally scoped eval for the browser
+    doEval = function(source) {
+      if (!head)
+        head = document.head || document.body || document.documentElement;
+
+      var script = document.createElement('script');
+      script.text = source;
+      var onerror = window.onerror;
+      var e;
+      window.onerror = function(_e) {
+        e = _e;
+      }
+      head.appendChild(script);
+      head.removeChild(script);
+      window.onerror = onerror;
+      if (e)
+        throw e;
+    }
+
+    if (!$__global.System || !$__global.LoaderPolyfill) {
       // determine the current script path as the base path
-      var curPath = __$curScript.src;
+      var curPath = $__curScript.src;
       var basePath = curPath.substr(0, curPath.lastIndexOf('/') + 1);
       document.write(
         '<' + 'script type="text/javascript" src="' + basePath + 'es6-module-loader.js" data-init="upgradeSystemLoader">' + '<' + '/script>'
       );
     }
     else {
-      global.upgradeSystemLoader();
+      $__global.upgradeSystemLoader();
+    }
+  }
+  else if (typeof WorkerGlobalScope != 'undefined' && typeof importScripts != 'undefined') {
+    doEval = function(source) {
+      try {
+        eval(source);
+      } catch(e) {
+        throw e;
+      }
+    };
+
+    if (!$__global.System || !$__global.LoaderPolyfill) {
+      var basePath = '';
+      try {
+        throw new Error('Get worker base path via error stack');
+      } catch (e) {
+        e.stack.replace(/(?:at|@).*(http.+):[\d]+:[\d]+/, function (m, url) {
+          basePath = url.replace(/\/[^\/]*$/, '/');
+        });
+      }
+      importScripts(basePath + 'es6-module-loader.js');
+      $__global.upgradeSystemLoader();
+    } else {
+      $__global.upgradeSystemLoader();
     }
   }
   else {
     var es6ModuleLoader = require('es6-module-loader');
-    global.System = es6ModuleLoader.System;
-    global.Loader = es6ModuleLoader.Loader;
-    global.upgradeSystemLoader();
-    module.exports = global.System;
-  }
-})(__$global);
+    $__global.System = es6ModuleLoader.System;
+    $__global.Loader = es6ModuleLoader.Loader;
+    $__global.upgradeSystemLoader();
+    module.exports = $__global.System;
 
-})(typeof window != 'undefined' ? window : global);
+    // global scoped eval for node
+    var vm = require('vm');
+    doEval = function(source, address, sourceMap) {
+      vm.runInThisContext(source);
+    }
+  }
+})();
+
+})(typeof window != 'undefined' ? window : (typeof WorkerGlobalScope != 'undefined' ? self : global));
 
 (function(global){
 
@@ -4757,6 +4925,9 @@ var __$curScript;
 		},
 		dir = function(uri){
 			var lastSlash = uri.lastIndexOf("/");
+			//if no / slashes, check for \ slashes since it might be a windows path
+			if(lastSlash === -1)
+				lastSlash = uri.lastIndexOf("\\");
 			if(lastSlash !== -1) {
 				return uri.substr(0, lastSlash);
 			} else {
@@ -4781,7 +4952,6 @@ var __$curScript;
 				hash     : m[8] || ''
 			} : null);
 		},
-		  
 		joinURIs = function(base, href) {
 			function removeDotSegments(input) {
 				var output = [];
@@ -4806,12 +4976,17 @@ var __$curScript;
 				removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
 					(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
 					href.hash;
-		};
-
+		},
+		isWebWorker = typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope,
+		isBrowserWithWindow = typeof window !== "undefined",
+		isNode = !isBrowserWithWindow && !isWebWorker && typeof require != 'undefined';
 
 	var filename = function(uri){
-		var lastSlash = uri.lastIndexOf("/"),
-			matches = ( lastSlash == -1 ? uri : uri.substr(lastSlash+1) ).match(/^[\w-\s\.]+/);
+		var lastSlash = uri.lastIndexOf("/");
+		//if no / slashes, check for \ slashes since it might be a windows path
+		if(lastSlash === -1)
+			lastSlash = uri.lastIndexOf("\\");
+		var matches = ( lastSlash == -1 ? uri : uri.substr(lastSlash+1) ).match(/^[\w-\s\.!]+/);
 		return matches ? matches[0] : "";
 	};
 	
@@ -4863,8 +5038,14 @@ var __$curScript;
 		}
 	};
 
+var cloneSteal = function(System){
+	var loader = System || this.System;
+	return makeSteal(this.addSteal(loader.clone()));
+};
+
 var makeSteal = function(System){
 	
+	System.set('@loader', System.newModule({'default':System, __useDefault: true}));
 		
 	var configDeferred,
 		devDeferred,
@@ -4936,6 +5117,8 @@ var makeSteal = function(System){
 	var addForwardSlash = function(loader) {
 		var normalize = loader.normalize;
 
+		var npmLike = /@.+#.+/;
+
 		loader.normalize = function(name, parentName, parentAddress) {
 			var lastPos = name.length - 1,
 				secondToLast,
@@ -4944,6 +5127,10 @@ var makeSteal = function(System){
 			if (name[lastPos] === "/") {
 				secondToLast = name.substring(0, lastPos).lastIndexOf("/");
 				folderName = name.substring(secondToLast + 1, lastPos);
+				if(npmLike.test(folderName)) {
+					folderName = folderName.substr(folderName.lastIndexOf("#") + 1);
+				}
+
 				name += folderName;
 			}
 			return normalize.call(this, name, parentName, parentAddress);
@@ -4954,12 +5141,89 @@ var makeSteal = function(System){
 		addForwardSlash(System);
 	}
 
+/*
+  SystemJS JSON Format
+  Provides the JSON module format definition.
+*/
+function _SYSTEM_addJSON(loader) {
+	var jsonTest = /^[\s\n\r]*[\{\[]/;
+	var jsonExt = /\.json$/i;
+	var jsExt = /\.js$/i;
+	var inNode = typeof window === "undefined";
+
+	// Add the extension to _extensions so that it can be cloned.
+	loader._extensions.push(_SYSTEM_addJSON);
+
+	// if someone has a moduleName that is .json, make sure it loads a json file
+	// no matter what paths might do
+	var loaderLocate = loader.locate;
+	loader.locate = function(load){
+	  return loaderLocate.apply(this, arguments).then(function(address){
+		if(jsonExt.test(load.name)) {
+			return address.replace(jsExt, "");
+		}
+
+	    return address;
+	  });
+	};
+
+	// If we are in a build we should convert to CommonJS instead.
+	if(inNode) {
+		var loaderTranslate = loader.translate;
+		loader.translate = function(load){
+			if(jsonExt.test(load.name)) {
+				var parsed = parse(load);
+				if(parsed) {
+					return "def" + "ine([], function(){\n" +
+						"\treturn " + load.source + "\n});";
+				}
+			}
+
+			return loaderTranslate.call(this, load);
+		};
+		return;
+	}
+
+	var loaderInstantiate = loader.instantiate;
+	loader.instantiate = function(load) {
+		var loader = this,
+			parsed;
+
+		parsed = parse(load);
+		if(parsed) {
+			load.metadata.format = 'json';
+
+			load.metadata.execute = function(){
+				return parsed;
+			};
+		}
+
+		return loaderInstantiate.call(loader, load);
+	};
+
+	return loader;
+
+	// Attempt to parse a load as json.
+	function parse(load){
+		if ( (load.metadata.format === 'json' || !load.metadata.format) && jsonTest.test(load.source)  ) {
+			try {
+				return JSON.parse(load.source);
+			} catch(e) {}
+		}
+
+	}
+}
+
+if (typeof System !== "undefined") {
+	_SYSTEM_addJSON(System);
+}
+
 	// Overwrites System.config with setter hooks
 	var setterConfig = function(loader, configSpecial){
 		var oldConfig = loader.config;
-		
+
 		loader.config =  function(cfg){
-			
+
 			var data = extend({},cfg);
 			// check each special
 			each(configSpecial, function(special, name){
@@ -4971,7 +5235,7 @@ var makeSteal = function(System){
 					if(res !== undefined) {
 						// set that on the loader
 						loader[name] = res;
-					} 
+					}
 					// delete the property b/c setting is done
 					delete data[name];
 				}
@@ -4979,31 +5243,39 @@ var makeSteal = function(System){
 			oldConfig.call(this, data);
 		};
 	};
+
 	var setIfNotPresent = function(obj, prop, value){
 		if(!obj[prop]) {
-			obj[prop] = value;	
+			obj[prop] = value;
 		}
 	};
-	
+
 	// steal.js's default configuration values
-	System.paths["@config"] = "stealconfig.js";
+	System.configMain = "@config";
+	System.paths[System.configMain] = "stealconfig.js";
 	System.env = "development";
 	System.ext = {
 		css: '$css',
 		less: '$less'
 	};
+	System.logLevel = 0;
 	var cssBundlesNameGlob = "bundles/*.css",
 		jsBundlesNameGlob = "bundles/*";
 	setIfNotPresent(System.paths,cssBundlesNameGlob, "dist/bundles/*css");
 	setIfNotPresent(System.paths,jsBundlesNameGlob, "dist/bundles/*.js");
-	
-	
+
 	var configSetter = {
 		set: function(val){
 			var name = filename(val),
 				root = dir(val);
-			this.paths["@config"] = name;
-			this.baseURL =  (root === val ? "." : root)  +"/";
+
+			if(!isNode) {
+				System.configPath = joinURIs( location.href, val);
+			}
+			System.configMain = name;
+			System.paths[name] = name;
+			addProductionBundles.call(this);
+			this.config({ baseURL: (root === val ? "." : root) + "/" });
 		}
 	},
 		mainSetter = {
@@ -5012,7 +5284,30 @@ var makeSteal = function(System){
 				addProductionBundles.call(this);
 			}
 		};
-		
+
+	// checks if we're running in node, then prepends the "file:" protocol if we are
+	var envPath = function(val) {
+		if(isNode && !/^file:/.test(val)) {
+			// If relative join with the current working directory
+			if(val[0] === "." && (val[1] === "/" ||
+								 (val[1] === "." && val[2] === "/"))) {
+				val = require("path").join(process.cwd(), val);
+			}
+			if(!val) return val;
+
+			return "file:" + val;
+		}
+		return val;
+	};
+
+	var fileSetter = function(prop) {
+		return {
+			set: function(val) {
+				this[prop] = envPath(val);
+			}
+		};
+	};
+
 	var setToSystem = function(prop){
 		return {
 			set: function(val){
@@ -5024,36 +5319,60 @@ var makeSteal = function(System){
 			}
 		};
 	};
-	
 
-	
+	var pluginPart = function(name) {
+		var bang = name.lastIndexOf("!");
+		if(bang !== -1) {
+			return name.substr(bang+1);
+		}
+	};
+	var pluginResource = function(name){
+		var bang = name.lastIndexOf("!");
+		if(bang !== -1) {
+			return name.substr(0, bang);
+		}
+	};
 
-	
 	var addProductionBundles = function(){
 		if(this.env === "production" && this.main) {
 			var main = this.main,
 				bundlesDir = this.bundlesName || "bundles/",
-				mainBundleName = bundlesDir+filename(main);
-				
-	
-			setIfNotPresent(this.meta, mainBundleName, {format:"amd"});
-			setIfNotPresent(this.bundles, mainBundleName, [main]);
+				mainBundleName = bundlesDir+main;
 
+			setIfNotPresent(this.meta, mainBundleName, {format:"amd"});
+
+			// If the configMain has a plugin like package.json!npm,
+			// plugin has to be defined prior to importing.
+			var plugin = pluginPart(System.configMain);
+			var bundle = [main, System.configMain];
+			if(plugin){
+				System.set(plugin, System.newModule({}));
+			}
+			plugin = pluginPart(main);
+			if(plugin) {
+				var resource = pluginResource(main);
+				bundle.push(plugin);
+				bundle.push(resource);
+
+				mainBundleName = bundlesDir+resource.substr(0, resource.indexOf("."));
+			}
+
+			this.bundles[mainBundleName] = bundle;
 		}
 	};
-	
-	var isNode = typeof module != 'undefined' && module.exports;
-	var LESS_ENGINE = "less-1.7.0";
-	
-	setterConfig(System,{
+
+	var LESS_ENGINE = "less-2.4.0";
+	var specialConfig;
+	setterConfig(System, specialConfig = {
 		env: {
 			set: function(val){
 				System.env =  val;
 				addProductionBundles.call(this);
 			}
 		},
-		baseUrl: setToSystem("baseURL"),
-		root: setToSystem("baseURL"),
+		baseUrl: fileSetter("baseURL"),
+		baseURL: fileSetter("baseURL"),
+		root: fileSetter("baseURL"),  //backwards comp
 		config: configSetter,
 		configPath: configSetter,
 		startId: {
@@ -5062,35 +5381,116 @@ var makeSteal = function(System){
 			}
 		},
 		main: mainSetter,
+		stealURL: {
+			// http://domain.com/steal/steal.js?moduleName,env&
+			set: function(url, cfg)	{
+				System.stealURL = url;
+				var urlParts = url.split("?");
+
+				var path = urlParts.shift(),
+					search = urlParts.join("?"),
+					searchParts = search.split("&"),
+					paths = path.split("/"),
+					lastPart = paths.pop(),
+					stealPath = paths.join("/");
+
+				specialConfig.stealPath.set.call(this,stealPath, cfg);
+
+				if (lastPart.indexOf("steal.production") > -1 && !cfg.env) {
+					System.env = "production";
+					addProductionBundles.call(this);
+				}
+
+				if(searchParts.length && searchParts[0].length) {
+					var searchConfig = {},
+						searchPart;
+					for(var i =0; i < searchParts.length; i++) {
+						searchPart = searchParts[i];
+						var paramParts = searchPart.split("=");
+						if(paramParts.length > 1) {
+							searchConfig[paramParts[0]] = paramParts.slice(1).join("=");
+						} else {
+							if(steal.dev) {
+								steal.dev.warn("Please use search params like ?main=main&env=production");
+							}
+							var oldParamParts = searchPart.split(",");
+							if (oldParamParts[0]) {
+								searchConfig.startId = oldParamParts[0];
+							}
+							if (oldParamParts[1]) {
+								searchConfig.env = oldParamParts[1];
+							}
+						}
+					}
+					this.config(searchConfig);
+				}
+
+				// Split on / to get rootUrl
+
+
+
+
+			}
+		},
 		// this gets called with the __dirname steal is in
 		stealPath: {
 			set: function(dirname, cfg) {
+				dirname = envPath(dirname);
 				var parts = dirname.split("/");
 
-				setIfNotPresent(this.paths,"@dev", dirname+"/dev.js");
-				setIfNotPresent(this.paths,"$css", dirname+"/css.js");
-				setIfNotPresent(this.paths,"$less", dirname+"/less.js");
-				this.paths["@traceur"] = parts.slice(0,-1).join("/")+"/traceur/traceur.js";
-				
+				// steal keeps this around to make things easy no matter how you are using it.
+				setIfNotPresent(this.paths,"@dev", dirname+"/ext/dev.js");
+				setIfNotPresent(this.paths,"$css", dirname+"/ext/css.js");
+				setIfNotPresent(this.paths,"$less", dirname+"/ext/less.js");
+				setIfNotPresent(this.paths,"npm", dirname+"/ext/npm.js");
+				setIfNotPresent(this.paths,"npm-extension", dirname+"/ext/npm-extension.js");
+				setIfNotPresent(this.paths,"npm-utils", dirname+"/ext/npm-utils.js");
+				setIfNotPresent(this.paths,"npm-crawl", dirname+"/ext/npm-crawl.js");
+				setIfNotPresent(this.paths,"semver", dirname+"/ext/semver.js");
+				setIfNotPresent(this.paths,"bower", dirname+"/ext/bower.js");
+				setIfNotPresent(this.paths,"live-reload", dirname+"/ext/live-reload.js");
+				this.paths["traceur"] = dirname+"/ext/traceur.js";
+				this.paths["traceur-runtime"] = dirname+"/ext/traceur-runtime.js";
+				this.paths["babel"] = dirname+"/ext/babel.js";
+				this.paths["babel-runtime"] = dirname+"/ext/babel-runtime.js";
+
 				if(isNode) {
 					System.register("less",[], false, function(){
 						var r = require;
 						return r('less');
 					});
+
+					if(this.configMain === "@config" && last(parts) === "steal") {
+						parts.pop();
+						if(last(parts) === "node_modules") {
+							this.configMain = "package.json!npm";
+							addProductionBundles.call(this);
+							parts.pop();
+						}
+					}
+
 				} else {
-					setIfNotPresent(this.paths,"less",  dirname+"/"+LESS_ENGINE+".js");
-					
+					setIfNotPresent(this.paths,"less",  dirname+"/ext/"+LESS_ENGINE+".js");
+
 					// make sure we don't set baseURL if something else is going to set it
-					if(!cfg.root && !cfg.baseUrl && !cfg.baseURL && !cfg.config && !cfg.configPath) {
+					if(!cfg.root && !cfg.baseUrl && !cfg.baseURL && !cfg.config && !cfg.configPath ) {
 						if ( last(parts) === "steal" ) {
 							parts.pop();
 							if ( last(parts) === "bower_components" ) {
+								System.configMain = "bower.json!bower";
+								addProductionBundles.call(this);
+								parts.pop();
+							}
+							if (last(parts) === "node_modules") {
+								System.configMain = "package.json!npm";
+								addProductionBundles.call(this);
 								parts.pop();
 							}
 						}
-						this.baseURL =  parts.join("/")+"/";
+						this.config({ baseURL: parts.join("/")+"/"});
 					}
 				}
+				System.stealPath = dirname;
 			}
 		},
 		// System.config does not like being passed arrays.
@@ -5109,23 +5509,21 @@ var makeSteal = function(System){
 		instantiated: {
 			set: function(val){
 				var loader = this;
-				
+
 				each(val || {}, function(value, name){
 					loader.set(name,  loader.newModule(value));
 				});
 			}
 		}
 	});
-	
+
 	steal.config = function(cfg){
 		if(typeof cfg === "string") {
 			return System[cfg];
 		} else {
 			System.config(cfg);
 		}
-		
 	};
-	
 
 
 	var getScriptOptions = function () {
@@ -5137,41 +5535,21 @@ var makeSteal = function(System){
 		var script = scripts[scripts.length - 1];
 
 		if (script) {
-
+			options.stealURL = script.src;
 			// Split on question mark to get query
-			parts = script.src.split("?");
-			src = parts.shift();
-			query = parts.join("?");
-
-			// Split on comma to get startFile and env
-			parts = query.split(",");
-
-			if (src.indexOf("steal.production") > -1) {
-				options.env = "production";
-			}
-
-			if (parts[0]) {
-				options.startId = parts[0];
-			}
-			// Grab env
-			if (parts[1]) {
-				options.env = parts[1];
-			}
-
-			// Split on / to get rootUrl
-			parts = src.split("/");
-			var lastPart = parts.pop();
-			
-			options.stealPath = parts.join("/");
 
 			each(script.attributes, function(attr){
 				var optionName = 
 					camelize( attr.nodeName.indexOf("data-") === 0 ?
 						attr.nodeName.replace("data-","") :
 						attr.nodeName );
-				options[optionName] = attr.value;
+				options[optionName] = (attr.value === "") ? true : attr.value;
 			});
-
+			
+			var source = script.innerHTML.substr(1);
+			if(/\S/.test(source)){
+				options.mainSource = source;
+			}
 		}
 
 		return options;
@@ -5180,7 +5558,11 @@ var makeSteal = function(System){
 	steal.startup = function(config){
 
 		// Get options from the script tag
-		if(global.document) {
+		if (isWebWorker) {
+			var urlOptions = {
+				stealURL: location.href	
+			};
+		} else if(global.document) {
 			var urlOptions = getScriptOptions();
 		} else {
 			// or the only option is where steal is.
@@ -5203,15 +5585,18 @@ var makeSteal = function(System){
 		var steals = [];
 
 		// we only load things with force = true
-		if ( System.env == "production" && System.main ) {
+		if ( System.env == "production" ) {
+			
+			configDeferred = System["import"](System.configMain);
 
-			return appDeferred = System.import(System.main)["catch"](function(e){
+			appDeferred = configDeferred.then(function(cfg){
+				return System.main ? System["import"](System.main) : cfg;
+			})["catch"](function(e){
 				console.log(e);
 			});
 
-		} else if(System.env == "development"){
-
-			configDeferred = System.import("@config");
+		} else if(System.env == "development" || System.env == "build"){
+			configDeferred = System["import"](System.configMain);
 
 			devDeferred = configDeferred.then(function(){
 				// If a configuration was passed to startup we'll use that to overwrite
@@ -5221,32 +5606,63 @@ var makeSteal = function(System){
 					System.config(config);
 				}
 
-				return System.import("@dev");
+				return System["import"]("@dev");
 			},function(e){
 				console.log("steal - error loading @config.",e);
-				return steal.System.import("@dev");
+				return steal.System["import"]("@dev");
 			});
 
 			appDeferred = devDeferred.then(function(){
-
 				// if there's a main, get it, otherwise, we are just loading
 				// the config.
-				return System.main ? 
-					System.import(System.main):
-					configDeferred;
-			}).then(function(){
-				if(steal.dev) {
-					steal.dev.log("app loaded successfully")
+				if(!System.main || System.env === "build") {
+					return configDeferred;
 				}
-			}, function(error){
-				console.log("error",error,  error.stack);
+				var main = System.main;
+				if(typeof main === "string") {
+					main = [main];
+				}
+				return Promise.all( map(main,function(main){
+					return System["import"](main);
+				}) );
 			});
-			return appDeferred;
+			
 		}
+		
+		if(System.mainSource) {
+			appDeferred = appDeferred.then(function(){
+				System.module(System.mainSource);
+			});
+		}
+		return appDeferred;
+	};
+	steal.done = function(){
+		return appDeferred;
 	};
 
-	return steal;
+	steal.import = function(){
+		var names = arguments;
+		var loader = this.System;
 
+		function afterConfig(){
+			var imports = [];
+			each(names, function(name){
+				imports.push(loader.import(name));
+			});
+			if(imports.length > 1) {
+				return Promise.all(imports);
+			} else {
+				return imports[0];
+			}
+		}
+
+		if(!configDeferred) {
+			steal.startup();
+		}
+		
+		return configDeferred.then(afterConfig);
+	};
+	return steal;
 
 };
 /*
@@ -5342,22 +5758,27 @@ if (typeof System !== "undefined") {
   addSteal(System);
 }
 
-	if (typeof window != 'undefined') {
-		var oldSteal = window.steal;
-		window.steal = makeSteal(System);
-		window.steal.startup(oldSteal && typeof oldSteal == 'object' && oldSteal  );
-		window.steal.addSteal = addSteal;
-		
-	} else {
-    	
+	if( isNode ) {
 		require('systemjs');
 			
 		global.steal = makeSteal(System);
 		global.steal.System = System;
-		global.steal.dev = require("./dev.js");
-		steal.clone = makeSteal;
+		global.steal.dev = require("./ext/dev.js");
+		steal.clone = cloneSteal;
 		module.exports = global.steal;
 		global.steal.addSteal = addSteal;
-	}
+		require("system-json");
+		
+	} else {
+		var oldSteal = global.steal;
+		global.steal = makeSteal(System);
+		global.steal.startup(oldSteal && typeof oldSteal == 'object' && oldSteal)
+			.then(null, function(error){
+				console.log("error",error,  error.stack);
+				throw error;
+			});
+		global.steal.clone = cloneSteal;
+		global.steal.addSteal = addSteal;
+	} 
     
-})(typeof window == "undefined" ? global : window);
+})(typeof window == "undefined" ? (typeof global === "undefined" ? this : global) : window);

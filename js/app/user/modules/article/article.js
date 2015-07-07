@@ -11,9 +11,23 @@ import 'js/plugins/jquery.iframetracker/jquery.iframetracker';
 export default Controller.extend(
 	{
 		defaults: {
-            viewpath: '/js/app/user/modules/article/views/'
+			viewpath: '/js/app/user/modules/article/views/'
 		}
 	}, {
+		request: function() {
+			var id = can.route.attr('id'),
+				isNews = !!can.route.attr('param2');
+			can.ajax({
+				url: `/${isNews ? "news" : "article"}/${id}?ajax=true`,
+				success: (data) => {
+					this.successRequest(data);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.error(errorThrown);
+				}
+			});
+		},
+
 		variables: function() {
 			this.base_url = window.location.protocol + '//' + window.location.host;
 

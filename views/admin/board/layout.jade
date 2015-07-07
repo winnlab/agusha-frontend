@@ -54,6 +54,10 @@ html(lang="ru")
 							a(href="/admin/dashboard")
 								i.fa.fa-dashboard
 								span= "Главная"
+						li
+							a(href="/admin/news")
+								i.fa.fa-newspaper-o
+								span= "Новости"
 						li.treeview
 							a(href="#")
 								i.fa.fa-th
@@ -110,11 +114,20 @@ html(lang="ru")
 							a(href="/admin/faq")
 								i.fa.fa-question-circle
 								span= "FAQ"
+						//- li
+						//- 	a(href="/admin/tmpRemoveUser")
+						//- 		i.fa.fa-at
+						//- 		span= "Удаление юзеров"
 						li
-							a(href="/admin/tmpRemoveUser")
-								i.fa.fa-at
-								span= "Удаление юзеров"
+							a(href="/admin/stats")
+								i.fa.fa-bar-chart
+								span= "Статистика"
 						
+						li
+							a(href="/admin/partners")
+								i.fa.fa-building
+								span= "Партнеры"
+			
 			aside.right-side#moduleContent
 				div#summernote
 				block content

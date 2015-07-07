@@ -1,6 +1,6 @@
 import Controller from 'controller';
 import appState from 'core/appState';
-import _ from 'lodash'; 
+import _ from 'lodash';
 import 'tooltipster';
 import 'jquery-validation';
 import 'js/plugins/tooltipster/css/tooltipster.css!';
@@ -24,13 +24,13 @@ var ViewModel = can.Map.extend({
 export default Controller.extend(
 	{
 		defaults: {
-			
+
 		}
 	}, {
 		variables: function() {
 			this.reminder = 'reminder';
 		},
-		
+
 		after_init: function(data) {
 			var registration = $('#login'), html, that = this,
 				isOpenedError, auth;
@@ -165,7 +165,7 @@ export default Controller.extend(
 			}
 
 			data = this.data;
-			
+
 			can.ajax({
 				url: '/login?ajax=true',
 				method: 'POST',
@@ -191,23 +191,23 @@ export default Controller.extend(
 											.tooltipster('hide');
 									}, 300);
 								});
-						
+
 						return;
 					}
-					
+
 					form.find('input').val('');
-					
+
 					user.options.user.attr(response.message.user);
 
 					user.auth.attr('isAuth', true)
 
-					can.route.attr({module: 'profile'});
+					can.route.attr({module: 'profile'}, true);
 				},
 				error: function (resp) {
 					var err = "Произошла неведомая ошибка";
 
 					if(resp && resp.responseJSON) {
-						if( resp.responseJSON.err) 
+						if( resp.responseJSON.err)
 							err = resp.responseJSON.err.message;
 					}
 
@@ -225,7 +225,7 @@ export default Controller.extend(
 				}
 			});
 		},
-		
+
 		'.reminder_form .done click': function(el, ev) {
 			ev.preventDefault();
 
@@ -256,7 +256,7 @@ export default Controller.extend(
 
 						that.tooltip
 							.tooltipster('show');
-						
+
 						return;
 					}
 
@@ -291,10 +291,10 @@ export default Controller.extend(
 				}
 			});
 		},
-		
+
 		'.forgot_btn click': function(el, ev) {
 			ev.preventDefault();
-			
+
 			this.element.find('.reg_box').toggleClass(this.reminder);
 		},
 		'.close click': function(el, ev) {

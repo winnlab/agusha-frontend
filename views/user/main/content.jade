@@ -3,7 +3,85 @@ include ../helpers/counter
 .carousel_container(style= (user ? 'display: none;' : ''))
 	#main_carousel.carousel.slide(data-ride="carousel")
 		.carousel-inner(role="listbox")
-			.item.mama.active
+			.item.juice.active
+				.banner_image.banner_juice
+				.content
+					.top_label
+						div Соки, 
+						div що зроблені 
+						div в Україні!
+					
+					a.new_module(href="/article/Uliubleni_dytiachi_soky_Agusha_teper_vyrobliaiutsia_v_Ukraini/news")
+						button.carousel_button.red Узнать больше
+			
+			.item.production
+				.banner_image.banner_production
+				.content
+					.top_label
+						div «Завод Агуша» –
+						div питание только
+						div для деток
+					
+					.bottom_label
+						div На «Заводе Агуша» детское питание изготавливают по
+						div уникальной рецептуре исключительно для малышей
+					
+					a.new_module(href="/production")
+						button.carousel_button Узнать больше
+			
+			//- .item.moneybox_4
+				.banner_image.banner_image_moneybox_4
+				.content
+					.top_label
+						div Копилка:
+						.small_part
+							.small_label Четвертый розыгрыш подарков
+							.small_label для вашего малыша уже совсем
+							.small_label
+								span скоро - 
+								span.bold_small_label 17 июня!
+					
+					a.new_module(href="/moneybox")
+						button.carousel_button.pink Узнать больше
+			
+			//- .item.spring_resitration_end.active
+				.banner_image.banner_image_spring_registration
+				.content
+					.action_box
+						.top_label Акция «Весенняя регистрация» завершена!
+						
+						.bottom_label
+							div Мы разыграли вкусные и полезные подарки для малышей
+							div среди пользователей, которые зарегистрировались
+							div на нашем сайте с 10.04 по 20.05. Вот как это было:
+						
+						.video_part
+							.stream.adorable_container
+								.adorable
+									object.youtube(frameborder="0" width="100%" height="100%" data="http://www.youtube.com/embed/TInW283YeB0" wmode="transparent" allowscriptaccess="always" allowfullscreen="true")
+			
+			//- .item.baby_active.active
+				.banner_image.banner_image_baby_active
+				.content
+					.top_label
+						div
+							span.orange 16-17 мая
+							span  отдыхайте всей семьей
+						
+						div на фестивале семейного досуга
+						
+						.orange «BABY Active 2015»!
+					
+					.bottom_label
+						div Множество полезностей, интересностей и вкусностей для
+						div мам, пап и малышей ждут вас с 10.00 до 18.00 в
+						div Выставочном центре АККО «Интернешнл» на территории
+						div парка им. А.С. Пушкина. 
+					
+					a._blank(href="https://www.facebook.com/events/991034750914402/" target="_blank")
+						button.carousel_button.orange3 Узнать больше
+			
+			//- .item.mama
 				.banner_image.banner_image_mama
 				.content
 					.top_label
@@ -14,7 +92,7 @@ include ../helpers/counter
 							.small_label праздником на свете —
 							.small_label Днем матери!
 			
-			//- .item.moneybox_3.active
+			//- .item.moneybox_3
 				.banner_image.banner_image_moneybox_3
 				.content
 					.top_label
@@ -30,8 +108,8 @@ include ../helpers/counter
 						button.carousel_button.pink Узнать больше
 			
 			if duration.diff > 0
-				//- .item.duration.active
-				.item.duration
+				//- .item.duration
+				.item.duration.active
 					.banner_image.banner_image_spring_registration
 					.content
 						.action_box
@@ -103,7 +181,7 @@ include ../helpers/counter
 					a.new_module(href="/moneybox")
 						button.carousel_button.blue Подробнее
 			
-			.item(class = (duration.diff > 0 ? '' : 'active'))
+			.item
 				.banner_image.banner_image_1
 				.content
 					.top_label
@@ -152,9 +230,7 @@ include ../helpers/counter
 			li(data-target="#main_carousel" data-slide-to="1")
 			li(data-target="#main_carousel" data-slide-to="2")
 			li(data-target="#main_carousel" data-slide-to="3")
-			if duration.diff > 0
-				li(data-target="#main_carousel" data-slide-to="4")
-			//- li(data-target="#main_carousel" data-slide-to="4")
+			li(data-target="#main_carousel" data-slide-to="4")
 		
 		.content.arrows_content
 			a.left.carousel-control(href="#main_carousel" role="button" data-slide="prev")
@@ -191,13 +267,13 @@ include ../helpers/counter
 		
 		include ../helpers/auth_box
 
+	
 	include ../registered/content
 	
-	- if (!user)
-		.content.itemsWrap.commonFeed
-			.items_container
-				- each a, i in articles.documents
-					mixin article(a, i)
-			if (articles.nextAnchorId)
-				.loadMore
-					img(src="/img/user/main/icon_book.gif")
+	.content.itemsWrap.commonFeed
+		.items_container
+			- each a, i in articles.documents
+				mixin article(a, i)
+		if (articles.nextAnchorId)
+			.loadMore
+				img(src="/img/user/main/icon_book.gif")

@@ -147,6 +147,14 @@
                     </div>
                 </div>
             {{/if}}
+			
+			<div class="form-group">
+                <label class="col-md-2 control-label" for="alias">Позиция внутри категории:</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="text" can-value="product.positionInsideCategory" placeholder="Позиция внутри категории" />
+                    <div class="help help-block"></div>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="col-md-2 control-label" for="alias">"Человеческая" ссылка для продукта (латинскими символами):</label>

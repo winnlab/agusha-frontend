@@ -1,6 +1,7 @@
 import Controller from 'controller';
 import select2 from 'select2';
 import appState from 'core/appState';
+import pagination from 'lib/helpers/pagination';
 import 'jquery-validation';
 
 var ViewModel = can.Map.extend({
@@ -60,12 +61,19 @@ export default Controller.extend(
 				specHtml,
 				html;
 
+			this.articlesNextId = data ? data.articles.nextAnchorId : app.consultations.nextAnchorId;
+
 			this.data = new ViewModel({
-				articles: data ? data.articles : app.consultations,
+				articles: data ? data.articles.documents : app.consultations.documents,
 				ages: data ? data.ages : app.ages,
 				ageId: data ? data.ages[0]._id : app.ages[0]._id,
 				themes: data ? data.themes : app.themes
 			});
+
+			if (this.data.attr('articles.length') < 24 || this.articlesNextId == 1 || !this.articlesNextId) {
+				this.noMoreArts = true;
+				this.element.find('.loadMore').hide()
+			}
 
 			var consultation_mustache = $('#consultation_mustache'),
 				specialist_mustache = $('#specialist_mustache');
@@ -117,6 +125,7 @@ export default Controller.extend(
 				that.element.find('select.specialist_theme_select, select.specialist_age_select').select2(that.select2Options);
 			});
 			can.bind.call(appState, "toggleWatch", can.proxy(that.toggleWatch, that))
+			pagination.on(can.proxy(this.loadMore, this));
 		},
 
 		toggleWatch: function (ev, id) {
@@ -201,6 +210,38 @@ export default Controller.extend(
 			ga('send', 'event', 'Registration', 'Specialist');
 		},
 
+		loadMore: function () {
+			var self = this,
+				data = {
+					lastId: self.articlesNextId
+				},
+				articles = self.data.attr('articles');
+
+			if (self.noMoreArts) {
+				return;
+			}
+
+			can.ajax({
+				url: '/consultations',
+				method: 'get',
+				dataType: 'json',
+				data: data
+			}).done(function (data) {
+				self.articlesNextId = data.nextAnchorId;
+
+				can.batch.start();
+				_.each(data.documents, function (article) {
+					articles.push(article);
+				});
+				can.batch.stop();
+
+				if (data.documents.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
+					self.noMoreArts = true;
+					$('.loadMore').hide();
+				}
+			});
+		},
+
 		validate: function (form) {
 			return form.validate({
 				errorPlacement: function() {},
@@ -231,6 +272,14 @@ export default Controller.extend(
 					});
 				}
 			});
+		},
+
+		destroy: function() {
+			appState.attr('user').auth.undelegate('isAuth')
+			can.unbind.call(appState, "toggleWatch")
+			pagination.off()
+
+			can.Control.prototype.destroy.call(this);
 		}
-    }
+	}
 );

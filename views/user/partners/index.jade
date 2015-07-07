@@ -1,0 +1,18 @@
+extends ../layout
+
+block append header
+	link(href="/css/user/partners/partners.css" rel="stylesheet")
+
+block content
+	.module.server#partners
+		include content
+
+block prepend scripts
+	script.
+		var app = {
+			partners: !{JSON.stringify(partners)}
+		};
+	script#partner_mustache(type="text/mustache")
+		- var server = false
+		- var mustache = true
+		mixin partners_container(server, mustache)

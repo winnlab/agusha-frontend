@@ -1,5 +1,5 @@
-- var likesAmount = article.likes ? article.likes.length : 0;
-- var commentariesAmount = article.commentaries ? article.commentaries.length : 0;
+- var likesAmount = article.counter ? article.counter.like : 0;
+- var commentariesAmount = article.counter ? article.counter.comment : 0;
 
 - var isLiked = ''
 if user
@@ -34,8 +34,8 @@ if article.image
 			.column.feedback
 				.adorable_table
 					div(class="adorable_cell toggleLike #{isLiked}")
-						img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
-						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component="Article")
+						img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component=(news ? "News" : "Article"))
+						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component=(news ? "News" : "Article"))
 
 						span.count.like(data-component_id="#{article._id}")
 							| #{likesAmount}
@@ -162,11 +162,11 @@ if article.image
 								span /
 								a.register.registration_link(href="/registration", class="new_module") Регистрация
 
-			.footer
+			div(class="footer #{isLiked}")
 				.adorable_table
 					div(class="adorable_cell toggleLike #{isLiked}")
-						img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
-						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component="Article")
+						img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component=(news ? "News" : "Article"))
+						img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component=(news ? "News" : "Article"))
 						span.count.like(data-component_id="#{article._id}")
 							| #{likesAmount}
 						span.approve
@@ -239,8 +239,8 @@ if article.image
 									| только для ознакомления и не может быть использована для диагностики и лечения.
 									| Пожалуйста, обязательно консультируйтесь с врачом по всем вопросам, связанным
 									| со здоровьем и самочувствием взрослых и детей.
-				
-				.footer
+
+				div(class="footer #{isLiked}")
 					.half.left
 						.adorable_table
 							.adorable_cell.scrollToComments
@@ -249,17 +249,17 @@ if article.image
 									| #{commentariesAmount}
 								span.slash / 
 								span.post_comment Комментировать
-								
-					.half.right.like(data-component_id="#{article._id}", data-component="Article")
+
+					.half.right.like(data-component_id="#{article._id}", data-component=(news ? "News" : "Article"))
 						.adorable_table
 							div(class="adorable_cell toggleLike #{isLiked}")
-								img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component="Article")
-								img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component="Article")
+								img.like.liked(src="/img/user/article/heart.png", data-component_id="#{article._id}", data-component=(news ? "News" : "Article"))
+								img.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{article._id}", data-component=(news ? "News" : "Article"))
 								span.count.like(data-component_id="#{article._id}")
 									| #{likesAmount}
 								span.slash /
 								span.post_like Одобрить
-			
+
 			.right.column
 				.question.adorable_table
 					.adorable_cell
@@ -271,5 +271,5 @@ if article.image
 						.info Кандидат медицинских наук, старший научный сотрудник отделения медицинских проблем здорового ребенка и преморбидных состояний.
 						button.ask_button(href="/specialist", class="new_module") Задать вопрос
 			.clearfix
-	
+
 	include ../helpers/article_bottom

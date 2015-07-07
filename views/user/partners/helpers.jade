@@ -1,0 +1,66 @@
+mixin partner_block(mustache, p)
+	.partner_block
+		.partner_img
+			if p
+				img(src = '/img/' + (p.image ? '/uploads/' + p.image : 'no_photo.png'))
+			else
+				img(src = mustache ? '/img/{{#if image}}/uploads/{{image}}{{else}}no_photo.png{{/if}}' : '')
+		
+		.partner_title
+			.adorable_table
+				.adorable_cell
+					if p
+						| #{p.title}
+					else
+						| {{title}}
+
+mixin partner(mustache, p)
+	if p
+		if p.url
+			a._blank(href = 'http://' + p.url)
+				mixin partner_block(mustache, p)
+		else
+			mixin partner_block(mustache, p)
+	else
+		| {{#if url}}
+		a._blank(href = 'http://{{url}}')
+			mixin partner_block(mustache)
+		| {{else}}
+		mixin partner_block(mustache)
+		| {{/if}}
+
+mixin partners_filters(server)
+	.filters
+		select.sort_select
+			option(value = 1) По алфавиту от А до Я
+			option(value = 0) По алфавиту от Я до А
+		
+		.pages
+			.page_title
+				.adorable_table
+					.adorable_cell.right
+						span Страница
+						
+						input.current_page(value = 1 can-value = 'current_page')
+						
+						if server
+							span из 1
+						else
+							span из {{pages_count}}
+			
+			.page.prev_page
+			.page.next_page
+
+mixin partners_container(server, mustache)
+	mixin partners_filters(server)
+	
+	.items_container
+		if server
+			- each p, key in partners
+				mixin partner(mustache, p)
+		else
+			| {{#each partners}}
+			mixin partner(mustache)
+			| {{/each}}
+	
+	mixin partners_filters(server)

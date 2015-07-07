@@ -105,30 +105,126 @@
 		}
 
 		.item {
+			&.juice {
+				.top_label {
+					font-family: 'PT_Sans_Narrow_Bold';
+					color: $darkblue2;
+					font-size: 56px;
+					font-weight: 700;
+					line-height: 56px;
+				}
+			}
+			
+			&.production {
+				.top_label {
+					font-family: 'PT_Sans_Narrow_Bold';
+					font-size: 56px;
+					line-height: 56px;
+					color: white;
+				}
+
+				.bottom_label {
+					font-size: 18px;
+					line-height: 28px;
+					color: white;
+					margin-top: 26px;
+				}
+			}
+
+			&.spring_resitration_end {
+				z-index: 30;
+
+				.top_label {
+					font-size: 36px;
+					line-height: 36px;
+					font-family: 'PT_Sans_Narrow_Bold';
+					margin-top: 28px;
+					color: $red_title;
+					letter-spacing: 1.5px;
+				}
+
+				.bottom_label {
+					font-size: 16px;
+					margin-top: 9px;
+					margin-bottom: 14px;
+					letter-spacing: -0.5px;
+				}
+
+				.video_part {
+					@include box_shadow(0 -1px 0 $grey3);
+					padding: 20px 0;
+				}
+
+				.stream {
+					width: 398px;
+					position: relative;
+
+					&:before {
+						margin-top: 70%;
+					}
+				}
+
+				.youtube {
+					@include box_shadow(0 0 0 1px $grey3);
+
+					&:hover {
+						@include box_shadow(0px 2px 6px 0px rgba(0, 0, 0, 0.22), 0 0 0 1px $grey3);
+						background-color: $el_bg2;
+					}
+				}
+			}
+
 			&.duration {
 				z-index: 30;
 			}
-			
+
 			&.moneybox_3 {
 				.top_label {
 					color: $blue3;
 				}
 			}
-			
+
 			&.mama {
 				.top_label {
 					color: #00b5d9;
 				}
-				
+
 				.small_part {
 					margin-top: 13px;
 				}
-				
+
 				.small_label {
 					line-height: 45px;
 				}
 			}
-			
+
+			&.baby_active {
+				color: $darkgrey;
+
+				.top_label {
+					font-size: 36px;
+					line-height: 40px;
+					text-transform: none;
+					color: $darkgrey;
+				}
+
+				.orange {
+					color: $orange3;
+				}
+
+				.bottom_label {
+					margin-top: 24px;
+					font-size: 20px;
+					line-height: 25px;
+					font-family: 'PT_Sans_Narrow';
+				}
+
+				.carousel_button {
+					margin-top: 31px;
+					width: 230px;
+				}
+			}
+
 			.content {
 				padding: 68px 20px 0;
 				text-align: left;
@@ -299,10 +395,20 @@
 				background-color: $orange;
 				color: $white;
 			}
-			
+
+			&.orange3 {
+				background-color: $orange3;
+				color: $white;
+			}
+
 			&.pink {
 				background-color: $pink;
 				color: $white;
+			}
+			
+			&.red {
+				background-color: $red3;
+				color: white;
 			}
 		}
 	}
@@ -314,10 +420,22 @@
 		top: 0;
 		left: 0;
 		
+		&.banner_juice {
+			background: url('/img/user/main/banner_juice.jpg') no-repeat center;
+		}
+
+		&.banner_production {
+			background: url('/img/user/main/banner_production.jpg') no-repeat center;
+		}
+
+		&.banner_image_baby_active {
+			background: url('/img/user/main/banner_baby_active.jpg') no-repeat center;
+		}
+
 		&.banner_image_mama {
 			background: url('/img/user/main/banner_mama.jpg') no-repeat center;
 		}
-		
+
 		&.banner_image_spring_registration {
 			background: url('/img/user/main/spring_registration_banner.jpg') no-repeat center;
 		}
@@ -337,9 +455,13 @@
 		&.banner_image_moneybox_2 {
 			background: url('/img/user/main/banner_moneybox_2.jpg') no-repeat center;
 		}
-		
+
 		&.banner_image_moneybox_3 {
 			background: url('/img/user/main/banner_moneybox_3.jpg') no-repeat center;
+		}
+
+		&.banner_image_moneybox_4 {
+			background: url('/img/user/main/banner_moneybox_4.jpg') no-repeat center;
 		}
 
 		&.banner_image_1 {
@@ -639,7 +761,7 @@
 	}
 
 	.order_select {
-		width: 150px;
+		width: 175px;
 		height: 70px !important;
 		@include box_shadow(1px 0 0 0 #e5e5e5);
 	}
@@ -675,7 +797,7 @@
 
 .main_select2_result {
 	@include border_boxed;
-	padding: 0 30px;
+	padding: 0 10px;
 	color: #4c4c4c;
 
 	.adorable_cell {

@@ -1,0 +1,121 @@
+mixin article(a, i)
+	- var classname = ''
+	- var articleType = ''
+	- var bgSize
+	if a
+		if !a.type || !a.type.name
+			- articleType = ''
+		else if a.type.name === 'Статья от редакции' 
+			- articleType = 'redaction'
+		else if a.type.name === 'Тема недели' 
+			- articleType = 'week'
+		else 
+			- articleType = 'author'
+	else 
+		- articleType = '{{articleType . @index}}'
+	
+	if a
+		- classname = ([3, 6, 11, 12, 15, 20, 24]).indexOf(i) !== -1 ? 'double' : ''
+		- bgSize = classname ? i == 0 ? 'XL' : 'L' : 'S';
+		- classname += (!a.image || !a.image.background ? ' no-image' : '')
+		- classname += a.is_quiz ? ' poll' : '';
+	else
+		- classname = '{{getClassName . @index module}}'
+	
+	- classname += ' ' + articleType
+	
+	a(class="new_module card #{classname}" href = "/article/" + (a ? a.transliterated : '{{transliterated}}') + "/news")
+		.inner(style=( a ? a.image && a.image[bgSize] && articleType !== 'author' ? "background-image: url(/img/uploads/" + a.image[bgSize] + ");" : '' : '{{getBg . @index module}}'))
+			.topper.bg
+				.topper_label
+					.adorable_table
+						.adorable_cell= (a ? (a.theme && a.theme[0] && a.theme[0].name ? a.theme[0].name : '') : '{{theme.0.name}}')
+				
+				.topper_title= (a ? (a.title ? a.title : a.name ) : '{{#if title}}{{title}}{{/if}}{{#if name}}{{name}}{{/if}}')
+				
+				if a
+					if a.desc
+						.topper_text=a.desc.shorttext
+					if a.hasVideo
+						.topper_play
+				else
+					| {{#if desc}}
+					.topper_text='{{desc.shorttext}}'
+					| {{/if}}
+					| {{#if hasVideo}}
+					.topper_play
+					| {{/if}}
+
+				if a 
+					if a.is_quiz
+						.topper_approve
+							span.count= (a.counter.answer)
+							span.approve
+								div мамочек
+								div ответили
+				else 
+					| {{#if is_quiz}}
+					.topper_approve
+						span.count= '{{counter.answer}}'
+						span.approve
+							div мамочек
+							div ответили
+					| {{/if}}
+
+			if a 
+				if a.is_quiz
+					.button_content.gold
+						button.me_too Я тоже
+			else 
+				| {{#if is_quiz}}
+				.button_content.gold
+					button.me_too= '{{checkAnswer .}}'
+				| {{/if}}
+				
+			if a
+				if articleType === 'author'
+					.user_content
+						.avatar.medical_cap
+							img.rounded(src='/img/user/specialist/doc_mini.jpg')
+						.name врач-педиатр
+						.name Ирина Матвиенко
+			else
+				| {{#is type.name 'Статья от специалиста'}}
+				.user_content
+					.avatar.medical_cap
+						img.rounded(src='/img/user/specialist/doc_mini.jpg')
+					.name врач-педиатр
+					.name Ирина Матвиенко
+				| {{/is}}
+			
+			div(class="footer " + (a ? '' : '{{isLiked .}}'))
+				.heart
+					img.liked(src="/img/user/article/heart.png")
+					img.not-liked(src="/img/user/article/heart-.png")
+					if a 
+						if a.recommended
+							img(src="/img/user/helpers/cards/lamp.png")
+						- var answer = false;
+						if a.answer
+							each ans, i in a.answer
+								if ans.specialist
+									- answer = true;
+						if answer
+							img(src="/img/user/helpers/cards/check.png")
+					else
+						| {{#isSpecAns .}}
+						img(src="/img/user/helpers/cards/check.png")
+						| {{/isSpecAns}}
+						| {{#if recommended}}
+						img(src="/img/user/helpers/cards/lamp.png")
+						| {{/if}}
+					
+				.counters.adorable_table
+					.adorable_cell
+						- var component_id = a ? a._id : '{{_id}}'
+						img.j-disabled.like.liked(src="/img/user/article/heart.png", data-component_id=component_id, data-component="News")
+						img.j-disabled.like.not-liked(src="/img/user/article/heart-.png", data-component_id=component_id, data-component="News")
+						span.count.like(data-component_id=component_id)= (a ? a.counter ? a.counter.like : 0 : '{{counter.like}}')
+
+						img.comment(src="/img/user/article/comment.png")
+						span.count.commentariesCount= (a ? (a.counter ? a.counter.comment : 0) : '{{#if counter.comment}}{{counter.comment}}{{else}}0{{/if}}')

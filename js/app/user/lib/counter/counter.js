@@ -10,7 +10,7 @@ var Counter = new can.Map({
 
 var fn60sec = function() {
 	var	currentDate = moment(),
-		endDate = moment('20.05.2015', 'DD.MM.YYYY'),
+		endDate = moment('21.05.2015', 'DD.MM.YYYY'),
 		diff = endDate.diff(currentDate),
 		duration = moment.duration(diff);
 	

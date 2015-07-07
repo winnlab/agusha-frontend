@@ -2,7 +2,8 @@ import can from 'can/';
 import Controller from 'controller';
 import appState from 'core/appState';
 import encyclopediaHelpers from 'js/app/user/modules/encyclopedia/encyclopediaHelpers';
-import upBtn from 'lib/up-btn/';
+import pagination from 'lib/helpers/pagination';
+import _ from 'lodash';
 import 'select2';
 import 'carousel';
 
@@ -46,8 +47,6 @@ export default Controller.extend(
 		initPlugins: function() {
 			var self = this;
 			this.select2();
-
-			new upBtn(this.element);
 
 			appState.delegate('subsChanged', 'set', function (el, newVal) {
 				if (newVal) {
@@ -110,11 +109,12 @@ export default Controller.extend(
 		},
 
 		after_init: function(data) {
-			var auth = appState.attr('user').auth;
+			var self = this,
+				auth = appState.attr('user').auth;
 
 			this.isAuth(null, auth.attr('isAuth'));
 
-			auth.delegate('isAuth', 'set', can.proxy(this.isAuth, this));
+			auth.delegate('isAuth', 'set', _.bind(this.isAuth, this));
 
 			this.articlesSource = data ? data.articles.documents : app.articles.documents;
 			this.articlesNextId = data ? data.articles.nextAnchorId : app.articles.nextAnchorId;
@@ -146,6 +146,8 @@ export default Controller.extend(
 				consultations: data ? data.consultations.length : app.consultations.length
 			});
 
+			window.data = this.data
+
 			var encyclopedia_mustache = $('#encyclopedia_mustache'),
 				feed_mustache = $('#feed_mustache');
 
@@ -163,39 +165,42 @@ export default Controller.extend(
 			can.view.mustache('mainArticlesView', encyclopediaHtml);
 			can.view.mustache('feedView', feedHtml);
 
-			this.items_container.html(can.view('mainArticlesView', this.data, encyclopediaHelpers));
+			this.items_container.each(function () {
+				$(this).html(can.view('mainArticlesView', self.data, encyclopediaHelpers));
+			});
+
 			this.feed_container.html(can.view('feedView', this.data, encyclopediaHelpers));
 			this.initPlugins();
-			this.counter_mustache();
+			// this.counter_mustache();
 			this.icons = this.element.find('.icon');
 		},
 
-		counter_mustache: function() {
-			if(!this.counter_block.length) {
-				return;
-			}
+		// counter_mustache: function() {
+			// if(!this.counter_block.length) {
+				// return;
+			// }
 
-			var	counter_mustache = $('#counter_mustache'),
-				html, ViewModel;
+			// var	counter_mustache = $('#counter_mustache'),
+				// html, ViewModel;
 
-			if(!counter_mustache.length) {
-				html = jadeTemplate.get('user/helpers/counter_mustache');
-			} else {
-				html = counter_mustache.html();
-			}
+			// if(!counter_mustache.length) {
+				// html = jadeTemplate.get('user/helpers/counter_mustache');
+			// } else {
+				// html = counter_mustache.html();
+			// }
 
-			can.view.mustache('counter_mustache', html);
+			// can.view.mustache('counter_mustache', html);
 
-			ViewModel = can.Map.extend({
-				define: {
-					duration: {
-						value: appState.attr('counter')
-					}
-				}
-			});
+			// ViewModel = can.Map.extend({
+				// define: {
+					// duration: {
+						// value: appState.attr('counter')
+					// }
+				// }
+			// });
 
-			this.counter_block.html(can.view('counter_mustache', new ViewModel()));
-		},
+			// this.counter_block.html(can.view('counter_mustache', new ViewModel()));
+		// },
 
 		updateSubscribe: function () {
 			var self = this;
@@ -223,18 +228,22 @@ export default Controller.extend(
 		},
 
 		isAuth: function (el, isAuth) {
+			pagination.off();
 			var self = this;
 			if (isAuth) {
 				self.element.find('.mainModuleWrap').addClass('logedIn');
 				self.bannerWrap.hide();
 				self.element.find('.commonFeed').hide();
+				self.element.find('.carousel_container').hide();
 				self.userTitle.css('display', 'inline-block');
 			} else {
 				self.element.find('.mainModuleWrap').removeClass('logedIn');
 				self.userTitle.hide();
 				self.element.find('.commonFeed').show();
+				self.element.find('.carousel_container').show();
 				self.bannerWrap.show();
 			}
+			pagination.on(can.proxy(this.loadMore, this));
 		},
 
 		'.tab click': function(el) {
@@ -335,7 +344,7 @@ export default Controller.extend(
 			}
 		},
 
-		'.loadMore img click': function (el) {
+		loadMore: function () {
 			var self = this,
 				articles = self.data.attr('articles');
 
@@ -368,7 +377,7 @@ export default Controller.extend(
 
 				if (data.documents.length < 24 || self.articlesNextId == 1 || !self.articlesNextId) {
 					self.noMoreArts = true;
-					el.parent().hide();
+					$('.loadMore').hide();
 				}
 			});
 		},
@@ -396,6 +405,9 @@ export default Controller.extend(
 			can.unbind.call(appState, "toggleWatch", can.proxy(this.toggleWatch, this));
 			appState.attr('user').user().unbind('change');
 			appState.undelegate('subsChanged', 'set');
+			appState.attr('user').auth.undelegate('isAuth');
+			pagination.off()
+
 			can.Control.prototype.destroy.call(this);
 		}
 	}

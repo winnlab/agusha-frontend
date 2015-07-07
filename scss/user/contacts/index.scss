@@ -5,6 +5,7 @@
 .module.contacts {
 	width: 920px;
 	text-align: left;
+	color: $grey5;
 	
 	&:before {
 		@include pseudo;
@@ -32,8 +33,16 @@
 			float: left;
 			width: 300px;
 			height: 655px;
-			padding: 37px 20px 37px 40px;
-			font-size: 18px;
+			padding: 30px;
+			font-size: 16px;
+			line-height: 22px;
+		}
+		
+		.top_label {
+			font-size: 24px;
+			font-family: 'PT_Sans_Narrow_Bold';
+			line-height: 30px;
+			margin-bottom: 30px;
 		}
 		
 		.label {
@@ -42,18 +51,16 @@
 		}
 		
 		.contact_label {
-			color: #b3a8a1;
-			font-family: 'PT_Sans_Italic';
-			padding: 0 0 0 35px;
+			padding: 0 0 0 40px;
 			
 			&.address {
 				position: relative;
 				
 				&:before {
 					@include pseudo;
-					background: url('/img/user/help/home.png') center no-repeat;
-					width: 22px;
-					height: 18px;
+					background: url('/img/user/help/address.png') center no-repeat;
+					width: 28px;
+					height: 22px;
 					top: 3px;
 					left: 0;
 					bottom: 0;
@@ -65,9 +72,9 @@
 				
 				&:before {
 					@include pseudo;
-					background: url('/img/user/help/mail.png') center no-repeat;
-					width: 22px;
-					height: 17px;
+					background: url('/img/user/help/mail_2.png') center no-repeat;
+					width: 28px;
+					height: 22px;
 					top: 3px;
 					left: 0;
 					bottom: 0;
@@ -79,9 +86,9 @@
 				
 				&:before {
 					@include pseudo;
-					background: url('/img/user/help/phone.png') center no-repeat;
-					width: 20px;
-					height: 19px;
+					background: url('/img/user/help/phone_2.png') center no-repeat;
+					width: 28px;
+					height: 22px;
 					top: 3px;
 					left: 0;
 					bottom: 0;
@@ -90,7 +97,7 @@
 		}
 		
 		.contact_text {
-			padding: 0 0 0 35px;
+			padding: 0 0 0 40px;
 			margin-bottom: 25px;
 			
 			.mail {
@@ -103,15 +110,6 @@
 				font-size: 24px;
 				line-height: 24px;
 				letter-spacing: 1px;
-				
-				a {
-					text-decoration: none;
-					color: $base;
-				}
-			}
-			
-			.phone_notice {
-				font-size: 13px;
 			}
 		}
 		

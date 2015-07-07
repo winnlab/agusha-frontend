@@ -900,6 +900,9 @@ export default Controller.extend(
         },
 
         'click': function (el, ev) {
+            if ($(ev.target).parents('.customSelect').length) {
+                return;
+            }
             var $list = $('.customSelectList');
             if ($list.hasClass('active')) {
                 $list.removeClass('active');

@@ -1,10 +1,10 @@
-.topper
+//- .topper
 	.adorable_table
 		.adorable_cell
 			.top_label Про агушу
 			.label Пара слов о нас
 
-.center
+//- .center
 	.adorable_cell
 		a.item.adorable_table.new_module(href="/products")
 			.adorable_cell Каталог продукции
@@ -17,6 +17,32 @@
 		
 		a.item.adorable_table.new_module(href="/contacts")
 			.adorable_cell Контакты
-		
-		//- .item.adorable_table
-			.adorable_cell Запись на экскурсию
+
+a.item_row.module_tab.module_tab_products.new_module(href="/products")
+	.item_label
+		.adorable_table
+			.adorable_cell
+				div Каталог
+				div продукции
+
+a.item_row.module_tab.module_tab_news.new_module(href="/news")
+	.item_label
+		.adorable_table
+			.adorable_cell
+				div Новости от
+				div агуша
+
+a.item_row.module_tab.module_tab_production.new_module(href="/production")
+	.item_label
+		.adorable_table
+			.adorable_cell О производстве
+
+a.item_row.module_tab.module_tab_download.new_module(href="/download")
+	.item_label
+		.adorable_table
+			.adorable_cell Меню малыша
+
+a.item_row.module_tab.module_tab_contacts.new_module(href="/contacts")
+	.item_label
+		.adorable_table
+			.adorable_cell Контакты

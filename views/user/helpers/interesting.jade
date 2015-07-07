@@ -42,8 +42,9 @@
 		//- else
 		//- 	- articleType = 'author'
 
-		- var likesAmount = similarArticle.likes ? similarArticle.likes.length : 0
-		- var commentariesAmount = similarArticle.commentaries ? similarArticle.commentaries.length : 0
+		- var likesAmount = similarArticle.counter ? similarArticle.counter.like : 0
+		- var commentariesAmount = similarArticle.counter ? similarArticle.counter.comment : 0
+		- var answersAmount = similarArticle.counter ? similarArticle.counter.answer : 0
 
 		- var classname = ''
 		- var articleType = ''
@@ -74,7 +75,7 @@
 					if similarArticle.is_quiz
 						.topper_approve
 							span.count.commentariesCount(data-component_id="#{similarArticle._id}")
-								| #{commentariesAmount}
+								| #{answersAmount}
 							span.approve
 								div мамочек
 								div ответили
@@ -111,7 +112,7 @@
 							img.j-disabled.like.liked(src="/img/user/article/heart.png", data-component_id="#{similarArticle._id}", data-component="Article")
 							img.j-disabled.like.not-liked(src="/img/user/article/heart-.png", data-component_id="#{similarArticle._id}", data-component="Article")
 
-							span.count.like(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{likesAmount}}')
+							span.count.like(data-component_id="#{similarArticle._id}")= (similarArticle ? likesAmount : '{{counter.like}}')
 							span.approve
 								| мамочек
 								br

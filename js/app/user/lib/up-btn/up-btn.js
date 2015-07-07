@@ -2,7 +2,7 @@ import can from 'can/';
 
 export default can.Control.extend({
   init: function () {
-    this.element.append('<div id="up-btn" class="up-btn"></div>');
+    $('#right_menu_small').append('<div id="up-btn" class="up-btn"></div>');
     this.visible = false;
     this.btn = $('#up-btn');
     this.wind = $(window)
@@ -12,6 +12,7 @@ export default can.Control.extend({
   '{window} scroll': 'toggle',
 
   '.up-btn click': function (el) {
+    console.log('up btn');
     if (!this.visible) return;
     $('html, body').animate({
       scrollTop: 0,

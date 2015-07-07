@@ -5,7 +5,7 @@ import Viewport from 'lib/viewport/';
 import PopUp from 'lib/popUp/';
 import cropperPopUp from 'lib/cropperPopUp/';
 import User from 'lib/user/';
-import Counter from 'lib/counter/';
+// import Counter from 'lib/counter/';
 import moment from 'moment';
 
 var AppState = can.Map.extend({
@@ -15,7 +15,6 @@ var AppState = can.Map.extend({
 	popUp: new PopUp('body'),
 	imageCropper: cropperPopUp,
 	user: new User('body'),
-	counter: Counter,
 	agushaUser: {
 		image: 'agushaAvatar.png',
 		first_name: 'Агуша',

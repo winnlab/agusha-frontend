@@ -1,107 +1,72 @@
-include ../helpers/counter
+- var gender = ['', 'мальчик', 'девочка']
+
+mixin springregistration_winner_child(g, key, length)
+	span #{gender[g]}
+	if (key + 1) != length
+		span , 
+
+mixin springregistration_winner(w)
+	.winner_item
+		.winner_visible
+			.winner_topper
+				.winner_image(class = (user && user._id == w._id ? 'crown' : ''))
+					img(src = (w.image && w.image.medium ? w.image.medium : '/img/user/helpers/stub/medium.png'))
+				
+				.winner_desc
+					.adorable_table
+						.adorable_cell.left
+							.winner_name #{w.profile.first_name} #{w.profile.middle_name} #{w.profile.last_name}
+							
+							if w.children && w.children.length
+								.children
+									span Детки: 
+									- each c, key in w.children
+										mixin springregistration_winner_child(c.gender, key, w.children.length)
+			
+			.social
+				.adorable_table
+					.adorable_cell.left
+						.share Поделитесь с друзьями отличной новостью
+						.icons
+							a.icon.fb(href="http://www.facebook.com/sharer.php?u=http://agusha.com.ua/springregistration&t=Ура, мой малыш получил подарок от «Агуша»!" target="_blank")
+							a.icon.vk(href="http://vkontakte.ru/share.php?url=http://agusha.com.ua/springregistration" target="_blank")
+							a.icon.ok(href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1&st._surl=http://agusha.com.ua/springregistration" rel="nofollow" target="_blank")
+		
+		.winner_bottom
+			.adorable_table
+				.adorable_cell.left
+					div Поздравляем, вы выиграли
+					div чудесный подарок!
 
 .topper_container
 	.content
 		include ../helpers/breadcrumbs
 		
 		.form_container
-			.top_label Весенняя регистрация
+			.top_label Акция «Весенняя регистрация» завершена!
 			
 			.bottom_label
-				div 
-					span Зарегистрируйтесь на сайте 
-					span.orange до 20.05
-					span  и станьте участником 
-				
-				div розыгрыша полезных и вкусных подарков для вашего малыша 
-				div от «Агуша»!
+				div Мы разыграли вкусные и полезные подарки для малышей
+				div среди пользователей, которые зарегистрировались
+				div на нашем сайте с 10.04 по 20.05. Вот как это было:
 			
-			form.registration_form
-				.form_block
-					input.name(type="text", name="firstName", placeholder="Ваше имя")
-				
-				.form_block
-					.half.left
-						input.email(type="email", name="email", placeholder="E-Mail")
-					
-					.half.right
-						input.password(type="password", name="password", placeholder="Пароль")
-				
-				.form_block
-					button Зарегистрироваться
-			
-			.counter_block
-				- var server = true
-				mixin counter(server)
+			.video_part
+				.stream.adorable_container
+					.adorable
+						object.youtube(frameborder="0" width="100%" height="100%" data="http://www.youtube.com/embed/TInW283YeB0" wmode="transparent" allowscriptaccess="always" allowfullscreen="true")
 
 .action_container
 	.content
 		.action_content
-			.top_label
-				div Регистрируйтесь и получайте
-				div подарок от «Агуша»!
+			.winners_topper.adorable_table
+				.adorable_cell
+					.top_label Поздравляем наших победителей!
+					
+					.bottom_label
+						div 200 счастливчиков были выбраны случайным образом среди всех пользователей, которые зарегистрировались
+						div на сайте agusha.com.ua с 10.04 по 20.05. Ищите свое имя в списке победителей, следите за новыми розыгрышами,
+						div и пускай ваш малыш радует вас каждый день!
 			
-			.prizes
-			
-			.prizes_desc
-				div Фруктовое пюре «Агуша» в удобном дой-паке позволит вашему малышу кушать любимое лакомство, не проливая
-				div ни капельки. А еще такое пюре в мягкой непроливайке можно брать на прогулку, в садик и на отдых!
-			
-			.details
-				a._blank(href="/doc/official_rules_spring_registration_2015_approved.doc") Детали акции
-			
-			.time_left_block
-				.half.left
-					.counter_block
-						- var server = true
-						mixin counter(server)
-				
-				.half.right
-					.adorable_table
-						.adorable_cell
-							.spring_reg_label Весенняя регистрация
-							
-							button.scroll_to_top Зарегистрироваться
-			
-			.already_reg_label Уже зарегистрированы?
-			.already_reg_text
-				div Не беда! Отправляйте приглашение своим друзьям, у которых тоже есть детки. Они смогут поучаствовать в акции,
-				div а вы – получить дополнительные баллы в вашу Копилку. Собирайте баллы, принимайте участие в розыгрышах и
-				div выигрывайте подарки для вашей крохи. Больше баллов - интереснее подарки!
-			
-			form.invite_form
-				.form_block
-					input.name(type="text", name="firstName", placeholder="Имя друга")
-				
-				.form_block
-					input.email(type="email", name="email", placeholder="E-Mail друга")
-				
-				.form_block
-					button Отправить приглашение
-			
-			.footer_block
-				.footer_left_side
-					.adorable_table
-						.adorable_cell
-							.spring_reg_label Весенняя регистрация
-								
-							button.scroll_to_top Зарегистрироваться
-				
-				.footer_center_side
-					.adorable_table
-						.adorable_cell.left
-							span Зарегистрируйтесь на сайте 
-							span.orange до 20.05
-							span  и станьте участником розыгрыша  полезных и вкусных подарков для вашего малыша от «Агуша»!
-
-.success_invite
-	.success_invite_bg
-		.close
-		
-		.adorable_table
-			.adorable_cell
-				.top_label Ура! Теперь и ваши друзья узнают об «Агуше»!
-				.bottom_label
-					div После того как новый пользователь зарегистрируется 
-					div на agusha.com.ua, в вашей Копилке появятся дополнительные баллы. 
-					.bold Больше друзей — больше баллов!
+			.items_container
+				- each w, key in winners[0].data
+					mixin springregistration_winner(w)

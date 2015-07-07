@@ -10,6 +10,8 @@ export default Controller.extend(
 		variables: function() {
 			this.carousel = this.element.find('#production_carousel');
 			
+			this.tab_selectors = this.element.find('.tab_selector');
+			
 			this.video = this.element.find('.video');
 			this.player_bg = this.video.find('.player_bg');
 			
@@ -48,6 +50,17 @@ export default Controller.extend(
 		
 		'.video .close click': function() {
 			this.video.removeClass(this.active);
+		},
+		
+		'.tab click': 'changeTab',
+
+		'.link-tab click': 'changeTab',
+
+		changeTab: function(el, ev) {
+			var tab = el.data('tab');
+			
+			this.tab_selectors.removeClass(this.active);
+			this.tab_selectors.filter('.' + tab).addClass(this.active);
 		},
 		
 		'{window} custom_resize': 'custom_resize',

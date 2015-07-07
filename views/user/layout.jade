@@ -1,9 +1,16 @@
 doctype html
+
+- var server = true
+
 html(xmlns:fb="http://ogp.me/ns/fb#")
 	head
 		meta(charset="UTF-8")
+		meta(name="google-site-verification" content="yBekEvTIeyKzJXbyrGUhCS7D_FuhbbetNJGJMbHzRkY")
 		title Агуша
 		link(href='/img/favicon.ico', rel='shortcut icon', type='image/x-icon')
+		
+		block meta
+		
 		block header
 		include codes_ga
 	
@@ -14,23 +21,22 @@ html(xmlns:fb="http://ogp.me/ns/fb#")
 		
 		#main_container
 			.left_menu.left_resizable
-
-			.left_inner_menu.left_resizable
+			
+			//- .left_inner_menu.left_resizable
 			
 			#center_container
 				#modules
 					block content
 					include footer
-
+			
 			.right_menu.right_resizable
-
+			
 			.mainPopupWrapper(style="display: none")
 				.mainPopupBackground.triggerClosePopup
 				.mainPopupContent
 					.closeMainPopup.triggerClosePopup
 					h1
 					p.content
-
 		
 		#left_menu.left_menu.left_resizable
 			include left_menu
@@ -56,7 +62,8 @@ html(xmlns:fb="http://ogp.me/ns/fb#")
 				include helpers/menus/right_menu_mustache
 			script#right_menu_small_mustache(type="text/mustache")
 				include helpers/menus/right_menu_small_mustache
-
-		//script(src="/js/plugins/steal/steal.js", config-path="/js/app/user/config.js", main="js/app/user/core/")
-		script(src="/js/plugins/steal/steal.production.js", data-env="production", main="core")
+			
+			script(src="http://maps.googleapis.com/maps/api/js?sensor=true")
 		
+		//- script(src="/js/plugins/steal/steal.js" config-path="/js/app/user/config.js" main="js/app/user/core/")
+		script(src="/js/plugins/steal/steal.production.js?v=0.1.5")

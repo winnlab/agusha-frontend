@@ -3,15 +3,15 @@
 
 Here's what we've got planned:
 
-## Multi-app build
-
-Add the same high-performance builds to multi-page appliactions as happens
-for progressively loaded single page apps.
-
 ## Watch Builds
 
 Automatically build when a file changes. We should be able to make
 this extremely high performance if the dependency graph is not changing.
+
+## Live Reloading
+
+Would make development extremely convenient as modules would automatically
+reload as you change them without needing to reload the browser.
 
 ## Remove Traceur Runtime and IE8 ES6 module support
 

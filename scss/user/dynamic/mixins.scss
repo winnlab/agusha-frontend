@@ -90,8 +90,17 @@ $large: 1600px;
 @mixin background_cover {
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: cover;
+	-webkit-background-size: cover;
 	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+@mixin background_contain {
+	-webkit-background-size: contain;
+	-moz-background-size: contain;
+	-o-background-size: contain;
+	background-size: contain;
 }
 
 @mixin my_inline_block {

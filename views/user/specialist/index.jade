@@ -18,7 +18,7 @@ block prepend scripts
 			themes: !{JSON.stringify(themes)}
 		};
 	script#specialist_mustache(type="text/mustache")
-		| {{#sortBy articles 'answer' sort}}
+		| {{#sortBy articles 'updated' sort}}
 		mixin article()
 		| {{/sortBy}}
 	script#consultation_mustache(type="text/mustache")
