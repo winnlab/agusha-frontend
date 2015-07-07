@@ -83,21 +83,25 @@
 							</td>
 						</table>
 						
-						<div class="button_container">
+						<table class="button_container">
+							<tr>
 							
-							<div class="button_left_whitespace">
-								<img src="http://agusha.com.ua/img/user/helpers/email/juice/button_left_whitespace.jpg" />
-							</div>
-							
-							<a href="http://agusha.com.ua/article/Uliubleni_dytiachi_soky_Agusha_teper_vyrobliaiutsia_v_Ukraini/news?utm_source=emaill&utm_medium=email&utm_content=madeinukraine&utm_campaign=newsletter_2015.07.07" target="_blank">
-								<img class="button" src="http://agusha.com.ua/img/user/helpers/email/juice/button.png" />
-							</a>
-							
-							<div class="button_right_whitespace">
-								<img src="http://agusha.com.ua/img/user/helpers/email/juice/button_right_whitespace.jpg" />
-							</div>
-							
-						</div>
+								<td class="button_left_whitespace">
+									<img src="http://agusha.com.ua/img/user/helpers/email/juice/button_left_whitespace.jpg" />
+								</td>
+								
+								<td class="button">
+									<a href="http://agusha.com.ua/article/Uliubleni_dytiachi_soky_Agusha_teper_vyrobliaiutsia_v_Ukraini/news?utm_source=emaill&utm_medium=email&utm_content=madeinukraine&utm_campaign=newsletter_2015.07.07" target="_blank">
+										<img class="button" src="http://agusha.com.ua/img/user/helpers/email/juice/button.png" />
+									</a>
+								</td>
+								
+								<td class="button_right_whitespace">
+									<img src="http://agusha.com.ua/img/user/helpers/email/juice/button_right_whitespace.jpg" />
+								</td>
+								
+							</tr>
+						</table>
 						
 						<table class="bottom_image">
 							<img src="http://agusha.com.ua/img/user/helpers/email/juice/bottom_image.png" />
