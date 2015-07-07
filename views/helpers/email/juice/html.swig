@@ -6,7 +6,7 @@
 				</td>
 				
 				<td class="logo_part">
-					<a class="logo_part" href="http://agusha.com.ua" target="_blank">
+					<a class="logo_part" href="http://agusha.com.ua?utm_source=emaill&utm_medium=email&utm_content=madeinukraine&utm_campaign=newsletter_2015.07.07" target="_blank">
 						<img class="logo_part" src="http://agusha.com.ua/img/user/helpers/email/moneybox_1/top_logo_part.png" />
 					</a>
 				</td>
@@ -33,7 +33,7 @@
 							<div class="bottom_logo_left_whitespace">
 							</div>
 							
-							<a class="logo_part" href="http://agusha.com.ua" target="_blank">
+							<a class="logo_part" href="http://agusha.com.ua?utm_source=emaill&utm_medium=email&utm_content=madeinukraine&utm_campaign=newsletter_2015.07.07" target="_blank">
 								<img class="logo_part" src="http://agusha.com.ua/img/user/helpers/email/moneybox_1/bottom_logo_part.png" />
 							</a>
 							
@@ -89,7 +89,7 @@
 								<img src="http://agusha.com.ua/img/user/helpers/email/juice/button_left_whitespace.jpg" />
 							</div>
 							
-							<a href="http://www.agusha.com.ua/moneybox" target="_blank">
+							<a href="http://agusha.com.ua/article/Uliubleni_dytiachi_soky_Agusha_teper_vyrobliaiutsia_v_Ukraini/news?utm_source=emaill&utm_medium=email&utm_content=madeinukraine&utm_campaign=newsletter_2015.07.07" target="_blank">
 								<img class="button" src="http://agusha.com.ua/img/user/helpers/email/juice/button.png" />
 							</a>
 							
