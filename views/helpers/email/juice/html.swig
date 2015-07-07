@@ -56,8 +56,17 @@
 									
 									<div>
 										- з натуральних фруктів;
+									</div>
+									
+									<div>
 										- без цукру, консервантів та барвників;
+									</div>
+									
+									<div>
 										- з сировини, сертифікованої для виробництва дитячого харчування;
+									</div>
+									
+									<div>
 										- від виробників сировини, схвалених компанією PepsiCo. 
 									</div>
 									
@@ -65,6 +74,9 @@
 									
 									<div>
 										Соки «Агуша» – це фрукти, і нічого зайвого!
+									</div>
+									
+									<div>
 										Перші партії вже у продажу. Спробуйте!
 									</div>
 								</div>
@@ -78,7 +90,7 @@
 							</div>
 							
 							<a href="http://www.agusha.com.ua/moneybox" target="_blank">
-								<img src="http://agusha.com.ua/img/user/helpers/email/juice/button.png" />
+								<img class="button" src="http://agusha.com.ua/img/user/helpers/email/juice/button.png" />
 							</a>
 							
 							<div class="button_right_whitespace">

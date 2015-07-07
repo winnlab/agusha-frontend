@@ -145,6 +145,7 @@ table {
 	line-height: 40px;
 	font-weight: bold;
 	color: #4c4c4c;
+	padding: 0 40px;
 }
 
 .red {
@@ -186,7 +187,7 @@ table {
 	height: 62px;
 }
 
-.button_container img {
+.button_container img.button {
 	width: 266px;
 	height: 62px;
 	float: left;
