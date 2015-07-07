@@ -44,171 +44,51 @@
 						<table class="top_text">
 							<td>
 								<div class="hello">
-									<div>
-										<span>Уже совсем скоро, </span><span class="red">17 июня</span><span>,</span>
-									</div>
-									
-									<div>
-										состоится четвертый розыгрыш
-									</div>
-									
-									<div>
-										подарков для вашего малыша!
-									</div>
+									Дитячі соки «Агуша». Зроблено в Україні.
 								</div>
 								
 								<div class="text">
 									<div>
-										Заходите на сайт для современных родителей «Агуша»,
+										Дитячі соки «Агуша» створені спеціально для малюків:
 									</div>
 									
-									<div>
-										собирайте баллы, и, возможно, один из подарков достанется
-									</div>
+									<br />
 									
 									<div>
-										именно вашему карапузу:
+										- з натуральних фруктів;
+										- без цукру, консервантів та барвників;
+										- з сировини, сертифікованої для виробництва дитячого харчування;
+										- від виробників сировини, схвалених компанією PepsiCo. 
+									</div>
+									
+									<br />
+									
+									<div>
+										Соки «Агуша» – це фрукти, і нічого зайвого!
+										Перші партії вже у продажу. Спробуйте!
 									</div>
 								</div>
 							</td>
 						</table>
 						
-						<div class="prizes">
-							<div class="prize_item">
-								<div class="prize_image">
-									<img class="prize_image" src="http://agusha.com.ua/img/user/helpers/email/moneybox_2/novice.png" />
-								</div>
-								
-								<div class="prize_label">
-									Новичок
-								</div>
-								
-								<div class="prize_points">
-									от 0 до 200 баллов
-								</div>
-								
-								<div class="prize_name">
-									<div>
-										Силиконовый
-									</div>
-									
-									<div>
-										слюнявчик
-									</div>
-								</div>
-							</div>
-							
-							<div class="prize_item">
-								<div class="prize_image">
-									<img class="prize_image" src="http://agusha.com.ua/img/user/helpers/email/moneybox_2/disciple.png" />
-								</div>
-								
-								<div class="prize_label">
-									Ученик
-								</div>
-								
-								<div class="prize_points">
-									от 201 до 400 баллов
-								</div>
-								
-								<div class="prize_name">
-									<div>
-										Полотенце
-									</div>
-									
-									<div>
-										с капюшоном
-									</div>
-								</div>
-							</div>
-							
-							<div class="prize_item">
-								<div class="prize_image">
-									<img class="prize_image" src="http://agusha.com.ua/img/user/helpers/email/moneybox_2/adept.png" />
-								</div>
-								
-								<div class="prize_label">
-									Знаток
-								</div>
-								
-								<div class="prize_points">
-									от 401 до 600 баллов
-								</div>
-								
-								<div class="prize_name">
-									<div>
-										Набор детского
-									</div>
-									
-									<div>
-										постельного белья
-									</div>
-								</div>
-							</div>
-							
-							<div class="prize_item">
-								<div class="prize_image">
-									<img class="prize_image" src="http://agusha.com.ua/img/user/helpers/email/moneybox_3/expert.png" />
-								</div>
-								
-								<div class="prize_label">
-									Эксперт
-								</div>
-								
-								<div class="prize_points">
-									от 601 до 800 баллов
-								</div>
-								
-								<div class="prize_name">
-									<div>
-										Детский рюкзак Trunki
-									</div>
-								</div>
-							</div>
-							
-							<div class="prize_item">
-								<div class="prize_image">
-									<img class="prize_image" src="http://agusha.com.ua/img/user/helpers/email/moneybox_2/pro.png" />
-								</div>
-								
-								<div class="prize_label">
-									Профи
-								</div>
-								
-								<div class="prize_points">
-									от 801 до 1000 баллов
-								</div>
-								
-								<div class="prize_name">
-									Чемодан Trunki
-								</div>
-							</div>
-						</div>
-						
 						<div class="button_container">
 							
 							<div class="button_left_whitespace">
+								<img src="http://agusha.com.ua/img/user/helpers/email/juice/button_left_whitespace.jpg" />
 							</div>
 							
 							<a href="http://www.agusha.com.ua/moneybox" target="_blank">
-								<img src="http://agusha.com.ua/img/user/helpers/email/moneybox_2/button.png" />
+								<img src="http://agusha.com.ua/img/user/helpers/email/juice/button.png" />
 							</a>
 							
 							<div class="button_right_whitespace">
+								<img src="http://agusha.com.ua/img/user/helpers/email/juice/button_right_whitespace.jpg" />
 							</div>
 							
 						</div>
 						
-						<table class="join">
-							<td>
-								<div>
-									Присоединяйтесь к нам в социальных сетях
-								</div>
-								
-								<div>
-									и рассказывайте о нас друзьям!
-								</div>
-							</td>
+						<table class="bottom_image">
+							<img src="http://agusha.com.ua/img/user/helpers/email/juice/bottom_image.png" />
 						</table>
 						
 					</td>
@@ -229,7 +109,7 @@
 			
 			<table class="bottom_text">
 				<td>
-					«Агуша» – схвалено мамами, схваліть і ви!
+					«Агуша». Схвалено мамами України!
 				</td>
 			</table>
 			

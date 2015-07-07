@@ -135,14 +135,14 @@ table {
 }
 
 .top_text {
-	height: 261px;
+	height: 398px;
 	font-family: sans-serif;
 	color: #4c4c4c;
 }
 
 .hello {
-	font-size: 30px;
-	line-height: 36px;
+	font-size: 36px;
+	line-height: 40px;
 	font-weight: bold;
 	color: #4c4c4c;
 }
@@ -152,7 +152,7 @@ table {
 }
 
 .text {
-	margin-top: 35px;
+	margin-top: 34px;
 	font-size: 16px;
 	line-height: 24px;
 	color: #4c4c4c;
@@ -160,73 +160,46 @@ table {
 	margin-bottom: 20px;
 }
 
-.prizes {
-	height: 518px;
-}
-
-.prize_item {
-	width: 170px;
-	display: inline-block;
-	vertical-align: middle;
-	height: 229px;
-	margin: 0 0 30px;
-}
-
-.prize_label {
-	font-size: 18px;
-	font-weight: bold;
-	color: #595959;
-	text-transform: uppercase;
-	margin-top: 5px;
-}
-
-.prize_points {
-	font-size: 12px;
-	color: #999999;
-	margin-top: 5px;
-}
-
-.prize_name {
-	font-size: 14px;
-	color: #404040;
-	margin-top: 5px;
-	line-height: 20px;
-}
-
 .button_container {
-	height: 80px;
+	height: 62px;
 }
 
 .button_left_whitespace {
-	width: 137px;
-	height: 80px;
+	width: 175px;
+	height: 62px;
 	float: left;
+}
+
+.button_left_whitespace img {
+	width: 175px;
+	height: 62px;
 }
 
 .button_right_whitespace {
-	width: 136px;
-	height: 80px;
+	width: 175px;
+	height: 62px;
 	float: left;
+}
+
+.button_right_whitespace img {
+	width: 175px;
+	height: 62px;
 }
 
 .button_container img {
-	width: 343px;
-	height: 80px;
+	width: 266px;
+	height: 62px;
 	float: left;
 }
 
-.dotted_line {
-	height: 1px;
+.bottom_image {
+	height: 521px;
+	width: 100%;
 }
 
-.join {
-	height: 100px;
-	font-size: 16px;
-	font-family: sans-serif;
-	font-style: italic;
-	color: #4c4c4c;
-	line-height: 24px;
-	margin-top: 22px;
+.bottom_image img {
+	height: 521px;
+	width: 100%;
 }
 
 .bottom_shadow {
