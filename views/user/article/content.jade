@@ -203,6 +203,12 @@ if article.image
 					
 					.text
 						| !{article.desc.text}
+
+
+					if article.gallery
+						div.articleGallery
+							- each galleryItem, galleryKey in article.gallery.images
+								div.articleGalleryItem(style="background-image: url('/img/uploads/#{galleryItem}')")
 					
 					.social
 						.social_button.fb

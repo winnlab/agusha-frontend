@@ -89,6 +89,15 @@ export default Controller.extend(
 			    maxSlides: 4,
 			    moveSlides: 1
 			});
+
+
+			$('.articleGallery', self.element).bxSlider({
+				minSlides: 1,
+				maxSlides: 1,
+				moveSlides: 1,
+				controls: true,
+				pager: true
+			});
 		},
 
 		'.pollForm submit': function (el, ev) {
