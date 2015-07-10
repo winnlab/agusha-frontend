@@ -105,6 +105,13 @@
 		}
 
 		.item {
+			&.hit_2014 {
+				.bottom_label {
+					color: $grey5;
+					margin-top: 28px;
+				}
+			}
+			
 			&.juice {
 				.top_label {
 					font-family: 'PT_Sans_Narrow_Bold';
@@ -420,12 +427,16 @@
 		top: 0;
 		left: 0;
 		
+		&.banner_hit_2014 {
+			background: url('/img/user/main/banner_hit_2014.jpg') no-repeat right top;
+		}
+		
 		&.banner_juice {
 			background: url('/img/user/main/banner_juice.jpg') no-repeat center;
 		}
 
 		&.banner_production {
-			background: url('/img/user/main/banner_production.jpg') no-repeat center;
+			background: url('/img/user/main/banner_production.jpg') no-repeat right top;
 		}
 
 		&.banner_image_baby_active {
